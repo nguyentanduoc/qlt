@@ -1,0 +1,50 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="ntduoc" id="201812212316-1">
+		<createTable tableName="san_pham">
+			<column name="id" type="bigserial"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="loai_san_pham_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="don_vi_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="ten_san_pham" type="varchar(254)">
+				<constraints nullable="false" />
+			</column>
+			<column name="cong_dung" type="varchar(254)" />
+			<column name="url_hinh" type="varchar(254)" />
+		</createTable>
+
+		<addForeignKeyConstraint
+			constraintName="fk_san_pham_don_vi_id"
+			baseTableName="san_pham" baseColumnNames="don_vi_id"
+			referencedTableName="don_vi" referencedColumnNames="id" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_san_pham_loai_san_pham_id"
+			baseTableName="san_pham" baseColumnNames="loai_san_pham_id"
+			referencedTableName="loai_san_pham" referencedColumnNames="id" />
+
+		<loadData encoding="UTF-8"
+			file="liquibase/csv/201812212316_san_pham.csv"
+			tableName="san_pham">
+			<column header="loai_san_pham_id" name="loai_san_pham_id"
+				type="NUMERIC" />
+			<column header="don_vi_id" name="don_vi_id"
+				type="NUMERIC" />
+			<column header="ten_san_pham" name="ten_san_pham"
+				type="STRING" />
+			<column header="cong_dung" name="cong_dung" type="STRING" />
+			<column header="url_hinh" name="url_hinh" type="STRING" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

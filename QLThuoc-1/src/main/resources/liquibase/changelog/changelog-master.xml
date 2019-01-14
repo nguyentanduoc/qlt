@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<include
+		file="liquibase/changelog/201812202247_added_table_quyen.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812202251_added_table_tai_khoan.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812202323_added_entity_khach_hang.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812212020_added_entity_chi_nhanh.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812212038_added_entity_nhan_vien.xml"
+		relativeToChangelogFile="false" />
+
+	<include
+		file="liquibase/changelog/201812212052_added_entity_don_vi.xml"
+		relativeToChangelogFile="false" />
+
+	<include
+		file="liquibase/changelog/201812212302_added_entity_quy_dinh_don_vi.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812212315_added_entity_loai_san_pham.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812212316_added_entity_san_pham.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812212319_added_entity_quy_dinh_don_vi_san_pham.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812220025_added_entity_lich_su_gia.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221224_added_entity_hoa_don_xuat.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221242_added_entity_chi_tiet_hoa_don_xuat.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221245_added_entity_hoa_don_nhap.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221250_added_entity_chi_tiet_hoa_don_nhap.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221321_added_entity_san_pham_chi_nhanh.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221552_added_entity_nhom_san_pham.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221555_added_entity_nha_san_xuat.xml"
+		relativeToChangelogFile="false" />
+	<include
+		file="liquibase/changelog/201812221558_edited_entity_san_pham.xml"
+		relativeToChangelogFile="false" />
+	<include file="liquibase/changelog/201812301634_added_trigger_tang_sl_ton_kho_sp_khi_nhap_sp.xml"
+		relativeToChangelogFile="false" />
+</databaseChangeLog>

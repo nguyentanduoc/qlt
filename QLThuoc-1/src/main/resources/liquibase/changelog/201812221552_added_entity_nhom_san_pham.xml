@@ -1,0 +1,28 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="now" value="current_timestamp"
+		dbms="postgresql" />
+
+	<changeSet author="ntduoc" id="201812221552-1">
+		<createTable tableName="nhom_san_pham">
+			<column name="id" type="bigserial"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="ten_nhom" type="varchar(254)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<loadData encoding="UTF-8"
+			file="liquibase/csv/201812221552_nhom_san_pham.csv"
+			tableName="nhom_san_pham">
+			<column header="ten_nhom" name="ten_nhom" type="STRING" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

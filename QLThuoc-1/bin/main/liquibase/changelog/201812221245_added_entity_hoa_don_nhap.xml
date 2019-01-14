@@ -1,0 +1,47 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="now" value="current_timestamp"
+		dbms="postgresql" />
+
+	<changeSet author="ntduoc" id="201812221246-1">
+		<createTable tableName="hoa_don_nhap">
+			<column name="id" type="bigserial"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="nhan_vien_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="chi_nhanh_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="ngay_nhap" type="timestamp with time zone"
+				defaultValueComputed="${now}">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint
+			constraintName="fk_hoa_don_nhap_nhan_vien_id"
+			baseTableName="hoa_don_nhap" baseColumnNames="nhan_vien_id"
+			referencedTableName="nhan_vien" referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="fk_hoa_don_nhap_chi_nhanh_id"
+			baseTableName="hoa_don_nhap" baseColumnNames="chi_nhanh_id"
+			referencedTableName="chi_nhanh" referencedColumnNames="id" />
+
+		<loadData encoding="UTF-8"
+			file="liquibase/csv/201812221245_hoa_don_nhap.csv"
+			tableName="hoa_don_nhap">
+			<column header="nhan_vien_id" name="nhan_vien_id"
+				type="NUMERIC" />
+			<column header="chi_nhanh_id" name="chi_nhanh_id"
+				type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

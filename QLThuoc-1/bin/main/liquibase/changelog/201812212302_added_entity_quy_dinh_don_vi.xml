@@ -1,0 +1,44 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="ntduoc" id="201812212302-1">
+		<createTable tableName="quy_dinh_don_vi">
+			<column name="id" type="bigserial"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="don_vi_chuan" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="don_vi_quy_doi" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="dinh_muc_quy_doi" type="numeric(10,1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addForeignKeyConstraint
+			constraintName="fk_quy_dinh_don_vi_don_vi_chuan" baseTableName="quy_dinh_don_vi"
+			baseColumnNames="don_vi_chuan" referencedTableName="don_vi"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="fk_quy_dinh_don_vi_don_vi_quy_doi" baseTableName="quy_dinh_don_vi"
+			baseColumnNames="don_vi_quy_doi" referencedTableName="don_vi"
+			referencedColumnNames="id" />
+			
+		<loadData encoding="UTF-8"
+			file="liquibase/csv/201812212302_quy_dinh_don_vi.csv"
+			tableName="quy_dinh_don_vi">
+			<column header="don_vi_chuan" name="don_vi_chuan"
+				type="NUMERIC" />
+			<column header="don_vi_quy_doi" name="don_vi_quy_doi"
+				type="NUMERIC" />
+			<column header="dinh_muc_quy_doi" name="dinh_muc_quy_doi" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>
