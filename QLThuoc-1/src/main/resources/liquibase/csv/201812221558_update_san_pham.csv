@@ -1,2 +1,0 @@
-loai_san_pham_id,nhom_san_pham_id,nha_san_xuat_id,ten_san_pham,cong_dung,phan_tram_si,phan_tram_le,xuat_su,ngay_thay_doi_gia,don_vi_id,url_hinh
-1,1,1,panadol,"Giảm đau đầu",0.12,0.15,"việt nam",'2018-01-01 20:38:40'::TIMESTAMP,4,

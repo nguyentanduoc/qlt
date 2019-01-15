@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LOGIN } from '../actions/types';
 import { API_BASE_URL } from '../constants';
-const LOGIN_URL = API_BASE_URL + "/auth/login";
+const LOGIN_URL = API_BASE_URL + "/api/auth/signin";
 
 const initialState = {
     isAuthen: false,
@@ -15,7 +15,7 @@ const login = async (state, auth) => {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     };
-    console.log("go to login");
+    console.log("go to login", auth);
     await axios.post(LOGIN_URL, auth, {headers: headers})
     .then(res => {
         console.log(res);
@@ -31,8 +31,8 @@ const login = async (state, auth) => {
 export default (state = initialState, action) => {
     switch(action.type) {
         case LOGIN:
-            console.log(action);
-            return login(state, action.payload);
+            console.log(action.authDto);
+            return login(state, action.authDto);
         default: 
             return state;
     }

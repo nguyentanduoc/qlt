@@ -1,0 +1,25 @@
+spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/qlthuoc
+      username: postgres
+      password: 12345678x@X
+      hikari:
+        minimum-idle: 10
+        maximum-pool-size: 10
+        connection-timeout: 3000
+      driver-class-name: org.postgresql.Driver
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+        database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false
+    jackson.time-zone: UTC
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+    com.vn.ctu.qlt.app: DEBUG
+    ROOT: INFO
+app.jwtSecret: ntdsival
+app.jwtExpirationInMs: 43200

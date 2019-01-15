@@ -8,7 +8,7 @@ class Login extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-        userName: '',
+        usernameOrEmail: '',
         password: ''
     };
     this.changeHandler = this.changeHandler.bind(this);
@@ -24,7 +24,7 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const auth = {
-      userName: this.state.userName,
+      usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     };
     this.props.onLogin(auth);
@@ -48,11 +48,11 @@ class Login extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          id="UserName"
-                          name="userName"
+                          id="usernameOrEmail"
+                          name="usernameOrEmail"
                           type="text"
-                          placeholder="Username"
-                          autoComplete="username"
+                          placeholder="usernameOrEmail"
+                          autoComplete="usernameOrEmail"
                           onChange = {this.changeHandler}/>
                       </InputGroup>
                       <InputGroup className="mb-4">
