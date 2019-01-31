@@ -4,7 +4,8 @@ var initState = {
    users: [],
    user: {},
    hasErrored: false,
-   errors: ""
+   errors: "",
+   updateIsSuccess: false
 };
 
 export default (state = initState, action) => {
@@ -17,6 +18,8 @@ export default (state = initState, action) => {
             return {...state, errors: action.payload, hasErrored:true}
         case ACTION_TYPES.SHOW_USER:
             return {...state, user:action.payload}
+        case ACTION_TYPES.UPDATE_USER_SUCCESS: 
+            return{...state, updateIsSuccess: true}
         default:
            return state;
     }

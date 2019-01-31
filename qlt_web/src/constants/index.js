@@ -9,7 +9,9 @@ export const ACTION_TYPES = {
   LOGIN_HAS_ERRORED: "LOGIN_HAS_ERRORED",
   GET_ALL_ROLE: "GET_ALL_ROLE",
   GET_ALL_ROLE_SUCCESS: "GET_ALL_ROLE_SUCCESS",
-  GET_ALL_ROLE_FAIL: "GET_ALL_ROLE_FAIL"
+  GET_ALL_ROLE_FAIL: "GET_ALL_ROLE_FAIL",
+  UPDATE_USER_SUCCESS: "UPDATE_USER_SUCCESS",
+  UPDATE_USER_FAIL: "UPDATE_USER_FAIL"
 }
 export const LOCAL_STORAGE = {
   ACCESS_KEY : "ACCESS_KEY",
@@ -19,6 +21,7 @@ export const API = {
   GET_ALL_USER: `${BASE_URI}/api/admin/users/getAll`,
   LOGIN: `${BASE_URI}/api/auth/signin`,
   GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/getAll`,
+  UPDATE_USER: `${BASE_URI}/api/admin/users/update`,
 }
 export const BEARSER = "Bearer "
 

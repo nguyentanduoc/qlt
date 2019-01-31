@@ -4,35 +4,36 @@ import { connect } from 'react-redux'
 import { Row, Table, Pagination, Card, Col, CardHeader, CardBody, Badge, PaginationItem, PaginationLink } from 'reactstrap';
 import { getAllUser, showUser } from '../../actions/userAction';
 import DetailUserRole from './DetailUserRole';
+import { getAllRole } from '../../actions/roleAction';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
-export class Role extends Component {
+class Role extends Component {
 //   static propTypes = {
 //     prop: PropTypes
 //   }
+    constructor(props) {
+        super(props);
+        this.state = {user :{}, isOpenRole : false };
+    }
     async componentWillMount(){
         await this.props.onGetAllUser();
+        await this.props.onGetAllRole();
     }
-    handleClick(userID){        
+    async handleClick(userID){
         const filter = this.props.user.users.filter((item) => {
             return item.id === userID;
         });
-        this.props.onShowUser(filter[0]);
+        await this.setState({
+            user: filter[0],
+            isOpenRole: true
+        });
     }
     render() {
-        let userList = this.props.user.users.map((user) => {
-                    return (
-                        <tr key={user.id} onClick={this.handleClick.bind(this, user.id)}>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.createdAt}</td>
-                            <td><Badge color="success">Active</Badge></td>
-                        </tr>
-                        )
-                    });
         return (
             <div className="animated fadeIn">
                 <Row>
-                    <Col xs="12" lg="6">
+                    <Col xs="12" lg="8">
                         <Card>
                             <CardHeader>
                                 <i className="fa fa-user"></i> Danh sách Tài Khoản
@@ -48,7 +49,16 @@ export class Role extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {userList}
+                                    {this.props.user.users.map((user) => {
+                                        return (
+                                            <tr key={user.id} onClick={this.handleClick.bind(this, user.id)}>
+                                                <td>{user.name}</td>
+                                                <td>{user.email}</td>
+                                                <td><Moment format="DD/MM/YYYY">{user.createdAt}</Moment></td>
+                                                <td><Badge color="success">Active</Badge></td>
+                                            </tr>
+                                            )
+                                        })}
                                     </tbody>
                                 </Table>
                                 <Pagination>
@@ -74,8 +84,8 @@ export class Role extends Component {
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col xs="12" lg="6">
-                        <DetailUserRole/>
+                    <Col xs="12" lg="4">
+                        {this.state.isOpenRole ? ( <DetailUserRole user={this.state.user}/>) : "" }
                     </Col>
                 </Row>
             </div>
@@ -94,6 +104,9 @@ const mapDispathToProps = (dispatch, props) => {
         },
         onShowUser: (user) =>{
             return dispatch(showUser(user));
+        },
+        onGetAllRole : async () => {
+            return dispatch(getAllRole());
         }
     }
   }
