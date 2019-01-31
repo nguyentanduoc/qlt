@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import { connect } from 'react-redux';
-import * as actions from '../../../actions';
+import {userAction} from '../../../actions';
 
 class Login extends Component {
   constructor(props, context) {
@@ -102,7 +102,8 @@ class Login extends Component {
 }
 const mapStateToProps = state => {
   return {
-    auth : state.auth
+    auth : state.auth,
+    error: state.error
   }
 }
 const mapDispathToProps = (dispatch, props) => {

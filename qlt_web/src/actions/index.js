@@ -1,8 +1,5 @@
-import * as types from './types';
+import userAction from './UserAction';
 
-export const login = (authDto) => {
-    return {
-        type: types.LOGIN,
-        authDto
-    }
+export default {
+  userAction
 }
