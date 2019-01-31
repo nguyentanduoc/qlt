@@ -3,14 +3,14 @@ const initState  = {
   users:[],
   user: {},
   isError: false,
-  errors:{},
+  errors:"",
   authenticate:{},
   isLogin: false
 };
 export default (state = initState, action) => {
   switch (action.type) {
     case ACTION_TYPES.LOGIN_SUCCESS:
-      return {...state, authenticate: action.payload, isError: false};
+      return {...state, authenticate: action.payload, isError: false, isLogin: true};
     case ACTION_TYPES.LOGIN_HAS_ERRORED:
       return {...state, errors: action.payload, isError: true};
     default:

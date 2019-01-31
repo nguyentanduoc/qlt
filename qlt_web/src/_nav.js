@@ -11,6 +11,15 @@ export default {
     },
     {
       title: true,
+      name: 'Quản trị viên'
+    },
+    {
+      name: 'Quyền',
+      url: '/admin/role',
+      icon: 'icon-drop',
+    },
+    {
+      title: true,
       name: 'Theme',
       wrapper: {            // optional wrapper object
         element: '',        // required valid HTML5 element tag

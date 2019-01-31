@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
-import {userAction} from '../../../actions';
+import { login } from '../../../actions/authenAction';
 
 class Login extends Component {
   constructor(props, context) {
@@ -21,13 +21,16 @@ class Login extends Component {
           [name]: value
     });
   }
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const auth = {
       usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     };
-    this.props.onLogin(auth);
+    await this.props.onLogin(auth);
+    if(this.props.auth.isLogin === true) {
+      this.props.history.push('/dashboard');
+    }
   }
   render() {
     return (
@@ -41,6 +44,9 @@ class Login extends Component {
                     <Form>
                       <h1>Login</h1>
                       <p className="text-muted">Sign In to your account</p>
+                      <Alert color="danger" isOpen={this.props.auth.isError}>
+                         {this.props.auth.errors}
+                      </Alert>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -100,6 +106,20 @@ class Login extends Component {
     );
   }
 }
+// this.props.dispatch(action)
+
+// action () {
+//   return async (dispatch, getState) => {
+//     await result = API
+//     return dispatch(actionCreator(result))
+//   }
+// }
+
+// actionCreator(result) {
+//   type: const,
+//   payload: result
+// }
+
 const mapStateToProps = state => {
   return {
     auth : state.auth,
@@ -108,8 +128,8 @@ const mapStateToProps = state => {
 }
 const mapDispathToProps = (dispatch, props) => {
   return {
-    onLogin : (auth) => {
-      dispatch(actions.login(auth));
+    onLogin : async (auth) => {
+      return dispatch(login(auth));
     }
   }
 }

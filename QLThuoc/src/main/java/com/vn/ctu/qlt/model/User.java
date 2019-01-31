@@ -20,6 +20,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tai_khoan", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_dang_nhap" }),
 		@UniqueConstraint(columnNames = { "email" }) })
@@ -49,6 +51,7 @@ public class User extends DateAudit {
 
 	@NotBlank
 	@Size(max = 100)
+	@JsonIgnore
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)

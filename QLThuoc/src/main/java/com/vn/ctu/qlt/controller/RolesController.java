@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vn.ctu.qlt.model.User;
-import com.vn.ctu.qlt.repository.UserRepository;
+import com.vn.ctu.qlt.model.Role;
+import com.vn.ctu.qlt.repository.RoleRepository;
 
 @RestController
-@RequestMapping("/api/admin/users")
-public class UsersController {
+@RequestMapping("/api/admin/roles")
+public class RolesController {
 
 	@Autowired
-	private UserRepository userRepo;
+	private RoleRepository roleRepo;
 	
 	@PostMapping(path="/getAll")
-	public ResponseEntity<List<User>> getAllUser() {
-		return ResponseEntity.ok().body(userRepo.findAll()); 
+	public ResponseEntity<List<Role>> getAllUser() {
+		return ResponseEntity.ok().body(roleRepo.findAll()); 
 	}
 }

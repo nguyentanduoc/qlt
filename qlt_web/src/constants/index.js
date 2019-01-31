@@ -4,8 +4,12 @@ export const ACTION_TYPES = {
   GET_ALL_USER: "GET_ALL_USER",
   GET_ALL_USER_SUCCESS: "GET_ALL_USER_SUCCESS",
   GET_ALL_USER_HAS_ERRORED: "GET_ALL_USER_HAS_ERRORED",
+  SHOW_USER: "SHOW_USER",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
-  LOGIN_HAS_ERRORED: "LOGIN_HAS_ERRORED"
+  LOGIN_HAS_ERRORED: "LOGIN_HAS_ERRORED",
+  GET_ALL_ROLE: "GET_ALL_ROLE",
+  GET_ALL_ROLE_SUCCESS: "GET_ALL_ROLE_SUCCESS",
+  GET_ALL_ROLE_FAIL: "GET_ALL_ROLE_FAIL"
 }
 export const LOCAL_STORAGE = {
   ACCESS_KEY : "ACCESS_KEY",
@@ -13,6 +17,11 @@ export const LOCAL_STORAGE = {
 }
 export const API = {
   GET_ALL_USER: `${BASE_URI}/api/admin/users/getAll`,
-  LOGIN: `${BASE_URI}/api/auth/signin`
+  LOGIN: `${BASE_URI}/api/auth/signin`,
+  GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/getAll`,
 }
-export const BEARSER = "BEARSER "
+export const BEARSER = "Bearer "
+
+export const HEADER = {
+  
+}

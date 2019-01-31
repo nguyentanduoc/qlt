@@ -22,4 +22,6 @@ logging:
     com.vn.ctu.qlt.app: DEBUG
     ROOT: INFO
 app.jwtSecret: ntdsival
-app.jwtExpirationInMs: 43200
+app.jwtExpirationInMs: 86400000
+server:
+  port: 8090

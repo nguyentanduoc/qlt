@@ -1,5 +1,6 @@
-import userAction from './UserAction';
+import userAction from './userAction';
 
-export default {
-  userAction
-}
+// export default {
+//   userAction
+// }
+
