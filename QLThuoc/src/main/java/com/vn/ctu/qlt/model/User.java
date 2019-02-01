@@ -52,10 +52,14 @@ public class User extends DateAudit {
 	@NotBlank
 	@Size(max = 100)
 	@JsonIgnore
+	@Column(name = "mat_khau")
 	private String password;
+	
+	@Column(name = "hoat_dong")
+	private Boolean isEnabled;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "quyen_cua_tai_khoan", joinColumns = @JoinColumn(name = "tai_khoan_id"), inverseJoinColumns = @JoinColumn(name = "quyen_id"))
+	@JoinTable(name = "quyen_tai_khoan", joinColumns = @JoinColumn(name = "tai_khoan_id"), inverseJoinColumns = @JoinColumn(name = "quyen_id"))
 	private Set<Role> roles = new HashSet<>();
 
 	public User(String name, String username, String email, String password) {

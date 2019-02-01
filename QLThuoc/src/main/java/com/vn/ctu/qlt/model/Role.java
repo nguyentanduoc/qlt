@@ -26,6 +26,9 @@ public class Role {
 	
 	@Column(length = 60, name= "mo_ta")
 	private String detail;
+	
+	@Column(name= "cap_do")
+	private Integer level;
 
 	public Long getId() {
 		return id;
@@ -50,4 +53,13 @@ public class Role {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+	
 }

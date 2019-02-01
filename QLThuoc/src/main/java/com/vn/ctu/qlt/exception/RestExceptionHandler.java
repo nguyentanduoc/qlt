@@ -3,7 +3,6 @@ package com.vn.ctu.qlt.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -14,16 +13,9 @@ import com.vn.ctu.qlt.payload.ApiError;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = {BadCredentialsException.class})
-	protected ResponseEntity<ApiError> BadCredentialsException(BadCredentialsException ex) {
+	protected ResponseEntity<Object> BadCredentialsException(BadCredentialsException ex) {
 		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
 		apiError.setMessage(ex.getMessage());
-		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
-	}
-	
-	@ExceptionHandler(value = {UsernameNotFoundException.class})
-	protected ResponseEntity<ApiError> NotFound(Exception ex) {
-		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
-		apiError.setMessage(ex.getMessage());
-		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
+		return new ResponseEntity<>(apiError, apiError.getStatus());
 	}
 }

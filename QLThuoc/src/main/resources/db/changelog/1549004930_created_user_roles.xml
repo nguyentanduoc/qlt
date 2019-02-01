@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="quyen_tai_khoan">
+			<column name="tai_khoan_id" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="quyen_id" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="tai_khoan_id" baseTableName="quyen_tai_khoan"
+			constraintName="fk_quyen_tai_khoan_tai_khoan" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="tai_khoan" />
+		<addForeignKeyConstraint
+			baseColumnNames="quyen_id" baseTableName="quyen_tai_khoan"
+			constraintName="fk_quyen_tai_khoan_quyen" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="quyen" />
+		<loadData catalogName="cat" encoding="UTF-8"
+			file="db/changelog/csv/1549003925_role_user.csv" schemaName="public"
+			tableName="quyen_tai_khoan">
+			<column name="tai_khoan_id" type="NUMERIC" />
+			<column name="quyen_id" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>
