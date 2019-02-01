@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet author="ntduoc" id="01">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1548996651_users.csv"
+			schemaName="public" tableName="tai_khoan">
+			<column name="id" type="NUMERIC" />
+			<column name="ten_tai_khoan" type="STRING" />
+			<column name="ten_dang_nhap" type="STRING" />
+			<column name="email" type="STRING" />
+			<column name="mat_khau" type="STRING" />
+			<column name="hoat_dong" type="BOOLEAN" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>
