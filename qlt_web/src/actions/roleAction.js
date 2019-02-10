@@ -31,3 +31,23 @@ export const getAllRoleFail = (err) => {
     payload: err
   }
 }
+
+export const openDetailRolesOfUser = (user) =>{
+  return {
+    type: ACTION_TYPES.OPEN_LIST_ROLE_OF_USER,
+    payload: user
+  }
+}
+
+export const setRoleUser = (user) => {
+  return {
+    type: ACTION_TYPES.SET_ROLE_USER,
+    payload: user
+  }
+}
+
+export const removeUserRoleDetail = () => {
+  return {
+    type: ACTION_TYPES.REMOVE_USER_DETAIL_FOR_ROLE
+  }
+}

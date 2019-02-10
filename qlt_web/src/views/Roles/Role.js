@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Row, Table, Pagination, Card, Col, CardHeader, CardBody, Badge, PaginationItem, PaginationLink } from 'reactstrap';
 import { getAllUser, showUser } from '../../actions/userAction';
 import DetailUserRole from './DetailUserRole';
-import { getAllRole } from '../../actions/roleAction';
+import { getAllRole, openDetailRolesOfUser } from '../../actions/roleAction';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
@@ -24,10 +24,7 @@ class Role extends Component {
         const filter = this.props.user.users.filter((item) => {
             return item.id === userID;
         });
-        await this.setState({
-            user: filter[0],
-            isOpenRole: true
-        });
+        this.props.onOpenDetailRoleOfUser(filter[0]);
     }
     render() {
         return (
@@ -39,7 +36,7 @@ class Role extends Component {
                                 <i className="fa fa-user"></i> Danh sách Tài Khoản
                             </CardHeader>
                             <CardBody>
-                                <Table responsive>
+                                <Table responsive className="table-hover">
                                     <thead>
                                         <tr>
                                             <th>Tên</th>
@@ -51,7 +48,7 @@ class Role extends Component {
                                     <tbody>
                                     {this.props.user.users.map((user) => {
                                         return (
-                                            <tr key={user.id} onClick={this.handleClick.bind(this, user.id)}>
+                                            <tr className="column-select" key={user.id} onClick={this.handleClick.bind(this, user.id)}>
                                                 <td>{user.name}</td>
                                                 <td>{user.email}</td>
                                                 <td><Moment format="DD/MM/YYYY">{user.createdAt}</Moment></td>
@@ -69,15 +66,6 @@ class Role extends Component {
                                         <PaginationLink tag="button">1</PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink tag="button">2</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink tag="button">3</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink tag="button">4</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
                                         <PaginationLink next tag="button"></PaginationLink>
                                     </PaginationItem>
                                 </Pagination>
@@ -85,7 +73,7 @@ class Role extends Component {
                         </Card>
                     </Col>
                     <Col xs="12" lg="4">
-                        {this.state.isOpenRole ? ( <DetailUserRole user={this.state.user}/>) : "" }
+                        {this.props.roleReducer.isOpenRoleListOfUser ? ( <DetailUserRole />) : "" }
                     </Col>
                 </Row>
             </div>
@@ -94,7 +82,8 @@ class Role extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    user: state.user,
+    roleReducer: state.role
 })
 
 const mapDispathToProps = (dispatch, props) => {
@@ -107,6 +96,9 @@ const mapDispathToProps = (dispatch, props) => {
         },
         onGetAllRole : async () => {
             return dispatch(getAllRole());
+        },
+        onOpenDetailRoleOfUser: (user) => {
+            return dispatch(openDetailRolesOfUser(user));
         }
     }
   }

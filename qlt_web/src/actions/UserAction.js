@@ -18,7 +18,7 @@ export const getAllUser = () => {
     }
   }
 }
-export const updateUser = (user) => {
+export const updateUserRole = (user) => {
   let config = {
     headers: { 
       'Authorization': `${BEARSER}${token}`,
@@ -26,7 +26,7 @@ export const updateUser = (user) => {
   };
   return async (dispatch) => {
     try {
-      const res = await axios.post(API.UPDATE_USER, user, config);
+      const res = await axios.post(API.UPDATE_USER_ROLE, user, config);
       dispatch(updateUserSuccess(res.data));
     } catch (error) {
       dispatch(updateUserFail(error.toString()));
@@ -61,5 +61,10 @@ export const updateUserFail = (error) => {
   return {
     type: ACTION_TYPES.UPDATE_USER_FAIL,
     payload: error
+  }
+}
+export const setSetCloseAlert = () => {
+  return {
+    type: ACTION_TYPES.SET_CLOSE_ALERT
   }
 }

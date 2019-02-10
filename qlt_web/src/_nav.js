@@ -16,7 +16,12 @@ export default {
     {
       name: 'Quyền',
       url: '/admin/role',
-      icon: 'icon-drop',
+      icon: 'fas fa-users-cog',
+    },
+    {
+      name: 'Tạo Tài Khoản',
+      url: '/admin/createAcount',
+      icon: 'fas fa-user-plus'
     },
     {
       title: true,
