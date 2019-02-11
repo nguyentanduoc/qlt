@@ -14,7 +14,7 @@ export const login = (auth) => {
 }
 export  const loginSuccess = (data) => {
   localStorage.setItem(LOCAL_STORAGE.IS_LOGIN, true);
-  localStorage.setItem(LOCAL_STORAGE.ACCESS_KEY, data.accessToken);
+  localStorage.setItem(LOCAL_STORAGE.ACCESS_KEY, data.jwtAuthenticationResponse.accessToken);
   return {
     type: ACTION_TYPES.LOGIN_SUCCESS,
     payload: data

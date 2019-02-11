@@ -4,13 +4,15 @@ const initState  = {
   user: {},
   isError: false,
   errors:"",
-  authenticate:{},
-  isLogin: false
+  authentication:{},
+  isLogin: false,
+  nav:[]
 };
 export default (state = initState, action) => {
   switch (action.type) {
     case ACTION_TYPES.LOGIN_SUCCESS:
-      return {...state, authenticate: action.payload, isError: false, isLogin: true};
+    console.log(action.payload);
+      return {...state, authentication: action.payload.authentication, isError: false, isLogin: true, nav: action.payload.nav};
     case ACTION_TYPES.LOGIN_HAS_ERRORED:
       return {...state, errors: action.payload, isError: true};
     default:

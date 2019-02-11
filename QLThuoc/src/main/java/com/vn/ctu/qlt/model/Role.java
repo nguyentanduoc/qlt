@@ -1,12 +1,19 @@
 package com.vn.ctu.qlt.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
@@ -29,6 +36,10 @@ public class Role {
 	
 	@Column(name= "cap_do")
 	private Integer level;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "navigration_roles", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "navigration_id"))
+	private Set<Navigration> navigrations = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -61,5 +72,12 @@ public class Role {
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
-	
+
+	public Set<Navigration> getNavigrations() {
+		return navigrations;
+	}
+
+	public void setNavigrations(Set<Navigration> navigrations) {
+		this.navigrations = navigrations;
+	}
 }

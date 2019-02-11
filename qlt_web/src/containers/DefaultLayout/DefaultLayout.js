@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
+import { connect } from 'react-redux';
 
 import {
   AppAside,
@@ -15,10 +16,9 @@ import {
   AppSidebarNav,
 } from '@coreui/react';
 // sidebar nav config
-import navigation from '../../_nav';
+// import {NavConfig} from '../../_nav';
 // routes config
 import routes from '../../routes';
-
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
@@ -33,6 +33,7 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    let items = {items: this.props.authReducer.nav};
     return (
       <div className="app">
         <AppHeader fixed>
@@ -45,7 +46,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} />
+              <AppSidebarNav navConfig={items} {...this.props} />
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
@@ -87,5 +88,9 @@ class DefaultLayout extends Component {
     );
   }
 }
-
-export default DefaultLayout;
+const mapStateToProps = state => {
+  return {
+    authReducer : state.auth
+  }
+}
+export default connect(mapStateToProps,null)(DefaultLayout);

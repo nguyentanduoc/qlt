@@ -1,4 +1,4 @@
-package com.vn.ctu.qlt.payload;
+package com.vn.ctu.qlt.payload.response;
 
 public class JwtAuthenticationResponse {
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="navigration">
+			<column name="id" type="int">
+				<constraints nullable="false" unique="true"
+					primaryKey="true" />
+			</column>
+			<column name="badge_id" type="int">
+				<constraints nullable="true" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="url" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			<column name="icon" type="varchar(255)">
+				<constraints nullable="true" />
+			</column>
+			<column name="title" type="boolean">
+				<constraints nullable="true" />
+			</column>
+			<column name="sort_num" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="badge_id" baseTableName="navigration"
+			constraintName="fk_navigration_badges" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="badges" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData catalogName="cat" encoding="UTF-8"
+			file="db/changelog/csv/1549894489_navigrations.csv" schemaName="public"
+			tableName="navigration">
+			<column name="id" type="NUMERIC" />
+			<column name="badge_id" type="NUMERIC" />
+			<column name="name" type="STRING" />
+			<column name="url" type="STRING" />
+			<column name="title" type="BOOLEAN" />
+			<column name="sort_num" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>
