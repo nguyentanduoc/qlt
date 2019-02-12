@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { login } from '../../../actions/authenAction';
+import { resetError } from '../../../actions/errorAction';
 
 class Login extends Component {
   constructor(props, context) {
@@ -32,6 +33,11 @@ class Login extends Component {
       this.props.history.push('/dashboard');
     }
   }
+  componentWillUnmount(){
+    if( this.props.error.isErrored === true ) {
+      this.props.onResetError();
+    }
+  }
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -44,8 +50,8 @@ class Login extends Component {
                     <Form>
                       <h1>Login</h1>
                       <p className="text-muted">Sign In to your account</p>
-                      <Alert color="danger" isOpen={this.props.auth.isError}>
-                         {this.props.auth.errors}
+                      <Alert color="danger" isOpen={this.props.error.isShowAlert}>
+                         {this.props.error.errorMessage}
                       </Alert>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
@@ -106,19 +112,6 @@ class Login extends Component {
     );
   }
 }
-// this.props.dispatch(action)
-
-// action () {
-//   return async (dispatch, getState) => {
-//     await result = API
-//     return dispatch(actionCreator(result))
-//   }
-// }
-
-// actionCreator(result) {
-//   type: const,
-//   payload: result
-// }
 
 const mapStateToProps = state => {
   return {
@@ -130,6 +123,9 @@ const mapDispathToProps = (dispatch, props) => {
   return {
     onLogin : async (auth) => {
       return dispatch(login(auth));
+    },
+    onResetError: () => {
+      return dispatch(resetError());
     }
   }
 }

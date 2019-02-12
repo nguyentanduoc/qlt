@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
+import { logout } from '../../actions/authenAction';
 
 import {
   AppAside,
@@ -29,7 +30,10 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/login')
+    this.props.onLogoutReducer();
+    if(!this.props.authReducer.isLogin){
+      this.props.history.push('/login')
+    }
   }
 
   render() {
@@ -93,4 +97,11 @@ const mapStateToProps = state => {
     authReducer : state.auth
   }
 }
-export default connect(mapStateToProps,null)(DefaultLayout);
+const mapDispathToProps = (dispatch, props) => {
+  return {
+    onLogoutReducer : () => {
+      return dispatch(logout());
+    }
+  }
+}
+export default connect(mapStateToProps,mapDispathToProps)(DefaultLayout);

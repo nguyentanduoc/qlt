@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,14 +60,19 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
-		List<Navigration> navs =  roleService.getNavListRoleName(authentication.getAuthorities());
-		String jwt = tokenProvider.generateToken(authentication);
-		LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), authentication, navs);
-		return ResponseEntity.ok(loginSuccess);
+		try {
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			
+			List<Navigration> navs =  roleService.getNavListRoleName(authentication.getAuthorities());
+			String jwt = tokenProvider.generateToken(authentication);
+			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), authentication, navs);
+			return ResponseEntity.ok(loginSuccess);
+		}
+		catch (BadCredentialsException e) {
+			throw e;
+		}
 	}
 
 	@PostMapping("/signup")

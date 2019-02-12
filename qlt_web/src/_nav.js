@@ -10,7 +10,6 @@ function contains(a, obj) {
 }
 export const NavConfig = (roles) => {
   let role = {authority: "ROLE_ADMIN"};
-  console.log(contains(roles, role));
   let _nav = {
     items: [
       {

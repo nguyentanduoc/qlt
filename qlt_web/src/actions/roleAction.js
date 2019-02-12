@@ -1,13 +1,12 @@
-import {ACTION_TYPES, API, LOCAL_STORAGE, BEARSER} from '../constants';
+import { ACTION_TYPES, API } from '../constants';
 import axios from 'axios';
+import { header } from '../helpers/headerHelper';
 
 export const getAllRole = () => {
-  const token = localStorage.getItem(LOCAL_STORAGE.ACCESS_KEY);
   let config = {
-    headers: { 
-      'Authorization': `${BEARSER}${token}`,
-      'Content-Type': 'application/json' }
+    headers: header()
   };
+  console.log(config)
   return async (dispatch) => {
     try {
       const res = await axios.post(API.GET_ALL_ROLE, null ,config);

@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "quyen")
 public class Role {
@@ -37,6 +39,7 @@ public class Role {
 	@Column(name= "cap_do")
 	private Integer level;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "navigration_roles", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "navigration_id"))
 	private Set<Navigration> navigrations = new HashSet<>();

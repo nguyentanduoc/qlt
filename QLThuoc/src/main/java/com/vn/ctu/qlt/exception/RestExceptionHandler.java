@@ -15,8 +15,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = {BadCredentialsException.class})
 	protected ResponseEntity<ApiError> BadCredentialsException(BadCredentialsException ex) {
-		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
-		apiError.setMessage(ex.getMessage());
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+		apiError.setMessage("Sai tên tài khoản hoặc mật khẩu!");
 		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
 	}
 	
