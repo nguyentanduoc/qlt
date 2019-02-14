@@ -6,7 +6,6 @@ export const getAllRole = () => {
   let config = {
     headers: header()
   };
-  console.log(config)
   return async (dispatch) => {
     try {
       const res = await axios.post(API.GET_ALL_ROLE, null ,config);

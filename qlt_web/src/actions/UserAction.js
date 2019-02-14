@@ -1,14 +1,11 @@
-import {ACTION_TYPES, API, LOCAL_STORAGE, BEARSER} from '../constants';
+import {ACTION_TYPES, API} from '../constants';
 import axios from 'axios';
-
-const token = localStorage.getItem(LOCAL_STORAGE.ACCESS_KEY);
+import { header } from '../helpers/headerHelper';
 
 export const getAllUser = () => {
   let config = {
-    headers: { 
-      'Authorization': `${BEARSER}${token}`,
-      'Content-Type': 'application/json' }
-  };
+    headers: header()
+  }
   return async (dispatch) => {
     try {
       const res = await axios.post(API.GET_ALL_USER, null ,config);
@@ -20,10 +17,8 @@ export const getAllUser = () => {
 }
 export const updateUserRole = (user) => {
   let config = {
-    headers: { 
-      'Authorization': `${BEARSER}${token}`,
-      'Content-Type': 'application/json' }
-  };
+    headers: header()
+  }
   return async (dispatch) => {
     try {
       const res = await axios.post(API.UPDATE_USER_ROLE, user, config);

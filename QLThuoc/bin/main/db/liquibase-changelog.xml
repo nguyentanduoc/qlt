@@ -13,4 +13,5 @@
 	<include file="changelog/1549894488_create_table_badge.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549894489_create_navigration.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549896604_navigration_role.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1550061539_load_data_nav_menu.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -54,23 +54,22 @@ public class AuthController {
 
 	@Autowired
 	JwtTokenProvider tokenProvider;
-	
+
 	@Autowired
 	NavService roleService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		try {
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-			List<Navigration> navs =  roleService.getNavListRoleName(authentication.getAuthorities());
+
+			List<Navigration> navs = roleService.getNavListRoleName(authentication.getAuthorities());
 			String jwt = tokenProvider.generateToken(authentication);
 			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), authentication, navs);
 			return ResponseEntity.ok(loginSuccess);
-		}
-		catch (BadCredentialsException e) {
+		} catch (BadCredentialsException e) {
 			throw e;
 		}
 	}
@@ -78,10 +77,12 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return new ResponseEntity<Object>(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>(new ApiResponse(false, "Username is already taken!"),
+					HttpStatus.BAD_REQUEST);
 		}
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return new ResponseEntity<Object>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>(new ApiResponse(false, "Email Address already in use!"),
+					HttpStatus.BAD_REQUEST);
 		}
 		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
 				signUpRequest.getPassword());

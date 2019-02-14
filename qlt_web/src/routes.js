@@ -38,6 +38,7 @@ const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
 const Role = React.lazy(() => import('./views/Roles/Role'));
+const SettingNav = React.lazy(() => import('./views/SettingNav/SettingNav'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -83,6 +84,7 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/admin/role', exact: true, name: 'Quyền Tài Khoản', component: Role },
+  { path: '/admin/settingMenu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav },
   
 ];
 

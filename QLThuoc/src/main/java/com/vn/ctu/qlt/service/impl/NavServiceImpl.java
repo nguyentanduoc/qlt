@@ -32,18 +32,18 @@ public class NavServiceImpl implements NavService {
 	public List<Navigration> getNavListRoleName(Collection<? extends GrantedAuthority> roleNames) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		StringBuilder sqlBuilder = new StringBuilder();
-		sqlBuilder.append("Select navigration.id, navigration.\"name\", navigration.url, navigration.icon, navigration.title, navigration.sort_num, badges.id as badge_id, badges.\"text\", badges.variant from quyen " + 
-				"inner join navigration_roles nvr on quyen.id = nvr.role_id " + 
-				"inner join navigration on navigration.id = nvr.navigration_id " + 
-				"left join badges on badges.id = navigration.badge_id where").append(" ");
+		sqlBuilder.append("select DISTINCT ON (navigration.id) navigration.id, navigration.\"name\", navigration.url, navigration.icon, navigration.title, navigration.sort_num, badges.id as badge_id, badges.\"text\", badges.variant from navigration \r\n" + 
+				"left join navigration_roles navr on navigration.id = navr.navigration_id\r\n" + 
+				"right join quyen on navr.role_id = quyen.id\r\n" + 
+				"left join badges on badges.id = navigration.badge_id").append(" where ");
 		int count =  roleNames.size();
 		int i = 0;
 		for (GrantedAuthority role : roleNames) {
-			sqlBuilder.append("ten_quyen = '").append(role.getAuthority()).append("' ");
+			sqlBuilder.append("quyen.ten_quyen = '").append(role.getAuthority()).append("' ");
 			if(count - 1 != i) sqlBuilder.append("or").append(" ");
 			i++;
 		}
-		sqlBuilder.append("order by navigration.sort_num ASC");
+//		sqlBuilder.append("order by navigration.sort_num ASC");
 		List<Navigration> navs = new ArrayList<>();//jdbcTemplate.query(sqlBuilder.toString(), new BeanPropertyRowMapper<Navigration>(Navigration.class));
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sqlBuilder.toString());
 		for (Map<String, Object> row : rows) {

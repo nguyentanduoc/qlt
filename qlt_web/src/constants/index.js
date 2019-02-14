@@ -42,3 +42,21 @@ export const ROLES = {
   ROLE_EMPLOYEE: "ROLE_EMPLOYEE",
   ROLE_USER: "ROLE_USER"
 }
+
+export const NAV_ACTION_TYPE = {
+  GET_ALL_NAV_SUCCESS: "GET_ALL_NAV_SUCCESS",
+  GET_ALL_SUB_NAV: "GET_ALL_SUB_NAV",
+  SET_ROLE_FOR_NAV: "SET_ROLE_FOR_NAV",
+  SET_NAV: "SET_NAV",
+  UPDATE_SUCCESS: "UPDATE_SUCCESS"
+}
+export const NAV_API = {
+  GET_ALL_NAV: `${BASE_URI}/api/admin/nav/getAll`,
+  GET_ALL_SUB_NAV: `${BASE_URI}/api/admin/nav/getSubNav`,
+  UPDATE_NAV: `${BASE_URI}/api/admin/nav/updateNav`,
+}
+export const ALERT_ACTIONS = {
+  IS_SUCCESS: "IS_SUCCESS",
+  IS_ERRORED: "IS_ERRORED",
+  RESET_ALERT: "RESET_ALERT"
+}
