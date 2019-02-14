@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Row, Table, Pagination, Card, Col, CardHeader, CardBody, Badge, PaginationItem, PaginationLink } from 'reactstrap';
-import { getAllUser, showUser } from '../../actions/userAction';
+import { getAllUser, showUser } from '../../actions/UserAction';
 import DetailUserRole from './DetailUserRole';
 import { getAllRole, openDetailRolesOfUser } from '../../actions/roleAction';
 import Moment from 'react-moment';

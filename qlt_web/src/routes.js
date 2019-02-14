@@ -1,5 +1,6 @@
 import React from 'react';
 import DefaultLayout from './containers/DefaultLayout';
+import {ROLES} from './constants';
 
 const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/Base/Cards'));
@@ -39,10 +40,11 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 const Role = React.lazy(() => import('./views/Roles/Role'));
 const SettingNav = React.lazy(() => import('./views/SettingNav/SettingNav'));
+const CreateUser = React.lazy(() => import('./views/CreateUser'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
-  { path: '/', exact: true, name: 'Home', component: DefaultLayout },
+  { path: '/', exact: true, name: 'Home', component: DefaultLayout},
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
@@ -83,9 +85,9 @@ const routes = [
   { path: '/charts', name: 'Charts', component: Charts },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
-  { path: '/admin/role', exact: true, name: 'Quyền Tài Khoản', component: Role },
-  { path: '/admin/settingMenu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav },
-  
+  { path: '/admin/role', exact: true, name: 'Quyền Tài Khoản', component: Role, role: ROLES.ROLE_ADMIN },
+  { path: '/admin/settingMenu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav, role: ROLES.ROLE_ADMIN },
+  { path: '/admin/createAcount', exact: true, name: 'Tạo Tài Khoản', component: CreateUser, role: ROLES.ROLE_DIRECTOR },
 ];
 
 export default routes;

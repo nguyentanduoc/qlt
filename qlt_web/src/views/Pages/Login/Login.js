@@ -15,6 +15,11 @@ class Login extends Component {
     this.changeHandler = this.changeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleKeUpEnter.bind(this));
+  }
+
   changeHandler = event => {
     const name = event.target.name;
     const value = event.target.value;
@@ -33,10 +38,18 @@ class Login extends Component {
       this.props.history.push('/dashboard');
     }
   }
+
+  handleKeUpEnter = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmit(event);
+    }
+  }
   componentWillUnmount(){
     if( this.props.error.isErrored === true ) {
       this.props.onResetError();
     }
+
+    document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
   }
   render() {
     return (

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Card from 'reactstrap/lib/Card';
 import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
-import { updateUserRole, setSetCloseAlert } from '../../actions/userAction';
+import { updateUserRole, setSetCloseAlert } from '../../actions/UserAction';
 import { setRoleUser, removeUserRoleDetail } from '../../actions/roleAction';
 import { Form, FormGroup, CustomInput, Button, Alert, Col, Label, CardFooter } from 'reactstrap';
 

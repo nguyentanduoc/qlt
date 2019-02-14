@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authenAction';
-
+import _ from 'lodash';
 import {
   AppAside,
   AppBreadcrumb,
@@ -60,17 +60,18 @@ class DefaultLayout extends Component {
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>
-                  {routes.map((route, idx) => {
-                    return route.component ? (
-                      <Route
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        render={props => (
-                          <route.component {...props} />
-                        )} />
-                    ) : (null);
+                  {
+                    routes.map((route, idx) => {
+                      return (route.component && _.find(this.props.authReducer.authentication.authorities,{authority:route.role})) ? (
+                        <Route
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          name={route.name}
+                          render={props => (
+                            <route.component {...props} />
+                          )} />
+                      ) : (null);                 
                   })}
                   <Redirect from="/" to="/dashboard" />
                 </Switch>

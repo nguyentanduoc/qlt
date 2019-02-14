@@ -60,3 +60,9 @@ export const ALERT_ACTIONS = {
   IS_ERRORED: "IS_ERRORED",
   RESET_ALERT: "RESET_ALERT"
 }
+export const USER_ACTIONS = {
+  SEARCH_SUCCESS: "SEARCH_SUCCESS"
+}
+export const USER_API = {
+  SEARCH_USER: `${BASE_URI}/api/admin/users/updateRole`,
+}

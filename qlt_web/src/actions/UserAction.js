@@ -28,6 +28,13 @@ export const updateUserRole = (user) => {
     }
   }
 }
+export const createUserOfRoleDirector = (data) => {
+  console.log("run");
+}
+export const searchUser = (coditions) => {
+  console.log(coditions);
+  return null;
+}
 export const getAllUserSuccess = (data) => {
   return {
     type: ACTION_TYPES.GET_ALL_USER_SUCCESS,
