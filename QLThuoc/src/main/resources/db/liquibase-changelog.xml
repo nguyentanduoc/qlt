@@ -8,10 +8,10 @@
 
 	<include file="changelog/1548987025_created_table_roles.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1548993353_created_table_users.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1548996651_load_data_users.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549004930_created_user_roles.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549894488_create_table_badge.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549894489_create_navigration.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549896604_navigration_role.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1550061539_load_data_nav_menu.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1550238788_change_define_navigration.xml" relativeToChangelogFile="true"/>
+	
 </databaseChangeLog>

@@ -18,7 +18,19 @@ export const ACTION_TYPES = {
   REMOVE_USER_DETAIL_FOR_ROLE: "REMOVE_USER_DETAIL_FOR_ROLE",
   HAS_ERROR: "HAS_ERROR",
   RESET_ERROR:"RESET_ERROR",
-  LOGOUT: "LOGOUT"
+  LOGOUT: "LOGOUT",
+  USER: {
+    SEARCH_SUCCESS: "SEARCH_SUCCESS",
+    GET_USERS_SUCCESS: "GET_USERS_SUCCESS",
+    SET_USER_DETAIL: "SET_USER_DETAIL",
+    RESET_USER_DETAIL: "RESET_USER_DETAIL"
+  },
+  PAGINATION: {
+    SET_PAGINATION: "SET_PAGINATION",
+    RESET_PAGINATION: "RESET_PAGINATION",
+    CLICKED: "CLICKED",
+    RESET_CLICKED:"RESET_CLICKED"
+  }
 }
 export const LOCAL_STORAGE = {
   ACCESS_KEY : "ACCESS_KEY",
@@ -27,14 +39,18 @@ export const LOCAL_STORAGE = {
 export const API = {
   GET_ALL_USER: `${BASE_URI}/api/admin/users/getAll`,
   LOGIN: `${BASE_URI}/api/auth/signin`,
-  GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/getAll`,
   UPDATE_USER_ROLE: `${BASE_URI}/api/admin/users/updateRole`,
+  ROLE: {
+    GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/getAll`,
+    GET_ROLE_FOR_ADMIN: `${BASE_URI}/api/admin/roles/getRoleForAdmin`
+  },
+  USER: {
+    SEARCH_USER: `${BASE_URI}/api/admin/users/search`,
+    CREATE_ACCOUNT: `${BASE_URI}/api/admin/users/create`,
+    GET_USER_LIMIT: `${BASE_URI}/api/admin/users/getUserLimit`,
+  }
 }
-export const BEARSER = "Bearer "
 
-export const HEADER = {
-  
-}
 export const ROLES = {
   ROLE_ADMIN: "ROLE_ADMIN",
   ROLE_DIRECTOR: "ROLE_DIRECTOR",
@@ -59,9 +75,6 @@ export const ALERT_ACTIONS = {
   IS_SUCCESS: "IS_SUCCESS",
   IS_ERRORED: "IS_ERRORED",
   RESET_ALERT: "RESET_ALERT"
-}
-export const USER_ACTIONS = {
-  SEARCH_SUCCESS: "SEARCH_SUCCESS"
 }
 export const USER_API = {
   SEARCH_USER: `${BASE_URI}/api/admin/users/updateRole`,

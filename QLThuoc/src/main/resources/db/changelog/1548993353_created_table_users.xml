@@ -6,12 +6,9 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="01" author="ntduoc">
 		<createTable tableName="tai_khoan">
-			<column name="id" type="int">
+			<column name="id" type="SERIAL">
 				<constraints nullable="false" unique="true"
 					primaryKey="true" />
-			</column>
-			<column name="ten_tai_khoan" type="varchar(255)">
-				<constraints nullable="false" />
 			</column>
 			<column name="ten_dang_nhap" type="varchar(255)">
 				<constraints nullable="false" unique="true" />
@@ -32,5 +29,14 @@
 				<constraints nullable="true" />
 			</column>
 		</createTable>
+	</changeSet>
+	<changeSet author="ntduoc" id="02">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1548996651_users.csv"
+			schemaName="public" tableName="tai_khoan">
+			<column name="ten_dang_nhap" type="STRING" />
+			<column name="email" type="STRING" />
+			<column name="mat_khau" type="STRING" />
+			<column name="hoat_dong" type="BOOLEAN" />
+		</loadData>
 	</changeSet>
 </databaseChangeLog>

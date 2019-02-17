@@ -1,6 +1,8 @@
 package com.vn.ctu.qlt.model;
 
+import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.assertj.core.util.Sets;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,17 +37,11 @@ public class User extends DateAudit {
 	private Long id;
 
 	@NotBlank
-	@Size(max = 40)
-	@Column(name = "ten_tai_khoan")
-	private String name;
-
-	@NotBlank
 	@Size(max = 15)
 	@Column(name = "ten_dang_nhap")
 	private String username;
 
 	@NaturalId
-	@NotBlank
 	@Size(max = 40)
 	@Email
 	private String email;
@@ -64,10 +61,30 @@ public class User extends DateAudit {
 
 	public User(String name, String username, String email, String password) {
 		super();
-		this.name = name;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public User(Long id, String username, String email, String password, Boolean isEnabled) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.isEnabled  = isEnabled;
+	}
+	
+	public User(Long id, String username, String email, String password, Boolean isEnabled, Instant createAt, Instant updateAt, List<Role> roles) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.isEnabled  = isEnabled;
+		this.setCreatedAt(createAt);
+		this.setUpdatedAt(updateAt);
+		this.roles = Sets.newHashSet(roles);
 	}
 
 	public User() {
@@ -80,14 +97,6 @@ public class User extends DateAudit {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getUsername() {
@@ -120,6 +129,14 @@ public class User extends DateAudit {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 }

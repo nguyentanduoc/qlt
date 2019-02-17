@@ -40,18 +40,18 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 const Role = React.lazy(() => import('./views/Roles/Role'));
 const SettingNav = React.lazy(() => import('./views/SettingNav/SettingNav'));
-const CreateUser = React.lazy(() => import('./views/CreateUser'));
+const Account = React.lazy(() => import('./views/Account'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout},
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard , role: ROLES.ROLE_DIRECTOR},
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
   { path: '/base', exact: true, name: 'Base', component: Cards },
   { path: '/base/cards', name: 'Cards', component: Cards },
-  { path: '/base/forms', name: 'Forms', component: Forms },
+  { path: '/base/forms', name: 'Forms', component: Forms, role: ROLES.ROLE_DIRECTOR},
   { path: '/base/switches', name: 'Switches', component: Switches },
   { path: '/base/tables', name: 'Tables', component: Tables },
   { path: '/base/tabs', name: 'Tabs', component: Tabs },
@@ -86,8 +86,8 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/admin/role', exact: true, name: 'Quyền Tài Khoản', component: Role, role: ROLES.ROLE_ADMIN },
-  { path: '/admin/settingMenu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav, role: ROLES.ROLE_ADMIN },
-  { path: '/admin/createAcount', exact: true, name: 'Tạo Tài Khoản', component: CreateUser, role: ROLES.ROLE_DIRECTOR },
+  { path: '/admin/setting-menu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav, role: ROLES.ROLE_ADMIN },
+  { path: '/admin/account', exact: true, name: 'Tài Khoản', component: Account, role: ROLES.ROLE_DIRECTOR },
 ];
 
 export default routes;

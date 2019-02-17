@@ -22,4 +22,9 @@ public class RolesController {
 	public ResponseEntity<List<Role>> getAllUser() {
 		return ResponseEntity.ok().body(roleRepo.findAll()); 
 	}
+	
+	@PostMapping(path="/getRoleForAdmin")
+	public ResponseEntity<List<Role>> getRoleForAdmin(){
+		return ResponseEntity.ok().body(roleRepo.findByRoleNameForAdmin());
+	}
 }

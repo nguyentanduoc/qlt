@@ -1,3 +1,4 @@
-id,ten_tai_khoan,ten_dang_nhap,email,mat_khau,hoat_dong
-1,admin,admin,admin@gmail.com,$2a$10$FEVlFT8Bggp1JJkzTmsLZejFQc5F4AkAMeHxK9GkRPa.qlilBDDuG,true
-2,ntduoc,ntduoc,ntduoc@gmail.com,$2a$10$FEVlFT8Bggp1JJkzTmsLZejFQc5F4AkAMeHxK9GkRPa.qlilBDDuG,true
+ten_dang_nhap,email,mat_khau,hoat_dong
+supperuser,supperuser@gmail.com,$2a$10$FEVlFT8Bggp1JJkzTmsLZejFQc5F4AkAMeHxK9GkRPa.qlilBDDuG,true
+admin,admin@gmail.com,$2a$10$FEVlFT8Bggp1JJkzTmsLZejFQc5F4AkAMeHxK9GkRPa.qlilBDDuG,true
+ntduoc,ntduoc@gmail.com,$2a$10$FEVlFT8Bggp1JJkzTmsLZejFQc5F4AkAMeHxK9GkRPa.qlilBDDuG,true

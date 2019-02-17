@@ -45,6 +45,7 @@ class DetailUserRole extends Component {
     componentWillUnmount() {
         this.props.omRemoveUserDetailForRole();
     }
+    
     render() {
         let checked = roleId => {
             let roles = this.props.roleReducer.userRoleDetail.roles.filter(role => {

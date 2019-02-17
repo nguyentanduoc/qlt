@@ -1,5 +1,6 @@
-id,badge_id,name,url,icon,title,sort_num
-1,1,Dashboard,/dashboard,icon-speedometer,false,1
-2,,Quản trị viên,,,true,100
-3,,Quyền,/admin/role,fas fa-users-cog,,101
-4,,Tạo Tài Khoản,/admin/createAcount,fas fa-user-plus,,102
+badge_id,name,url,icon,title,sort_num
+1,Dashboard,/dashboard,icon-speedometer,false,1
+,Quản trị viên,,,true,100
+,Quyền,/admin/role,fas fa-users-cog,,101
+,Tạo Tài Khoản,/admin/createAcount,fas fa-user-plus,,102
+,Cài đặt Danh Mục,/admin/settingMenu,fas fa-tasks,,103

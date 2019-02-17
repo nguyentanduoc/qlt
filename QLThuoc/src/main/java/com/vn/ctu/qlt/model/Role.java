@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.annotation.Generated;
+import java.util.Collections;
 
 @Entity
 @Table(name = "quyen")
@@ -43,6 +45,19 @@ public class Role {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "navigration_roles", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "navigration_id"))
 	private Set<Navigration> navigrations = new HashSet<>();
+
+	public Role() {
+		super();
+	}
+
+	@Generated("SparkTools")
+	private Role(Builder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+		this.detail = builder.detail;
+		this.level = builder.level;
+		this.navigrations = builder.navigrations;
+	}
 
 	public Long getId() {
 		return id;
@@ -83,4 +98,59 @@ public class Role {
 	public void setNavigrations(Set<Navigration> navigrations) {
 		this.navigrations = navigrations;
 	}
+
+	/**
+	 * Creates builder to build {@link Role}.
+	 * @return created builder
+	 */
+	@Generated("SparkTools")
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
+	 * Builder to build {@link Role}.
+	 */
+	@Generated("SparkTools")
+	public static final class Builder {
+		private Long id;
+		private RoleName name;
+		private String detail;
+		private Integer level;
+		private Set<Navigration> navigrations = Collections.emptySet();
+
+		private Builder() {
+		}
+
+		public Builder withId(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder withName(RoleName name) {
+			this.name = name;
+			return this;
+		}
+
+		public Builder withDetail(String detail) {
+			this.detail = detail;
+			return this;
+		}
+
+		public Builder withLevel(Integer level) {
+			this.level = level;
+			return this;
+		}
+
+		public Builder withNavigrations(Set<Navigration> navigrations) {
+			this.navigrations = navigrations;
+			return this;
+		}
+
+		public Role build() {
+			return new Role(this);
+		}
+	}
+	
+	
 }

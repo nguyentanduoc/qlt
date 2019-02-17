@@ -1,0 +1,6 @@
+id,badge_id,name,url,icon,title,sort_num,has_children,is_children
+1,1,Dashboard,/dashboard,icon-speedometer,false,1,false,false
+2,null,Quản trị viên,,,true,100,true,false
+3,null,Quyền,/admin/role,fas fa-users-cog,false,101,false,true
+4,null,Tài Khoản,/admin/account,fas fa-user-alt,false,102,false,true
+5,null,Cài đặt Danh Mục,/admin/setting-menu,fas fa-tasks,false,103,false,true

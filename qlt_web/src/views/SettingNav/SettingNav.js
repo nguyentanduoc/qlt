@@ -7,25 +7,25 @@ import { resetAlert } from '../../actions/alertAction';
 import AlertCommon from '../Common/AlertCommon';
 
 export class SettingNav extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             name: ""
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.props.onGetAllNav();
         this.props.onGetAllRole();
     }
     async handleClick(title) {
-       this.props.onGetAllSubNav(title.sortNum);
-       this.props.onSetRoleForNav(title.roles);
-       this.setState({name: title.name});
-       this.props.onSetNav(title);
+        this.props.onGetAllSubNav(title.sortNum);
+        this.props.onSetRoleForNav(title.roles);
+        this.setState({ name: title.name });
+        this.props.onSetNav(title);
     }
     handleClickSub(sub) {
         this.props.onSetRoleForNav(sub.roles);
-        this.setState({name: sub.name});
+        this.setState({ name: sub.name });
         this.props.onSetNav(sub);
     }
     changeHandler(event) {
@@ -77,8 +77,8 @@ export class SettingNav extends Component {
                             <CardBody>
                                 <Table responsive className="table-hover">
                                     <tbody>
-                                        {this.props.navReducer.navTitles.map((title)=>{
-                                            return(
+                                        {this.props.navReducer.navTitles.map((title) => {
+                                            return (
                                                 <tr className="column-select" key={title.id} onClick={this.handleClick.bind(this, title)}>
                                                     <td>{title.name}</td>
                                                 </tr>
@@ -103,8 +103,8 @@ export class SettingNav extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.props.navReducer.subNav.map((sub)=>{
-                                            return(
+                                        {this.props.navReducer.subNav.map((sub) => {
+                                            return (
                                                 <tr className="column-select" key={sub.id} onClick={this.handleClickSub.bind(this, sub)}>
                                                     <td>{sub.name}</td>
                                                     <td>{sub.url}</td>
@@ -123,7 +123,7 @@ export class SettingNav extends Component {
                                     <i className="fas fa-users-cog"></i>Chi tiết <strong>Quyền</strong>
                                 </CardHeader>
                                 <CardBody>
-                                    <AlertCommon/>
+                                    <AlertCommon />
                                     <FormGroup row>
                                         <Col md="3">
                                             <Label>Tên:</Label>
@@ -165,13 +165,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispathToProps = (dispatch, props) => {
     return {
-        onGetAllNav : async () => {
+        onGetAllNav: async () => {
             return await dispatch(getAllNav());
         },
         onGetAllSubNav: async (sortNum) => {
             return await dispatch(getAllSubNav(sortNum));
         },
-        onGetAllRole : async () => {
+        onGetAllRole: async () => {
             return await dispatch(getAllRole());
         },
         onSetRoleForNav: (roles) => {
@@ -187,6 +187,6 @@ const mapDispathToProps = (dispatch, props) => {
             return dispatch(resetAlert());
         }
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispathToProps)(SettingNav)

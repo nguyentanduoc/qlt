@@ -64,7 +64,6 @@ public class AuthController {
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-
 			List<Navigration> navs = roleService.getNavListRoleName(authentication.getAuthorities());
 			String jwt = tokenProvider.generateToken(authentication);
 			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), authentication, navs);

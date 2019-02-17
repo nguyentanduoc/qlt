@@ -21,6 +21,17 @@ public class Badge {
 	@Column(length = 254, name = "text")
 	private String text;
 
+	public Badge() {
+
+	}
+
+	public Badge(Integer id, String variant, String text) {
+		super();
+		this.id = id;
+		this.variant = variant;
+		this.text = text;
+	}
+
 	public Integer getId() {
 		return id;
 	}

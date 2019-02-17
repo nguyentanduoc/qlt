@@ -1,7 +1,6 @@
 import {LOCAL_STORAGE } from '../constants';
-
+const token = sessionStorage.getItem(LOCAL_STORAGE.ACCESS_KEY);
 export const header = () => {
-    let token = sessionStorage.getItem(LOCAL_STORAGE.ACCESS_KEY);
     if (token) {
         return { 
             'Authorization': 'Bearer ' + token,
@@ -13,3 +12,13 @@ export const header = () => {
         };
     }
 }
+export const headerForGet = (params) => {
+    return {
+        headers : {
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + token,
+        },
+        params: params
+    }
+}
+export default {headers: header()};

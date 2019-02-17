@@ -49,7 +49,7 @@ class Role extends Component {
                                     {this.props.user.users.map((user) => {
                                         return (
                                             <tr className="column-select" key={user.id} onClick={this.handleClick.bind(this, user.id)}>
-                                                <td>{user.name}</td>
+                                                <td>{user.username}</td>
                                                 <td>{user.email}</td>
                                                 <td><Moment format="DD/MM/YYYY">{user.createdAt}</Moment></td>
                                                 <td><Badge color="success">Active</Badge></td>

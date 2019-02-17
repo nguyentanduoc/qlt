@@ -7,7 +7,9 @@ var initState = {
    hasErrored: false,
    errors: "",
    updateIsSuccess: false,
-   showAlert: false
+   showAlert: false,
+   listUserSearch: [],
+   flgClickRow: false
 };
 
 export default (state = initState, action) => {
@@ -18,12 +20,18 @@ export default (state = initState, action) => {
             return {...state, errors: action.payload, hasErrored:true}
         case ACTION_TYPES.SHOW_USER:
             return {...state, user: action.payload}
-        case ACTION_TYPES.UPDATE_USER_SUCCESS: 
+        case ACTION_TYPES.UPDATE_USER_SUCCESS:
             return{...state, updateIsSuccess: true, showAlert: true}
-        case ACTION_TYPES.USER_DETAIL_FOR_ROLE: 
+        case ACTION_TYPES.USER_DETAIL_FOR_ROLE:
             return {...state, userDetailForRole: action.payload}
         case ACTION_TYPES.SET_CLOSE_ALERT:
             return {...state, showAlert: false}
+        case ACTION_TYPES.USER.GET_USERS_SUCCESS:
+            return {...state, users: action.payload}
+        case ACTION_TYPES.USER.SET_USER_DETAIL:
+            return {...state, user: action.payload, flgClickRow: true}
+        case ACTION_TYPES.USER.RESET_USER_DETAIL:
+            return {...state, user: {}, flgClickRow: false}
         default:
            return state;
     }

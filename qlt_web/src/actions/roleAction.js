@@ -1,6 +1,6 @@
 import { ACTION_TYPES, API } from '../constants';
 import axios from 'axios';
-import { header } from '../helpers/headerHelper';
+import headerConfig,{ header } from '../helpers/headerHelper';
 
 export const getAllRole = () => {
   let config = {
@@ -8,7 +8,17 @@ export const getAllRole = () => {
   };
   return async (dispatch) => {
     try {
-      const res = await axios.post(API.GET_ALL_ROLE, null ,config);
+      const res = await axios.post(API.ROLE.GET_ALL_ROLE, null ,config);
+      dispatch(getAllRoleSuccess(res.data));
+    } catch (error) {
+      dispatch(getAllRoleFail(error));
+    }
+  }
+}
+export const getRoleForAdmin  = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post(API.ROLE.GET_ROLE_FOR_ADMIN, null ,headerConfig);
       dispatch(getAllRoleSuccess(res.data));
     } catch (error) {
       dispatch(getAllRoleFail(error));

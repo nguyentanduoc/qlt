@@ -3,6 +3,7 @@ package com.vn.ctu.qlt.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,12 @@ public class NavigrationController {
 
 	@PostMapping(path = "/api/admin/nav/getAll")
 	public ResponseEntity<List<Navigration>> getAllNav() {
-		return ResponseEntity.ok().body(navigrationRepo.findIsTitle());
+		return ResponseEntity.ok().body(navigrationRepo.findAllByTitleByOrderBySortNum(Sort.by("sortNum").ascending()));
 	}
 
 	@PostMapping(path = "/api/admin/nav/getSubNav")
 	public ResponseEntity<List<Navigration>> getSubNav(@RequestBody Integer sortNum) {
-		return ResponseEntity.ok().body(navigrationRepo.getSubNav(sortNum, sortNum + 100));
+		return ResponseEntity.ok().body(navigrationRepo.getSubNav(sortNum, sortNum + 100, Sort.by("sortNum").ascending()));
 	}
 	
 	@PostMapping(path = "/api/admin/nav/updateNav")

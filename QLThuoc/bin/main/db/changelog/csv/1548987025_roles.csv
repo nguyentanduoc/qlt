@@ -1,6 +1,6 @@
-id,ten_quyen,mo_ta,cap_do
-1,ROLE_ADMIN,Quản trị viên,1
-2,ROLE_DIRECTOR,Giám Đốc,2
-3,ROLE_LEADER,Trưởng Nhóm,3
-4,ROLE_EMPLOYEE,Nhân Viên,4
-5,ROLE_USER,Khách Hàng,5
+ten_quyen,mo_ta,cap_do
+ROLE_ADMIN,Quản trị viên,1
+ROLE_DIRECTOR,Giám Đốc,2
+ROLE_LEADER,Trưởng Nhóm,3
+ROLE_EMPLOYEE,Nhân Viên,4
+ROLE_USER,Khách Hàng,5
