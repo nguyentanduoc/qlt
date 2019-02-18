@@ -30,6 +30,9 @@ export const ACTION_TYPES = {
     RESET_PAGINATION: "RESET_PAGINATION",
     CLICKED: "CLICKED",
     RESET_CLICKED:"RESET_CLICKED"
+  },
+  APP_SETTING: {
+    DELETE_MULTIPLE: "DELETE_MULTIPLE"
   }
 }
 export const LOCAL_STORAGE = {
@@ -48,6 +51,7 @@ export const API = {
     SEARCH_USER: `${BASE_URI}/api/admin/users/search`,
     CREATE_ACCOUNT: `${BASE_URI}/api/admin/users/create`,
     GET_USER_LIMIT: `${BASE_URI}/api/admin/users/getUserLimit`,
+    DELETE_USER: `${BASE_URI}/api/admin/users/delete`,
   }
 }
 

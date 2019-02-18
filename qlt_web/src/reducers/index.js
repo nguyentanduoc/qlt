@@ -6,6 +6,7 @@ import roleReducer from './roleReducer';
 import navReducer from './navReducer';
 import alertReducer from './alertReducer';
 import paginationReducer from './paginationReducer';
+import appSettingReducer from './appSettingReducer';
 
 export default combineReducers({
     error: errorReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     role: roleReducer,
     navReducer,
     alertReducer,
-    paginationReducer
+    paginationReducer,
+    appSettingReducer
 });

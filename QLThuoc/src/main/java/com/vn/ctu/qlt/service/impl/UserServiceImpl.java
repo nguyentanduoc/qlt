@@ -116,4 +116,11 @@ public class UserServiceImpl implements UserSerivce {
 	public Page<User> getAllUser(Pageable pageable) {
 		return userRepo.findAll(pageable);
 	}
+	
+	@Override
+	public void delete(Long[] ids) {
+		for(Long id: ids) {
+			userRepo.deleteById(id);
+		}
+	}
 }

@@ -19,7 +19,7 @@ export default (state = initState, action) => {
             ...state,
             totalPages: action.payload.totalPages,
             empty: action.payload.empty,
-            number: action.payload.number,
+            number: action.payload.number + 1,
             show: action.payload.show,
             totalElements: action.payload.totalElements,
             first: action.payload.first,

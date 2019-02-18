@@ -22,4 +22,6 @@ public interface UserSerivce {
 	public void save(User user);
 
 	public Page<User> getAllUser(Pageable pageable);
+	
+	public void delete(Long[] ids);
 }

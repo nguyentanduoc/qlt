@@ -78,6 +78,7 @@ export class FormAccount extends Component {
   }
   handleReset = async (e) => {
     await this.setState({
+      id: '',
       username: '',
       email:'',
       isEnabled: true,
@@ -117,9 +118,8 @@ export class FormAccount extends Component {
               <CardHeader><i className="fas fa-user-plus"></i> Tạo <strong>Tài Khoản</strong></CardHeader>
               <CardBody>
                 <AlertCommon/>
-                  <input type="hidden" value={this.state.id} onChange={this.changeHandler.bind(this)}></input>
+                  <Input type="hidden" name="id" value={this.state.id} onChange={this.changeHandler.bind(this)}/>
                   <FormGroup >
-                      
                       <Label>Tên đăng nhập</Label>
                           <Input 
                             type="text"

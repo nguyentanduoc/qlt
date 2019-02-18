@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { searchUser, getUserLimit, setUserForDetail } from '../../actions/UserAction'
+import { searchUser, getUserLimit, setUserForDetail, deleteUser } from '../../actions/UserAction'
 import {
     Row,
     Col,
@@ -13,7 +13,7 @@ import {
     InputGroup, 
     InputGroupAddon,
     Badge,
-    Table,
+    CardFooter
     } from 'reactstrap';
 import FormAccount from './FormAccount'
 import Moment from 'react-moment';
@@ -21,6 +21,10 @@ import 'moment-timezone';
 import PaginationCommon from '../Common/PaginationCommon';
 import { resetClicked } from '../../actions/paginationAction'
 import { pageRequestDefault, pageCustom } from '../../helpers/pageable'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import FieldEnableCommon from '../Common/FieldEnableCommon';
+import _ from 'lodash';
+
 export class index extends Component {
 
     constructor(props, context) {
@@ -55,7 +59,27 @@ export class index extends Component {
             await this.props.onResetClickedGotoPage();
         }
     }
+    dateFormat = (cell) => (
+        <Moment format="DD/MM/YYYY">{cell}</Moment>
+    )
+    bageFormat = (cell) => (
+        <Badge color={cell? 'success': 'danger'}>{cell? 'Hoạt động': 'Dừng hoạt động'}</Badge>
+    )
+    onDeleteRow = async (rows) => {
+        await this.props.onDeleteUser(rows);
+    }
+    handleDeletedRow = (keys) => {
+        let users = [];
+        keys.forEach(element => {
+            users.push({id: element});
+        });
+        _.pullAllBy(this.props.userReducer.users, users, 'id');
+    }
     render() {
+        const options = {
+            onDeleteRow: this.onDeleteRow,
+            afterDeleteRow: this.handleDeletedRow
+          };
         return (
             <div className="animated fadeIn">
                 <Row>
@@ -63,8 +87,8 @@ export class index extends Component {
                         <Card>
                             <CardHeader>
                                 <Row>
-                                    <Col><i className="fas fa-list-alt"></i> Danh Sách <strong>Tài Khoản</strong></Col>
-                                    <Col>
+                                    <Col md='4'><i className="fas fa-list-alt"></i> Danh Sách <strong>Tài Khoản</strong></Col>
+                                    <Col >
                                         <Form onSubmit={this.handleSubmit.bind(this)}>
                                             <InputGroup className="float-right">
                                                 <Input type="text" id="txtCondition" name="txtCondition" placeholder="Email hoặc Tên" onChange={this.changeHandler.bind(this)}/>
@@ -77,7 +101,24 @@ export class index extends Component {
                                 </Row>
                             </CardHeader>
                             <CardBody>
-                                <Table hover bordered striped responsive size="sm">
+                            <BootstrapTable 
+                                selectRow={{
+                                    mode: this.props.appSettingReducer.deleteMultible,
+                                    clickToSelect: true,
+                                    onSelect: (e) =>{
+                                        this.handleClick(e);
+                                    }
+                                  }}
+                                data={ this.props.userReducer.users } 
+                                version='4'
+                                striped hover deleteRow={true} options= {options}>
+                                    <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
+                                    <TableHeaderColumn dataField='username'>Tên Tài Khoản</TableHeaderColumn>
+                                    <TableHeaderColumn dataField='email'>Địa Chỉ Email</TableHeaderColumn>
+                                    <TableHeaderColumn dataField='createdAt' dataFormat={this.dateFormat}>Ngày Tạo</TableHeaderColumn>
+                                    <TableHeaderColumn dataField='isEnabled' dataFormat={this.bageFormat} customInsertEditor={{getElement: FieldEnableCommon}}>Tình trạng</TableHeaderColumn>
+                                </BootstrapTable>
+                                {/* <Table hover bordered striped responsive size="sm">
                                     <thead>
                                         <tr>
                                             <th>Tên Tài Khoản</th>
@@ -87,6 +128,7 @@ export class index extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    
                                         {this.props.userReducer.users.map((user) => {
                                             return(
                                                 <tr key={user.id} onClick={this.handleClick.bind(this, user)}>
@@ -98,9 +140,9 @@ export class index extends Component {
                                             )
                                         })}
                                     </tbody>
-                                </Table>
-                                <PaginationCommon/>
+                                </Table> */}
                             </CardBody>
+                            <CardFooter><PaginationCommon className='pt-2'/></CardFooter>
                         </Card>
                     </Col>
                     <Col md="4">
@@ -117,7 +159,8 @@ export class index extends Component {
 const mapStateToProps = (state) => ({
     userReducer : state.user,
     roleReducer: state.role,
-    paginationReducer: state.paginationReducer
+    paginationReducer: state.paginationReducer,
+    appSettingReducer: state.appSettingReducer
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -133,6 +176,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onSetDetail: (user) => {
           return dispatch(setUserForDetail(user))
+        },
+        onDeleteUser: (users) => {
+            return dispatch(deleteUser(users))
         }
     }
 }

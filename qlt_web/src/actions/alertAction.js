@@ -16,7 +16,6 @@ export const resetAlert = () => {
 // }
 
 export const showAlertSuccess = () => {
-  console.log("show");
   return {
     type: ALERT_ACTIONS.IS_SUCCESS,
     payload: "Thao tác thành công"

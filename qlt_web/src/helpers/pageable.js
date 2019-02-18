@@ -7,5 +7,5 @@ export const pageRequestDefault = () => {
   return Pageable;
 }
 export const pageCustom = (page) => {
-  return {...Pageable, page: page};
+  return {...Pageable, page: page - 1};
 }

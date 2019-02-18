@@ -39,7 +39,6 @@ export const createAccount = (account) => {
   }
 }
 
-
 export const getUserLimit = (page) => {
   return async (dispatch) => {
     try {
@@ -66,6 +65,17 @@ export const searchUser = (codition) => {
     }
   }
 }
+export const deleteUser = (users) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post(API.USER.DELETE_USER, users ,config);
+      await dispatch(showAlertSuccess());
+    } catch(error) {
+      dispatch(getFail(error));
+    }
+  }
+}
+
 export const getAllUserSuccess = (data) => {
   return {
     type: ACTION_TYPES.GET_ALL_USER_SUCCESS,
@@ -120,7 +130,6 @@ export const setUserForDetail = (user) => {
   }
 }
 export const resetUserFordetail = () => {
-  console.log("delete");
   return {
     type: ACTION_TYPES.USER.RESET_USER_DETAIL
   }
