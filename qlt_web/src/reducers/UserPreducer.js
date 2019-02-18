@@ -10,28 +10,6 @@ var initState = {
    showAlert: false,
    listUserSearch: [],
    flgClickRow: false,
-   columns: [
-        {
-            dataField: 'id',
-            text: 'ID'
-        },
-       {
-           dataField: 'username',
-           text: 'Tên Tài Khoản'
-        },
-        {
-            dataField: 'email',
-            text: 'Địa Chỉ Email'
-         },
-         {
-            dataField: 'createdAt',
-            text: 'Ngày Tạo'
-         },
-         {
-            dataField: 'isEnabled',
-            text: 'Hoạt động'
-         }
-    ]
 };
 
 export default (state = initState, action) => {

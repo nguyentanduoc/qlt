@@ -40,16 +40,19 @@ export const createAccount = (account) => {
 }
 
 export const getUserLimit = (page) => {
+
   return async (dispatch) => {
     try {
       let res;
       if(page){
         res = await axios.get(API.USER.GET_USER_LIMIT, headerForGet(page));
+        console.log("get user done");
       } else {
         res = await axios.get(API.USER.GET_USER_LIMIT, headerForGet(pageRequestDefault()));
       }
       await dispatch(setPagination(res.data));
       await dispatch(getUsersSuccess(res.data.content));
+
     } catch(error) {
       dispatch(showAlertFail(error));
     }

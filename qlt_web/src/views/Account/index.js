@@ -13,7 +13,8 @@ import {
     InputGroup, 
     InputGroupAddon,
     Badge,
-    CardFooter
+    CardFooter,
+    ButtonGroup
     } from 'reactstrap';
 import FormAccount from './FormAccount'
 import Moment from 'react-moment';
@@ -21,20 +22,57 @@ import 'moment-timezone';
 import PaginationCommon from '../Common/PaginationCommon';
 import { resetClicked } from '../../actions/paginationAction'
 import { pageRequestDefault, pageCustom } from '../../helpers/pageable'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import FieldEnableCommon from '../Common/FieldEnableCommon';
+import ReactTable from 'react-table';
 import _ from 'lodash';
+import TableAccount from './TableAccount'
+import treeTableHOC from "react-table/lib/hoc/treeTable";
+const TreeTable = treeTableHOC(ReactTable);
 
 export class index extends Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            txtCondition:''
+            txtCondition:'',
+            columns: [
+                {
+                    accessor: 'id',
+                    Header: 'ID'
+                },
+               {
+                accessor: 'username',
+                   Header: 'Tên Tài Khoản'
+                },
+                {
+                    accessor: 'email',
+                    Header: 'Địa Chỉ Email'
+                 },
+                 {
+                    accessor: 'createdAt',
+                    Header: 'Ngày Tạo',
+                    Cell: props => <Moment format="DD/MM/YYYY">{props.value}</Moment>
+                 },
+                 {
+                    accessor: 'isEnabled',
+                    Header: 'Hoạt động',
+                    Cell: props => <Badge color={props.value? 'success': 'danger'}>{props.value? 'Hoạt động': 'Dừng hoạt động'}</Badge>
+                 },
+                 {
+                    Header: 'Hành Động',
+                    Cell: props => (
+                        <ButtonGroup>
+                            <Button size="sm"  onClick={this.props.handleView.bind(this, props)}><i className="far fa-eye"></i></Button>
+                            <Button size="sm" onClick={this.handleEdit(props.value)}><i className="far fa-edit"></i></Button>
+                            <Button size="sm" onClick={this.handleDelete(props.value)}><i className="far fa-trash-alt"></i></Button>
+                        </ButtonGroup>
+                    )
+                 }
+            ]
         };
     }
-    async componentWillMount() {
-      await this.props.onGetUserLimit(pageRequestDefault());
+    componentWillMount() {
+        this.props.onGetUserLimit(pageRequestDefault());
     }
     changeHandler = event => {
         const name = event.target.name;
@@ -47,8 +85,12 @@ export class index extends Component {
         e.preventDefault();
         this.props.onSearchUser(this.state);
     }
-    handleClick = (user) => {
-      this.props.onSetDetail(user);
+    handleClick = (state, rowInfo) => {
+        return {
+            onClick: (e, handleOriginal) => {
+              this.props.onSetDetail(rowInfo.original);
+            }
+        }
     }
     getUserPage = ()  => {
         this.props.onGetUserLimit(pageCustom(this.props.paginationReducer.gotoPage));
@@ -59,12 +101,6 @@ export class index extends Component {
             await this.props.onResetClickedGotoPage();
         }
     }
-    dateFormat = (cell) => (
-        <Moment format="DD/MM/YYYY">{cell}</Moment>
-    )
-    bageFormat = (cell) => (
-        <Badge color={cell? 'success': 'danger'}>{cell? 'Hoạt động': 'Dừng hoạt động'}</Badge>
-    )
     onDeleteRow = async (rows) => {
         await this.props.onDeleteUser(rows);
     }
@@ -75,11 +111,16 @@ export class index extends Component {
         });
         _.pullAllBy(this.props.userReducer.users, users, 'id');
     }
+    handleEdit = (value) => {
+        console.log(value)
+    }
+    handleView = (value) => {
+        console.log(value)
+    }
+    handleDelete = (value) => {
+        console.log(value)
+    }
     render() {
-        const options = {
-            onDeleteRow: this.onDeleteRow,
-            afterDeleteRow: this.handleDeletedRow
-          };
         return (
             <div className="animated fadeIn">
                 <Row>
@@ -101,7 +142,21 @@ export class index extends Component {
                                 </Row>
                             </CardHeader>
                             <CardBody>
-                            <BootstrapTable 
+                            <TreeTable
+                                    isSelected ={true}
+                                    selectAll = {true}
+                                    toggleAll  = 'checkbox'
+                                    toggleSelection  = 'checkbox'
+                                    selectType  = 'checkbox'
+                                    keyField="id"
+                                    data={this.props.userReducer.users}
+                                    columns={this.state.columns}
+                                    showPagination= {false}
+                                    defaultPageSize={5}
+                                    getTrProps={this.handleClick}
+                                    
+                                />
+                            {/* <BootstrapTable 
                                 selectRow={{
                                     mode: this.props.appSettingReducer.deleteMultible,
                                     clickToSelect: true,
@@ -111,13 +166,15 @@ export class index extends Component {
                                   }}
                                 data={ this.props.userReducer.users } 
                                 version='4'
-                                striped hover deleteRow={true} options= {options}>
-                                    <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
+                                striped hover deleteRow={ true } 
+                                options= {options} addRow={ true } insertRow = { true } 
+                                noDataIndication={ () => <NoDataIndication />}/> */}
+                                    {/* <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
                                     <TableHeaderColumn dataField='username'>Tên Tài Khoản</TableHeaderColumn>
                                     <TableHeaderColumn dataField='email'>Địa Chỉ Email</TableHeaderColumn>
                                     <TableHeaderColumn dataField='createdAt' dataFormat={this.dateFormat}>Ngày Tạo</TableHeaderColumn>
-                                    <TableHeaderColumn dataField='isEnabled' dataFormat={this.bageFormat} customInsertEditor={{getElement: FieldEnableCommon}}>Tình trạng</TableHeaderColumn>
-                                </BootstrapTable>
+                                    <TableHeaderColumn dataField='isEnabled' dataFormat={this.bageFormat} customInsertEditor={{getElement: FieldEnableCommon}}>Tình trạng</TableHeaderColumn> */}
+                                {/* </BootstrapTable> */}
                                 {/* <Table hover bordered striped responsive size="sm">
                                     <thead>
                                         <tr>
