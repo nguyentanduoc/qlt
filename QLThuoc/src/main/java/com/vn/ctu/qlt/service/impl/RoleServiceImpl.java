@@ -1,6 +1,8 @@
 package com.vn.ctu.qlt.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,11 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.mapper.RoleMapper;
 import com.vn.ctu.qlt.model.Role;
+import com.vn.ctu.qlt.repository.RoleRepository;
 import com.vn.ctu.qlt.service.RoleService;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 
+	@Autowired
+	private RoleRepository roleRepository;
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -28,4 +34,32 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
+	@Override
+	public List<Role> getAll() {
+		return roleRepository.findAll();
+	}
+
+	@Override
+	public List<Role> findByRoleNameForAdmin() {
+		return roleRepository.findRoleByAdmin();
+	}
+
+	public Set<Role> getRolesByRoles(List<Role> roles) {
+		Set<Role> resource = new HashSet<Role>();
+		
+		for(Role role : roles) {
+			switch(role.getLevel()) {
+			case 1:
+				resource.addAll(roleRepository.findRoleByAdmin());
+				break;
+			case 2: 
+				resource.addAll(roleRepository.findRoleByDirector());
+				break;
+			case 3: 
+				resource.addAll(roleRepository.findRoleByLeader());
+			default: break;
+			}
+		}
+		return resource;
+	}
 }

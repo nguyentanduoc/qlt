@@ -33,6 +33,18 @@ export const getAllRoleSuccess = (data) => {
   }
 }
 
+export const getRolesByRoles = (roles) => {
+  console.log(roles)
+  return async (dispatch) => {
+    try {
+      const res = await axios.post(API.ROLE.GET_ROLES_BY_ROLES, roles ,headerConfig);
+      console.log(res);
+      dispatch(getAllRoleSuccess(res.data));
+    } catch (error) {
+      dispatch(getAllRoleFail(error));
+    }
+  }
+}
 export const getAllRoleFail = (err) => {
   return {
     type: ACTION_TYPES.GET_ALL_ROLE_FAIL,

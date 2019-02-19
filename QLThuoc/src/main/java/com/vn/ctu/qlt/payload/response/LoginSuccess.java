@@ -1,26 +1,29 @@
 package com.vn.ctu.qlt.payload.response;
 
 import java.util.List;
-
-import org.springframework.security.core.Authentication;
+import java.util.Set;
 
 import com.vn.ctu.qlt.model.Navigration;
+import com.vn.ctu.qlt.model.User;
 
 public class LoginSuccess {
 
 	private JwtAuthenticationResponse jwtAuthenticationResponse;
 
-	private Authentication authentication;
+	private User user;
 
 	private Navigration[] nav;
 
-	public LoginSuccess(JwtAuthenticationResponse jwtAuthenticationResponse, Authentication authentication,
-			List<Navigration> nav) {
+	private Set<String> authorities;
+
+	public LoginSuccess(JwtAuthenticationResponse jwtAuthenticationResponse, User user, List<Navigration> nav,
+			Set<String> authorities) {
 		super();
 		this.jwtAuthenticationResponse = jwtAuthenticationResponse;
-		this.authentication = authentication;
+		this.user = user;
 		this.nav = new Navigration[nav.size()];
 		this.nav = nav.toArray(this.nav);
+		this.authorities = authorities;
 	}
 
 	public JwtAuthenticationResponse getJwtAuthenticationResponse() {
@@ -31,14 +34,6 @@ public class LoginSuccess {
 		this.jwtAuthenticationResponse = jwtAuthenticationResponse;
 	}
 
-	public Authentication getAuthentication() {
-		return authentication;
-	}
-
-	public void setAuthentication(Authentication authentication) {
-		this.authentication = authentication;
-	}
-
 	public Navigration[] getNav() {
 		return nav;
 	}
@@ -46,4 +41,21 @@ public class LoginSuccess {
 	public void setNav(Navigration[] nav) {
 		this.nav = nav;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<String> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(Set<String> authorities) {
+		this.authorities = authorities;
+	}
+
 }

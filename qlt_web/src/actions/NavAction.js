@@ -106,3 +106,8 @@ export const updateNavFail = (err) => {
         payload: err
     }
 }
+export const resetAllNav = () => {
+    return {
+        type: NAV_ACTION_TYPE.RESET_ALL
+    }
+}

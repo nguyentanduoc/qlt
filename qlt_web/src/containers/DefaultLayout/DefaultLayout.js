@@ -62,7 +62,7 @@ class DefaultLayout extends Component {
                 <Switch>
                   {
                     routes.map((route, idx) => {
-                      return (route.component && _.find(this.props.authReducer.authentication.authorities,{authority:route.role})) ? (
+                      return (route.component && _.intersectionWith(this.props.authReducer.authorities, route.roles, _.isEqual)) ? (
                         <Route
                           key={idx}
                           path={route.path}
@@ -71,7 +71,7 @@ class DefaultLayout extends Component {
                           render={props => (
                             <route.component {...props} />
                           )} />
-                      ) : (null);                 
+                      ) : (null);
                   })}
                   <Redirect from="/" to="/dashboard" />
                 </Switch>

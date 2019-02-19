@@ -17,7 +17,7 @@ export const ACTION_TYPES = {
   SET_CLOSE_ALERT: "SET_CLOSE_ALERT",
   REMOVE_USER_DETAIL_FOR_ROLE: "REMOVE_USER_DETAIL_FOR_ROLE",
   HAS_ERROR: "HAS_ERROR",
-  RESET_ERROR:"RESET_ERROR",
+  RESET_ERROR: "RESET_ERROR",
   LOGOUT: "LOGOUT",
   USER: {
     SEARCH_SUCCESS: "SEARCH_SUCCESS",
@@ -29,15 +29,15 @@ export const ACTION_TYPES = {
     SET_PAGINATION: "SET_PAGINATION",
     RESET_PAGINATION: "RESET_PAGINATION",
     CLICKED: "CLICKED",
-    RESET_CLICKED:"RESET_CLICKED"
+    RESET_CLICKED: "RESET_CLICKED"
   },
   APP_SETTING: {
     DELETE_MULTIPLE: "DELETE_MULTIPLE"
   }
 }
 export const LOCAL_STORAGE = {
-  ACCESS_KEY : "ACCESS_KEY",
-  IS_LOGIN : "IS_LOGIN"
+  ACCESS_KEY: "ACCESS_KEY",
+  IS_LOGIN: "IS_LOGIN"
 }
 export const API = {
   GET_ALL_USER: `${BASE_URI}/api/admin/users/getAll`,
@@ -45,7 +45,8 @@ export const API = {
   UPDATE_USER_ROLE: `${BASE_URI}/api/admin/users/updateRole`,
   ROLE: {
     GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/getAll`,
-    GET_ROLE_FOR_ADMIN: `${BASE_URI}/api/admin/roles/getRoleForAdmin`
+    GET_ROLE_FOR_ADMIN: `${BASE_URI}/api/admin/roles/getRoleForAdmin`,
+    GET_ROLES_BY_ROLES:  `${BASE_URI}/api/admin/roles/getRolesByRoles`,
   },
   USER: {
     SEARCH_USER: `${BASE_URI}/api/admin/users/search`,
@@ -68,7 +69,8 @@ export const NAV_ACTION_TYPE = {
   GET_ALL_SUB_NAV: "GET_ALL_SUB_NAV",
   SET_ROLE_FOR_NAV: "SET_ROLE_FOR_NAV",
   SET_NAV: "SET_NAV",
-  UPDATE_SUCCESS: "UPDATE_SUCCESS"
+  UPDATE_SUCCESS: "UPDATE_SUCCESS",
+  RESET_ALL: "RESET_ALL_NAV"
 }
 export const NAV_API = {
   GET_ALL_NAV: `${BASE_URI}/api/admin/nav/getAll`,

@@ -4,7 +4,6 @@ import './polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import 'react-table/react-table.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';

@@ -45,13 +45,13 @@ const Account = React.lazy(() => import('./views/Account'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout},
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard , role: ROLES.ROLE_DIRECTOR},
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard , roles: [ROLES.ROLE_DIRECTOR]},
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
   { path: '/base', exact: true, name: 'Base', component: Cards },
   { path: '/base/cards', name: 'Cards', component: Cards },
-  { path: '/base/forms', name: 'Forms', component: Forms, role: ROLES.ROLE_DIRECTOR},
+  { path: '/base/forms', name: 'Forms', component: Forms, roles: [ROLES.ROLE_DIRECTOR]},
   { path: '/base/switches', name: 'Switches', component: Switches },
   { path: '/base/tables', name: 'Tables', component: Tables },
   { path: '/base/tabs', name: 'Tabs', component: Tabs },
@@ -85,9 +85,9 @@ const routes = [
   { path: '/charts', name: 'Charts', component: Charts },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
-  { path: '/admin/role', exact: true, name: 'Quyền Tài Khoản', component: Role, role: ROLES.ROLE_ADMIN },
-  { path: '/admin/setting-menu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav, role: ROLES.ROLE_ADMIN },
-  { path: '/admin/account', exact: true, name: 'Tài Khoản', component: Account, role: ROLES.ROLE_DIRECTOR },
+  { path: '/admin/role', exact: true, name: 'Quyền Tài Khoản', component: Role, roles: [ROLES.ROLE_ADMIN] },
+  { path: '/admin/setting-menu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav, roles: [ROLES.ROLE_ADMIN] },
+  { path: '/admin/account', exact: true, name: 'Tài Khoản', component: Account, roles: [ROLES.ROLE_ADMIN, ROLES.ROLE_DIRECTOR, ROLES.ROLE_LEADER] },
 ];
 
 export default routes;

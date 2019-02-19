@@ -16,5 +16,11 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	Optional<Role> findByName(RoleName roleName);
 	
 	@Query("select r from Role r where r.name = 'ROLE_ADMIN' or r.name= 'ROLE_DIRECTOR'")
-	List<Role> findByRoleNameForAdmin();
+	List<Role> findRoleByAdmin();
+	
+	@Query("select r from Role r where r.name = 'ROLE_EMPLOYEE' or r.name= 'ROLE_LEADER'")
+	List<Role> findRoleByDirector();
+	
+	@Query("select r from Role r where r.name = 'ROLE_EMPLOYEE'")
+	List<Role> findRoleByLeader();
 }

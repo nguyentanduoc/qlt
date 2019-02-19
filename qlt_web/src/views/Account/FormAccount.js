@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getRoleForAdmin } from '../../actions/roleAction'
 import _ from 'lodash'
 import AlertCommon from '../Common/AlertCommon'
-import {showAlertFail} from '../../actions/alertAction'
+import { showAlertFail } from '../../actions/alertAction'
 import { createAccount, resetUserFordetail } from '../../actions/UserAction'
 import {
   Col,
@@ -30,9 +29,6 @@ export class FormAccount extends Component {
       roles: [],
       validRole: true
     }
-  }
-  async componentWillMount(){
-    await this.props.onGetRoleForAdmin();
   }
   changeHandler = async event => {
     const name = event.target.name;
@@ -72,7 +68,6 @@ export class FormAccount extends Component {
         isEnabled: this.state.isEnabled
       });
     } else {
-      console.log("chon quyen");
       this.props.onShowAlertError("Chọn quyền cho Tài Khoản");
     }
   }
@@ -127,7 +122,8 @@ export class FormAccount extends Component {
                             name="username"
                             onChange={this.changeHandler.bind(this)}
                             required
-                            value={this.state.username}/>
+                            value={this.state.username}
+                            disabled={this.state.username === '' ? false: true}/>
                       
                   </FormGroup>
                   <FormGroup>
@@ -138,7 +134,8 @@ export class FormAccount extends Component {
                             name="email" 
                             onChange={this.changeHandler.bind(this)} 
                             required
-                            value={this.state.email}/>
+                            value={this.state.email}
+                            disabled={this.state.email === '' ? false: true}/>
                             </FormGroup>
                   <FormGroup row>
                       <Col md="4"><Label>Quyền:</Label></Col>
@@ -186,9 +183,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetRoleForAdmin: async () => {
-    return await dispatch(getRoleForAdmin())
-  },
   onShowAlertError: async (message) => {
     return await dispatch(showAlertFail(message))
   },

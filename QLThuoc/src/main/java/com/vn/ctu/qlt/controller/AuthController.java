@@ -2,7 +2,10 @@ package com.vn.ctu.qlt.controller;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -34,6 +37,7 @@ import com.vn.ctu.qlt.payload.response.LoginSuccess;
 import com.vn.ctu.qlt.repository.RoleRepository;
 import com.vn.ctu.qlt.repository.UserRepository;
 import com.vn.ctu.qlt.security.JwtTokenProvider;
+import com.vn.ctu.qlt.security.UserPrincipal;
 import com.vn.ctu.qlt.service.NavService;
 
 @RestController
@@ -41,22 +45,22 @@ import com.vn.ctu.qlt.service.NavService;
 public class AuthController {
 
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
-	RoleRepository roleRepository;
+	private RoleRepository roleRepository;
 
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	JwtTokenProvider tokenProvider;
+	private JwtTokenProvider tokenProvider;
 
 	@Autowired
-	NavService roleService;
+	private NavService roleService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -66,7 +70,13 @@ public class AuthController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			List<Navigration> navs = roleService.getNavListRoleName(authentication.getAuthorities());
 			String jwt = tokenProvider.generateToken(authentication);
-			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), authentication, navs);
+			UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+			Optional<User> user = userRepository.findById(userPrincipal.getId());
+			Set<String> authorities = new HashSet<String>();
+			for(Role role : user.get().getRoles()) {
+				authorities.add(role.getName().toString());
+			}
+			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs, authorities);
 			return ResponseEntity.ok(loginSuccess);
 		} catch (BadCredentialsException e) {
 			throw e;
