@@ -13,5 +13,6 @@
 	<include file="changelog/1549894489_create_navigration.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549896604_navigration_role.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1550238788_change_define_navigration.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1550584506_add_nav_nhan_vien.xml" relativeToChangelogFile="true"/>
 	
 </databaseChangeLog>

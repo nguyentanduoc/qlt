@@ -1,0 +1,3 @@
+badge_id,name,url,icon,title,sort_num,has_children,is_children
+null,Nhân Viên,/employee,fas fa-user-tie,false,105,false,true
+null,Chi Nhánh,/branch,fas fa-code-branch,false,106,false,true

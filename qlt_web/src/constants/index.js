@@ -33,6 +33,10 @@ export const ACTION_TYPES = {
   },
   APP_SETTING: {
     DELETE_MULTIPLE: "DELETE_MULTIPLE"
+  },
+  BRANCH: {
+    TOGGLE_MODAL: "TOGGLE_MODAL",
+    RESET_ALL : "RESET_ALL"
   }
 }
 export const LOCAL_STORAGE = {

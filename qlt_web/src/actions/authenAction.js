@@ -1,5 +1,5 @@
 import { ACTION_TYPES, API, LOCAL_STORAGE } from '../constants';
-import { resetAllNav } from './NavAction';
+// import { resetAllNav } from './NavAction';
 import axios from 'axios';
 
 export const login = (auth) => {

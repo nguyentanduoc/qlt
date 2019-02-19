@@ -155,8 +155,6 @@ export class index extends Component {
             <FormAccount/>
           </Col>
         </Row>
-        <Row>
-        </Row>
       </div>
     )
   }

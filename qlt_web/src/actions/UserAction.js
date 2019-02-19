@@ -71,7 +71,7 @@ export const searchUser = (codition) => {
 export const deleteUser = (users) => {
   return async (dispatch) => {
     try {
-      const res = await axios.post(API.USER.DELETE_USER, users ,config);
+      await axios.post(API.USER.DELETE_USER, users ,config);
       await dispatch(showAlertSuccess());
     } catch(error) {
       dispatch(getFail(error));
