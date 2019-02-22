@@ -27,7 +27,6 @@ export class PaginationCommon extends Component {
   //   return page;
   // }
   onPageChange = (e) => {
-    console.log(e);
     if(this.props.paginationReducer.number !== e)
     this.props.onGotoPage(e);
   }

@@ -6,14 +6,14 @@ export const resetAlert = () => {
   }
 }
 
-// export const showAlertAndReset = (dispatch) => {
-//    dispatch(showAlertSuccess());
-//    dispatch(setTimeout(
-//     function () {
-//       dispatch(resetAlert());
-//     }.bind(this),1500
-//   ))
-// }
+export const showAlertAndReset = () => {
+  return dispatch => {
+    dispatch(showAlertSuccess());
+    setTimeout(() => {
+      dispatch(resetAlert());
+    }, 5000)
+  }
+}
 
 export const showAlertSuccess = () => {
   return {

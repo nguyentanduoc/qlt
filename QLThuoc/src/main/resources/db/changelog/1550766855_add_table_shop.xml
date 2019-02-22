@@ -5,18 +5,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="01" author="ntduoc">
-		<createTable tableName="chi_nhanh">
+		<createTable tableName="cua_hang">
 			<column name="id" type="SERIAL">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="ten_chi_nhanh" type="varchar(254)">
+			<column name="ten_cua_hang" type="varchar(254)">
 				<constraints nullable="false" unique="true" />
 			</column>
-			<column name="kinh_do" type="DECIMAL(12,8)">
-				<constraints nullable="false" unique="true" />
+			<column name="ngay_thanh_lap" type="date">
+				<constraints nullable="false" />
 			</column>
-			<column name="vi_do" type="DECIMAL(12,8)">
-				<constraints nullable="false" unique="true" />
+			<column name="ngay_tao" type="date" defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+			<column name="ngay_cap_nhat" type="date" defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="false" />
 			</column>
 			<column name="hoat_dong" type="boolean">
 				<constraints nullable="false" />
@@ -24,13 +27,12 @@
 		</createTable>
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
-		<loadUpdateData encoding="UTF-8"
-			file="db/changelog/csv/1550585056_add_table_branch.csv" primaryKey="id"
-			schemaName="public" tableName="chi_nhanh">
-			<column name="ten_chi_nhanh" type="STRING" />
-			<column name="kinh_do" type="NUMERIC" />
-			<column name="vi_do" type="NUMERIC" />
-			<column name="hoat_dong" type="BOOLEAN" />
-		</loadUpdateData>
+		<loadData catalogName="cat" encoding="UTF-8"
+			file="db/changelog/csv/1550766855_add_table_shop.csv"
+			schemaName="public"  tableName="cua_hang">
+			<column name="ten_cua_hang" type="string"/>
+			<column name="ngay_thanh_lap" type="datetime"/>
+			<column name="hoat_dong" type="boolean"/>
+		</loadData>
 	</changeSet>
 </databaseChangeLog>

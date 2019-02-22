@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserSerivce {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
+	@Transactional
 	public PageImpl<User> searchUser(String condition, Pageable page) {
 		String[] conditions = condition.split(" ");
 		this.conditions = conditions;
@@ -51,19 +54,8 @@ public class UserServiceImpl implements UserSerivce {
 		for (int i = 0; i < conditions.length; i++) {
 			sqlWhere.append("email like ?").append(" or ");
 			sqlWhere.append("ten_dang_nhap like ?").append(" ");
-			if (i == 0) {
-				param.add(conditions[i] + "%");
-				param.add(conditions[i] + "%");
-
-			} else {
-				if (i == conditions.length - 1) {
-					param.add("%" + conditions[i]);
-					param.add("%" + conditions[i]);
-				} else {
-					param.add("%" + conditions[i] + "%");
-					param.add("%" + conditions[i] + "%");
-				}
-			}
+			param.add("%" + conditions[i] + "%");
+			param.add("%" + conditions[i] + "%");
 			if (conditions.length - 1 != i)
 				sqlWhere.append("or").append(" ");
 		}

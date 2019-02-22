@@ -21,4 +21,6 @@ export const headerForGet = (params) => {
         params: params
     }
 }
+
+
 export default {headers: header()};

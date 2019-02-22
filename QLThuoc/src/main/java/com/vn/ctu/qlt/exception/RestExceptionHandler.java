@@ -1,5 +1,6 @@
 package com.vn.ctu.qlt.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +25,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ApiError> NotFound(Exception ex) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage(ex.getMessage());
+		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
+	}
+	
+	@ExceptionHandler(value = {DataIntegrityViolationException.class})
+	protected ResponseEntity<ApiError> duplicateData(Exception ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+		apiError.setMessage("Dữ liệu đã tồn tại");
 		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
 	}
 }

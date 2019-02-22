@@ -9280,6 +9280,11 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-alert@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-alert/-/react-alert-5.1.0.tgz#ff895dfdc25f206fb5f7921c6e09bfbac50f5e94"
+  integrity sha512-hJ3+sptoxi0RT6SMo8sr4LNXGIdiT82zCqU3GMF71I50/uFVNjJzMIbLSvdm713sBthlK4Aq0BxxFtyk22Xa/w==
+
 react-app-polyfill@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-0.2.0.tgz#60eaf037223b2f3a5671f45e5ac3b418f0b48ad2"

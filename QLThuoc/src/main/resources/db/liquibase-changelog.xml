@@ -14,5 +14,7 @@
 	<include file="changelog/1549896604_navigration_role.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1550238788_change_define_navigration.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1550584506_add_nav_nhan_vien.xml" relativeToChangelogFile="true"/>
-	
+	<include file="changelog/1550585056_add_table_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1550766855_add_table_shop.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1550842964_add_nav_cua_hang.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

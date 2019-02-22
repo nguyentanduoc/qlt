@@ -22,7 +22,6 @@ import PaginationCommon from '../Common/PaginationCommon'
 import { resetClicked } from '../../actions/paginationAction'
 import { pageRequestDefault, pageCustom } from '../../helpers/pageable'
 import {Table} from 'antd'
-import 'antd/dist/antd.css'
 import { getRolesByRoles } from '../../actions/roleAction'
 
 export class index extends Component {
@@ -129,14 +128,14 @@ export class index extends Component {
                   <i className="fas fa-list-alt"></i> Danh Sách <strong>Tài Khoản</strong>
               </CardHeader>
               <CardBody>
-              <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
-                      <InputGroup className="float-righ">
-                        <Input type="text" id="txtCondition" name="txtCondition" placeholder="Email hoặc Tên" onChange={this.changeHandler.bind(this)}/>
-                        <InputGroupAddon addonType="append">
-                          <Button type="submit" color="primary" className="btn-square"><i className="fas fa-search"></i></Button>
-                        </InputGroupAddon>
-                      </InputGroup>
-                      <Button color='warning' className="btn-square ml-1" disabled={this.state.selectedRowKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
+                <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
+                  <InputGroup className="float-right">
+                    <Input type="text" id="txtCondition" name="txtCondition" placeholder="Email hoặc Tên" onChange={this.changeHandler.bind(this)}/>
+                    <InputGroupAddon addonType="append">
+                      <Button type="submit" color="primary" className="btn-square"><i className="fas fa-search"></i></Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                  <Button color='warning' className="btn-square ml-1" disabled={this.state.selectedRowKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
                 </Form>
                 <Table
                   className="table table-bordered"

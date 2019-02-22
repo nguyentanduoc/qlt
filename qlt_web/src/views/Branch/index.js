@@ -1,31 +1,95 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { toggleModal } from '../../actions/branchAction'
+import { select, setBranch, deleteBranch } from '../../actions/branchAction'
 import {
   Row,
   Col,
-  Form,
   Card,
   CardHeader,
   CardBody,
-  Input,
-  Button,
-  InputGroup, 
-  InputGroupAddon,
   CardFooter,
+  Badge,
+  Form,
+  Input,
+  InputGroupAddon,
+  Button,
+  InputGroup
   } from 'reactstrap'
 import FormBrach from  './FormBranch'
+import { Table } from 'antd'
+import PaginationCommon from '../Common/PaginationCommon'
 
 export class index extends Component {
-  // static propTypes = {
-  //   prop: PropTypes
-  // }
-  handleAdd = (e) => {
-    e.preventDefault();
-    this.props.onToggleModal();
+
+  constructor(props){
+    super(props);
+    this.state = {
+      columns: [
+        {
+          key: 'id',
+          title: 'ID',
+          dataIndex: 'id',
+        },
+        {
+          key: 'name',
+          title: 'Tên Chi Nhánh',
+          dataIndex: 'name',
+        },
+        {
+          key: 'isEnabled',
+          title: 'Hoạt động',
+          dataIndex: 'isEnabled',
+          render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
+        },
+      ],
+      seletedKeys: [],
+      condition:""
+    }
+    
   }
+
+  componentWillMount(){
+    this.props.onSelect();
+  }
+
+  onSelectedRowKeysChange = (keys) => {
+    this.setState({seletedKeys: keys});
+  }
+
+  handleSubmit =  (event) => {
+    event.preventDefault();
+    this.props.onSelect(this.state.condition);
+  }
+
+  handleDeletedRow = async (e) => {
+    e.preventDefault();
+    await this.props.onDeleteBranch(this.state.seletedKeys);
+    this.props.onSelect(this.state.condition);
+  }
+
+  changeHandler = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
+    const rowSelection = {
+      onChange: (selectedRowKeys) => {
+        this.onSelectedRowKeysChange(selectedRowKeys);
+      }
+    };
+    const onRow = (record) => {
+      return {
+        onClick: (event) => {
+          event.preventDefault();
+          this.props.onSetBranch(record);
+        }
+      };
+    }
     return (
       <div className="animated fadeIn">
         <Row>
@@ -35,33 +99,26 @@ export class index extends Component {
                   <i className="fas fa-list-alt"></i> Danh Sách <strong>Tài Khoản</strong>
               </CardHeader>
               <CardBody>
-                <Row className="align-items-center">
-                  <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
-                    <Button block color="primary" onClick={this.handleAdd.bind(this)}><i className="fas fa-plus"></i></Button>
-                  </Col>
-                </Row>
-              
-              {/* <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
-                      <InputGroup className="float-righ">
-                        <Input type="text" id="txtCondition" name="txtCondition" placeholder="Email hoặc Tên" onChange={this.changeHandler.bind(this)}/>
+                <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
+                      <InputGroup className="float-right">
+                        <Input type="text" id="condition" name="condition" placeholder="Tên Chi Nhánh" onChange={this.changeHandler.bind(this)}/>
                         <InputGroupAddon addonType="append">
                           <Button type="submit" color="primary" className="btn-square"><i className="fas fa-search"></i></Button>
                         </InputGroupAddon>
                       </InputGroup>
-                      <Button color='warning' className="btn-square ml-1" disabled={this.state.selectedRowKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
-                </Form> */}
-                {/* <Table
-                  className="table table-bordered"
+                      <Button color='warning' className="btn-square ml-1" disabled={this.state.seletedKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
+                </Form>
+                <Table
                   rowKey='id'
                   columns={this.state.columns}
-                  dataSource={this.props.userReducer.users}
+                  dataSource={this.props.branchReducer.branchs}
                   pagination = {false}
                   rowSelection={rowSelection}
                   onRow={onRow}
-                /> */}
+                />
               </CardBody>
               <CardFooter className='float-right'>
-                {/* <PaginationCommon className='pt-2'/> */}
+                <PaginationCommon className='pt-2'/>
               </CardFooter>
             </Card>
           </Col>
@@ -75,12 +132,18 @@ export class index extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+  branchReducer: state.branchReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onToggleModal: () => {
-    return dispatch(toggleModal());
+  onSelect: (condition) =>  {
+    return dispatch(select(condition))
+  },
+  onSetBranch: (branch) => {
+    return dispatch(setBranch(branch));
+  },
+  onDeleteBranch: (keys) => {
+    return dispatch(deleteBranch(keys));
   }
 })
 

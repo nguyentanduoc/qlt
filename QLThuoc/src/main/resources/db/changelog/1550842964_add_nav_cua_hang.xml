@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="01" author="ntduoc">
+		<loadUpdateData encoding="UTF-8"
+			file="db/changelog/csv/1550842964_add_nav_cua_hang_nav.csv" primaryKey="id"
+			schemaName="public" tableName="navigration">
+			<column name="id" type="NUMERIC" />
+			<column name="badge_id" type="NUMERIC" />
+			<column name="name" type="STRING" />
+			<column name="url" type="STRING" />
+			<column name="title" type="BOOLEAN" />
+			<column name="sort_num" type="NUMERIC" />
+			<column name="has_children" type="BOOLEAN" />
+			<column name="is_children" type="BOOLEAN" />
+		</loadUpdateData>
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData catalogName="cat" encoding="UTF-8"
+			file="db/changelog/csv/1550842964_add_nav_cua_hang_role.csv" schemaName="public"
+			tableName="navigration_roles">
+			<column name="navigration_id" type="NUMERIC" />
+			<column name="role_id" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

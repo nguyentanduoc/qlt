@@ -42,6 +42,7 @@ const Role = React.lazy(() => import('./views/Roles/Role'));
 const SettingNav = React.lazy(() => import('./views/SettingNav/SettingNav'));
 const Account = React.lazy(() => import('./views/Account'));
 const Branch = React.lazy(() => import('./views/Branch'));
+const Shop = React.lazy(() => import('./views/Shop'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -90,6 +91,7 @@ const routes = [
   { path: '/admin/setting-menu', exact: true, name: 'Cài đặt Danh Mục', component: SettingNav, roles: [ROLES.ROLE_ADMIN] },
   { path: '/admin/account', exact: true, name: 'Tài Khoản', component: Account, roles: [ROLES.ROLE_ADMIN, ROLES.ROLE_DIRECTOR, ROLES.ROLE_LEADER] },
   { path: '/branch', exact: true, name: 'Chi Nhánh', component: Branch, roles: [ROLES.ROLE_ADMIN, ROLES.ROLE_DIRECTOR] },
+  { path: '/shop', exact: true, name: 'Cửa Hàng', component: Shop, roles: [ROLES.ROLE_ADMIN, ROLES.ROLE_DIRECTOR] },
 ];
 
 export default routes;

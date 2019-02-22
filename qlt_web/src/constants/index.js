@@ -35,8 +35,11 @@ export const ACTION_TYPES = {
     DELETE_MULTIPLE: "DELETE_MULTIPLE"
   },
   BRANCH: {
-    TOGGLE_MODAL: "TOGGLE_MODAL",
-    RESET_ALL : "RESET_ALL"
+    SAVE: "SAVE",
+    RESET_ALL : "RESET_ALL",
+    GET_SUCCESS: "GET_SUCCESS",
+    SET_BRANCH: "SET_BRANCH",
+    RESET_BRANCH: "RESET_BRANCH"
   }
 }
 export const LOCAL_STORAGE = {
@@ -57,6 +60,16 @@ export const API = {
     CREATE_ACCOUNT: `${BASE_URI}/api/admin/users/create`,
     GET_USER_LIMIT: `${BASE_URI}/api/admin/users/getUserLimit`,
     DELETE_USER: `${BASE_URI}/api/admin/users/delete`,
+  },
+  BRANCH:{
+    SAVE: `${BASE_URI}/api/branch/save`,
+    DELETE: `${BASE_URI}/api/branch/delete`,
+    SELECT: `${BASE_URI}/api/branch/select`,
+  },
+  SHOP: {
+    SAVE: `${BASE_URI}/api/shop/save`,
+    DELETE: `${BASE_URI}/api/shop/delete`,
+    SELECT: `${BASE_URI}/api/shop/select`,
   }
 }
 
