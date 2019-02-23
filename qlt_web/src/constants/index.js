@@ -40,6 +40,9 @@ export const ACTION_TYPES = {
     GET_SUCCESS: "GET_SUCCESS",
     SET_BRANCH: "SET_BRANCH",
     RESET_BRANCH: "RESET_BRANCH"
+  },
+  SHOP: {
+    GET_SUCCESS: "SHOP_GET_SUCCESS"
   }
 }
 export const LOCAL_STORAGE = {

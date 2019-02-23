@@ -19,16 +19,15 @@ public class ShopController {
 
 	@Autowired
 	private ShopService shopService;
-	
-	@PostMapping(path="/save")
+
+	@PostMapping(path = "/save")
 	public ResponseEntity<Shop> save(@RequestBody Shop shop) {
 		shopService.save(shop);
 		return ResponseEntity.ok().body(shop);
 	}
-	
-	@GetMapping(path="/select")
-	public ResponseEntity<Page<Shop>> select(String condition, Pageable page){
-		
-		return null;
+
+	@GetMapping(path = "/select")
+	public ResponseEntity<Page<Shop>> select(String condition, Pageable page) {
+		return ResponseEntity.ok().body(shopService.select(condition, page));
 	}
 }

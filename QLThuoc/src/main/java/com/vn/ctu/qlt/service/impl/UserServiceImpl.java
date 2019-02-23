@@ -17,10 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.mapper.UserMapper;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.UserRepository;
 import com.vn.ctu.qlt.service.UserSerivce;
+import com.vn.ctu.qlt.sevice.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserSerivce {

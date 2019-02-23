@@ -9,9 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.mapper.NavigrationMapper;
 import com.vn.ctu.qlt.model.Navigration;
 import com.vn.ctu.qlt.service.NavService;
+import com.vn.ctu.qlt.sevice.mapper.NavigrationMapper;
 
 @Service
 public class NavServiceImpl implements NavService {

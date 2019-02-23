@@ -8,6 +8,7 @@ import alertReducer from './alertReducer';
 import paginationReducer from './paginationReducer';
 import appSettingReducer from './appSettingReducer';
 import branchReducer from './branchReducer';
+import shopReducer from './shopReducer';
 
 export default combineReducers({
     error: errorReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
     alertReducer,
     paginationReducer,
     appSettingReducer,
-    branchReducer
+    branchReducer,
+    shopReducer
 });

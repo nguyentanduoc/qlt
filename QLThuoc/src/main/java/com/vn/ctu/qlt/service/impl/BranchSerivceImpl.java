@@ -18,10 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.mapper.BranchMapper;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.repository.BranchRepository;
 import com.vn.ctu.qlt.service.BranchService;
+import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 
 @Service
 public class BranchSerivceImpl implements BranchService {

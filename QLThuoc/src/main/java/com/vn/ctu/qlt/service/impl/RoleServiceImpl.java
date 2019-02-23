@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.mapper.RoleMapper;
 import com.vn.ctu.qlt.model.Role;
 import com.vn.ctu.qlt.repository.RoleRepository;
 import com.vn.ctu.qlt.service.RoleService;
+import com.vn.ctu.qlt.sevice.mapper.RoleMapper;
 
 @Service
 public class RoleServiceImpl implements RoleService {

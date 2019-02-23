@@ -1,4 +1,4 @@
-package com.vn.ctu.qlt.mapper;
+package com.vn.ctu.qlt.sevice.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

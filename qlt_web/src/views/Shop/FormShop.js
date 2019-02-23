@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DatePicker } from 'antd'
 import { save } from '../../actions/shopAction'
-import Moment from 'react-moment'
 import 'moment-timezone'
 import {
   Col,
@@ -26,7 +25,7 @@ export class FormShop extends Component {
     super(props);
     this.state = {
       id:'',
-      nameBranh:'',
+      nameShop:'',
       createdAt:'',
       updatedAt:'',
       establishAt: '',
@@ -69,11 +68,11 @@ export class FormShop extends Component {
             <CardBody>
               <Input type={'hidden'} name='id' id='id' value={this.state.id}/>
               <FormGroup>
-                <Label htmlFor="nameBranh">Tên Cửa Hàng</Label>
+                <Label htmlFor="nameShop">Tên Cửa Hàng</Label>
                 <Input 
                   type="text" 
-                  id="nameBranh" 
-                  name="nameBranh" 
+                  id="nameShop" 
+                  name="nameShop" 
                   placeholder="Tên Cửa Hàng" 
                   required 
                   onChange={this.changeHandler.bind(this)}
