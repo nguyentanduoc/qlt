@@ -1,6 +1,6 @@
 package com.vn.ctu.qlt.model;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +75,7 @@ public class User extends DateAudit {
 		this.isEnabled  = isEnabled;
 	}
 	
-	public User(Long id, String username, String email, String password, Boolean isEnabled, Instant createAt, Instant updateAt, List<Role> roles) {
+	public User(Long id, String username, String email, String password, Boolean isEnabled, Date createAt, Date updateAt, List<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;

@@ -8,7 +8,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import store from './store';
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { DatePicker } from 'antd'
-import { save } from '../../actions/shopAction'
+import DatePicker from "react-datepicker"
+import { save, resetFlgDetail } from '../../actions/shopAction'
 import 'moment-timezone'
+import moment from 'moment'
 import {
   Col,
   Card,
@@ -16,8 +17,8 @@ import {
   Label,
   CustomInput,
   Button,
+  Row
   } from 'reactstrap'
-import { dispatch } from 'rxjs/internal/observable/range';
 
 export class FormShop extends Component {
 
@@ -27,8 +28,8 @@ export class FormShop extends Component {
       id:'',
       nameShop:'',
       createdAt:'',
-      updatedAt:'',
-      establishAt: '',
+      updatedAt: '',
+      establishAt: new Date(),
       isEnabled: true
     }
   }
@@ -55,10 +56,28 @@ export class FormShop extends Component {
     }
   }
   handleChangeDate = establishAt => {
-    console.log(establishAt._d);
-    this.setState({ establishAt: establishAt._d});
-  };
+    this.setState({ establishAt: establishAt});
+  }
+  setShop = async () => {
+    let shop = this.props.shopReducer.shop;
+    await this.setState({
+      id:shop.id,
+      nameShop:shop.nameShop,
+      createdAt:shop.createdAt,
+      updatedAt:shop.updatedAt,
+      establishAt:shop.establishAt,
+      isEnabled: shop.isEnabled
+    });
+    console.log(this.state);
+  }
+  componentDidUpdate = () => {
+    if(this.props.shopReducer.flgDetail) {
+      this.setShop();
+      this.props.onResetFlgDetail();
+    }
+  }
   render() {
+    console.log(new Date(this.state.establishAt));
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
@@ -76,11 +95,19 @@ export class FormShop extends Component {
                   placeholder="Tên Cửa Hàng" 
                   required 
                   onChange={this.changeHandler.bind(this)}
-                  value={this.state.name}/>
+                  value={this.state.nameShop}/>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="establishAt">Ngày Thành Lập</Label>
-                <DatePicker className="form-control" name="establishAt" id="establishAt" onChange={this.handleChangeDate.bind(this)} />
+                <Row>
+                  <Col><Label htmlFor="establishAt">Ngày Thành Lập</Label></Col>
+                  <Col>
+                    <DatePicker
+                      className="form-control"
+                      selected={new Date(this.state.establishAt)}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={this.handleChangeDate.bind(this)}/>
+                  </Col>
+                </Row>
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="createAt">Ngày Tạo</Label>
@@ -90,10 +117,9 @@ export class FormShop extends Component {
                   name="createAt" 
                   placeholder="Ngày Tạo" 
                   onChange={this.changeHandler.bind(this)}
-                  value={this.state.name}
+                  value={moment(this.state.createdAt).format('DD/MM/YYYY')}
                   disabled/>
               </FormGroup>
-
               <FormGroup>
                 <Label htmlFor="updateAt">Ngày Cập Nhật</Label>
                 <Input 
@@ -103,7 +129,7 @@ export class FormShop extends Component {
                   placeholder="Ngày Cập Nhật" 
                   disabled
                   onChange={this.changeHandler.bind(this)}
-                  value={this.state.name}/>
+                  value={moment(this.state.createdAt).format('DD/MM/YYYY')}/>
               </FormGroup>
               <FormGroup row>
                 <Col md='6'><Label htmlFor="isEnabled">Hoạt động</Label></Col>
@@ -130,12 +156,15 @@ export class FormShop extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+  shopReducer: state.shopReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onSave: (shop) => {
     return dispatch(save(shop))
+  },
+  onResetFlgDetail: () => {
+    return dispatch(resetFlgDetail());
   }
 })
 

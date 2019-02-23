@@ -1,7 +1,7 @@
 package com.vn.ctu.qlt.model;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -22,25 +22,25 @@ public abstract class DateAudit implements Serializable {
 
 	@CreatedDate
 	@Column(nullable = false, updatable = false, name="ngay_tao")
-	private Instant createdAt;
+	private Date createdAt;
 
 	@LastModifiedDate
 	@Column(nullable = false, name="ngay_cap_nhat")
-	private Instant updatedAt;
+	private Date updatedAt;
 
-	public Instant getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Instant getUpdatedAt() {
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Instant updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

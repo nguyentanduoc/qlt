@@ -6,7 +6,6 @@ import { setPagination } from '../actions/paginationAction'
 import { pageRequestDefault } from '../helpers/pageable'
 
 export const save = (shop) => {
-  console.log(shop);
   return async (dispatch) => {
     try {
       await axios.post(API.SHOP.SAVE, shop ,headerConfig);
@@ -31,10 +30,17 @@ export const select = (condition) => {
     }
   }
 }
-
-export const selectSuccess = (data) => {
-  return {
-    type: ACTION_TYPES.SHOP.GET_SUCCESS,
-    payload: data
-  }
-}
+export const selectSuccess = (data) => ({
+  type: ACTION_TYPES.SHOP.GET_SUCCESS,
+  payload: data
+})
+export const setDetail = (row) => ({
+  type: ACTION_TYPES.SHOP.SET_DETAIL,
+  payload: row
+})
+export const reset = () => ({
+  type: ACTION_TYPES.SHOP.RESET
+})
+export const resetFlgDetail = () => ({
+  type: ACTION_TYPES.SHOP.RESET_FLG_DETAIL
+})

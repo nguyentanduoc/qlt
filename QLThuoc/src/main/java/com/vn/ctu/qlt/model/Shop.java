@@ -1,7 +1,8 @@
 package com.vn.ctu.qlt.model;
 
-import java.time.Instant;
+import java.util.Date;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.annotation.Generated;
 
 @Entity
 @Table(name = "cua_hang", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_cua_hang" }) })
@@ -25,7 +25,7 @@ public class Shop extends DateAudit {
 	private String nameShop;
 
 	@Column(name = "ngay_thanh_lap")
-	private Instant establishAt;
+	private Date establishAt;
 
 	@Column(name = "hoat_dong")
 	private Boolean isEnabled;
@@ -60,11 +60,11 @@ public class Shop extends DateAudit {
 		this.nameShop = nameShop;
 	}
 
-	public Instant getEstablishAt() {
+	public Date getEstablishAt() {
 		return establishAt;
 	}
 
-	public void setEstablishAt(Instant establishAt) {
+	public void setEstablishAt(Date establishAt) {
 		this.establishAt = establishAt;
 	}
 
@@ -92,10 +92,10 @@ public class Shop extends DateAudit {
 	public static final class Builder {
 		private Long id;
 		private String nameShop;
-		private Instant establishAt;
+		private Date establishAt;
 		private Boolean isEnabled;
-		private Instant createAt;
-		private Instant updateAt;
+		private Date createAt;
+		private Date updateAt;
 
 		private Builder() {
 		}
@@ -110,7 +110,7 @@ public class Shop extends DateAudit {
 			return this;
 		}
 
-		public Builder withEstablishAt(Instant establishAt) {
+		public Builder withEstablishAt(Date establishAt) {
 			this.establishAt = establishAt;
 			return this;
 		}
@@ -120,11 +120,11 @@ public class Shop extends DateAudit {
 			return this;
 		}
 		
-		public Builder withCreateAt(Instant createAt) {
+		public Builder withCreateAt(Date createAt) {
 			this.createAt = createAt;
 			return this;
 		}
-		public Builder withUpdateAt(Instant updateAt) {
+		public Builder withUpdateAt(Date updateAt) {
 			this.updateAt = updateAt;
 			return this;
 		}

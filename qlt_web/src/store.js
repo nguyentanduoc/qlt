@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
-// import logger from 'redux-logger';
+import logger from 'redux-logger';
 
 const initialState = {};
 
@@ -12,7 +12,7 @@ let store = createStore(
     initialState,
     applyMiddleware(
       thunk,
-      // logger,
+      logger,
     ))
 
 // if (window.navigator.userAgent.includes("Chrome") && ReactReduxDevTools) {

@@ -100,13 +100,13 @@ export class index extends Component {
               </CardHeader>
               <CardBody>
                 <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
-                      <InputGroup className="float-right">
-                        <Input type="text" id="condition" name="condition" placeholder="Tên Chi Nhánh" onChange={this.changeHandler.bind(this)}/>
-                        <InputGroupAddon addonType="append">
-                          <Button type="submit" color="primary" className="btn-square"><i className="fas fa-search"></i></Button>
-                        </InputGroupAddon>
-                      </InputGroup>
-                      <Button color='warning' className="btn-square ml-1" disabled={this.state.seletedKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
+                  <InputGroup className="float-right">
+                    <Input type="text" id="condition" name="condition" placeholder="Tên Chi Nhánh" onChange={this.changeHandler.bind(this)}/>
+                    <InputGroupAddon addonType="append">
+                      <Button type="submit" color="primary" className="btn-square"><i className="fas fa-search"></i></Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                  <Button color='warning' className="btn-square ml-1" disabled={this.state.seletedKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
                 </Form>
                 <Table
                   rowKey='id'

@@ -26,9 +26,14 @@ public class UserMapper implements RowMapper<User> {
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		try {
 			List<Role> roles = roleService.getRoleByUserId(rs.getLong("id"));
-			return new User(rs.getLong("id"), rs.getString("ten_dang_nhap"), rs.getString("email"),
-					rs.getString("mat_khau"), rs.getBoolean("hoat_dong"), rs.getTimestamp("created_at").toInstant(),
-					rs.getTimestamp("updated_at").toInstant(), roles);
+			return new User(
+					rs.getLong("id"),
+					rs.getString("ten_dang_nhap"),
+					rs.getString("email"),
+					rs.getString("mat_khau"),
+					rs.getBoolean("hoat_dong"),
+					rs.getTimestamp("created_at"),
+					rs.getTimestamp("updated_at"), roles);
 		}
 		catch (Exception e) {
 			logger.error(String.format("Class Name %s error message %s", "UserMapper", e.getMessage()));

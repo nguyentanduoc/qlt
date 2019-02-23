@@ -1,23 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import FormShop from './FormShop'
-import { select } from '../../actions/shopAction'
+import { select, setDetail } from '../../actions/shopAction'
 import { Table } from 'antd'
 import Moment from 'react-moment'
 import 'moment-timezone'
+import moment from 'moment'
 import {
   Row,
   Col,
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Badge,
-  Form,
-  Input,
-  InputGroupAddon,
-  Button,
-  InputGroup
   } from 'reactstrap'
 class index extends Component {
 
@@ -36,10 +31,10 @@ class index extends Component {
           dataIndex: 'nameShop',
         },
         {
-          key: 'createdAt',
-          title: 'Ngày Tạo',
-          dataIndex: 'createdAt',
-          render: value => (<Moment format="DD/MM/YYYY">{value}</Moment>)
+          key: 'establishAt',
+          title: 'Ngày Thành Lập',
+          dataIndex: 'establishAt',
+          render: value => {moment(value).format('DD/MM//YYYY')}
          },
          {
           key: 'isEnabled',
@@ -57,9 +52,11 @@ class index extends Component {
   onSelectedRowKeysChange = (selectedRowKeys) => {
     console.log(selectedRowKeys);
   }
-  onSetDetail = (record) => {
-    console.log(record);
-  }
+  // componentDidMount(){
+  //   this.setState({
+  //     columns: 
+  //   })
+  // }
   render() {
     const rowSelection = {
       onChange: (selectedRowKeys) => {
@@ -110,6 +107,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSelect: (conditon) => {
     return dispatch(select(conditon));
+  },
+  onSetDetail: (row) => {
+    return dispatch(setDetail(row));
   }
 })
 

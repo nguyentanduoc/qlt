@@ -15,11 +15,11 @@ public class ShopMapper implements RowMapper<Shop> {
 	public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return Shop.builder()
 				.withId(rs.getLong("id"))
-				.withNameBranh(rs.getString("ten_cua_hang"))
+				.withNameShop(rs.getString("ten_cua_hang"))
 				.withIsEnabled(rs.getBoolean("hoat_dong"))
-				.withEstablishAt(rs.getTimestamp("ngay_thanh_lap").toInstant())
-				.withCreateAt(rs.getTimestamp("ngay_tao").toInstant())
-				.withUpdateAt(rs.getTimestamp("ngay_cap_nhat").toInstant())
+				.withEstablishAt(rs.getTimestamp("ngay_thanh_lap"))
+				.withCreateAt(rs.getTimestamp("ngay_tao"))
+				.withUpdateAt(rs.getTimestamp("ngay_cap_nhat"))
 				.build();
 	}
 }
