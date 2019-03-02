@@ -23,13 +23,13 @@ class FormBranch extends Component {
   constructor(props){
     super(props)
     this.state = {
-      id:'',
+      id: '',
       latitude: '',
       longitude: '',
-      name:'',
-      address:'',
-      isEnabled:true,
-      idShop:''
+      name: '',
+      address: '',
+      isEnabled: true,
+      idDirector: this.props.authReducer.user.id
     }
   }
   componentWillMount(){
@@ -67,7 +67,7 @@ class FormBranch extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    this.props.onSave(this.state)
+    this.props.onSave(this.state);
   }
   handleReset = (e) => {
     this.setState({
@@ -77,7 +77,6 @@ class FormBranch extends Component {
       name:'',
       address:'',
       isEnabled:true,
-      isShop: 1
     });
     this.getLocation();
   }
@@ -93,8 +92,7 @@ class FormBranch extends Component {
         longitude: branch.longitude,
         name:branch.name,
         address:branch.address,
-        isEnabled:branch.isEnabled,
-        idShop:branch.shop.id,
+        isEnabled:branch.isEnabled
       });
       this.props.onResetBranch();
     }
@@ -127,14 +125,6 @@ class FormBranch extends Component {
                 </FormGroup>
               </Col>
             </Row>
-            <FormGroup>
-            <Label htmlFor="shop ">Cửa Hàng</Label>
-                <Input type="select" name="idShop" id="idShop" value={this.state.idShop} onChange={this.changeHandler.bind(this)}>
-                  {this.props.branchReducer.shops.map(element => {
-                      return <option key = {element.id} value={element.id}>{element.nameShop}</option>
-                  })}
-                </Input>
-            </FormGroup>
             <Row>
               <Col xs="12">
                 <FormGroup>
@@ -190,7 +180,8 @@ class FormBranch extends Component {
 
 const mapStateToProps = (state) => ({
   alertReducer: state.alertReducer,
-  branchReducer: state.branchReducer
+  branchReducer: state.branchReducer,
+  authReducer: state.auth
 })
 
 const mapDispatchToProps = (dispatch) => ({

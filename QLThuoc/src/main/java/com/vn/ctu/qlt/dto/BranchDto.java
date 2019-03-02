@@ -14,7 +14,7 @@ public class BranchDto {
 
 	private Boolean isEnabled;
 
-	private Long idShop;
+	private Long idDirector;
 
 	public Long getId() {
 		return id;
@@ -64,12 +64,12 @@ public class BranchDto {
 		this.isEnabled = isEnabled;
 	}
 
-	public Long getIdShop() {
-		return idShop;
+	public Long getIdDirector() {
+		return idDirector;
 	}
 
-	public void setIdShop(Long idShop) {
-		this.idShop = idShop;
+	public void setIdDirector(Long idDirector) {
+		this.idDirector = idDirector;
 	}
-	
+
 }

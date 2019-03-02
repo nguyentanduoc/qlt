@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { select, setBranch, deleteBranch } from '../../actions/branchAction'
+import FormBrach from  './FormBranch'
+import { Table } from 'antd'
+import PaginationCommon from '../Common/PaginationCommon'
+import { pageRequestDefault } from '../../helpers/pageable'
 import {
   Row,
   Col,
@@ -16,9 +20,6 @@ import {
   Button,
   InputGroup
   } from 'reactstrap'
-import FormBrach from  './FormBranch'
-import { Table } from 'antd'
-import PaginationCommon from '../Common/PaginationCommon'
 
 export class index extends Component {
 
@@ -54,7 +55,8 @@ export class index extends Component {
 
     this.props.onSelect(
       {
-        idDirector:this.state.idDirector
+        idDirector:this.state.idDirector,
+        pageable:pageRequestDefault()
       }
     );
   }

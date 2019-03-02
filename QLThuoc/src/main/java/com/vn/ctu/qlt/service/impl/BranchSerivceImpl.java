@@ -21,13 +21,16 @@ import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.model.Branch;
+import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
 import com.vn.ctu.qlt.repository.BranchRepository;
 import com.vn.ctu.qlt.service.BranchService;
+import com.vn.ctu.qlt.service.EmployeeService;
 import com.vn.ctu.qlt.service.ShopService;
 import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 
 @Service
+@Transactional
 public class BranchSerivceImpl implements BranchService {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -40,13 +43,19 @@ public class BranchSerivceImpl implements BranchService {
 	@Autowired
 	private BranchRepository branchRepository;
 	
-	@Autowired ShopService shopService;
+	@Autowired 
+	private ShopService shopService;
 
 	@Autowired
 	private BranchMapper branchMapper;
+	
+	@Autowired
+	private EmployeeService employeeService;
 
 	public void save(BranchDto branch) {
-		Optional<Shop> shop = shopService.findById(branch.getIdShop());
+		Optional<Employee> empOptional = employeeService.findById(branch.getIdDirector());
+		
+		Optional<Shop> shop = shopService.findShopByDirector(empOptional.get());
 		Branch branchModel = Branch.builder()
 				.withAddress(branch.getAddress())
 				.withId(branch.getId())
@@ -72,7 +81,6 @@ public class BranchSerivceImpl implements BranchService {
 	}
 
 	@Override
-	@Transactional
 	public Page<Branch> search(String condition, Pageable pageable) {
 		try {
 			String[] conditions = condition.split(" ");
@@ -91,7 +99,7 @@ public class BranchSerivceImpl implements BranchService {
 					sqlWhere.append("or").append(" ");
 			}
 			
-			int countRecord = count(sqlFrom.append(sqlWhere), params);
+			Long countRecord = count(sqlFrom.append(sqlWhere), params.toArray());
 			
 			StringBuilder sql = sqlSelect.append(sqlFrom);
 			sql.append("LIMIT ").append(pageable.getPageSize()).append(" ");
@@ -104,14 +112,41 @@ public class BranchSerivceImpl implements BranchService {
 		}
 	}
 	
-	public int count(StringBuilder sql, List<String> params) throws DataAccessException {
+	public Long count(StringBuilder sql, Object[] params) throws DataAccessException {
 		StringBuilder sqlCount = new StringBuilder("Select count(*) ");
 		sqlCount.append(sql);
 		try {
-			return jdbcTemplate.queryForObject(sqlCount.toString(), params.toArray(), Integer.class);
+			return jdbcTemplate.queryForObject(sqlCount.toString(), params, Long.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw e;
 		}
 	}
+
+	
+	@Override
+	public PageImpl<Branch> getBranhByDirector(Long idDirector, Pageable pageable) {
+		try {
+			Object[] param = new Long[] {idDirector};
+			StringBuilder sql = new StringBuilder();
+			StringBuilder where = new StringBuilder();
+			
+			sql.append("select chi_nhanh.id, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, ");
+			sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.id_cua_hang ");
+			where.append("from chi_nhanh inner join cua_hang on chi_nhanh.id_cua_hang = cua_hang.id ");
+			where.append("where cua_hang.id_nhan_vien = ? ");
+			
+			Long countRecord = count(where, param);
+			
+			sql.append(where).append("LIMIT ").append(pageable.getPageSize()).append(" ");
+			sql.append("OFFSET ").append(pageable.getOffset());
+			List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), param, branchMapper);
+			return new PageImpl<Branch>(resultBranch, pageable, countRecord);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw e;
+		}
+	}
+
 }

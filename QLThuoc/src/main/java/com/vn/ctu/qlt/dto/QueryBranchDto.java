@@ -1,12 +1,10 @@
 package com.vn.ctu.qlt.dto;
 
-import org.springframework.data.domain.PageRequest;
-
 public class QueryBranchDto {
 
 	private Long idDirector;
 	
-	private PageRequest pageable;
+	private PageableDto pageable;
 
 	public Long getIdDirector() {
 		return idDirector;
@@ -16,11 +14,11 @@ public class QueryBranchDto {
 		this.idDirector = idDirector;
 	}
 
-	public PageRequest getPageable() {
+	public PageableDto getPageable() {
 		return pageable;
 	}
 
-	public void setPageable(PageRequest pageable) {
+	public void setPageable(PageableDto pageable) {
 		this.pageable = pageable;
 	}
 

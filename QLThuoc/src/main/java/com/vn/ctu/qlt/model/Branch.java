@@ -29,7 +29,7 @@ public class Branch implements Serializable {
 	private Long id;
 
 	@NotBlank
-	@Size(max = 15)
+	@Size(max = 100)
 	@Column(name = "ten_chi_nhanh")
 	private String name;
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,29 +36,20 @@ public class BranchController {
 			throw e;
 		}
 	}
-	
+
 	@PostMapping(path = "/api/branch/select")
-	public ResponseEntity<Page<Branch>> select(@RequestBody QueryBranchDto query){
+	public ResponseEntity<Page<Branch>> select(@RequestBody QueryBranchDto query) {
+
 		try {
-//			PageRequest object = (PageRequest) condition.get("pageable");
-//			String idDirector = (String) condition.get("idDirector");
-			System.out.println("");
-			/*if( condition!=null ) {
-//				return ResponseEntity.ok().body(branchService.search(condition, pageable));
-				return null;
-			} else {
-				return ResponseEntity.ok().body(branchService.findAll(pageable));
-			}*/
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e.toString());
+			PageRequest pageRequest = PageRequest.of(query.getPageable().getPage(), query.getPageable().getSize());
+			return ResponseEntity.ok().body(branchService.getBranhByDirector(query.getIdDirector(), pageRequest));
+		} catch (Exception e) {
+			throw e;
 		}
-		
-		return null;
 	}
-	
+
 	@PostMapping(path = "/api/branch/delete")
-	public ResponseEntity<Void> delete(@RequestBody Long[] keys){
+	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
 		branchService.deleteAll(keys);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

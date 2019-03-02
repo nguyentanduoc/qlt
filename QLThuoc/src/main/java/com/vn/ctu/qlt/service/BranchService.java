@@ -1,6 +1,7 @@
 package com.vn.ctu.qlt.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import com.vn.ctu.qlt.dto.BranchDto;
@@ -15,4 +16,6 @@ public interface BranchService {
 	public void deleteAll(Long[] keys);
 	
 	public Page<Branch> search(String condition, Pageable pageable);
+	
+	public PageImpl<Branch> getBranhByDirector(Long idDirector, Pageable pageable);
 }

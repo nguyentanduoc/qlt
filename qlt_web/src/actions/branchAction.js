@@ -2,7 +2,6 @@ import { API, ACTION_TYPES } from '../constants'
 import axios from 'axios'
 import headerConfig, { headerForGet } from '../helpers/headerHelper'
 import {showAlertFail, showAlertAndReset} from './alertAction.js'
-import { pageRequestDefault } from '../helpers/pageable'
 import { setPagination } from '../actions/paginationAction'
 
 export const save = (branch) => {
@@ -18,17 +17,10 @@ export const save = (branch) => {
   }
 }
 
-export const select = (condition, pageable) => {
+export const select = (condition) => {
   return async (dispatch) => {
     try {
-      // let params = {...pageRequestDefault()};
-      // params.condition = condition;
-      let requets = {
-        condition,
-        pageable: pageRequestDefault()
-      }
-      // condition.pageable = pageRequestDefault();
-      const res = await axios.post(API.BRANCH.SELECT,requets, headerConfig);
+      const res = await axios.post(API.BRANCH.SELECT, condition, headerConfig);
       dispatch(setPagination(res.data));
       dispatch(selectSuccess(res.data.content));
     }

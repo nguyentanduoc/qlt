@@ -1,5 +1,7 @@
 package com.vn.ctu.qlt.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee save(Employee employee) {
 		employeeRepository.save(employee);
 		return employee;
+	}
+
+	@Override
+	public Optional<Employee> findById(Long id) {
+		return employeeRepository.findById(id);
 	}
 
 }
