@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<databaseChangeLog
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="01" author="ntduoc">
 		<createTable tableName="navigration_roles">
-			<column name="navigration_id" type="int">
+			<column name="navigration_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
-			<column name="role_id" type="int">
+			<column name="role_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<addForeignKeyConstraint
-			baseColumnNames="navigration_id" baseTableName="navigration_roles"
-			constraintName="fk_navigration_roles_navigration" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="id" referencedTableName="navigration" />
-		<addForeignKeyConstraint
-			baseColumnNames="role_id" baseTableName="navigration_roles"
-			constraintName="fk_roles_navigration_roles" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+		<addForeignKeyConstraint baseColumnNames="navigration_id" baseTableName="navigration_roles"
+			constraintName="fk_navigration_roles_navigration" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="navigration" />
+		<addForeignKeyConstraint baseColumnNames="role_id" baseTableName="navigration_roles"
+			constraintName="fk_roles_navigration_roles" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="quyen" />
-		<loadData catalogName="cat" encoding="UTF-8"
-			file="db/changelog/csv/1549896604_navigration_role.csv" schemaName="public"
-			tableName="navigration_roles">
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1549896604_navigration_role.csv"
+			schemaName="public" tableName="navigration_roles">
 			<column name="navigration_id" type="NUMERIC" />
 			<column name="role_id" type="NUMERIC" />
 		</loadData>

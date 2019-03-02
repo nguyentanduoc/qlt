@@ -8,7 +8,8 @@ import { pageRequestDefault } from '../helpers/pageable'
 export const save = (shop) => {
   return async (dispatch) => {
     try {
-      await axios.post(API.SHOP.SAVE, shop ,headerConfig);
+      let response = await axios.post(API.SHOP.SAVE, shop ,headerConfig);
+      dispatch(saveSuccess(response.data));
       dispatch(showAlertAndReset());
     } catch(err) {
       dispatch(showAlertFail(err));
@@ -43,4 +44,29 @@ export const reset = () => ({
 })
 export const resetFlgDetail = () => ({
   type: ACTION_TYPES.SHOP.RESET_FLG_DETAIL
+})
+export const deleteShop = (keys) => {
+  return async (dispatch) =>  {
+    try {
+      await axios.post(API.SHOP.DELETE, keys ,headerConfig);
+      dispatch(showAlertAndReset());
+      dispatch(deleteSuccess(keys));
+    } catch(err) {
+      dispatch(showAlertFail(err));
+    }
+  }
+}
+export const deleteSuccess = (keys) => ({
+  type: ACTION_TYPES.SHOP.DELETE_SUCCESS,
+  payload: keys
+})
+export const saveSuccess = (data) => ({
+  type:ACTION_TYPES.SHOP.SAVE_SUCCESS,
+  payload: data
+})
+export const resetSaveSuccess = () => ({
+  type:ACTION_TYPES.SHOP.RESET_SAVE_SUCCESS
+})
+export const toggleModal = () => ({
+  type:ACTION_TYPES.SHOP.TOGGLE_MODAL
 })

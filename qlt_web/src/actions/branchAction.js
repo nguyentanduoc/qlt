@@ -18,12 +18,17 @@ export const save = (branch) => {
   }
 }
 
-export const select = (condition) => {
+export const select = (condition, pageable) => {
   return async (dispatch) => {
     try {
-      let params = {...pageRequestDefault()};
-      params.condition = condition;
-      const res = await axios.get(API.BRANCH.SELECT, headerForGet(params));
+      // let params = {...pageRequestDefault()};
+      // params.condition = condition;
+      let requets = {
+        condition,
+        pageable: pageRequestDefault()
+      }
+      // condition.pageable = pageRequestDefault();
+      const res = await axios.post(API.BRANCH.SELECT,requets, headerConfig);
       dispatch(setPagination(res.data));
       dispatch(selectSuccess(res.data.content));
     }
@@ -65,3 +70,17 @@ export const deleteBranch = (keys) => {
     }
   }
 }
+export const selectAllShop = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(API.SHOP.SELECT_ALL, headerForGet());
+      dispatch(getAllShopSuccess(res.data));
+    } catch (err) {
+      dispatch(showAlertFail(err));
+    }
+  }
+}
+export const getAllShopSuccess = (data) => ({
+  type: ACTION_TYPES.BRANCH.GET_ALL_SHOP,
+  payload: data
+})

@@ -44,13 +44,19 @@ export class index extends Component {
         },
       ],
       seletedKeys: [],
-      condition:""
+      condition:'',
+      idDirector: this.props.authReducer.user.id
     }
     
   }
 
   componentWillMount(){
-    this.props.onSelect();
+
+    this.props.onSelect(
+      {
+        idDirector:this.state.idDirector
+      }
+    );
   }
 
   onSelectedRowKeysChange = (keys) => {
@@ -96,7 +102,7 @@ export class index extends Component {
           <Col md="8">
             <Card>
               <CardHeader>
-                  <i className="fas fa-list-alt"></i> Danh Sách <strong>Tài Khoản</strong>
+                  <i className="fas fa-list-alt"></i> Danh Sách <strong>Chi Nhánh</strong>
               </CardHeader>
               <CardBody>
                 <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
@@ -115,6 +121,7 @@ export class index extends Component {
                   pagination = {false}
                   rowSelection={rowSelection}
                   onRow={onRow}
+                  bordered={true}
                 />
               </CardBody>
               <CardFooter className='float-right'>
@@ -132,7 +139,8 @@ export class index extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  branchReducer: state.branchReducer
+  branchReducer: state.branchReducer,
+  authReducer: state.auth
 })
 
 const mapDispatchToProps = (dispatch) => ({

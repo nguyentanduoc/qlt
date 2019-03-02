@@ -1,11 +1,19 @@
 package com.vn.ctu.qlt.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,9 +21,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.dto.ShopDto;
+import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
+import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.ShopRepository;
+import com.vn.ctu.qlt.service.EmployeeService;
 import com.vn.ctu.qlt.service.ShopService;
+import com.vn.ctu.qlt.service.UserSerivce;
 import com.vn.ctu.qlt.sevice.mapper.ShopMapper;
 
 @Service
@@ -33,10 +46,53 @@ public class ShopServiceImpl implements ShopService {
 
 	@Autowired
 	private ShopMapper shopMapper;
+	
+	@Autowired
+	private UserSerivce userSerivce;
+	
+	@Value("${app.domain.email}")
+	private String domainEmail;
+	
+	@Autowired
+	private EmployeeService employeeService;
 
 	@Override
-	public void save(Shop shop) {
+	@Transactional
+	public Map<String, Object> save(ShopDto shopDto) {
+		String name[] = shopDto.getNameShop().split(" ");
+		StringBuilder userName = new StringBuilder();
+		for (String s : name) {
+			userName.append(StringUtils.lowerCase(StringUtils.stripAccents(s)));
+		}
+		userName.append("admin");
+		String passWord = RandomStringUtils.randomAlphabetic(10);
+		User user = new User();
+		user.setUsername(userName.toString());
+		user.setEmail(userName.append(domainEmail).toString());
+		user.setPassword(passWord);
+		user.setIsEnabled(true);
+		userSerivce.createUserDireactor(user);
+		
+		Employee employee = new Employee();
+		employee.setNameEmployee(shopDto.getFullName());
+		employee.setUser(user);
+		employeeService.save(employee);
+		
+		Shop shop = new Shop();
+		shop.setId(shopDto.getId());
+		shop.setNameShop(shopDto.getNameShop());
+		shop.setCreatedAt(shopDto.getCreatedAt());
+		shop.setUpdatedAt(shopDto.getUpdatedAt());
+		shop.setEstablishAt(shopDto.getEstablishAt());
+		shop.setIsEnabled(true);
+		shop.setEmployee(employee);
 		shopRepository.save(shop);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("account", user);
+		result.put("shop", shop);
+		result.put("password", passWord);
+		return result;
 	}
 
 	@Override
@@ -77,9 +133,20 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	@Transactional
 	public void delete(Long[] keys) {
-		// TODO Auto-generated method stub
-
+		for (Long key : keys) {
+			shopRepository.deleteById(key);
+		}
 	}
 
+	@Override
+	public Iterable<Shop> selectAll() {
+		return shopRepository.findAll();
+	}
+
+	@Override
+	public Optional<Shop> findById(Long id) {
+		return shopRepository.findById(id);
+	}
 }

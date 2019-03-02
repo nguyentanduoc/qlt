@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -18,9 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.model.Branch;
+import com.vn.ctu.qlt.model.Shop;
 import com.vn.ctu.qlt.repository.BranchRepository;
 import com.vn.ctu.qlt.service.BranchService;
+import com.vn.ctu.qlt.service.ShopService;
 import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 
 @Service
@@ -35,12 +39,24 @@ public class BranchSerivceImpl implements BranchService {
 
 	@Autowired
 	private BranchRepository branchRepository;
+	
+	@Autowired ShopService shopService;
 
 	@Autowired
 	private BranchMapper branchMapper;
 
-	public void save(Branch branch) {
-		branchRepository.save(branch);
+	public void save(BranchDto branch) {
+		Optional<Shop> shop = shopService.findById(branch.getIdShop());
+		Branch branchModel = Branch.builder()
+				.withAddress(branch.getAddress())
+				.withId(branch.getId())
+				.withIsEnabled(branch.getIsEnabled())
+				.withLatitude(branch.getLatitude())
+				.withLongitude(branch.getLongitude())
+				.withShop(shop.get())
+				.withName(branch.getName())
+				.build();
+		branchRepository.save(branchModel);
 	}
 
 	@Override

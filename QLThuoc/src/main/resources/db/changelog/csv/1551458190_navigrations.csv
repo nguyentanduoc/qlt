@@ -1,0 +1,5 @@
+id,badge_id,name,url,icon,title,sort_num,has_children,is_children,id_parent
+8,null,Quản Trị Cửa Hàng,/director,fas fa-users-cog,false,300,true,false,
+9,null,Tạo Chi Nhánh,/director/branch,fas fa-user-plus,false,301,false,true,8
+10,null,Tạo Nhân Viên,/director/employee,fas fa-user-plus,false,302,false,true,8
+11,null,Thông Tin Cửa Hàng,/director/shop,fas fa-store-alt,false,303,false,true,8

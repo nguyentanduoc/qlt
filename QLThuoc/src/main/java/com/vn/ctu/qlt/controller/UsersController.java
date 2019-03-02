@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vn.ctu.qlt.dto.UpdateUserRoleDTO;
+import com.vn.ctu.qlt.dto.UpdateUserRoleDto;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.service.UserSerivce;
 
@@ -46,7 +46,7 @@ public class UsersController {
 	}
 
 	@PostMapping(path = "/updateRole")
-	public ResponseEntity<User> updateUser(@RequestBody UpdateUserRoleDTO user) {
+	public ResponseEntity<User> updateUser(@RequestBody UpdateUserRoleDto user) {
 		Optional<User> userOptional = userSerive.findById(user.getId());
 		if (userOptional.get() != null) {
 			User userModel = userOptional.get();

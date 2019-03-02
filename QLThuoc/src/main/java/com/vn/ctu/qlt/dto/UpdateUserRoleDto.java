@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.vn.ctu.qlt.model.Role;
 
-public class UpdateUserRoleDTO {
+public class UpdateUserRoleDto {
 	
 	private Long id;
 

@@ -1,40 +1,54 @@
 package com.vn.ctu.qlt.model;
 
+import java.io.Serializable;
+
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "chi_nhanh", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_chi_nhanh " })})
-public class Branch {
+@Table(name = "chi_nhanh", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_chi_nhanh " }) })
+public class Branch implements Serializable {
+
+	private static final long serialVersionUID = 6646370807108789380L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank
 	@Size(max = 15)
 	@Column(name = "ten_chi_nhanh")
 	private String name;
-	
-	@Column(name="kinh_do")
+
+	@Column(name = "kinh_do")
 	private Double longitude;
-	
-	@Column(name="vi_do")
+
+	@Column(name = "vi_do")
 	private Double latitude;
-	
-	@Column(name="dia_chi")
+
+	@Column(name = "dia_chi")
 	private String address;
-	
+
 	@Column(name = "hoat_dong")
 	private Boolean isEnabled;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cua_hang")
+	@JsonIgnore
+	private Shop shop;
 
 	@Generated("SparkTools")
 	private Branch(Builder builder) {
@@ -44,6 +58,7 @@ public class Branch {
 		this.latitude = builder.latitude;
 		this.address = builder.address;
 		this.isEnabled = builder.isEnabled;
+		this.shop = builder.shop;
 	}
 
 	public Branch() {
@@ -100,6 +115,7 @@ public class Branch {
 
 	/**
 	 * Creates builder to build {@link Branch}.
+	 * 
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -118,6 +134,7 @@ public class Branch {
 		private Double latitude;
 		private String address;
 		private Boolean isEnabled;
+		private Shop shop;
 
 		private Builder() {
 		}
@@ -152,9 +169,22 @@ public class Branch {
 			return this;
 		}
 
+		public Builder withShop(Shop shop) {
+			this.shop = shop;
+			return this;
+		}
+
 		public Branch build() {
 			return new Branch(this);
 		}
 	}
-	
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
 }

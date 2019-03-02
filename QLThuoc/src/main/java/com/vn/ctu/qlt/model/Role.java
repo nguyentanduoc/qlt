@@ -1,8 +1,11 @@
 package com.vn.ctu.qlt.model;
 
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,12 +22,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.annotation.Generated;
-import java.util.Collections;
 
 @Entity
 @Table(name = "quyen")
-public class Role {
+public class Role implements Serializable {
+
+	private static final long serialVersionUID = 7593006538505672603L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

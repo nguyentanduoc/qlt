@@ -23,8 +23,6 @@ import javax.validation.constraints.Size;
 import org.assertj.core.util.Sets;
 import org.hibernate.annotations.NaturalId;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "tai_khoan", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_dang_nhap" }),
 		@UniqueConstraint(columnNames = { "email" }) })
@@ -37,18 +35,17 @@ public class User extends DateAudit {
 	private Long id;
 
 	@NotBlank
-	@Size(max = 15)
+	@Size(max = 100)
 	@Column(name = "ten_dang_nhap")
 	private String username;
 
 	@NaturalId
-	@Size(max = 40)
+	@Size(max = 100)
 	@Email
 	private String email;
 
 	@NotBlank
 	@Size(max = 100)
-	@JsonIgnore
 	@Column(name = "mat_khau")
 	private String password;
 	

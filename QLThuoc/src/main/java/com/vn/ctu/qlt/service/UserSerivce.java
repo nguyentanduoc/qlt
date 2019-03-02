@@ -24,4 +24,6 @@ public interface UserSerivce {
 	public Page<User> getAllUser(Pageable pageable);
 	
 	public void delete(Long[] ids);
+	
+	public User createUserDireactor(User user);
 }

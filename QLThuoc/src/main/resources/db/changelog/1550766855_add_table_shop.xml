@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<databaseChangeLog
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-	<changeSet id="01" author="ntduoc">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_SHOP" cycle="false" minValue="1" maxValue="9223372036854775807"
+			startValue="100" incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc" >
 		<createTable tableName="cua_hang">
-			<column name="id" type="SERIAL">
+			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_SHOP')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="id_nhan_vien" type="bigint" >
+				<constraints nullable="false" />
 			</column>
 			<column name="ten_cua_hang" type="varchar(254)">
 				<constraints nullable="false" unique="true" />
@@ -25,14 +31,20 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="id_nhan_vien" baseTableName="cua_hang"
+			constraintName="fk_nhan_vien_cua_hang" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="nhan_vien" />
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
-		<loadData catalogName="cat" encoding="UTF-8"
-			file="db/changelog/csv/1550766855_add_table_shop.csv"
-			schemaName="public"  tableName="cua_hang">
-			<column name="ten_cua_hang" type="string"/>
-			<column name="ngay_thanh_lap" type="datetime"/>
-			<column name="hoat_dong" type="boolean"/>
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1550766855_add_table_shop.csv" schemaName="public"
+			tableName="cua_hang">
+			<column name="id" type="NUMERIC" />
+			<column name="ten_cua_hang" type="string" />
+			<column name="ngay_thanh_lap" type="datetime" />
+			<column name="hoat_dong" type="boolean" />
+			<column name="id_nhan_vien" type="NUMERIC" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

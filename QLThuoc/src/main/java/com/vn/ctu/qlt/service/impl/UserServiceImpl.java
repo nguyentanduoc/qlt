@@ -1,8 +1,10 @@
 package com.vn.ctu.qlt.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -15,10 +17,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.model.Role;
+import com.vn.ctu.qlt.model.RoleName;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.UserRepository;
+import com.vn.ctu.qlt.service.RoleService;
 import com.vn.ctu.qlt.service.UserSerivce;
 import com.vn.ctu.qlt.sevice.mapper.UserMapper;
 
@@ -34,9 +40,15 @@ public class UserServiceImpl implements UserSerivce {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -114,5 +126,16 @@ public class UserServiceImpl implements UserSerivce {
 		for(Long id: ids) {
 			userRepo.deleteById(id);
 		}
+	}
+
+	@Override
+	public User createUserDireactor(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		Optional<Role> role = roleService.findRoleByRoleName(RoleName.ROLE_DIRECTOR);
+		Set<Role> roles = new HashSet<>();
+		roles.add(role.get());
+		user.setRoles(roles);
+		userRepo.save(user);
+		return user;
 	}
 }

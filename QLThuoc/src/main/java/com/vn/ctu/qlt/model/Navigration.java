@@ -1,8 +1,10 @@
 package com.vn.ctu.qlt.model;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +17,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.annotation.Generated;
-import java.util.Collections;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @Table(name = "navigration")
@@ -42,21 +45,34 @@ public class Navigration {
 	@Column(length = 254, name = "icon")
 	private String icon;
 
+	@JsonIgnore
 	@Column(name = "title")
 	private Boolean title;
 
+	@JsonIgnore
 	@Column(name = "sortNum")
 	private Integer sortNum;
 
+	@JsonIgnore
 	@Column(name = "is_children")
 	private Boolean isChildren;
 
+	@JsonIgnore
 	@Column(name = "has_children")
 	private Boolean hasChildren;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "navigration_roles", joinColumns = @JoinColumn(name = "navigration_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+	
+	@Transient
+	@JsonInclude(Include.NON_EMPTY)
+	private Set<Navigration> children = new HashSet<Navigration>();
+	
+	@JsonIgnore
+	@Column(name="id_parent")
+	private Long idParent;
 
 	@Generated("SparkTools")
 	private Navigration(Builder builder) {
@@ -70,10 +86,12 @@ public class Navigration {
 		this.isChildren = builder.isChildren;
 		this.hasChildren = builder.hasChildren;
 		this.roles = builder.roles;
+		this.children = builder.children;
+		this.idParent = builder.idParent;
 	}
 
 	public Navigration(Integer id, Badge badge, String name, String url, String icon, Boolean title, Integer sortNum,
-			Boolean isChildren, Boolean hasChildren) {
+			Boolean isChildren, Boolean hasChildren, Set<Navigration> children, Long idParent) {
 		super();
 		this.id = id;
 		this.badge = badge;
@@ -84,6 +102,8 @@ public class Navigration {
 		this.sortNum = sortNum;
 		this.isChildren = isChildren;
 		this.hasChildren = hasChildren;
+		this.children = children;
+		this.idParent = idParent;
 	}
 
 	public Navigration() {
@@ -170,6 +190,22 @@ public class Navigration {
 		this.roles = roles;
 	}
 
+	public Set<Navigration> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Set<Navigration> children) {
+		this.children = children;
+	}
+
+	public Long getIdParent() {
+		return idParent;
+	}
+
+	public void setIdParent(Long idParent) {
+		this.idParent = idParent;
+	}
+
 	/**
 	 * Creates builder to build {@link Navigration}.
 	 * @return created builder
@@ -194,6 +230,8 @@ public class Navigration {
 		private Boolean isChildren;
 		private Boolean hasChildren;
 		private Set<Role> roles = Collections.emptySet();
+		private Set<Navigration> children = Collections.emptySet();
+		private Long idParent;
 
 		private Builder() {
 		}
@@ -245,6 +283,16 @@ public class Navigration {
 
 		public Builder withRoles(Set<Role> roles) {
 			this.roles = roles;
+			return this;
+		}
+		
+		public Builder withChirent(Set<Navigration> children) {
+			this.children = children;
+			return this;
+		}
+		
+		public Builder withParent(Long idParent) {
+			this.idParent = idParent;
 			return this;
 		}
 

@@ -5,23 +5,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="01" author="ntduoc">
-		<loadUpdateData encoding="UTF-8"
-			file="db/changelog/csv/1550584506_add_nav_nhan_vien.csv" primaryKey="id"
-			schemaName="public" tableName="navigration">
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551458190_navigrations.csv" schemaName="public"
+			tableName="navigration">
 			<column name="id" type="NUMERIC" />
 			<column name="badge_id" type="NUMERIC" />
 			<column name="name" type="STRING" />
 			<column name="url" type="STRING" />
 			<column name="title" type="BOOLEAN" />
 			<column name="sort_num" type="NUMERIC" />
+			<column name="id" type="NUMERIC" />
+			<column name="badge_id" type="NUMERIC" />
 			<column name="has_children" type="BOOLEAN" />
 			<column name="is_children" type="BOOLEAN" />
-		</loadUpdateData>
+			<column name="id_parent" type="NUMERIC" />
+		</loadData>
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
-		<loadData catalogName="cat" encoding="UTF-8"
-			file="db/changelog/csv/1550584507_insert_role_nav_nhan_vien.csv" schemaName="public"
-			tableName="navigration_roles">
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551458190_navigration_role.csv"
+			schemaName="public" tableName="navigration_roles">
 			<column name="navigration_id" type="NUMERIC" />
 			<column name="role_id" type="NUMERIC" />
 		</loadData>

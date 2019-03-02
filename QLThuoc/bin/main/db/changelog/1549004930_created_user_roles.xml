@@ -6,18 +6,16 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="01" author="ntduoc">
 		<createTable tableName="quyen_tai_khoan">
-			<column name="tai_khoan_id" type="SERIAL">
+			<column name="tai_khoan_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
-			<column name="quyen_id" type="int">
+			<column name="quyen_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<addForeignKeyConstraint
-			baseColumnNames="tai_khoan_id" baseTableName="quyen_tai_khoan"
-			constraintName="fk_quyen_tai_khoan_tai_khoan" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="id" referencedTableName="tai_khoan" />
+	<addForeignKeyConstraint baseColumnNames="tai_khoan_id" baseTableName="quyen_tai_khoan"
+		constraintName="fk_quyen_tai_khoan_tai_khoan" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+		referencedColumnNames="id" referencedTableName="tai_khoan" />
 		<addForeignKeyConstraint
 			baseColumnNames="quyen_id" baseTableName="quyen_tai_khoan"
 			constraintName="fk_quyen_tai_khoan_quyen" deferrable="true"

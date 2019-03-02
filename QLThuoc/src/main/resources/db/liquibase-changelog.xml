@@ -12,9 +12,9 @@
 	<include file="changelog/1549894488_create_table_badge.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549894489_create_navigration.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1549896604_navigration_role.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1550238788_change_define_navigration.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1550584506_add_nav_nhan_vien.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1550585056_add_table_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1550585056_created_employer.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1550766855_add_table_shop.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1550842964_add_nav_cua_hang.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1551283082_add_table_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1551287672_created_table_employee_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1551458190_insert_nav_for_director.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

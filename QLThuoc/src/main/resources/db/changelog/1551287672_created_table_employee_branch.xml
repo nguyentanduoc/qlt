@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="nhan_vien_chi_nhanh">
+			<column name="id_nhan_vien" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_chi_nhanh" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="ngay_vao" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="hoat_dong" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint columnNames="id_nhan_vien, id_chi_nhanh"
+			constraintName="constraint_nhan_vien_chi_nhanh" deferrable="true" disabled="true" initiallyDeferred="true" schemaName="public"
+			tableName="nhan_vien_chi_nhanh" />
+		<addForeignKeyConstraint baseColumnNames="id_nhan_vien" baseTableName="nhan_vien_chi_nhanh"
+			constraintName="fk_nhan_vien_chi_nhanh_nhan_vien" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="nhan_vien" />
+		<addForeignKeyConstraint baseColumnNames="id_chi_nhanh" baseTableName="nhan_vien_chi_nhanh"
+			constraintName="fk_nhan_vien_chi_nhanh_chi_nhanh" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="chi_nhanh" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1551287672_created_table_employee_branch.csv" schemaName="public"
+			tableName="nhan_vien_chi_nhanh">
+			<column name="id_nhan_vien" type="NUMERIC" />
+			<column name="id_chi_nhanh" type="NUMERIC" />
+			<column name="ngay_vao" type="datetime" />
+			<column name="hoat_dong" type="BOOLEAN" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

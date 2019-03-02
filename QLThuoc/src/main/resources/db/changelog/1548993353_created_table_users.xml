@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<databaseChangeLog
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_USERS" cycle="false" minValue="1" maxValue="9223372036854775807"
+			startValue="100" incrementBy="1" />
+	</changeSet>
 	<changeSet id="01" author="ntduoc">
 		<createTable tableName="tai_khoan">
-			<column name="id" type="SERIAL">
-				<constraints nullable="false" unique="true"
-					primaryKey="true" />
+			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_USERS')">
+				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<column name="ten_dang_nhap" type="varchar(255)">
 				<constraints nullable="false" unique="true" />
@@ -31,8 +33,8 @@
 		</createTable>
 	</changeSet>
 	<changeSet author="ntduoc" id="02">
-		<loadData encoding="UTF-8" file="db/changelog/csv/1548996651_users.csv"
-			schemaName="public" tableName="tai_khoan">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1548996651_users.csv" schemaName="public" tableName="tai_khoan">
+			<column name="id" type="NUMERIC" />
 			<column name="ten_dang_nhap" type="STRING" />
 			<column name="email" type="STRING" />
 			<column name="mat_khau" type="STRING" />

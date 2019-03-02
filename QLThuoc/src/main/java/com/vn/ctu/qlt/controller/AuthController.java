@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,8 @@ import com.vn.ctu.qlt.service.NavService;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -64,6 +68,7 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		logger.debug("AuthController do signin");
 		try {
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));

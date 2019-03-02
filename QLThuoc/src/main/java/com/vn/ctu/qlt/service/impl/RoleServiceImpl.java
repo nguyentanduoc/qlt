@@ -2,6 +2,7 @@ package com.vn.ctu.qlt.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.model.Role;
+import com.vn.ctu.qlt.model.RoleName;
 import com.vn.ctu.qlt.repository.RoleRepository;
 import com.vn.ctu.qlt.service.RoleService;
 import com.vn.ctu.qlt.sevice.mapper.RoleMapper;
@@ -61,5 +63,10 @@ public class RoleServiceImpl implements RoleService {
 			}
 		}
 		return resource;
+	}
+
+	@Override
+	public Optional<Role> findRoleByRoleName(RoleName roleName) {
+		return roleRepository.findByName(roleName);
 	}
 }

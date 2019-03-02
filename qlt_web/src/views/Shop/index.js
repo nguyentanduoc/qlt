@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import FormShop from './FormShop'
-import { select, setDetail } from '../../actions/shopAction'
+import { select, setDetail, deleteShop } from '../../actions/shopAction'
 import { Table } from 'antd'
-import Moment from 'react-moment'
 import 'moment-timezone'
-import moment from 'moment'
 import {
   Row,
   Col,
@@ -13,6 +11,7 @@ import {
   CardHeader,
   CardBody,
   Badge,
+  Button
   } from 'reactstrap'
 class index extends Component {
 
@@ -30,12 +29,6 @@ class index extends Component {
           title: 'Tên Cửa Hàng',
           dataIndex: 'nameShop',
         },
-        {
-          key: 'establishAt',
-          title: 'Ngày Thành Lập',
-          dataIndex: 'establishAt',
-          render: value => {moment(value).format('DD/MM//YYYY')}
-         },
          {
           key: 'isEnabled',
           title: 'Hoạt động',
@@ -43,25 +36,28 @@ class index extends Component {
           render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
          }
       ],
-      selectedRowKeys: []
+      seletedKeys: []
     }
   }
   componentWillMount(){
     this.props.onSelect();
   }
-  onSelectedRowKeysChange = (selectedRowKeys) => {
-    console.log(selectedRowKeys);
+  onSelectedRowKeysChange = (seletedKeys) => {
+    this.setState({
+      seletedKeys: seletedKeys
+    })
   }
-  // componentDidMount(){
-  //   this.setState({
-  //     columns: 
-  //   })
-  // }
+  handleDeletedRow = async (e) => {
+    e.preventDefault();
+    await this.props.onDeleteShop(this.state.seletedKeys);
+    console.log("delete");
+    this.setState({seletedKeys:[]});
+  }
   render() {
+    const { seletedKeys } = this.state;
     const rowSelection = {
-      onChange: (selectedRowKeys) => {
-        this.onSelectedRowKeysChange(selectedRowKeys);
-      }
+      seletedKeys,
+      onChange: this.onSelectedRowKeysChange
     };
     const onRow = (record) => {
       return {
@@ -74,25 +70,34 @@ class index extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xs="12" lg="8">
+        <Col xs="12" lg="6" md="6">
+            <FormShop/>
+          </Col>
+          <Col xs="12" lg="6" md="6">
             <Card>
               <CardHeader>
                 <i className="fas fa-store"></i>Danh sách <strong>Cửa hàng</strong>
               </CardHeader>
               <CardBody>
-              <Table
-                  rowKey='id'
-                  columns={this.state.columns}
-                  dataSource={this.props.shopReducer.shops}
-                  pagination = {false}
-                  rowSelection={rowSelection}
-                  onRow={onRow}
-                  />
+                <Row>
+                  <Button 
+                    color='warning'
+                    className="btn-square ml-1"
+                    disabled={this.state.seletedKeys.length > 0 ? false : true}
+                    onClick={this.handleDeletedRow.bind(this)}>
+                      <i className="far fa-trash-alt"></i>
+                  </Button>
+                </Row>
+                <Table
+                    rowKey='id'
+                    columns={this.state.columns}
+                    dataSource={this.props.shopReducer.shops}
+                    pagination = {false}
+                    rowSelection={rowSelection}
+                    onRow={onRow}
+                    />
               </CardBody>
             </Card>
-          </Col>
-          <Col xs="12" lg="4">
-            <FormShop/>
           </Col>
         </Row>
       </div>
@@ -110,6 +115,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSetDetail: (row) => {
     return dispatch(setDetail(row));
+  },
+  onDeleteShop: (keys) => {
+    return dispatch(deleteShop(keys));
   }
 })
 

@@ -27,6 +27,7 @@
     "flag-icon-css": "^3.2.1",
     "font-awesome": "^4.7.0",
     "jquery": "1.9.1",
+    "jspdf": "^1.5.3",
     "lodash": "^4.17.11",
     "moment": "2.19.1",
     "moment-timezone": "^0.5.23",

@@ -18,6 +18,9 @@ public class NavServiceImpl implements NavService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private NavigrationMapper navigrationMapper;
 
 	@Override
 	public List<Navigration> getNavListRoleName(Collection<? extends GrantedAuthority> roleNames) {
@@ -28,7 +31,7 @@ public class NavServiceImpl implements NavService {
 						+ "	inner join navigration_roles navr on navigration.id = navr.navigration_id\r\n"
 						+ "	left join quyen on navr.role_id = quyen.id\r\n"
 						+ "	left join badges on badges.id = navigration.badge_id\r\n")
-				.append(" where ");
+				.append(" where navigration.is_children = false and (");
 		List<String> roleArgs = new ArrayList<>();
 		int i = 0;
 		for (GrantedAuthority role : roleNames) {
@@ -38,11 +41,11 @@ public class NavServiceImpl implements NavService {
 				sqlBuilder.append("or").append(" ");
 			i++;
 		}
-		sqlBuilder.append(" ) nav order by nav.sort_num ASC");
+		sqlBuilder.append(" )) nav order by nav.sort_num ASC");
 		// jdbcTemplate.query(sqlBuilder.toString(), new
 		// BeanPropertyRowMapper<Navigration>(Navigration.class));
 
-		return jdbcTemplate.query(sqlBuilder.toString(), roleArgs.toArray(), new NavigrationMapper());
+		return jdbcTemplate.query(sqlBuilder.toString(), roleArgs.toArray(), navigrationMapper);
 	}
 
 }

@@ -4,13 +4,20 @@
 	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_BRANCH" cycle="false" minValue="1" maxValue="9223372036854775807"
+			startValue="100" incrementBy="1" />
+	</changeSet>
 	<changeSet id="01" author="ntduoc">
 		<createTable tableName="chi_nhanh">
-			<column name="id" type="SERIAL">
+			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_BRANCH')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<column name="id_cua_hang" type="bigint">
+				<constraints nullable="false" />
+			</column>
 			<column name="ten_chi_nhanh" type="varchar(254)">
-				<constraints nullable="false" unique="true" />
+				<constraints nullable="false"/>
 			</column>
 			<column name="kinh_do" type="DECIMAL(12,8)">
 				<constraints nullable="false" unique="true" />
@@ -21,16 +28,27 @@
 			<column name="hoat_dong" type="boolean">
 				<constraints nullable="false" />
 			</column>
+			<column name="dia_chi" type="varchar(254)">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="id_cua_hang" baseTableName="chi_nhanh"
+			constraintName="fk_cua_hang_chi_nhanh" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="cua_hang" />
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
-		<loadUpdateData encoding="UTF-8"
-			file="db/changelog/csv/1550585056_add_table_branch.csv" primaryKey="id"
+		<loadData encoding="UTF-8"
+			file="db/changelog/csv/1550585056_add_table_branch.csv"
 			schemaName="public" tableName="chi_nhanh">
+			<column name="id" type="NUMERIC" />
 			<column name="ten_chi_nhanh" type="STRING" />
 			<column name="kinh_do" type="NUMERIC" />
 			<column name="vi_do" type="NUMERIC" />
 			<column name="hoat_dong" type="BOOLEAN" />
-		</loadUpdateData>
+			<column name="dia_chi" type="String"/>
+			<column name="id_cua_hang" type="NUMERIC"/>
+		</loadData>
 	</changeSet>
 </databaseChangeLog>

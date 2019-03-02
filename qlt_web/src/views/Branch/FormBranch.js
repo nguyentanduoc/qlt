@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { save, resetBranch, selectAllShop } from '../../actions/branchAction'
+import AlertCommon from '../Common/AlertCommon'
+import { resetAlert } from  '../../actions/alertAction'
 import {
   Button,
   Card,
@@ -15,10 +18,6 @@ import {
   Form,
 } from 'reactstrap'
 
-import { save, resetBranch } from '../../actions/branchAction'
-import AlertCommon from '../Common/AlertCommon'
-import { resetAlert } from  '../../actions/alertAction'
-
 class FormBranch extends Component {
 
   constructor(props){
@@ -29,8 +28,12 @@ class FormBranch extends Component {
       longitude: '',
       name:'',
       address:'',
-      isEnabled:true
+      isEnabled:true,
+      idShop:''
     }
+  }
+  componentWillMount(){
+    this.props.onSelectAllShop();
   }
   componentDidMount(){
     this.getLocation();
@@ -60,7 +63,6 @@ class FormBranch extends Component {
         [name]: value
       });
     }
-    
   }
 
   handleSubmit = async (e) => {
@@ -74,7 +76,8 @@ class FormBranch extends Component {
       longitude: '',
       name:'',
       address:'',
-      isEnabled:true
+      isEnabled:true,
+      isShop: 1
     });
     this.getLocation();
   }
@@ -83,7 +86,16 @@ class FormBranch extends Component {
   }
   componentDidUpdate(){
     if(this.props.branchReducer.flgSet) {
-      this.setState(this.props.branchReducer.branch);
+      let branch = this.props.branchReducer.branch;
+      this.setState({
+        id: branch.id,
+        latitude: branch.latitude,
+        longitude: branch.longitude,
+        name:branch.name,
+        address:branch.address,
+        isEnabled:branch.isEnabled,
+        idShop:branch.shop.id,
+      });
       this.props.onResetBranch();
     }
   }
@@ -115,6 +127,14 @@ class FormBranch extends Component {
                 </FormGroup>
               </Col>
             </Row>
+            <FormGroup>
+            <Label htmlFor="shop ">Cửa Hàng</Label>
+                <Input type="select" name="idShop" id="idShop" value={this.state.idShop} onChange={this.changeHandler.bind(this)}>
+                  {this.props.branchReducer.shops.map(element => {
+                      return <option key = {element.id} value={element.id}>{element.nameShop}</option>
+                  })}
+                </Input>
+            </FormGroup>
             <Row>
               <Col xs="12">
                 <FormGroup>
@@ -182,6 +202,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onResetBranch: ()  => {
     return dispatch(resetBranch());
+  },
+  onSelectAllShop: () => {
+    return dispatch(selectAllShop());
   }
 })
 

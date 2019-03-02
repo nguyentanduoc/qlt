@@ -1,5 +1,7 @@
 package com.vn.ctu.qlt.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vn.ctu.qlt.dto.ShopDto;
 import com.vn.ctu.qlt.model.Shop;
 import com.vn.ctu.qlt.service.ShopService;
 
@@ -21,13 +24,23 @@ public class ShopController {
 	private ShopService shopService;
 
 	@PostMapping(path = "/save")
-	public ResponseEntity<Shop> save(@RequestBody Shop shop) {
-		shopService.save(shop);
-		return ResponseEntity.ok().body(shop);
+	public ResponseEntity<Map<String, Object>> save(@RequestBody ShopDto shop) {
+		return ResponseEntity.ok().body(shopService.save(shop));
 	}
 
 	@GetMapping(path = "/select")
 	public ResponseEntity<Page<Shop>> select(String condition, Pageable page) {
 		return ResponseEntity.ok().body(shopService.select(condition, page));
+	}
+
+	@PostMapping(path = "/delete")
+	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
+		shopService.delete(keys);
+		return null;
+	}
+	
+	@GetMapping(path="/select-all")
+	public  ResponseEntity<Iterable<Shop>> selectAll() {
+		return ResponseEntity.ok().body(shopService.selectAll());
 	}
 }

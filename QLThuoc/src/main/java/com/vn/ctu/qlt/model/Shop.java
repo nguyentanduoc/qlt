@@ -5,11 +5,16 @@ import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cua_hang", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_cua_hang" }) })
@@ -29,7 +34,12 @@ public class Shop extends DateAudit {
 
 	@Column(name = "hoat_dong")
 	private Boolean isEnabled;
-
+	
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="id_nhan_vien")
+	private Employee employee;
+	
 	@Generated("SparkTools")
 	private Shop(Builder builder) {
 		this.id = builder.id;
@@ -38,6 +48,7 @@ public class Shop extends DateAudit {
 		this.isEnabled = builder.isEnabled;
 		this.setCreatedAt(builder.createAt);
 		this.setUpdatedAt(builder.updateAt);
+		this.employee = builder.employee;
 	}
 
 	public Long getId() {
@@ -76,6 +87,18 @@ public class Shop extends DateAudit {
 		this.isEnabled = isEnabled;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	/**
 	 * Creates builder to build {@link Shop}.
 	 * @return created builder
@@ -96,6 +119,7 @@ public class Shop extends DateAudit {
 		private Boolean isEnabled;
 		private Date createAt;
 		private Date updateAt;
+		private Employee employee;
 
 		private Builder() {
 		}
@@ -126,6 +150,10 @@ public class Shop extends DateAudit {
 		}
 		public Builder withUpdateAt(Date updateAt) {
 			this.updateAt = updateAt;
+			return this;
+		}
+		public Builder withEmployye(Employee employee) {
+			this.employee = employee;
 			return this;
 		}
 
