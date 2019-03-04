@@ -18,7 +18,7 @@ export default (state = initState, action) => {
         authorities: action.payload.authorities
       };
     case ACTION_TYPES.LOGOUT:
-      return {...state, authentication: {}, isLogin: false, nav: [], user: {},authorities:[]};
+      return initState;
     default:
       return state;
   }

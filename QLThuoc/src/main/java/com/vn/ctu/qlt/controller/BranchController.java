@@ -1,5 +1,7 @@
 package com.vn.ctu.qlt.controller;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +54,10 @@ public class BranchController {
 	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
 		branchService.deleteAll(keys);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "/api/branch/select-branch-by-director")
+	public ResponseEntity<Set<Branch>> selectBranchByDirector(@RequestBody Long idDirector){
+		return ResponseEntity.ok().body(branchService.selectBranchByDirector(idDirector));
 	}
 }

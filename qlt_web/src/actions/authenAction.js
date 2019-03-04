@@ -14,7 +14,7 @@ export const login = (auth) => {
       } else {
         dispatch(loginFail(err.toString()));
       }
-    }
+    } 
   }
 }
 export const loginSuccess = (data) => {

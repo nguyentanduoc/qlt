@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -23,10 +24,12 @@ import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
+import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.BranchRepository;
 import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.EmployeeService;
 import com.vn.ctu.qlt.service.ShopService;
+import com.vn.ctu.qlt.service.UserSerivce;
 import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 
 @Service
@@ -51,6 +54,9 @@ public class BranchSerivceImpl implements BranchService {
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private UserSerivce userService;
 
 	public void save(BranchDto branch) {
 		Optional<Employee> empOptional = employeeService.findById(branch.getIdDirector());
@@ -143,6 +149,20 @@ public class BranchSerivceImpl implements BranchService {
 			List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), param, branchMapper);
 			return new PageImpl<Branch>(resultBranch, pageable, countRecord);
 			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public Set<Branch> selectBranchByDirector(Long idDirector) {
+		try {
+			Optional<User> userOptional = userService.findById(idDirector);
+			Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
+			Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
+			Shop shop = shopOptional.get();
+			return shop.getBranchs();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw e;

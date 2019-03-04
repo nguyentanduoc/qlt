@@ -40,7 +40,9 @@ export const ACTION_TYPES = {
     GET_SUCCESS: "BRANCH_GET_SUCCESS",
     SET_BRANCH: "BRANCH_SET_BRANCH",
     RESET_BRANCH: "BRANCH_RESET_BRANCH",
-    GET_ALL_SHOP: "BRANCH_GET_ALL_SHOP"
+    GET_ALL_SHOP: "BRANCH_GET_ALL_SHOP",
+    GET_BRANCH_OF_DIRECTOR:"GET_BRANCH_OF_DIRECTOR",
+    BRANCH_FOR_SELECTION: "BRANCH_FOR_SELECTION"
   },
   SHOP: {
     GET_SUCCESS: "SHOP_GET_SUCCESS",
@@ -76,6 +78,7 @@ export const API = {
     SAVE: `${BASE_URI}/api/branch/save`,
     DELETE: `${BASE_URI}/api/branch/delete`,
     SELECT: `${BASE_URI}/api/branch/select`,
+    SELECT_BRANCH_OF_DIRECTOR:`${BASE_URI}/api/branch/select-branch-by-director`,
   },
   SHOP: {
     SAVE: `${BASE_URI}/api/shop/save`,

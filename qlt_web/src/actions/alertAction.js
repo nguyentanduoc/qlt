@@ -32,7 +32,9 @@ export const showAlertFail = (err) => {
     }
   } else {
     if(typeof(err)=== 'string') {
-      message = err.toString()
+      message = err;
+    } else {
+      message = err.toString();
     }
   }
   return {

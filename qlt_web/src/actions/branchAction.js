@@ -8,8 +8,8 @@ export const save = (branch) => {
   return async (dispatch) => {
     try {
       await axios.post(API.BRANCH.SAVE, branch ,headerConfig);
-      dispatch(select());
-      dispatch(showAlertAndReset());
+      await dispatch(select());
+      await dispatch(showAlertAndReset());
     }
     catch (err) {
       dispatch(showAlertFail(err));
@@ -76,3 +76,23 @@ export const getAllShopSuccess = (data) => ({
   type: ACTION_TYPES.BRANCH.GET_ALL_SHOP,
   payload: data
 })
+export const getBranchOfDirector = (idDirector) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post(API.BRANCH.SELECT_BRANCH_OF_DIRECTOR, idDirector, headerConfig); 
+      dispatch(branchForSelection(res.data));
+    } catch(err) {
+      dispatch(showAlertFail(err));
+    }
+  }
+}
+
+export const branchForSelection = (data) => {
+  let selection = data.map(b => {
+    return {value: b.id, label: b.name}
+  });
+  return {
+    type: ACTION_TYPES.BRANCH.BRANCH_FOR_SELECTION,
+    payload: selection
+  }
+}

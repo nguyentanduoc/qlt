@@ -3,7 +3,8 @@ const initialState = {
   branchs: [],
   branch: {},
   flgSet: false,
-  shops: []
+  shops: [],
+  branchSelection:[]
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -23,6 +24,8 @@ export default (state = initialState, { type, payload }) => {
     case ACTION_TYPES.BRANCH.GET_ALL_SHOP:
       return {...state, shops: payload}
   
+    case ACTION_TYPES.BRANCH.BRANCH_FOR_SELECTION:
+      return {...state, branchSelection: payload }
   default:
     return state
   }

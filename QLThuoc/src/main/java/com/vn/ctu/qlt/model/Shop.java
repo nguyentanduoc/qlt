@@ -1,8 +1,10 @@
 package com.vn.ctu.qlt.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -34,12 +37,16 @@ public class Shop extends DateAudit {
 
 	@Column(name = "hoat_dong")
 	private Boolean isEnabled;
-	
+
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="id_nhan_vien")
+	@JoinColumn(name = "id_nhan_vien")
 	private Employee employee;
-	
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "id")
+	private Set<Branch> branchs;
+
 	@Generated("SparkTools")
 	private Shop(Builder builder) {
 		this.id = builder.id;
@@ -95,12 +102,21 @@ public class Shop extends DateAudit {
 		this.employee = employee;
 	}
 
+	public Set<Branch> getBranchs() {
+		return branchs;
+	}
+
+	public void setBranchs(Set<Branch> branchs) {
+		this.branchs = branchs;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	/**
 	 * Creates builder to build {@link Shop}.
+	 * 
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -143,15 +159,17 @@ public class Shop extends DateAudit {
 			this.isEnabled = isEnabled;
 			return this;
 		}
-		
+
 		public Builder withCreateAt(Date createAt) {
 			this.createAt = createAt;
 			return this;
 		}
+
 		public Builder withUpdateAt(Date updateAt) {
 			this.updateAt = updateAt;
 			return this;
 		}
+
 		public Builder withEmployye(Employee employee) {
 			this.employee = employee;
 			return this;
@@ -161,5 +179,5 @@ public class Shop extends DateAudit {
 			return new Shop(this);
 		}
 	}
-
+	
 }

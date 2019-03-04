@@ -22,6 +22,6 @@ public interface ShopService {
 	
 	public Optional<Shop> findById(Long id);
 	
-	public Optional<Shop> findShopByDirector(Employee IdDirector);
+	public Optional<Shop> findShopByDirector(Employee employee);
 
 }

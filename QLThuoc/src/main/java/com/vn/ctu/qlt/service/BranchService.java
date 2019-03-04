@@ -1,5 +1,7 @@
 package com.vn.ctu.qlt.service;
 
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +20,6 @@ public interface BranchService {
 	public Page<Branch> search(String condition, Pageable pageable);
 	
 	public PageImpl<Branch> getBranhByDirector(Long idDirector, Pageable pageable);
+	
+	public Set<Branch> selectBranchByDirector(Long idDirector);
 }

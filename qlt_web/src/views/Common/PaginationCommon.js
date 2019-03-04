@@ -31,13 +31,17 @@ export class PaginationCommon extends Component {
     this.props.onGotoPage(e);
   }
   render() {
-    return(
-    <UltimatePagination 
-      currentPage={this.props.paginationReducer.number} 
-      totalPages={this.props.paginationReducer.totalPages} 
-      onChange={this.onPageChange.bind(this)}
-    />
-    )
+    if(this.props.paginationReducer.show) {
+      return(
+        <UltimatePagination 
+          currentPage={this.props.paginationReducer.number} 
+          totalPages={this.props.paginationReducer.totalPages} 
+          onChange={this.onPageChange.bind(this)}
+        />
+        )
+    } else {
+      return (<div></div>)
+    }
   }
 }
 

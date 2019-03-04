@@ -28,14 +28,15 @@ class DefaultLayout extends Component {
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-  signOut(e) {
+  signOut = async (e) => {
     e.preventDefault()
-    this.props.onLogoutReducer();
+    await this.props.onLogout();
+  }
+  componentDidUpdate() {
     if(!this.props.authReducer.isLogin){
       this.props.history.push('/login')
     }
   }
-
   render() {
     let items = {items: this.props.authReducer.nav};
     return (
@@ -100,7 +101,7 @@ const mapStateToProps = state => {
 }
 const mapDispathToProps = (dispatch, props) => {
   return {
-    onLogoutReducer : () => {
+    onLogout: () => {
       return dispatch(logout());
     }
   }
