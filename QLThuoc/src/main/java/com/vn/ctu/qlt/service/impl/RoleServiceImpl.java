@@ -25,12 +25,13 @@ public class RoleServiceImpl implements RoleService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<Role> getRoleByUserId(Long id) {
+	public Set<Role> getRoleByUserId(Long id) {
 		try {
 			StringBuilder sql = new StringBuilder("Select q.id, q.ten_quyen, q.mo_ta, q.cap_do ");
 			sql.append("from quyen q inner join quyen_tai_khoan qtk on q.id = qtk.quyen_id ");
 			sql.append("where qtk.tai_khoan_id = ?");
-			return jdbcTemplate.query(sql.toString(), new Object[] { id }, new RoleMapper());
+			List<Role> userList = jdbcTemplate.query(sql.toString(), new Object[] { id }, new RoleMapper());
+			return new HashSet<Role>(userList);
 		} catch (Exception e) {
 			throw e;
 		}

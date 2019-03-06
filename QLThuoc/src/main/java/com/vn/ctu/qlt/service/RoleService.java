@@ -9,7 +9,7 @@ import com.vn.ctu.qlt.model.RoleName;
 
 public interface RoleService {
 
-	public List<Role> getRoleByUserId(Long id); 
+	public Set<Role> getRoleByUserId(Long id); 
 	
 	public List<Role> getAll();
 	

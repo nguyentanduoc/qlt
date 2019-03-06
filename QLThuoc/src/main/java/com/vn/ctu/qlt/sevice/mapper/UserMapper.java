@@ -2,7 +2,7 @@ package com.vn.ctu.qlt.sevice.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class UserMapper implements RowMapper<User> {
 	@Override
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		try {
-			List<Role> roles = roleService.getRoleByUserId(rs.getLong("id"));
+			Set<Role> roles = roleService.getRoleByUserId(rs.getLong("id"));
 			return new User(
 					rs.getLong("id"),
 					rs.getString("ten_dang_nhap"),

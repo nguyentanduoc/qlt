@@ -85,7 +85,13 @@ export const API = {
     DELETE: `${BASE_URI}/api/shop/delete`,
     SELECT: `${BASE_URI}/api/shop/select`,
     SELECT_ALL: `${BASE_URI}/api/shop/select-all`,
-  }
+  },
+  EMPLOYEE: {
+    SAVE: `${BASE_URI}/api/employee/save`,
+    DELETE: `${BASE_URI}/api/employee/delete`,
+    SELECT: `${BASE_URI}/api/employee/select`,
+    SELECT_ALL: `${BASE_URI}/api/employee/select-all`,
+  },
 }
 
 export const ROLES = {

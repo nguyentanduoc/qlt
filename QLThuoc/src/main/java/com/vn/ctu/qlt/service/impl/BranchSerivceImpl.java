@@ -3,6 +3,7 @@ package com.vn.ctu.qlt.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +22,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.BranchDto;
+import com.vn.ctu.qlt.dto.BranchsSeletionDto;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
@@ -167,6 +169,18 @@ public class BranchSerivceImpl implements BranchService {
 			logger.error(e.getMessage());
 			throw e;
 		}
+	}
+
+
+	@Override
+	@Transactional
+	public Set<Branch> findByList(Set<BranchsSeletionDto> branchs) {
+		Set<Branch> branchsResult = new HashSet<>();
+		for(BranchsSeletionDto b : branchs ) {
+			Branch branch = branchRepository.findById(b.getValue()).get();
+			branchsResult.add(branch);
+		}
+		return branchsResult;
 	}
 
 }

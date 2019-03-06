@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.dto.EmployeeDto;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.EmployeeRepository;
@@ -30,6 +31,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Optional<Employee> findEmployeeByUser(User user) {
 		return employeeRepository.findByUser(user);
+	}
+
+	@Override
+	public Employee save(EmployeeDto employee) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

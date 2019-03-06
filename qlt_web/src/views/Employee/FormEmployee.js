@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import AlertCommon from '../Common/AlertCommon'
 import { getBranchOfDirector } from '../../actions/branchAction'
 import Select from 'react-select'
+import { save } from '../../actions/employeeAction'
 import {
-  Col,
   Form,
   Card,
   CardHeader,
@@ -14,17 +14,16 @@ import {
   Input,
   Button,
   CardFooter,
-  CustomInput
   } from 'reactstrap';
 export class FormEmployee extends Component {
   constructor(props){
     super(props);
     this.state = {
+      id:'',
       nameEmployee: '',
       birthDay: new Date(),
       numberPhone:'',
       address: '',
-      idBranch:'',
       username:'',
       branchs: []
     }
@@ -34,12 +33,22 @@ export class FormEmployee extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
+    this.props.onSave(this.state);
   }
   handleReset = (e) => {
     e.preventDefault();
   }
-  changeHandler = () => {
-
+  changeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value
+    });
+  }
+  handleSeletion = (e) => {
+    this.setState({
+      branchs: e
+    })
   }
   render() {
     return (
@@ -57,8 +66,9 @@ export class FormEmployee extends Component {
                   name="nameEmployee"
                   onChange={this.changeHandler.bind(this)}
                   required
-                  value={this.state.changeHandler}
-                  disabled={this.state.changeHandler === '' ? false: true}/>
+                  value={this.state.nameEmployee}
+                  // disabled={this.state.changeHandler === '' ? false: true}/>
+                  />
               </FormGroup>
               <FormGroup >
                 <Label>Tên đăng nhập</Label>
@@ -68,8 +78,9 @@ export class FormEmployee extends Component {
                   name="username"
                   onChange={this.changeHandler.bind(this)}
                   required
-                  value={this.state.changeHandler}
-                  disabled={this.state.changeHandler === '' ? false: true}/>
+                  value={this.state.username}
+                  // disabled={this.state.changeHandler === '' ? false: true}/>
+                  />
               </FormGroup>
               <FormGroup >
                 <Label>Số điện thoại</Label>
@@ -79,26 +90,35 @@ export class FormEmployee extends Component {
                   name="numberPhone"
                   onChange={this.changeHandler.bind(this)}
                   required
-                  value={this.state.changeHandler}
-                  disabled={this.state.changeHandler === '' ? false: true}/>
+                  value={this.state.numberPhone}
+                  // disabled={this.state.changeHandler === '' ? false: true}/>
+                  />
               </FormGroup>
               <FormGroup >
                 <Label>Chi nhánh</Label>
-                <Select options={this.props.branchReducer.branchSelection} />
+                <Select 
+                  options={this.props.branchReducer.branchSelection}
+                  onChange={this.handleSeletion.bind(this)}
+                  isMulti = {true}
+                  />
               </FormGroup>
               <FormGroup >
                 <Label>Địa chỉ</Label>
                 <Input 
-                  type="text"
+                  type="textarea" 
                   id="address"
                   name="address"
                   onChange={this.changeHandler.bind(this)}
                   required
-                  value={this.state.changeHandler}
-                  disabled={this.state.changeHandler === '' ? false: true}/>
+                  value={this.state.address}
+                  // disabled={this.state.changeHandler === '' ? false: true}/>
+                  />
               </FormGroup>
           </CardBody>
-          <CardFooter></CardFooter>
+          <CardFooter className="text-right">
+            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+            <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Hủy</Button>
+          </CardFooter>
         </Card>
       </Form>
     )
@@ -113,6 +133,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps =(dispatch) => ({
   onGetBranchOfDirector: (idDirector) => {
     return dispatch(getBranchOfDirector(idDirector))
+  },
+  onSave: (employee) => {
+    return dispatch(save(employee))
   }
 })
 

@@ -4,16 +4,6 @@ import FormEmployee from './FormEmployee'
 import {
   Row,
   Col,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Badge,
-  Form,
-  Input,
-  InputGroupAddon,
-  Button,
-  InputGroup
   } from 'reactstrap'
 
 export class index extends Component {

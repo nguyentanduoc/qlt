@@ -2,6 +2,7 @@ package com.vn.ctu.qlt.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,6 +40,9 @@ public class Employee implements Serializable {
 	
 	@Column(name="dia_chi")
 	private String address;
+	
+	@ManyToMany
+	private Set<Branch> branchs;
 
 	public Long getId() {
 		return id;
@@ -89,6 +94,14 @@ public class Employee implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Set<Branch> getBranchs() {
+		return branchs;
+	}
+
+	public void setBranchs(Set<Branch> branchs) {
+		this.branchs = branchs;
 	}
 
 }

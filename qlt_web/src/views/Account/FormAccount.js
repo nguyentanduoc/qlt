@@ -156,19 +156,19 @@ export class FormAccount extends Component {
                       <Col md="4"><Label>Hoạt động</Label></Col>
                       <Col md="8" xs="12">
                           <CustomInput
-                                  type="switch"
-                                  id='isEnabled'
-                                  label='Hoạt động'
-                                  name='isEnabled'
-                                  checked={this.state.isEnabled}
-                                  onChange={this.changeHandler.bind(this)}
-                                  value = {this.state.isEnabled} />
+                              type="switch"
+                              id='isEnabled'
+                              label='Hoạt động'
+                              name='isEnabled'
+                              checked={this.state.isEnabled}
+                              onChange={this.changeHandler.bind(this)}
+                              value = {this.state.isEnabled} />
                       </Col>
                   </FormGroup>
               </CardBody>
               <CardFooter className="text-right">
-                  <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
-                  <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+                  <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+                  <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Hủy</Button>
               </CardFooter>
           </Card>
       </Form>

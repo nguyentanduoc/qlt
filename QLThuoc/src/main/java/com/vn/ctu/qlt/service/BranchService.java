@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import com.vn.ctu.qlt.dto.BranchDto;
+import com.vn.ctu.qlt.dto.BranchsSeletionDto;
 import com.vn.ctu.qlt.model.Branch;
 
 public interface BranchService {
@@ -22,4 +23,6 @@ public interface BranchService {
 	public PageImpl<Branch> getBranhByDirector(Long idDirector, Pageable pageable);
 	
 	public Set<Branch> selectBranchByDirector(Long idDirector);
+	
+	public Set<Branch> findByList(Set<BranchsSeletionDto> branchs);
 }

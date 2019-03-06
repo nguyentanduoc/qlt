@@ -2,7 +2,6 @@ package com.vn.ctu.qlt.model;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -20,7 +19,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.assertj.core.util.Sets;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
@@ -72,7 +70,7 @@ public class User extends DateAudit {
 		this.isEnabled  = isEnabled;
 	}
 	
-	public User(Long id, String username, String email, String password, Boolean isEnabled, Date createAt, Date updateAt, List<Role> roles) {
+	public User(Long id, String username, String email, String password, Boolean isEnabled, Date createAt, Date updateAt, Set<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -81,7 +79,7 @@ public class User extends DateAudit {
 		this.isEnabled  = isEnabled;
 		this.setCreatedAt(createAt);
 		this.setUpdatedAt(updateAt);
-		this.roles = Sets.newHashSet(roles);
+		this.roles = roles;
 	}
 
 	public User() {
