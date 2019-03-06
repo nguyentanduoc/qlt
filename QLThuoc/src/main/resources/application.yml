@@ -31,7 +31,7 @@ logging:
     org.springframework.jdbc.core: TRACE
     org.springframework.web: DEBUG
 app:
-  jwtSecret: ntdsival
+  jwtSecret: 12345678x@X
   jwtExpirationInMs: 86400000
   passworDefault: 12345678x@X
   domain.email: '@gmail.com'

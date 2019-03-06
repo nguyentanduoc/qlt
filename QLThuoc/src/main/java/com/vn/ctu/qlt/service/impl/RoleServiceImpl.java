@@ -5,25 +5,39 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.dto.RoleSeletionDto;
 import com.vn.ctu.qlt.model.Role;
 import com.vn.ctu.qlt.model.RoleName;
 import com.vn.ctu.qlt.repository.RoleRepository;
 import com.vn.ctu.qlt.service.RoleService;
 import com.vn.ctu.qlt.sevice.mapper.RoleMapper;
 
+/**
+ * The Class RoleServiceImpl.
+ *
+ * @author NTDSIVAL
+ * @since 06-03-2019
+ */
 @Service
 public class RoleServiceImpl implements RoleService {
 
+	/** The role repository. */
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
+	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getRoleByUserId(java.lang.Long)
+	 */
 	@Override
 	public Set<Role> getRoleByUserId(Long id) {
 		try {
@@ -37,37 +51,72 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getAll()
+	 */
 	@Override
 	public List<Role> getAll() {
 		return roleRepository.findAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getByRoleNameForAdmin()
+	 */
 	@Override
-	public List<Role> findByRoleNameForAdmin() {
+	public List<Role> getByRoleNameForAdmin() {
 		return roleRepository.findRoleByAdmin();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getRolesByRoles(java.util.List)
+	 */
 	public Set<Role> getRolesByRoles(List<Role> roles) {
 		Set<Role> resource = new HashSet<Role>();
-		
-		for(Role role : roles) {
-			switch(role.getLevel()) {
+
+		for (Role role : roles) {
+			switch (role.getLevel()) {
 			case 1:
 				resource.addAll(roleRepository.findRoleByAdmin());
 				break;
-			case 2: 
+			case 2:
 				resource.addAll(roleRepository.findRoleByDirector());
 				break;
-			case 3: 
+			case 3:
 				resource.addAll(roleRepository.findRoleByLeader());
-			default: break;
+			default:
+				break;
 			}
 		}
 		return resource;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getRoleByRoleName(com.vn.ctu.qlt.model.RoleName)
+	 */
 	@Override
-	public Optional<Role> findRoleByRoleName(RoleName roleName) {
+	public Optional<Role> getRoleByRoleName(RoleName roleName) {
 		return roleRepository.findByName(roleName);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getRoleForDirector()
+	 */
+	@Override
+	public List<Role> getRoleForDirector() {
+		return roleRepository.findRoleByDirector();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.RoleService#getRolesByRoleSeletion(java.util.Set)
+	 */
+	@Override
+	@Transactional
+	public Set<Role> getRolesByRoleSeletion(Set<RoleSeletionDto> roles) {
+		Set<Role> result = new HashSet<Role>();
+		for (RoleSeletionDto role : roles) {
+			result.add(roleRepository.findById(role.getValue()).get());
+		}
+		return result;
 	}
 }

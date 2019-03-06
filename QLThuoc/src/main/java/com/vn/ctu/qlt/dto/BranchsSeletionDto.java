@@ -1,24 +1,14 @@
 package com.vn.ctu.qlt.dto;
 
-public class BranchsSeletionDto {
+/**
+ * The Class BranchsSeletionDto.
+ *
+ * @author NTDSIVAL
+ * @since 06-03-2019
+ */
+public class BranchsSeletionDto extends SelectionDto {
 
-	private Long value;
-	private String label;
-
-	public Long getValue() {
-		return value;
-	}
-
-	public void setValue(Long value) {
-		this.value = value;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1682217644294141559L;
 
 }

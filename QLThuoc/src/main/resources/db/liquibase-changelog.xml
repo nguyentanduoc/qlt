@@ -17,4 +17,5 @@
 	<include file="changelog/1551283082_add_table_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1551287672_created_table_employee_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1551458190_insert_nav_for_director.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1551884306_nav_drug_bill.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

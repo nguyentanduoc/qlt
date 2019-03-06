@@ -20,14 +20,27 @@ import com.vn.ctu.qlt.dto.QueryBranchDto;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.service.BranchService;
 
+/**
+ * The Class BranchController.
+ *
+ * @author NTDSIVAL
+ * @since 06-03-2019
+ */
 @Controller
 public class BranchController {
 
+	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	/** The branch service. */
 	@Autowired
 	private BranchService branchService;
 
+	/**
+	 * Save.
+	 *
+	 * @param branch the branch
+	 */
 	@PostMapping(path = "/api/branch/save")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void save(@RequestBody BranchDto branch) {
@@ -39,6 +52,12 @@ public class BranchController {
 		}
 	}
 
+	/**
+	 * Select.
+	 *
+	 * @param query the query
+	 * @return the response entity
+	 */
 	@PostMapping(path = "/api/branch/select")
 	public ResponseEntity<Page<Branch>> select(@RequestBody QueryBranchDto query) {
 
@@ -50,12 +69,24 @@ public class BranchController {
 		}
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param keys the keys
+	 * @return the response entity
+	 */
 	@PostMapping(path = "/api/branch/delete")
 	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
 		branchService.deleteAll(keys);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	/**
+	 * Select branch by director.
+	 *
+	 * @param idDirector the id director
+	 * @return the response entity
+	 */
 	@PostMapping(path = "/api/branch/select-branch-by-director")
 	public ResponseEntity<Set<Branch>> selectBranchByDirector(@RequestBody Long idDirector){
 		return ResponseEntity.ok().body(branchService.selectBranchByDirector(idDirector));

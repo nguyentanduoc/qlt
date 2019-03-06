@@ -30,30 +30,47 @@ import com.vn.ctu.qlt.service.RoleService;
 import com.vn.ctu.qlt.service.UserSerivce;
 import com.vn.ctu.qlt.sevice.mapper.UserMapper;
 
+/**
+ * The Class UserServiceImpl.
+ *
+ * @author NTDSIVAL
+ * @since 06-03-2019
+ */
 @Service
 public class UserServiceImpl implements UserSerivce {
 
+	/** The from table. */
 	private final String FROM_TABLE = "from tai_khoan ";
 
+	/** The conditions. */
 	private String[] conditions;
 
+	/** The user repo. */
 	@Autowired
 	private UserRepository userRepo;
 
+	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	/** The role service. */
 	@Autowired
 	private RoleService roleService;
 
+	/** The user mapper. */
 	@Autowired
-	UserMapper userMapper;
+	private UserMapper userMapper;
 	
+	/** The password encoder. */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#searchUser(java.lang.String, org.springframework.data.domain.Pageable)
+	 */
 	@Override
 	@Transactional
 	public PageImpl<User> searchUser(String condition, Pageable page) {
@@ -83,6 +100,9 @@ public class UserServiceImpl implements UserSerivce {
 		return new PageImpl<User>(resultUser, page, countRecord);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#count(java.lang.StringBuilder, java.util.List)
+	 */
 	@Override
 	public int count(StringBuilder sql, List<String> params) throws DataAccessException {
 		StringBuilder sqlCount = new StringBuilder("Select count(*) ");
@@ -95,35 +115,60 @@ public class UserServiceImpl implements UserSerivce {
 		}
 	}
 
+	/**
+	 * Gets the conditions.
+	 *
+	 * @return the conditions
+	 */
 	public String[] getConditions() {
 		return conditions;
 	}
 
+	/**
+	 * Sets the conditions.
+	 *
+	 * @param conditions the new conditions
+	 */
 	public void setConditions(String[] conditions) {
 		this.conditions = conditions;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#findAll()
+	 */
 	@Override
 	public List<User> findAll() {
 		Stream<User> userStream = StreamSupport.stream(userRepo.findAll().spliterator(), false);
 		return userStream.collect(Collectors.toList());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#findById(java.lang.Long)
+	 */
 	@Override
 	public Optional<User> findById(Long id) {
 		return userRepo.findById(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#save(com.vn.ctu.qlt.model.User)
+	 */
 	@Override
 	public void save(User user) {
 		userRepo.save(user);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#getAllUser(org.springframework.data.domain.Pageable)
+	 */
 	@Override
 	public Page<User> getAllUser(Pageable pageable) {
 		return userRepo.findAll(pageable);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#delete(java.lang.Long[])
+	 */
 	@Override
 	public void delete(Long[] ids) {
 		for(Long id: ids) {
@@ -131,10 +176,13 @@ public class UserServiceImpl implements UserSerivce {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.UserSerivce#createUserDireactor(com.vn.ctu.qlt.model.User)
+	 */
 	@Override
 	public User createUserDireactor(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		Optional<Role> role = roleService.findRoleByRoleName(RoleName.ROLE_DIRECTOR);
+		Optional<Role> role = roleService.getRoleByRoleName(RoleName.ROLE_DIRECTOR);
 		Set<Role> roles = new HashSet<>();
 		roles.add(role.get());
 		user.setRoles(roles);

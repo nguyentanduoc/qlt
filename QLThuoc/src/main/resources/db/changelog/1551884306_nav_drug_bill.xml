@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="01" author="ntduoc">
-		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551458190_navigrations.csv" schemaName="public"
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551884306_nav_drug_bill.csv" schemaName="public"
 			tableName="navigration">
 			<column name="id" type="NUMERIC" />
 			<column name="badge_id" type="NUMERIC" />
@@ -21,7 +21,7 @@
 		</loadData>
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
-		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551458190_navigration_role.csv"
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551884306_nav_drug_bill_role.csv"
 			schemaName="public" tableName="navigration_roles">
 			<column name="navigration_id" type="NUMERIC" />
 			<column name="role_id" type="NUMERIC" />

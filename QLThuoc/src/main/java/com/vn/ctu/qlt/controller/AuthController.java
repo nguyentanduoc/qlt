@@ -42,30 +42,49 @@ import com.vn.ctu.qlt.security.JwtTokenProvider;
 import com.vn.ctu.qlt.security.UserPrincipal;
 import com.vn.ctu.qlt.service.NavService;
 
+/**
+ * The Class AuthController.
+ *
+ * @author NTDSIVAL
+ * @since 06-03-2019
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
+	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
+	/** The authentication manager. */
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	/** The user repository. */
 	@Autowired
 	private UserRepository userRepository;
 
+	/** The role repository. */
 	@Autowired
 	private RoleRepository roleRepository;
 
+	/** The password encoder. */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/** The token provider. */
 	@Autowired
 	private JwtTokenProvider tokenProvider;
 
+	/** The role service. */
 	@Autowired
 	private NavService roleService;
 
+	/**
+	 * Authenticate user.
+	 *
+	 * @param loginRequest the login request
+	 * @return the response entity
+	 */
 	@PostMapping("/signin")
 	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		logger.debug("AuthController do signin");
@@ -88,6 +107,12 @@ public class AuthController {
 		}
 	}
 
+	/**
+	 * Register user.
+	 *
+	 * @param signUpRequest the sign up request
+	 * @return the response entity
+	 */
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
