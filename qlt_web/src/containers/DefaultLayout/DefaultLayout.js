@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authenAction';
+import { resetAlert } from '../../actions/alertAction'
 import _ from 'lodash';
 import {
   AppAside,
@@ -34,7 +35,8 @@ class DefaultLayout extends Component {
   }
   componentDidUpdate() {
     if(!this.props.authReducer.isLogin){
-      this.props.history.push('/login')
+      this.props.history.push('/login');
+      this.props.onResetAlert();
     }
   }
   render() {
@@ -99,10 +101,13 @@ const mapStateToProps = state => {
     authReducer : state.auth
   }
 }
-const mapDispathToProps = (dispatch, props) => {
+const mapDispathToProps = (dispatch) => {
   return {
     onLogout: () => {
       return dispatch(logout());
+    },
+    onResetAlert: () => {
+      return dispatch(resetAlert());
     }
   }
 }

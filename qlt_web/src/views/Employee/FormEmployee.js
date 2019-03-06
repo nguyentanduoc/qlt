@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AlertCommon from '../Common/AlertCommon'
-import { getBranchOfDirector } from '../../actions/branchAction'
 import Select from 'react-select'
-import { save } from '../../actions/employeeAction'
+import { init, save } from '../../actions/employeeAction'
 import {
   Form,
   Card,
@@ -21,15 +20,14 @@ export class FormEmployee extends Component {
     this.state = {
       id:'',
       nameEmployee: '',
-      birthDay: new Date(),
       numberPhone:'',
-      address: '',
       username:'',
-      branchs: []
+      branchs: [],
+      roles: []
     }
   }
   componentWillMount(){
-    this.props.onGetBranchOfDirector(this.props.authReducer.user.id);
+    this.props.onInit(this.props.authReducer.user.id);
   }
   handleSubmit = (e) => {
     e.preventDefault();
@@ -45,10 +43,22 @@ export class FormEmployee extends Component {
       [name]: value
     });
   }
-  handleSeletion = (e) => {
-    this.setState({
-      branchs: e
-    })
+  handleSeletion = (e, selection) => {
+    switch (selection.name) {
+      case "branchs":
+        this.setState({
+          branchs: e
+        })
+        break;
+      case "roles":
+        this.setState({
+          roles: e
+        })
+        break;
+      default:
+        break;
+    }
+    
   }
   render() {
     return (
@@ -97,21 +107,19 @@ export class FormEmployee extends Component {
               <FormGroup >
                 <Label>Chi nhánh</Label>
                 <Select 
-                  options={this.props.branchReducer.branchSelection}
+                  options={this.props.employeeReducer.branchsSeletion}
                   onChange={this.handleSeletion.bind(this)}
                   isMulti = {true}
+                  name="branchs"
                   />
               </FormGroup>
               <FormGroup >
-                <Label>Địa chỉ</Label>
-                <Input 
-                  type="textarea" 
-                  id="address"
-                  name="address"
-                  onChange={this.changeHandler.bind(this)}
-                  required
-                  value={this.state.address}
-                  // disabled={this.state.changeHandler === '' ? false: true}/>
+                <Label>Quyền</Label>
+                <Select 
+                  options={this.props.employeeReducer.rolesSeletion}
+                  onChange={this.handleSeletion.bind(this)}
+                  isMulti = {true}
+                  name="roles"
                   />
               </FormGroup>
           </CardBody>
@@ -127,12 +135,12 @@ export class FormEmployee extends Component {
 
 const mapStateToProps = (state) => ({
   authReducer: state.auth,
-  branchReducer: state.branchReducer
+  employeeReducer: state.employeeReducer
 })
 
 const mapDispatchToProps =(dispatch) => ({
-  onGetBranchOfDirector: (idDirector) => {
-    return dispatch(getBranchOfDirector(idDirector))
+  onInit: (idDirector) => {
+    return dispatch(init(idDirector))
   },
   onSave: (employee) => {
     return dispatch(save(employee))

@@ -53,6 +53,9 @@ export const ACTION_TYPES = {
     SAVE_SUCCESS: "SHOP_SAVE_SUCCESS",
     RESET_SAVE_SUCCESS:"SHOP_RESET_SAVE_SUCCESS",
     TOGGLE_MODAL: "SHOP_TOGGLE_MODAL"
+  },
+  EMPLOYEE: {
+    INIT: "EMPLOYEE_INIT"
   }
 }
 export const LOCAL_STORAGE = {
@@ -87,6 +90,7 @@ export const API = {
     SELECT_ALL: `${BASE_URI}/api/shop/select-all`,
   },
   EMPLOYEE: {
+    INIT:`${BASE_URI}/api/employee/init`,
     SAVE: `${BASE_URI}/api/employee/save`,
     DELETE: `${BASE_URI}/api/employee/delete`,
     SELECT: `${BASE_URI}/api/employee/select`,
