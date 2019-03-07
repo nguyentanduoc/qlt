@@ -96,6 +96,9 @@ export const API = {
     SELECT: `${BASE_URI}/api/employee/select`,
     SELECT_ALL: `${BASE_URI}/api/employee/select-all`,
   },
+  PRODUCT: {
+    SAVE: `${BASE_URI}/api/product/save`
+  }
 }
 
 export const ROLES = {

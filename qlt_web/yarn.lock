@@ -4428,6 +4428,16 @@ filename-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
   integrity sha1-wcS5vuPglyXdsQa3XB4wH+LxiyY=
 
+filepond-plugin-image-preview@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.0.3.tgz#9e8a6561455751498da29e4a6501ab828dc0d4a2"
+  integrity sha512-umWUAM9Jd2W66/bcT/KWxBh1mmcSJxYi/L0aSxJSRnEebOGtJlNZ3y9nnB6MMNmt+Ybi9ttto6mmc4OPyfbfuQ==
+
+filepond@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.2.0.tgz#93852e933cc8acd9a60efeb5ef93fbbff15d1fef"
+  integrity sha512-JTSvxTQGbCXMZGoPOIjCKImv+Al3Y5z3f6gRoUGlQdqpnMHdnwOV0WG3hRCVBDN64ctAN3pgKtofkWfsnwwoTA==
+
 fileset@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/fileset/-/fileset-2.0.3.tgz#8e7548a96d3cc2327ee5e674168723a333bba2a0"
@@ -9614,6 +9624,11 @@ react-error-overlay@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.1.2.tgz#888957b884d4b25b083a82ad550f7aad96585394"
   integrity sha512-7kEBKwU9R8fKnZJBRa5RSIfay4KJwnYvKB6gODGicUmDSAhQJ7Tdnll5S0RLtYrzRfMVXlqYw61rzrSpP4ThLQ==
+
+react-filepond@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/react-filepond/-/react-filepond-7.0.1.tgz#caf96526287140884a31a1476b8328d9d6ecdee2"
+  integrity sha512-PitNM44JP0K5hXnkSYV3HRlkObsWbhqaJRWizMrdHpS3pPz9/iyiOGmRpc+4T4ST3vblmiUTLRYq/+1bDcSqQw==
 
 react-input-autosize@^2.2.1:
   version "2.2.1"
