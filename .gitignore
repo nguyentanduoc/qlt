@@ -54,3 +54,4 @@ yarn-error.log*
 .metadata
 /qlt_web/node_modules/
 /QLThuoc/bin/
+/QLThuoc/build/

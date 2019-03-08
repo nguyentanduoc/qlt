@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FilePond, registerPlugin } from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 import { save } from '../../actions/productAction'
-import '../../scss/inputImange.scss'
+import ImageUploader from 'react-images-upload';
+import { FilePond, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
 import {
   Row,
   Col,
@@ -20,10 +25,7 @@ import {
   Button,
   InputGroup
   } from 'reactstrap'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-registerPlugin(FilePondPluginImagePreview);
-
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export class index extends Component {
 
   constructor(props){
@@ -34,32 +36,10 @@ export class index extends Component {
       image:'',
       active: false,
       imageSrc: '',
-      loaded: false
+      loaded: false,
+      pictures: [],
     }
   }
-  onFileChange(e, file) {
-    var file = file || e.target.files[0],
-        pattern = /image-*/,
-        reader = new FileReader();
-    console.log(file);
-    if (!file.type.match(pattern)) {
-        alert('Formato inválido');
-        return;
-    }
-    
-    this.setState({ loaded: false });
-    
-    
-    
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      this.setState({ 
-          imageSrc: reader.result, 
-          loaded: true 
-      }); 
-  }
-    console.log(reader.result);
-}
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -73,8 +53,8 @@ export class index extends Component {
       productName: this.state.productName,
       virtue: this.state.virtue
     }
-    const data = new FormData(this.state);
-    data.append('file', this.state.image);
+    const data = new FormData();
+    data.append('file', this.state.files[0]);
     data.append('model',JSON.stringify(model));
     this.props.onSave(data);
     
@@ -82,16 +62,14 @@ export class index extends Component {
   onReset = (e) => {
     e.preventDefault();
   }
+  onDrop(picture) {
+
+    this.setState({
+        pictures: this.state.pictures.concat(picture),
+    });
+  }
   render() {
-    let state = this.state,
-    props = this.props,
-    labelClass  = `uploader ${state.loaded && 'loaded'}`,
-    borderColor = state.active ? props.activeColor : props.baseColor,
-    iconColor   = state.active 
-        ? props.activeColor
-        : (state.loaded) 
-            ? props.overlayColor 
-            : props.baseColor;
+    
     return (
       <div className="animated fadeIn">
         <Card>
@@ -125,8 +103,17 @@ export class index extends Component {
                 </FormGroup>
                 <FormGroup>
                   <Label>Ảnh</Label>
-                  <input type="file" accept="image/*" onChange={this.onFileChange.bind(this)} ref="input" />
-                  <img src={this.setState.imageSrc}/>
+                  <FilePond
+                  ref={ref => (this.pond = ref)}
+                  files={this.state.files}
+                  allowMultiple={false}
+                  onupdatefiles={fileItems => {
+                    // Set currently active file objects to this.state
+                    this.setState({
+                      files: fileItems.map(fileItem => fileItem.file)
+                    });
+                  }}
+                />
                 </FormGroup>
                 <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
                 <Button type="reset" size="sm" color="danger" ><i className="fa fa-ban"></i> Làm Rỗng</Button>
