@@ -18,6 +18,17 @@ public class SelectionDto implements Serializable {
 	
 	/** The label. */
 	private String label;
+	
+	/**
+	 * Instantiates a new selection dto.
+	 *
+	 * @param value the value
+	 * @param label the label
+	 */
+	public SelectionDto(Long value, String label) {
+		this.value = value;
+		this.label = label;
+	}
 
 	/**
 	 * Gets the value.

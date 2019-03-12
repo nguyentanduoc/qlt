@@ -50,7 +50,6 @@ class index extends Component {
   handleDeletedRow = async (e) => {
     e.preventDefault();
     await this.props.onDeleteShop(this.state.seletedKeys);
-    console.log("delete");
     this.setState({seletedKeys:[]});
   }
   render() {

@@ -22,7 +22,6 @@ class ModalDetail extends Component {
     this.props.onToggleModel();
   }
   render() {
-    console.log(this.props.shopReducer);
     return (
       <Modal isOpen={this.props.shopReducer.isOpenModal} toggle={this.togglePrimary.bind(this)}
         className={'modal-primary'}>

@@ -51,7 +51,6 @@ export class FormShop extends Component {
     this.resetForm();
   }
   resetForm = () => {
-    console.log("reset from")
     this.setState({
       id:'',
       nameShop:'',

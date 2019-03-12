@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_SPEC_NUM_OF_UNITS" cycle="false" minValue="1"
+			maxValue="9223372036854775807" startValue="100" incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="quy_dinh_don_vi">
+			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_SPEC_NUM_OF_UNITS')">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="ma_don_vi_dau" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="ma_don_vi_cuoi" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="so_luong" type="double">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint columnNames="ma_don_vi_dau ma_don_vi_cuoi"
+			constraintName="constraint_don_vi_dau_cuoi" deferrable="true" disabled="true" initiallyDeferred="true" schemaName="public"
+			tableName="quy_dinh_don_vi" />
+		<addForeignKeyConstraint
+			baseColumnNames="ma_don_vi_dau" baseTableName="quy_dinh_don_vi"
+			constraintName="fk_ma_don_vi_dau" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="don_vi" />
+		<addForeignKeyConstraint
+			baseColumnNames="ma_don_vi_cuoi" baseTableName="quy_dinh_don_vi"
+			constraintName="fk_ma_don_vi_cuoi" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="don_vi" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1552380786_created_quy_dinh_sl_dv" schemaName="public"
+			tableName="chi_nhanh">
+			<column name="id" type="NUMERIC" />
+			<column name="ma_don_vi_dau" type="NUMERIC" />
+			<column name="ma_don_vi_cuoi" type="NUMERIC" />
+			<column name="so_luong" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

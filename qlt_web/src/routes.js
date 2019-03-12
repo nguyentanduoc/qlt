@@ -45,6 +45,8 @@ const Branch = React.lazy(() => import('./views/Branch'));
 const Shop = React.lazy(() => import('./views/Shop'));
 const Employee = React.lazy(() => import('./views/Employee'));
 const Product = React.lazy(()=> import('./views/Product'));
+const BillImport = React.lazy(() => import('./views/Bill/Import'));
+const BillExport = React.lazy(() => import('./views/Bill/Export'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -98,6 +100,9 @@ const routes = [
   { path: '/director/employee', exact: true, name: 'Nhân Viên', component: Employee, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/director/shop', exact: true, name: 'Thông Tin Cửa Hàng', component: Branch, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/products/actions', exact: true, name: 'Thao Tác Sản Phẩm', component: Product, roles: [ROLES.ROLE_EMPLOYEE] },
+  { path: '/bill/buy-products', exact: true, name: 'Nhập Hàng', component: BillImport, roles: [ROLES.ROLE_EMPLOYEE] },
+  { path: '/bill/sell-products', exact: true, name: 'Nhập Hàng', component: BillExport, roles: [ROLES.ROLE_EMPLOYEE] }
+  
 ];
 
 export default routes;

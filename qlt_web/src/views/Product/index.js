@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import 'filepond/dist/filepond.min.css'
 import { save } from '../../actions/productAction'
-import ImageUploader from 'react-images-upload';
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+import AlertCommon from '../Common/AlertCommon'
 import {
   Row,
   Col,
@@ -18,13 +17,9 @@ import {
   CardFooter,
   FormGroup,
   Label,
-  Badge,
   Form,
   Input,
-  InputGroupAddon,
-  Button,
-  InputGroup
-  } from 'reactstrap'
+  Button  } from 'reactstrap'
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export class index extends Component {
 
@@ -79,10 +74,11 @@ export class index extends Component {
           <CardBody>
             <Row>
               <Col md='6'>
+              <AlertCommon/>
               <Form onSubmit={this.onSubmit.bind(this)} onReset={this.onReset.bind(this)}>
                 <Input type='hidden' name='id' onChange= {this.changeHandler.bind(this)}/>
                 <FormGroup>
-                  <Label>Tên Thuốc</Label>
+                  <Label htmlFor="productName">Tên Thuốc</Label>
                   <Input
                     type="text"
                     name="productName"
@@ -92,7 +88,7 @@ export class index extends Component {
                     value={this.state.productName}/>
                 </FormGroup>
                 <FormGroup>
-                  <Label>Công Dụng</Label>
+                  <Label htmlFor="virtue">Công Dụng</Label>
                   <Input
                     type="textarea"
                     name="virtue"
@@ -104,26 +100,23 @@ export class index extends Component {
                 <FormGroup>
                   <Label>Ảnh</Label>
                   <FilePond
-                  ref={ref => (this.pond = ref)}
-                  files={this.state.files}
-                  allowMultiple={false}
-                  onupdatefiles={fileItems => {
-                    // Set currently active file objects to this.state
-                    this.setState({
-                      files: fileItems.map(fileItem => fileItem.file)
-                    });
-                  }}
-                />
+                    ref={ref => (this.pond = ref)}
+                    files={this.state.files}
+                    allowMultiple={false}
+                    onupdatefiles={fileItems => {
+                      this.setState({
+                        files: fileItems.map(fileItem => fileItem.file)
+                      });
+                    }}
+                  />
                 </FormGroup>
                 <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
                 <Button type="reset" size="sm" color="danger" ><i className="fa fa-ban"></i> Làm Rỗng</Button>
               </Form>
               </Col>
             </Row>
-            
           </CardBody>
           <CardFooter>
-
           </CardFooter>
         </Card>
       </div>
@@ -131,7 +124,7 @@ export class index extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
   
 })
 
