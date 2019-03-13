@@ -12,7 +12,7 @@
 			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_EMPLOYEE')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="id_tai_khoan" type="bigint">
+			<column name="tai_khoan_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
 			<column name="ten_nhan_vien" type="varchar(254)">
@@ -28,7 +28,7 @@
 				<constraints nullable="true" />
 			</column>
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="id_tai_khoan" baseTableName="nhan_vien"
+		<addForeignKeyConstraint baseColumnNames="tai_khoan_id" baseTableName="nhan_vien"
 			constraintName="fk_tai_khoan_nhan_vien" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="tai_khoan" />
 	</changeSet>
@@ -36,7 +36,7 @@
 		<loadUpdateData encoding="UTF-8" file="db/changelog/csv/1551283082_created_employer.csv" primaryKey="id"
 			schemaName="public" tableName="nhan_vien">
 			<column name="id" type="NUMERIC" />
-			<column name="id_tai_khoan" type="NUMERIC" />
+			<column name="tai_khoan_id" type="NUMERIC" />
 			<column name="ten_nhan_vien" type="STRING" />
 		</loadUpdateData>
 	</changeSet>

@@ -12,7 +12,7 @@
 			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_SHOP')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="id_nhan_vien" type="bigint" >
+			<column name="nhan_vien_id" type="bigint" >
 				<constraints nullable="false" unique="true"/>
 			</column>
 			<column name="ten_cua_hang" type="varchar(254)">
@@ -32,7 +32,7 @@
 			</column>
 		</createTable>
 		<addForeignKeyConstraint
-			baseColumnNames="id_nhan_vien" baseTableName="cua_hang"
+			baseColumnNames="nhan_vien_id" baseTableName="cua_hang"
 			constraintName="fk_nhan_vien_cua_hang" deferrable="true"
 			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="nhan_vien" />
@@ -44,7 +44,7 @@
 			<column name="ten_cua_hang" type="string" />
 			<column name="ngay_thanh_lap" type="datetime" />
 			<column name="hoat_dong" type="boolean" />
-			<column name="id_nhan_vien" type="NUMERIC" />
+			<column name="nhan_vien_id" type="NUMERIC" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

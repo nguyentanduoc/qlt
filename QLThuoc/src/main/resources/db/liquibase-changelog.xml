@@ -18,4 +18,8 @@
 	<include file="changelog/1551287672_created_table_employee_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1551458190_insert_nav_for_director.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1551884306_nav_drug_bill.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552380150_created_table_donvi.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552380786_created_quy_dinh_sl_dv.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552443192_created_san_pham.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552443707_created_qd_dv_sp.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

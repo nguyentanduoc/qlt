@@ -10,7 +10,8 @@ import appSettingReducer from './appSettingReducer';
 import branchReducer from './branchReducer';
 import shopReducer from './shopReducer';
 import employeeReducer from './employeeReducer';
-import importRoductReducer from './importProductReducer'
+import importRoductReducer from './importProductReducer';
+import productReducer from './productReducer';
 
 export default combineReducers({
     error: errorReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
     branchReducer,
     shopReducer,
     employeeReducer,
-    importRoductReducer
+    importRoductReducer,
+    productReducer
 });

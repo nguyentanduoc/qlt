@@ -19,3 +19,20 @@ export const initSuccess = (data) => {
     payload: data
   }
 }
+
+export const getSpecUnit = (productId) =>{
+  return async (dispatch) => {
+    try {
+      const response = await Axios.post(API.PRODUCT.GET_SPEC_UNIT, productId ,headerConfig);
+      dispatch(setSpecUnitSelection(response.data));
+    } catch(err) {
+      dispatch(showAlertFail(err));
+    }
+  }
+}
+export const setSpecUnitSelection = (data) => {
+  return {
+    type: ACTION_TYPES.IMPORT.SET_SPEC_SELECTION,
+    payload: data
+  }
+}

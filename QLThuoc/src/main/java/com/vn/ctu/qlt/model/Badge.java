@@ -9,26 +9,49 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+/**
+ * The Class Badge.
+ *
+ * @author ntduoc
+ * @since 2019-03-13
+ */
 @Entity
 @Table(name = "badges")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Badge implements Serializable {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1292363098980499615L;
 
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	/** The variant. */
 	@Column(length = 254, name = "variant")
 	private String variant;
 
+	/** The text. */
 	@Column(length = 254, name = "text")
 	private String text;
 
+	/**
+	 * Instantiates a new badge.
+	 */
 	public Badge() {
 
 	}
 
+	/**
+	 * Instantiates a new badge.
+	 *
+	 * @param id the id
+	 * @param variant the variant
+	 * @param text the text
+	 */
 	public Badge(Integer id, String variant, String text) {
 		super();
 		this.id = id;
@@ -36,26 +59,56 @@ public class Badge implements Serializable {
 		this.text = text;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the variant.
+	 *
+	 * @return the variant
+	 */
 	public String getVariant() {
 		return variant;
 	}
 
+	/**
+	 * Sets the variant.
+	 *
+	 * @param variant the new variant
+	 */
 	public void setVariant(String variant) {
 		this.variant = variant;
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @return the text
+	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * Sets the text.
+	 *
+	 * @param text the new text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}

@@ -13,7 +13,7 @@
 			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_BRANCH')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="id_cua_hang" type="bigint">
+			<column name="cua_hang_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
 			<column name="ten_chi_nhanh" type="varchar(254)">
@@ -33,7 +33,7 @@
 			</column>
 		</createTable>
 		<addForeignKeyConstraint
-			baseColumnNames="id_cua_hang" baseTableName="chi_nhanh"
+			baseColumnNames="cua_hang_id" baseTableName="chi_nhanh"
 			constraintName="fk_cua_hang_chi_nhanh" deferrable="true"
 			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="cua_hang" />
@@ -48,7 +48,7 @@
 			<column name="vi_do" type="NUMERIC" />
 			<column name="hoat_dong" type="BOOLEAN" />
 			<column name="dia_chi" type="String"/>
-			<column name="id_cua_hang" type="NUMERIC"/>
+			<column name="cua_hang_id" type="NUMERIC"/>
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

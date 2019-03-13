@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import 'filepond/dist/filepond.min.css'
-import { save } from '../../actions/productAction'
+import { save, init } from '../../actions/productAction'
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
 import AlertCommon from '../Common/AlertCommon'
+import Select from 'react-select'
 import {
   Row,
   Col,
@@ -31,8 +32,7 @@ export class index extends Component {
       image:'',
       active: false,
       imageSrc: '',
-      loaded: false,
-      pictures: [],
+      specUnits: []
     }
   }
   changeHandler = (e) => {
@@ -46,7 +46,8 @@ export class index extends Component {
     e.preventDefault();
     const model = {
       productName: this.state.productName,
-      virtue: this.state.virtue
+      virtue: this.state.virtue,
+      specUnits: this.state.specUnits
     }
     const data = new FormData();
     data.append('file', this.state.files[0]);
@@ -58,13 +59,19 @@ export class index extends Component {
     e.preventDefault();
   }
   onDrop(picture) {
-
     this.setState({
         pictures: this.state.pictures.concat(picture),
     });
   }
+  componentWillMount() {
+    this.props.onInit();
+  }
+  handleSeletion = (e, selection) => {
+    this.setState({
+      specUnits: e
+    })
+  }
   render() {
-    
     return (
       <div className="animated fadeIn">
         <Card>
@@ -98,6 +105,15 @@ export class index extends Component {
                     value={this.state.virtue}/>
                 </FormGroup>
                 <FormGroup>
+                  <Label htmlFor="specUnit">Quy Định Đơn Vị</Label>
+                  <Select 
+                    options={this.props.productReducer.specUnits}
+                    onChange={this.handleSeletion.bind(this)}
+                    isMulti = {true}
+                    name="specUnit"
+                    />
+                </FormGroup>
+                <FormGroup>
                   <Label>Ảnh</Label>
                   <FilePond
                     ref={ref => (this.pond = ref)}
@@ -124,14 +140,18 @@ export class index extends Component {
   }
 }
 
-const mapStateToProps = () => ({
-  
+const mapStateToProps = (state) => ({
+  productReducer: state.productReducer
 })
 
 const mapDispatchToProps = (dispath) => ({
   onSave: (form) => {
     return dispath(save(form));
+  },
+  onInit: () => {
+    return dispath(init());
   }
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)

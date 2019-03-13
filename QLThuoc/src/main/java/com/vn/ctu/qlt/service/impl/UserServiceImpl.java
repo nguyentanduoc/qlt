@@ -37,6 +37,8 @@ import com.vn.ctu.qlt.sevice.mapper.UserMapper;
  * @since 06-03-2019
  */
 @Service
+@Transactional
+
 public class UserServiceImpl implements UserSerivce {
 
 	/** The from table. */
@@ -72,7 +74,6 @@ public class UserServiceImpl implements UserSerivce {
 	 * @see com.vn.ctu.qlt.service.UserSerivce#searchUser(java.lang.String, org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	@Transactional
 	public PageImpl<User> searchUser(String condition, Pageable page) {
 		String[] conditions = condition.split(" ");
 		this.conditions = conditions;

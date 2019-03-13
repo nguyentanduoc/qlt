@@ -36,14 +36,14 @@
 			<column name="is_children" type="boolean">
 				<constraints nullable="false" />
 			</column>
-			<column name="id_parent" type="bigint">
+			<column name="parent_id" type="bigint">
 				<constraints nullable="true" />
 			</column>
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="badge_id" baseTableName="navigration"
 			constraintName="fk_navigration_badges" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="badges" />
-		<addForeignKeyConstraint baseColumnNames="id_parent" baseTableName="navigration"
+		<addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="navigration"
 			constraintName="fk_parent_nav" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="navigration" />
 	</changeSet>
@@ -60,7 +60,7 @@
 			<column name="badge_id" type="NUMERIC" />
 			<column name="has_children" type="BOOLEAN" />
 			<column name="is_children" type="BOOLEAN" />
-			<column name="id_parent" type="NUMERIC" />
+			<column name="parent_id" type="NUMERIC" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

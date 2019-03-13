@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_PRODUCTS" cycle="false" minValue="1" maxValue="9223372036854775807"
+			startValue="100" incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="san_pham">
+			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_PRODUCTS')">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="ten_san_pham" type="varchar(256)">
+				<constraints nullable="false" unique="true"/>
+			</column>
+			<column name="cong_dung" type="varchar(2000)">
+				<constraints nullable="false" />
+			</column>
+			<column name="hinh_anh" type="varchar(2000)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1552443192_created_san_pham.csv" schemaName="public"
+			tableName="san_pham">
+			<column name="id" type="NUMERIC" />
+			<column name="ten_san_pham" type="STRING" />
+			<column name="cong_dung" type="STRING" />
+			<column name="hinh_anh" type="STRING" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

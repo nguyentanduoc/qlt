@@ -28,6 +28,7 @@ import com.vn.ctu.qlt.service.UserSerivce;
  * @since 06-03-2019
  */
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
 	/** The employee repository. */
@@ -83,7 +84,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * @see com.vn.ctu.qlt.service.EmployeeService#save(com.vn.ctu.qlt.dto.EmployeeDto)
 	 */
 	@Override
-	@Transactional
 	public Employee save(EmployeeDto employeeDto) {
 		Set<Branch> branchs = branchService.findByList(employeeDto.getBranchs());
 		Set<Role> roles = roleSerice.getRolesByRoleSeletion(employeeDto.getRoles());

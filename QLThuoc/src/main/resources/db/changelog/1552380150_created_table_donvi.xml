@@ -12,14 +12,14 @@
 			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_UNIT')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="ten_don_vi" type="STRING">
+			<column name="ten_don_vi" type="varchar(254)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
 		<loadData encoding="UTF-8" file="db/changelog/csv/1552380150_created_table_donvi.csv" schemaName="public"
-			tableName="chi_nhanh">
+			tableName="don_vi">
 			<column name="id" type="NUMERIC" />
 			<column name="ten_don_vi" type="STRING" />
 		</loadData>

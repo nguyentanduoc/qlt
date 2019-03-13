@@ -58,7 +58,11 @@ export const ACTION_TYPES = {
     INIT: "EMPLOYEE_INIT"
   },
   IMPORT: {
-    INIT: "IMPORT_INIT"
+    INIT: "IMPORT_INIT",
+    SET_SPEC_SELECTION: "IMPORT_SET_SPEC_SELECTION"
+  },
+  PRODUCT: {
+    INIT_SUCCESS: "PRODUCT_INIT_SUCCESS"
   }
 }
 export const LOCAL_STORAGE = {
@@ -100,10 +104,12 @@ export const API = {
     SELECT_ALL: `${BASE_URI}/api/employee/select-all`,
   },
   PRODUCT: {
+    INIT: `${BASE_URI}/api/product/init`,
     SAVE: `${BASE_URI}/api/product/save`,
+    GET_SPEC_UNIT: `${BASE_URI}/api/product/getSpecUnit`
   },
   IMPORT: {
-    INIT: `${BASE_URI}/api/import-product/init`
+    INIT: `${BASE_URI}/api/import-product/init`,
   }
 }
 

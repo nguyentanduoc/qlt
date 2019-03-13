@@ -25,6 +25,7 @@ import com.vn.ctu.qlt.sevice.mapper.RoleMapper;
  * @since 06-03-2019
  */
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
 	/** The role repository. */

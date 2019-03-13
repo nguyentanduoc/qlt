@@ -1,16 +1,22 @@
 import { ACTION_TYPES } from "../constants";
 
 const initialState = {
-  products: []
+  products: [],
+  specUnitSelection: []
 }
 
 export default (state = initialState, { type, payload }) => {
+  console.log({ type, payload });
   switch (type) {
 
   case ACTION_TYPES.IMPORT.INIT:
     return { ...state, products: payload.products }
-
-  default:
-    return state
+  
+  case ACTION_TYPES.IMPORT.SET_SPEC_SELECTION:
+    console.log(payload);
+    return { ...state, specUnitSelection: payload }
+  
+    default:
+      return state
   }
 }

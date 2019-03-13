@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_SPEC_UNITS_OF_PRODUCTS" cycle="false" minValue="1"
+			maxValue="9223372036854775807" startValue="100" incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="quy_dinh_don_vi_san_pham">
+			<column name="quy_dinh_don_vi_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="san_pham_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint columnNames="quy_dinh_don_vi_id, san_pham_id"
+			constraintName="constraintquy_dinh_don_vi_san_pham" deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="quy_dinh_don_vi_san_pham" />
+		<addForeignKeyConstraint baseColumnNames="quy_dinh_don_vi_id" baseTableName="quy_dinh_don_vi_san_pham"
+			constraintName="fk_quy_dinh_don_vi_id" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="quy_dinh_don_vi" />
+		<addForeignKeyConstraint baseColumnNames="san_pham_id" baseTableName="quy_dinh_don_vi_san_pham"
+			constraintName="fk_san_pham_quy_dinh_don_vi_san_pham" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="san_pham" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1552443707_created_qd_dv_sp.csv" schemaName="public"
+			tableName="quy_dinh_don_vi_san_pham">
+			<column name="quy_dinh_don_vi_id" type="NUMERIC" />
+			<column name="san_pham_id" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

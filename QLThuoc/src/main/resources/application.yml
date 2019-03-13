@@ -21,6 +21,12 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: "true"
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
 logging:
   level:
     org.hibernate.SQL: DEBUG
@@ -37,3 +43,6 @@ app:
   domain.email: '@gmail.com'
 server:
   port: 8090
+file:
+  upload-dir: ./src/main/resources/static/
+  img: img/

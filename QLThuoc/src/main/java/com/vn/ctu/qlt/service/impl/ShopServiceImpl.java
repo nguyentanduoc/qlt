@@ -31,33 +31,50 @@ import com.vn.ctu.qlt.service.ShopService;
 import com.vn.ctu.qlt.service.UserSerivce;
 import com.vn.ctu.qlt.sevice.mapper.ShopMapper;
 
+/**
+ * The Class ShopServiceImpl.
+ *
+ * @author ntduoc
+ * @since 2019-03-13
+ */
 @Service
+@Transactional
 public class ShopServiceImpl implements ShopService {
 
+	/** The Constant FromTableName. */
 	static final StringBuilder FromTableName = new StringBuilder(" from cua_hang ");
 
+	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	/** The shop repository. */
 	@Autowired
 	private ShopRepository shopRepository;
 
+	/** The shop mapper. */
 	@Autowired
 	private ShopMapper shopMapper;
 	
+	/** The user serivce. */
 	@Autowired
 	private UserSerivce userSerivce;
 	
+	/** The domain email. */
 	@Value("${app.domain.email}")
 	private String domainEmail;
 	
+	/** The employee service. */
 	@Autowired
 	private EmployeeService employeeService;
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.ShopService#save(com.vn.ctu.qlt.dto.ShopDto)
+	 */
 	@Override
-	@Transactional
 	public Map<String, Object> save(ShopDto shopDto) {
 		String name[] = shopDto.getNameShop().split(" ");
 		StringBuilder userName = new StringBuilder();
@@ -95,6 +112,9 @@ public class ShopServiceImpl implements ShopService {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.ShopService#select(java.lang.String, org.springframework.data.domain.Pageable)
+	 */
 	@Override
 	public Page<Shop> select(String condition, Pageable page) {
 		if (condition != null) {
@@ -121,6 +141,14 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	/**
+	 * Count.
+	 *
+	 * @param sql the sql
+	 * @param params the params
+	 * @return the int
+	 * @throws DataAccessException the data access exception
+	 */
 	public int count(StringBuilder sql, List<String> params) throws DataAccessException {
 		StringBuilder sqlCount = new StringBuilder("Select count(*) ");
 		sqlCount.append(sql);
@@ -132,6 +160,9 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.ShopService#delete(java.lang.Long[])
+	 */
 	@Override
 	@Transactional
 	public void delete(Long[] keys) {
@@ -140,16 +171,25 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.ShopService#selectAll()
+	 */
 	@Override
 	public Iterable<Shop> selectAll() {
 		return shopRepository.findAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.ShopService#findById(java.lang.Long)
+	 */
 	@Override
 	public Optional<Shop> findById(Long id) {
 		return shopRepository.findById(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.ShopService#findShopByDirector(com.vn.ctu.qlt.model.Employee)
+	 */
 	@Override
 	public Optional<Shop> findShopByDirector(Employee employee) {
 		return shopRepository.findByEmployee(employee);

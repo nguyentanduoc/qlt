@@ -169,11 +169,11 @@ public class BranchSerivceImpl implements BranchService {
 		StringBuilder where = new StringBuilder();
 
 		sql.append("select chi_nhanh.id, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, ");
-		sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.id_cua_hang ");
+		sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.cua_hang_id ");
 		where.append("from chi_nhanh ");
-		where.append("inner join cua_hang on chi_nhanh.id_cua_hang = cua_hang.id ");
-		where.append("inner join nhan_vien on cua_hang.id_nhan_vien = nhan_vien.id ");
-		where.append("inner join tai_khoan on nhan_vien.id_tai_khoan = tai_khoan.id ");
+		where.append("inner join cua_hang on chi_nhanh.cua_hang_id = cua_hang.id ");
+		where.append("inner join nhan_vien on cua_hang.nhan_vien_id = nhan_vien.id ");
+		where.append("inner join tai_khoan on nhan_vien.tai_khoan_id = tai_khoan.id ");
 		where.append("where tai_khoan.id =? ");
 
 		Long countRecord = count(where, param);

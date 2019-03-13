@@ -34,7 +34,6 @@ export class index extends Component {
 
   }
   render() {
-    console.log(this.props.importRoductReducer)
     return (
       <div className="animated fadeIn">
         <Card>

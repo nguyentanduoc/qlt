@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table, Button } from 'antd'
 import Select from 'react-select'
+import { getSpecUnit } from '../../../actions/importProductAction'
 import {
   Row,
   Col,
@@ -21,7 +22,10 @@ export class TableBuy extends Component {
     super(props);
     this.state = {
       data:[],
-      modal: false
+      modal: false,
+      product: {},
+      specUnit: {},
+      amount:0
     }
   }
   onAddproduct = (e) => {
@@ -33,11 +37,29 @@ export class TableBuy extends Component {
       modal: !this.state.modal,
     });
   }
-  handleSeletion = () => {
-    
+  handleSeletion = (e, selection) => {
+    switch (selection.name) {
+      case 'product':
+        this.props.onGetSpecUnit(e.value);
+        this.setState({product: e});
+        break;
+      
+      case 'specUnit':
+        this.setState({specUnit: e});
+        break;
+      
+      default:
+        break;
+    }
+  }
+  changeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value
+    });
   }
   render() {
-    
     return (
       <div>
           <Row>
@@ -68,17 +90,26 @@ export class TableBuy extends Component {
             <ModalHeader toggle={this.toggle.bind(this)}>Modal title</ModalHeader>
             <ModalBody>
               <FormGroup>
-                <Label htmlFor=''></Label>
+                <Label htmlFor=''>Sản Phẩm</Label>
                   <Select 
                     options={this.props.importRoductReducer.products}
                     onChange={this.handleSeletion.bind(this)}
                     isMulti = {false}
-                    name="branchs"
+                    name="product"
                   />
               </FormGroup>
               <FormGroup>
-                <Label htmlFor=''></Label>
-                <Input name=''/>
+                <Label htmlFor=''>Đơn Vị</Label>
+                  <Select 
+                      options={this.props.importRoductReducer.specUnitSelection}
+                      onChange={this.handleSeletion.bind(this)}
+                      isMulti = {false}
+                      name="specUnit"
+                    />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor=''>Số Lượng</Label>
+                  <Input name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
               </FormGroup>
             </ModalBody>
             <ModalFooter>
@@ -95,8 +126,10 @@ const mapStateToProps = (state) => ({
   importRoductReducer: state.importRoductReducer
 })
 
-const mapDispatchToProps = {
-  
-}
+const mapDispatchToProps = (dispatch) => ({
+  onGetSpecUnit: (id) => {
+    return dispatch(getSpecUnit(id))
+  }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableBuy)

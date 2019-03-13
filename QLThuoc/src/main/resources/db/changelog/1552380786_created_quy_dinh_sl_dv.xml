@@ -12,36 +12,32 @@
 			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_SPEC_NUM_OF_UNITS')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="ma_don_vi_dau" type="bigint">
+			<column name="don_vi_dau_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
-			<column name="ma_don_vi_cuoi" type="bigint">
+			<column name="don_vi_cuoi_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
-			<column name="so_luong" type="double">
+			<column name="so_luong" type="int">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<addUniqueConstraint columnNames="ma_don_vi_dau ma_don_vi_cuoi"
-			constraintName="constraint_don_vi_dau_cuoi" deferrable="true" disabled="true" initiallyDeferred="true" schemaName="public"
-			tableName="quy_dinh_don_vi" />
-		<addForeignKeyConstraint
-			baseColumnNames="ma_don_vi_dau" baseTableName="quy_dinh_don_vi"
-			constraintName="fk_ma_don_vi_dau" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+		<addUniqueConstraint columnNames="don_vi_dau_id, don_vi_cuoi_id"
+			constraintName="constraint_don_vi_dau_cuoi" deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="quy_dinh_don_vi" />
+		<addForeignKeyConstraint baseColumnNames="don_vi_dau_id" baseTableName="quy_dinh_don_vi"
+			constraintName="fk_don_vi_dau_id" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="don_vi" />
-		<addForeignKeyConstraint
-			baseColumnNames="ma_don_vi_cuoi" baseTableName="quy_dinh_don_vi"
-			constraintName="fk_ma_don_vi_cuoi" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+		<addForeignKeyConstraint baseColumnNames="don_vi_cuoi_id" baseTableName="quy_dinh_don_vi"
+			constraintName="fk_don_vi_cuoi_id" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="don_vi" />
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
-		<loadData encoding="UTF-8" file="db/changelog/csv/1552380786_created_quy_dinh_sl_dv" schemaName="public"
-			tableName="chi_nhanh">
+		<loadData encoding="UTF-8" file="db/changelog/csv/1552380786_created_quy_dinh_sl_dv.csv" schemaName="public"
+			tableName="quy_dinh_don_vi">
 			<column name="id" type="NUMERIC" />
-			<column name="ma_don_vi_dau" type="NUMERIC" />
-			<column name="ma_don_vi_cuoi" type="NUMERIC" />
+			<column name="don_vi_dau_id" type="NUMERIC" />
+			<column name="don_vi_cuoi_id" type="NUMERIC" />
 			<column name="so_luong" type="NUMERIC" />
 		</loadData>
 	</changeSet>

@@ -20,7 +20,7 @@ public class BranchMapper implements RowMapper<Branch> {
 	
 	@Override
 	public Branch mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Optional<Shop> shop = shopRepository.findById(rs.getLong("id_cua_hang"));
+		Optional<Shop> shop = shopRepository.findById(rs.getLong("cua_hang_id"));
 		return Branch.builder()
 				.withId(rs.getLong("id"))
 				.withAddress(rs.getString("dia_chi"))

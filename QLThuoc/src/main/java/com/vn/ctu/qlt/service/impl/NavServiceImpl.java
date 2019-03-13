@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +16,7 @@ import com.vn.ctu.qlt.service.NavService;
 import com.vn.ctu.qlt.sevice.mapper.NavigrationMapper;
 
 @Service
+@Transactional
 public class NavServiceImpl implements NavService {
 
 	@Autowired
