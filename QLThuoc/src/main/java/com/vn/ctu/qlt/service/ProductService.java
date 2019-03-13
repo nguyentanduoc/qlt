@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.vn.ctu.qlt.dto.ProductSelectionDto;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.model.Product;
-import com.vn.ctu.qlt.model.SpecUnit;
 
 /**
  * The Interface ProductService.

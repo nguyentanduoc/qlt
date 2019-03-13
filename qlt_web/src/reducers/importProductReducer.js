@@ -6,7 +6,6 @@ const initialState = {
 }
 
 export default (state = initialState, { type, payload }) => {
-  console.log({ type, payload });
   switch (type) {
 
   case ACTION_TYPES.IMPORT.INIT:

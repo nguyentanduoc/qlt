@@ -12,7 +12,10 @@ import {
   ModalFooter,
   FormGroup,
   Label,
-  Input
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
 } from 'reactstrap'
 
 const { Column } = Table;
@@ -22,10 +25,12 @@ export class TableBuy extends Component {
     super(props);
     this.state = {
       data:[],
+      dataView:[],
       modal: false,
       product: {},
       specUnit: {},
-      amount:0
+      amount:0,
+      price: 0
     }
   }
   onAddproduct = (e) => {
@@ -59,7 +64,26 @@ export class TableBuy extends Component {
       [name]: value
     });
   }
+  addImport = (e) => {
+    e.preventDefault();
+    let data = this.state.data;
+    let dataView = this.state.dataView;
+    data.push({
+      product: this.state.product,
+      specUnit: this.state.specUnit,
+      amount:this.state.amount,
+      price: this.state.price
+    });
+    dataView.push({
+      product: this.state.product.label,
+      specUnit: this.state.specUnit.label,
+      amount:this.state.amount,
+      price: this.state.price
+    });
+    this.setState({data: data, dataView: dataView});
+  }
   render() {
+    console.log(this.state.dataView)
     return (
       <div>
           <Row>
@@ -67,11 +91,11 @@ export class TableBuy extends Component {
           </Row>
           <Row>
             <Col md='12'>
-              <Table dataSource={this.state.data}>
+              <Table dataSource={this.state.dataView}>
                 <Column
                   title="Tên Thuốc"
-                  dataIndex="productName"
-                  key="productName"
+                  dataIndex="product"
+                  key="product"
                 />
                 <Column
                   title="Số lượng"
@@ -80,8 +104,13 @@ export class TableBuy extends Component {
                 />
                 <Column
                   title="Đơn vị"
-                  dataIndex="unit"
-                  key="unit"
+                  dataIndex="specUnit"
+                  key="specUnit"
+                />
+                <Column
+                  title="Trị Giá"
+                  dataIndex="price"
+                  key="price"
                 />
               </Table>
             </Col>
@@ -109,12 +138,27 @@ export class TableBuy extends Component {
               </FormGroup>
               <FormGroup>
                 <Label htmlFor=''>Số Lượng</Label>
-                  <Input name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
+                <Input name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor='price'>Trị Giá</Label>
+                <InputGroup>
+                  <Input 
+                    type="number" 
+                    id="price" 
+                    name="price" 
+                    placeholder="Trị giá" 
+                    onChange={this.changeHandler.bind(this)}
+                    value={this.state.price}/>
+                  <InputGroupAddon addonType="append">
+                    <InputGroupText>VN Đồng</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
               </FormGroup>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={this.toggle.bind(this)}>Do Something</Button>{' '}
-              <Button color="secondary" onClick={this.toggle.bind(this)}>Cancel</Button>
+              <Button color="primary" onClick={this.addImport.bind(this)}>Lưu và Tiếp Tục</Button>{' '}
+              <Button color="secondary" onClick={this.toggle.bind(this)}>Thoát</Button>
             </ModalFooter>
           </Modal>
       </div>

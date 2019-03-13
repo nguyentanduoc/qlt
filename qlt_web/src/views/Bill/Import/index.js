@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import DatePicker from 'react-datepicker'
 import TableImport from './TableImport'
 import { init } from '../../../actions/importProductAction'
+import AlertCommon from '../../Common/AlertCommon'
 import {
   Card,
   CardHeader,
@@ -12,7 +13,7 @@ import {
   FormGroup,
   Label
 } from 'reactstrap'
-import AlertCommon from '../../Common/AlertCommon';
+
 export class index extends Component {
 
   constructor(props){
