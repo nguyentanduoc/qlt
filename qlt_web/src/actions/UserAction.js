@@ -1,7 +1,7 @@
 import {ACTION_TYPES, API} from '../constants'
 import axios from 'axios'
 import config, {headerForGet} from '../helpers/headerHelper'
-import {showAlertSuccess, showAlertFail} from './alertAction'
+import {showAlertFail, showAlertAndReset} from './alertAction'
 import { setPagination } from '../actions/paginationAction'
 import { pageRequestDefault } from '../helpers/pageable'
 
@@ -30,7 +30,7 @@ export const createAccount = (account) => {
   return async (dispatch) => {
     try {
       await axios.post(API.USER.CREATE_ACCOUNT, account ,config);
-      await dispatch(showAlertSuccess());
+      await dispatch(showAlertAndReset());
       await dispatch(getUserLimit());
     } catch (error) {
       dispatch(showAlertFail(error));
@@ -70,7 +70,7 @@ export const deleteUser = (users) => {
   return async (dispatch) => {
     try {
       await axios.post(API.USER.DELETE_USER, users ,config);
-      await dispatch(showAlertSuccess());
+      await dispatch(showAlertAndReset());
     } catch(error) {
       dispatch(getFail(error));
     }

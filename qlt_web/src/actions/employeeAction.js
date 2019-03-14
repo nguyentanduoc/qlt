@@ -1,7 +1,7 @@
 import { API, ACTION_TYPES} from '../constants';
 import Axios from 'axios';
 import header from '../helpers/headerHelper';
-import { showAlertFail, showAlertSuccess } from './alertAction';
+import { showAlertFail, showAlertAndReset } from './alertAction';
 
 export const init = (idDirector) => {
   return async (dispatch) => {
@@ -35,7 +35,7 @@ export const save = (employee) => {
     try {
       const request = await Axios.post(API.EMPLOYEE.SAVE, employee, header);
       if(request.status === 200){
-        dispatch(showAlertSuccess());
+        dispatch(showAlertAndReset());
       } else {
         dispatch(showAlertFail("Không nhận dạng lỗi"));
       }

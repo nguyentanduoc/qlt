@@ -11,16 +11,7 @@
 			<column name="chi_nhanh_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
-			<column name="ngay_vao" type="date">
-				<constraints nullable="false" />
-			</column>
-			<column name="hoat_dong" type="boolean">
-				<constraints nullable="false" />
-			</column>
 		</createTable>
-		<addUniqueConstraint columnNames="nhan_vien_id, chi_nhanh_id"
-			constraintName="constraint_nhan_vien_chi_nhanh" deferrable="true" disabled="true" initiallyDeferred="true" schemaName="public"
-			tableName="nhan_vien_chi_nhanh" />
 		<addForeignKeyConstraint baseColumnNames="nhan_vien_id" baseTableName="nhan_vien_chi_nhanh"
 			constraintName="fk_nhan_vien_chi_nhanh_nhan_vien" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
 			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="nhan_vien" />
@@ -33,8 +24,6 @@
 			tableName="nhan_vien_chi_nhanh">
 			<column name="nhan_vien_id" type="NUMERIC" />
 			<column name="chi_nhanh_id" type="NUMERIC" />
-			<column name="ngay_vao" type="datetime" />
-			<column name="hoat_dong" type="BOOLEAN" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

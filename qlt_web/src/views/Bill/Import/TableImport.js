@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table, Button } from 'antd'
+import { Table } from 'antd'
 import Select from 'react-select'
 import { getSpecUnit } from '../../../actions/importProductAction'
+import DatePicker from 'react-datepicker'
 import {
+  Button,
   Row,
   Col,
   Modal,
@@ -30,7 +32,8 @@ export class TableBuy extends Component {
       product: {},
       specUnit: {},
       amount:0,
-      price: 0
+      price: 0,
+      createBillDate: new Date(),
     }
   }
   onAddproduct = (e) => {
@@ -82,41 +85,53 @@ export class TableBuy extends Component {
     });
     this.setState({data: data, dataView: dataView});
   }
+  handleChangeDate = (e) => {
+
+  }
   render() {
     console.log(this.state.dataView)
     return (
       <div>
-          <Row>
-            <Button onClick={this.onAddproduct.bind(this)}>Thêm Sản Phẩm</Button>
-          </Row>
-          <Row>
-            <Col md='12'>
-              <Table dataSource={this.state.dataView}>
-                <Column
-                  title="Tên Thuốc"
-                  dataIndex="product"
-                  key="product"
-                />
-                <Column
-                  title="Số lượng"
-                  dataIndex="amount"
-                  key="amount"
-                />
-                <Column
-                  title="Đơn vị"
-                  dataIndex="specUnit"
-                  key="specUnit"
-                />
-                <Column
-                  title="Trị Giá"
-                  dataIndex="price"
-                  key="price"
-                />
-              </Table>
+          <Row >
+            <Col xs="6" md="6">
+              <FormGroup>
+                <Label htmlFor='dateCreated' className='pr-1'>Ngày Nhập</Label>
+                <DatePicker
+                      className="form-control"
+                      selected={this.state.createBillDate}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={this.handleChangeDate.bind(this)}
+                      name='dateCreated'/>
+              </FormGroup>
+            </Col>
+            <Col xs="6" md="6" className="text-right">
+              <Button onClick={this.onAddproduct.bind(this)} size="sm" color="primary" className="btn-brand mr-1 mb-1"><i className="fas fa-plus"></i><span>Thêm Sản Phẩm</span></Button>
             </Col>
           </Row>
+            <Table dataSource={this.state.dataView}>
+              <Column
+                title="Tên sản phẩm"
+                dataIndex="product"
+                key="product"
+              />
+              <Column
+                title="Số lượng"
+                dataIndex="amount"
+                key="amount"
+              />
+              <Column
+                title="Đơn vị"
+                dataIndex="specUnit"
+                key="specUnit"
+              />
+              <Column
+                title="Trị Giá"
+                dataIndex="price"
+                key="price"
+              />
+            </Table>
           <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)} >
-            <ModalHeader toggle={this.toggle.bind(this)}>Modal title</ModalHeader>
+            <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>
             <ModalBody>
               <FormGroup>
                 <Label htmlFor=''>Sản Phẩm</Label>

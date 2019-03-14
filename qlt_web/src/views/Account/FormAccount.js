@@ -167,7 +167,7 @@ export class FormAccount extends Component {
                   </FormGroup>
               </CardBody>
               <CardFooter className="text-right">
-                  <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+                  <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>{' '}
                   <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Hủy</Button>
               </CardFooter>
           </Card>

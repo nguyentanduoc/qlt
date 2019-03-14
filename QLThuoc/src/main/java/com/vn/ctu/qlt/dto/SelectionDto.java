@@ -21,6 +21,12 @@ public class SelectionDto implements Serializable {
 	
 	/**
 	 * Instantiates a new selection dto.
+	 */
+	public SelectionDto() {
+		super();
+	}
+	/**
+	 * Instantiates a new selection dto.
 	 *
 	 * @param value the value
 	 * @param label the label

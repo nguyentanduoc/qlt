@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @since 2019-03-13
  */
 @Entity
-@Table(name = "cua_hang", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_cua_hang" }) })
+@Table(name = "cua_hang")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Shop extends DateAudit {
 
@@ -52,14 +51,13 @@ public class Shop extends DateAudit {
 	private Boolean isEnabled;
 
 	/** The employee. */
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "nhan_vien_id")
 	private Employee employee;
 
 	/** The branchs. */
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "id")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "shop")
 	private Set<Branch> branchs;
 
 	/**

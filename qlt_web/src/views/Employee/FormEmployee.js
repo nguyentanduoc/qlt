@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import AlertCommon from '../Common/AlertCommon'
 import Select from 'react-select'
 import { init, save } from '../../actions/employeeAction'
+import DatePicker from 'react-datepicker'
 import {
   Form,
   Card,
@@ -23,13 +24,15 @@ export class FormEmployee extends Component {
       numberPhone:'',
       username:'',
       branchs: [],
-      roles: []
+      roles: [],
+      dateJoin: new Date()
     }
   }
   componentWillMount(){
     this.props.onInit(this.props.authReducer.user.id);
   }
   handleSubmit = (e) => {
+    console.log(this.state);
     e.preventDefault();
     this.props.onSave(this.state);
   }
@@ -58,7 +61,9 @@ export class FormEmployee extends Component {
       default:
         break;
     }
-    
+  }
+  handleChangeDate = dateJoin => {
+    this.setState({ dateJoin: dateJoin});
   }
   render() {
     return (
@@ -105,6 +110,14 @@ export class FormEmployee extends Component {
                   />
               </FormGroup>
               <FormGroup >
+                <Label>Ngày bắt đầu làm việc</Label>
+                <DatePicker
+                      className="form-control"
+                      selected={new Date(this.state.dateJoin)}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={this.handleChangeDate.bind(this)}/>
+              </FormGroup>
+              <FormGroup >
                 <Label>Chi nhánh</Label>
                 <Select 
                   options={this.props.employeeReducer.branchsSeletion}
@@ -124,7 +137,7 @@ export class FormEmployee extends Component {
               </FormGroup>
           </CardBody>
           <CardFooter className="text-right">
-            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>{' '}
             <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Hủy</Button>
           </CardFooter>
         </Card>

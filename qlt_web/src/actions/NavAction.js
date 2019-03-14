@@ -1,7 +1,7 @@
 import { NAV_ACTION_TYPE, NAV_API, ACTION_TYPES } from '../constants';
 import axios from 'axios';
 import { header } from '../helpers/headerHelper';
-import {showAlertFail, showAlertSuccess} from '../actions/alertAction';
+import {showAlertFail, showAlertAndReset} from '../actions/alertAction';
 
 export const getAllNav = () => {
     let config = {
@@ -20,13 +20,13 @@ export const getAllNav = () => {
         }
     }
 }
-export const getAllSubNav = (sortNum) => {
+export const getAllSubNav = (id) => {
     let config = {
         headers: header()
     };
     return async (dispatch) => {
         try {
-            const res = await axios.post(NAV_API.GET_ALL_SUB_NAV, sortNum, config);
+            const res = await axios.post(NAV_API.GET_ALL_SUB_NAV, id, config);
             dispatch(getAllSubNavSuccess(res.data));
         } catch (err) {
             if (err && err.response && err.response.data && err.response.data.message) {
@@ -45,7 +45,7 @@ export const updateNav = (nav) => {
     return async (dispatch) => {
         try {
             const res = await axios.post(NAV_API.UPDATE_NAV, nav, config);
-            dispatch(showAlertSuccess("Cập nhật thành công"));
+            dispatch(showAlertAndReset("Cập nhật thành công"));
             dispatch(updateSuccess(res.data));
         } catch (err) {
             if (err && err.response && err.response.data && err.response.data.message) {

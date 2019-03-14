@@ -8,7 +8,6 @@ package com.vn.ctu.qlt.dto;
  */
 public class BranchsSeletionDto extends SelectionDto {
 
-	
 	/**
 	 * Instantiates a new branchs seletion dto.
 	 *
@@ -17,6 +16,13 @@ public class BranchsSeletionDto extends SelectionDto {
 	 */
 	public BranchsSeletionDto(Long value, String label) {
 		super(value, label);
+	}
+
+	/**
+	 * Instantiates a new branchs seletion dto.
+	 */
+	public BranchsSeletionDto() {
+		super();
 	}
 
 	/** The Constant serialVersionUID. */

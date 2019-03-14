@@ -67,6 +67,3 @@ export const saveSuccess = (data) => ({
 export const resetSaveSuccess = () => ({
   type:ACTION_TYPES.SHOP.RESET_SAVE_SUCCESS
 })
-export const toggleModal = () => ({
-  type:ACTION_TYPES.SHOP.TOGGLE_MODAL
-})

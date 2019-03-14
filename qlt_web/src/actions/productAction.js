@@ -1,7 +1,7 @@
 import { API, ACTION_TYPES } from '../constants'
 import Axios from 'axios';
 import header from '../helpers/headerHelper';
-import { showAlertFail, showAlertSuccess } from './alertAction';
+import { showAlertFail, showAlertAndReset } from './alertAction';
 
 export const init  = () => {
   return async (dispatch) => {
@@ -18,7 +18,7 @@ export const save = (form) => {
   return async (dispatch) => {
     try {
       await Axios.post(API.PRODUCT.SAVE, form, header);
-      dispatch(showAlertSuccess());
+      dispatch(showAlertAndReset());
     } catch (err) {
       dispatch(showAlertFail(err));
     }

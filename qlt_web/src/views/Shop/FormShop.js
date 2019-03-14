@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DatePicker from "react-datepicker"
-import { save, resetFlgDetail, resetSaveSuccess, toggleModal } from '../../actions/shopAction'
+import { save, resetFlgDetail, resetSaveSuccess } from '../../actions/shopAction'
 import 'moment-timezone'
 import moment from 'moment'
 import * as jsPDF from 'jspdf'
@@ -26,8 +26,8 @@ export class FormShop extends Component {
     this.state = {
       id:'',
       nameShop:'',
-      createdAt:'',
-      updatedAt: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
       establishAt: new Date(),
       isEnabled: true,
       fullName:''
@@ -54,10 +54,11 @@ export class FormShop extends Component {
     this.setState({
       id:'',
       nameShop:'',
-      createdAt:'',
-      updatedAt: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
       establishAt: new Date(),
-      isEnabled: true
+      isEnabled: true,
+      fullName:''
     })
   }
   changeHandler = (e) => {
@@ -85,7 +86,7 @@ export class FormShop extends Component {
       updatedAt:shop.updatedAt,
       establishAt:shop.establishAt,
       isEnabled: shop.isEnabled,
-      fullName: shop.fullName
+      fullName: shop.employee.nameEmployee
     });
   }
   componentDidUpdate = () => {
@@ -100,10 +101,6 @@ export class FormShop extends Component {
       this.resetForm();
       this.props.onResetSaveSuccess();
     }
-  }
-  showInfo = (e) => {
-    e.preventDefault();
-    this.props.onToggleModal();
   }
   toggleFormShopInfo = (e) => {
     e.preventDefault();
@@ -177,7 +174,7 @@ export class FormShop extends Component {
                     placeholder="Ngày Cập Nhật" 
                     disabled
                     onChange={this.changeHandler.bind(this)}
-                    value={moment(this.state.createdAt).format('DD/MM/YYYY')}/>
+                    value={moment(this.state.updatedAt).format('DD/MM/YYYY')}/>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -195,7 +192,7 @@ export class FormShop extends Component {
               </FormGroup>
             </CardBody>
             <CardFooter className='text-right'>
-            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button> {' '}
             <Button type="reset" size="sm" color="danger" ><i className="fa fa-ban"></i> Làm Rỗng</Button>
           </CardFooter>
         </Card>
@@ -217,9 +214,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onResetSaveSuccess: () => {
     return dispatch(resetSaveSuccess());
-  },
-  onToggleModal: () => {
-    return dispatch(toggleModal());
   }
 })
 

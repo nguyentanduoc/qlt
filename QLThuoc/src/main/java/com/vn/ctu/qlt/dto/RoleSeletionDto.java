@@ -8,6 +8,9 @@ package com.vn.ctu.qlt.dto;
  */
 public class RoleSeletionDto extends SelectionDto {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7401683827090452429L;
+
 	/**
 	 * Instantiates a new role seletion dto.
 	 *
@@ -18,7 +21,11 @@ public class RoleSeletionDto extends SelectionDto {
 		super(value, label);
 	}
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 7401683827090452429L;
+	/**
+	 * Instantiates a new role seletion dto.
+	 */
+	public RoleSeletionDto() {
+		super();
+	}
 
 }

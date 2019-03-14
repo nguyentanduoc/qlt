@@ -11,10 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -58,7 +60,11 @@ public class Employee implements Serializable {
 	private String address;
 	
 	/** The branchs. */
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "nhan_vien_chi_nhanh", 
+		joinColumns = @JoinColumn(name = "nhan_vien_id"), 
+		inverseJoinColumns = @JoinColumn(name = "chi_nhanh_id"))
+	@JsonIgnore
 	private Set<Branch> branchs;
 
 	/**

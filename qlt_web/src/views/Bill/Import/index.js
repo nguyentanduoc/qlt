@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import DatePicker from 'react-datepicker'
 import TableImport from './TableImport'
 import { init } from '../../../actions/importProductAction'
 import AlertCommon from '../../Common/AlertCommon'
@@ -9,19 +8,9 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Form,
-  FormGroup,
-  Label
-} from 'reactstrap'
+  Form} from 'reactstrap'
 
 export class index extends Component {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      createBillDate: new Date(),
-    }
-  }
   componentWillMount(){
     this.props.onInit();
   }
@@ -31,7 +20,7 @@ export class index extends Component {
   onReset = (e) => {
     e.reventDefault();
   }
-  handleChangeDate = (e) => {
+  handleChangeDate = () => {
 
   }
   render() {
@@ -42,14 +31,6 @@ export class index extends Component {
           <CardBody>
             <AlertCommon/>
             <Form onSubmit={this.onSubmit.bind(this)} onReset = {this.onReset.bind(this)}>
-              <FormGroup>
-                <Label htmlFor="">Ngày Nhập</Label>
-                <DatePicker
-                      className="form-control"
-                      selected={this.state.createBillDate}
-                      dateFormat="dd/MM/yyyy"
-                      onChange={this.handleChangeDate.bind(this)}/>
-              </FormGroup>
               <TableImport/>
             </Form>
           </CardBody>

@@ -52,7 +52,6 @@ export class index extends Component {
   }
 
   componentWillMount(){
-
     this.props.onSelect(
       {
         idDirector:this.state.idDirector,

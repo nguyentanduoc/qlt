@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { login } from '../../../actions/authenAction';
@@ -56,13 +55,13 @@ class Login extends Component {
       <div className="app flex-row align-items-center">
         <Container>
           <Row className="justify-content-center">
-            <Col md="8">
+            <Col md="5">
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
                     <Form>
-                      <h1>Login</h1>
-                      <p className="text-muted">Sign In to your account</p>
+                      <h1>Đăng nhập</h1>
+                      <p className="text-muted">Điền thông tin tài khoản của bạn</p>
                       <Alert color="danger" isOpen={this.props.error.isShowAlert}>
                          {this.props.error.errorMessage}
                       </Alert>
@@ -76,7 +75,7 @@ class Login extends Component {
                           id="usernameOrEmail"
                           name="usernameOrEmail"
                           type="text"
-                          placeholder="usernameOrEmail"
+                          placeholder="Tên tài khoản"
                           autoComplete="usernameOrEmail"
                           onChange = {this.changeHandler}/>
                       </InputGroup>
@@ -90,22 +89,22 @@ class Login extends Component {
                           id="password"
                           name="password"
                           type="password"
-                          placeholder="******"
+                          placeholder="Mật khẩu"
                           autoComplete="password"
                           onChange = {this.changeHandler}/>
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4" type="submit" onClick={this.handleSubmit}>Login </Button>
+                          <Button color="primary" className="px-4" type="submit" onClick={this.handleSubmit}>Đăng nhập </Button>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">Forgot password?</Button>
+                          <Button color="link" className="px-0">Quên mật khẩu?</Button>
                         </Col>
                       </Row>
                     </Form>
                   </CardBody>
                 </Card>
-                <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
+                {/* <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
                   <CardBody className="text-center">
                     <div>
                       <h2>Sign up</h2>
@@ -116,7 +115,7 @@ class Login extends Component {
                       </Link>
                     </div>
                   </CardBody>
-                </Card>
+                </Card> */}
               </CardGroup>
             </Col>
           </Row>

@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -26,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @since 2019-03-13
  */
 @Entity
-@Table(name = "chi_nhanh", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_chi_nhanh " }) })
+@Table(name = "chi_nhanh")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Branch implements Serializable {
 
@@ -61,11 +60,11 @@ public class Branch implements Serializable {
 	private Boolean isEnabled;
 
 	/** The shop. */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cua_hang_di")
 	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cua_hang_id")
 	private Shop shop;
-
+	
 	/**
 	 * Instantiates a new branch.
 	 *
@@ -345,4 +344,7 @@ public class Branch implements Serializable {
 		this.shop = shop;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

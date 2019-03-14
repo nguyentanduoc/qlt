@@ -76,11 +76,16 @@ public class BranchSerivceImpl implements BranchService {
 	 */
 	public void save(BranchDto branch) {
 		Optional<Employee> empOptional = employeeService.findById(branch.getIdDirector());
-
-		Optional<Shop> shop = shopService.findShopByDirector(empOptional.get());
-		Branch branchModel = Branch.builder().withAddress(branch.getAddress()).withId(branch.getId())
-				.withIsEnabled(branch.getIsEnabled()).withLatitude(branch.getLatitude())
-				.withLongitude(branch.getLongitude()).withShop(shop.get()).withName(branch.getName()).build();
+		Shop shop = shopService.findShopByDirector(empOptional.get()).get();
+		Branch branchModel = Branch.builder()
+				.withAddress(branch.getAddress())
+				.withId(branch.getId())
+				.withIsEnabled(branch.getIsEnabled())
+				.withLatitude(branch.getLatitude())
+				.withLongitude(branch.getLongitude())
+				.withShop(shop)
+				.withName(branch.getName())
+				.build();
 		branchRepository.save(branchModel);
 	}
 

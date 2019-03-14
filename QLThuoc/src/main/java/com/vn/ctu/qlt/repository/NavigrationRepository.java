@@ -23,4 +23,6 @@ public interface NavigrationRepository extends JpaRepository<Navigration, Long> 
 	@Query("select n from Navigration n where n.idParent = :idParent")
 	public Set<Navigration> getChildren(@Param("idParent") Long idParent);
 	
+	public Set<Navigration> findAllByIdParent(Long idParent, Sort sort);
+	
 }

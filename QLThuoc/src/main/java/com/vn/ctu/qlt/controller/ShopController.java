@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +37,7 @@ public class ShopController {
 	@PostMapping(path = "/delete")
 	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
 		shopService.delete(keys);
-		return null;
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/select-all")

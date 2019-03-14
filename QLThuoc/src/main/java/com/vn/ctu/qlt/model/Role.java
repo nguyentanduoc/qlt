@@ -19,8 +19,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NaturalId;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -45,7 +43,6 @@ public class Role implements Serializable {
 
 	/** The name. */
 	@Enumerated(EnumType.STRING)
-	@NaturalId
 	@Column(length = 60, name= "ten_quyen")
 	private RoleName name;
 	

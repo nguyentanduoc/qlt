@@ -69,7 +69,7 @@ class index extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-        <Col xs="12" lg="6" md="6">
+          <Col xs="12" lg="6" md="6">
             <FormShop/>
           </Col>
           <Col xs="12" lg="6" md="6">
@@ -78,15 +78,15 @@ class index extends Component {
                 <i className="fas fa-store"></i>Danh sách <strong>Cửa hàng</strong>
               </CardHeader>
               <CardBody>
-                <Row>
-                  <Button 
+                <div className="float-right pt-1">
+                  <Button
                     color='warning'
-                    className="btn-square ml-1"
+                    className="btn-square"
                     disabled={this.state.seletedKeys.length > 0 ? false : true}
                     onClick={this.handleDeletedRow.bind(this)}>
                       <i className="far fa-trash-alt"></i>
                   </Button>
-                </Row>
+                </div>
                 <Table
                     rowKey='id'
                     columns={this.state.columns}

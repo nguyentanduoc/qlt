@@ -14,12 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,8 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @since 2019-03-13
  */
 @Entity
-@Table(name = "tai_khoan", uniqueConstraints = { @UniqueConstraint(columnNames = { "ten_dang_nhap" }),
-		@UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "tai_khoan")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends DateAudit {
 
@@ -50,7 +46,6 @@ public class User extends DateAudit {
 	private String username;
 
 	/** The email. */
-	@NaturalId
 	@Size(max = 100)
 	@Email
 	private String email;

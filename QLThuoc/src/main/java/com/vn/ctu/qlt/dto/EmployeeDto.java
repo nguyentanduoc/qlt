@@ -29,6 +29,9 @@ public class EmployeeDto {
 	/** The username. */
 	private String username;
 	
+	/** The date join. */
+	private Date dateJoin;
+	
 	/** The branchs. */
 	private Set<BranchsSeletionDto> branchs;
 	
@@ -177,5 +180,23 @@ public class EmployeeDto {
 	 */
 	public void setRoles(Set<RoleSeletionDto> roles) {
 		this.roles = roles;
+	}
+
+	/**
+	 * Gets the date join.
+	 *
+	 * @return the date join
+	 */
+	public Date getDateJoin() {
+		return dateJoin;
+	}
+
+	/**
+	 * Sets the date join.
+	 *
+	 * @param dateJoin the new date join
+	 */
+	public void setDateJoin(Date dateJoin) {
+		this.dateJoin = dateJoin;
 	}
 }

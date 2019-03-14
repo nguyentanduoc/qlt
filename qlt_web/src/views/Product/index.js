@@ -76,7 +76,7 @@ export class index extends Component {
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-
+            <i className="fas fa-plus"></i> Tạo <strong>Sản Phẩm</strong>
           </CardHeader>
           <CardBody>
             <Row>
@@ -89,7 +89,7 @@ export class index extends Component {
                   <Input
                     type="text"
                     name="productName"
-                    placeholder="Tên Thuốc" 
+                    placeholder="Tên sản phẩm" 
                     required
                     onChange={this.changeHandler.bind(this)}
                     value={this.state.productName}/>
@@ -124,9 +124,10 @@ export class index extends Component {
                         files: fileItems.map(fileItem => fileItem.file)
                       });
                     }}
+                    labelIdle={'Kéo thả hoặc nhấp chọn <span class="filepond--label-action"> Mở </span>'}
                   />
                 </FormGroup>
-                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button> {' '}
                 <Button type="reset" size="sm" color="danger" ><i className="fa fa-ban"></i> Làm Rỗng</Button>
               </Form>
               </Col>

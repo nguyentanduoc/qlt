@@ -33,6 +33,12 @@ public class SpecUnitSelectionDto {
 
 	/**
 	 * Instantiates a new spec unit selection dto.
+	 */
+	public SpecUnitSelectionDto() {
+		super();
+	}
+	/**
+	 * Instantiates a new spec unit selection dto.
 	 *
 	 * @param specUnit the spec unit
 	 */
