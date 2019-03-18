@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="01" author="ntduoc">
+		<addColumn catalogName="cat" schemaName="public" tableName="san_pham">
+			<column name="nha_san_xuat_id" type="bigint" />
+			<column name="don_vi_chuan" type="bigint" />
+		</addColumn>
+		<addForeignKeyConstraint baseColumnNames="nha_san_xuat_id" baseTableName="san_pham"
+			constraintName="fk_nha_san_xuat_id_san_pham" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="nha_san_xuat" />
+		<addForeignKeyConstraint baseColumnNames="don_vi_chuan" baseTableName="san_pham"
+			constraintName="fk_don_vi_chuan_san_pham" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="don_vi" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadUpdateData primaryKey="id" encoding="UTF-8" file="db/changelog/csv/1552877065_edited_san_pham.csv" schemaName="public"
+			tableName="san_pham">
+			<column name="id" type="NUMERIC" />
+			<column name="ten_san_pham" type="STRING" />
+			<column name="cong_dung" type="STRING" />
+			<column name="hinh_anh" type="STRING" />
+			<column name="nha_san_xuat_id" type="NUMERIC" />
+			<column name="don_vi_chuan" type="NUMERIC" />
+		</loadUpdateData>
+	</changeSet>
+</databaseChangeLog>

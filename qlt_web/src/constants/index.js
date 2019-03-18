@@ -110,6 +110,7 @@ export const API = {
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
+    SAVE: `${BASE_URI}/api/import-product/save`,
   }
 }
 

@@ -22,4 +22,8 @@
 	<include file="changelog/1552380786_created_quy_dinh_sl_dv.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1552443192_created_san_pham.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1552443707_created_qd_dv_sp.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552875508_created_nha_san_xuat.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552877065_edited_san_pham.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552891416_created_hoa_don_nhap.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552892144_created_ct_hoa_don_nhap.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

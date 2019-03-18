@@ -21,6 +21,12 @@ public class ProductDto {
 	
 	/** The spec units. */
 	private Set<SpecUnitSelectionDto> specUnits;
+	
+	/** The unit. */
+	private UnitSelection unit;
+	
+	/** The producer. */
+	private ProducerSeletion producer;
 
 	/**
 	 * Gets the id.
@@ -92,6 +98,42 @@ public class ProductDto {
 	 */
 	public void setSpecUnits(Set<SpecUnitSelectionDto> specUnits) {
 		this.specUnits = specUnits;
+	}
+
+	/**
+	 * Gets the unit.
+	 *
+	 * @return the unit
+	 */
+	public UnitSelection getUnit() {
+		return unit;
+	}
+
+	/**
+	 * Sets the unit.
+	 *
+	 * @param unit the new unit
+	 */
+	public void setUnit(UnitSelection unit) {
+		this.unit = unit;
+	}
+
+	/**
+	 * Gets the producer.
+	 *
+	 * @return the producer
+	 */
+	public ProducerSeletion getProducer() {
+		return producer;
+	}
+
+	/**
+	 * Sets the producer.
+	 *
+	 * @param producer the new producer
+	 */
+	public void setProducer(ProducerSeletion producer) {
+		this.producer = producer;
 	}
 
 }

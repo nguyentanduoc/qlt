@@ -18,8 +18,10 @@ import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.exception.FileEmpty;
 import com.vn.ctu.qlt.exception.FileStorageException;
 import com.vn.ctu.qlt.model.Product;
+import com.vn.ctu.qlt.service.ProducerService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
+import com.vn.ctu.qlt.service.UnitService;
 
 /**
  * The Class ProductController.
@@ -37,6 +39,12 @@ public class ProductController {
 	/** The spec unit service. */
 	@Autowired
 	private SpecUnitService specUnitService;
+	
+	@Autowired
+	private UnitService unitService;
+	
+	@Autowired
+	private ProducerService producerService;
 
 	/**
 	 * Inits the.
@@ -45,9 +53,11 @@ public class ProductController {
 	 */
 	@PostMapping(path = "/api/product/init")
 	public ResponseEntity<Map<String, Object>> init() {
-		Map<String, Object> result = new HashMap<>();
-		result.put("specUnits", specUnitService.getAllForSelection());
-		return ResponseEntity.ok().body(result);
+		Map<String, Object> response = new HashMap<>();
+		response.put("specUnits", specUnitService.getAllForSelection());
+		response.put("units", unitService.getAllForSelection());
+		response.put("producers", producerService.getAllForSelection());
+		return ResponseEntity.ok().body(response);
 	}
 
 	/**

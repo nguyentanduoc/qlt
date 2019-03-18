@@ -21,18 +21,18 @@ import com.vn.ctu.qlt.service.SpecUnitService;
  */
 @Service
 @Transactional
-public class SpectUnitServiceImpl implements SpecUnitService {
+public class SpecUnitServiceImpl implements SpecUnitService {
 
 	/** The spect unit repository. */
 	@Autowired
-	private SpecUnitRepository spectUnitRepository;
+	private SpecUnitRepository specUnitRepository;
 
 	/* (non-Javadoc)
 	 * @see com.vn.ctu.qlt.service.SpecUnitService#getAllForSelection()
 	 */
 	@Override
 	public Set<SpecUnitSelectionDto> getAllForSelection() {
-		Iterable<SpecUnit> spectUnitsResult = spectUnitRepository.findAll();
+		Iterable<SpecUnit> spectUnitsResult = specUnitRepository.findAll();
 		Set<SpecUnitSelectionDto> spectUnitSelectionDto = new HashSet<>();
 		for (SpecUnit su : spectUnitsResult) {
 			
@@ -46,7 +46,7 @@ public class SpectUnitServiceImpl implements SpecUnitService {
 	 */
 	@Override
 	public SpecUnit getById(Long id) {
-		return spectUnitRepository.findById(id).get();
+		return specUnitRepository.findById(id).get();
 	}
 	
 	/* (non-Javadoc)
@@ -59,6 +59,14 @@ public class SpectUnitServiceImpl implements SpecUnitService {
 			result.add(getById(susd.getValue()));
 		}
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vn.ctu.qlt.service.SpecUnitService#getBySelection(com.vn.ctu.qlt.dto.SpecUnitSelectionDto)
+	 */
+	@Override
+	public SpecUnit getBySelection(SpecUnitSelectionDto selection) {
+		return specUnitRepository.findById(selection.getValue()).get();
 	}
 
 }

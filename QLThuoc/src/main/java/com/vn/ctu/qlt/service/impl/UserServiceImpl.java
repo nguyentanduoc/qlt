@@ -38,7 +38,6 @@ import com.vn.ctu.qlt.sevice.mapper.UserMapper;
  */
 @Service
 @Transactional
-
 public class UserServiceImpl implements UserSerivce {
 
 	/** The from table. */

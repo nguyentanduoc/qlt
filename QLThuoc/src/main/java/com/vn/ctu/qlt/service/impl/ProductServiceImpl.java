@@ -24,8 +24,10 @@ import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.SpecUnit;
 import com.vn.ctu.qlt.repository.ProductRepository;
+import com.vn.ctu.qlt.service.ProducerService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
+import com.vn.ctu.qlt.service.UnitService;
 
 import liquibase.util.file.FilenameUtils;
 
@@ -54,6 +56,12 @@ public class ProductServiceImpl implements ProductService {
 	/** The spec unit service. */
 	@Autowired
 	private SpecUnitService specUnitService;
+	
+	@Autowired
+	private ProducerService producerService;
+	
+	@Autowired
+	private UnitService unitService;
 
 	/* (non-Javadoc)
 	 * @see com.vn.ctu.qlt.service.ProductService#getAll()
@@ -88,6 +96,8 @@ public class ProductServiceImpl implements ProductService {
 		product.setImage(imgDir + fileName);
 		product.setVirtue(productDto.getVirtue());
 		product.setSpecUnits(specUnits);
+		product.setProducer(producerService.getByProducerSeletion(productDto.getProducer()));
+		product.setUnit(unitService.getByUnitSeletion(productDto.getUnit()));
 		productRepository.save(product);
 		return product;
 	}
@@ -102,5 +112,10 @@ public class ProductServiceImpl implements ProductService {
 		Set<SpecUnitSelectionDto> specUnitsSelection = new HashSet<>();
 		specUnits.forEach(action -> specUnitsSelection.add(new SpecUnitSelectionDto(action)));
 		return specUnitsSelection;
+	}
+
+	@Override
+	public Product getProductBySelection(ProductSelectionDto productSelection) {
+		return productRepository.getOne(productSelection.getValue());
 	}
 }

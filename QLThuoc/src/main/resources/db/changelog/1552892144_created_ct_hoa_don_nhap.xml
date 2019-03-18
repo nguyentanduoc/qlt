@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_DETAIL_BILL_IMPORT_PRODUCT" cycle="false" minValue="1"
+			maxValue="9223372036854775807" startValue="100" incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="chi_tiet_hoa_don_nhap">
+			<column name="hoa_don_nhap_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="san_pham_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="so_luong" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="quy_dinh_don_vi_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="don_gia" type="double">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="hoa_don_nhap_id" baseTableName="chi_tiet_hoa_don_nhap"
+			constraintName="fk_hoa_don_nhap_id_chi_tiet_hoa_don_nhap" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="hoa_don_nhap" />
+		<addForeignKeyConstraint baseColumnNames="san_pham_id" baseTableName="chi_tiet_hoa_don_nhap"
+			constraintName="fk_san_pham_id_chi_tiet_hoa_don_nhap" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="san_pham" />
+		<addForeignKeyConstraint baseColumnNames="quy_dinh_don_vi_id" baseTableName="chi_tiet_hoa_don_nhap"
+			constraintName="fk_quy_dinh_don_vi_id_chi_tiet_hoa_don_nhap" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="quy_dinh_don_vi" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1552892144_created_ct_hoa_don_nhap.csv"
+			schemaName="public" tableName="chi_tiet_hoa_don_nhap">
+			<column name="hoa_don_nhap_id" type="NUMERIC" />
+			<column name="san_pham_id" type="NUMERIC" />
+			<column name="so_luong" type="NUMERIC" />
+			<column name="quy_dinh_don_vi_id" type="NUMERIC" />
+			<column name="don_gia" type="NUMERIC" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

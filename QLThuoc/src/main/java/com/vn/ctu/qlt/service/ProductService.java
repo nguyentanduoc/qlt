@@ -43,4 +43,12 @@ public interface ProductService {
 	 * @return the spec unit
 	 */
 	public Set<SpecUnitSelectionDto> getSpecUnit(Long id);
+	
+	/**
+	 * Gets the product by selection.
+	 *
+	 * @param product the product
+	 * @return the product by selection
+	 */
+	public Product getProductBySelection(ProductSelectionDto product);
 }

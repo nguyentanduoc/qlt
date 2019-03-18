@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "don_vi")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Unit {
 
 	/** The id. */
@@ -63,6 +63,37 @@ public class Unit {
 	 */
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((unitName == null) ? 0 : unitName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Unit other = (Unit) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (unitName == null) {
+			if (other.unitName != null)
+				return false;
+		} else if (!unitName.equals(other.unitName))
+			return false;
+		return true;
 	}
 
 }

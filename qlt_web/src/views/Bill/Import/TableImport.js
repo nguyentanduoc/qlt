@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 import Select from 'react-select'
-import { getSpecUnit } from '../../../actions/importProductAction'
+import { getSpecUnit, save } from '../../../actions/importProductAction'
 import DatePicker from 'react-datepicker'
 import {
   Button,
@@ -20,8 +20,23 @@ import {
   InputGroupText,
 } from 'reactstrap'
 
-const { Column } = Table;
-
+const columns  = [{
+  title: 'Tên Sản Phẩm',
+  dataIndex: 'product',
+  key: 'product',
+},{
+  title: 'Số Lượng',
+  dataIndex: 'amount',
+  key: 'amount',
+},{
+  title: 'Đơn Vị',
+  dataIndex: 'specUnit',
+  key: 'specUnit',
+}, { 
+  title: 'Đơn Đơn giá',
+  dataIndex: 'price',
+  key: 'price'
+}]
 export class TableBuy extends Component {
   constructor(props){
     super(props);
@@ -88,8 +103,11 @@ export class TableBuy extends Component {
   handleChangeDate = (e) => {
 
   }
+  onSave = (e) => {
+    e.preventDefault();
+    this.props.onSave(this.state.data);
+  }
   render() {
-    console.log(this.state.dataView)
     return (
       <div>
           <Row >
@@ -105,31 +123,12 @@ export class TableBuy extends Component {
               </FormGroup>
             </Col>
             <Col xs="6" md="6" className="text-right">
-              <Button onClick={this.onAddproduct.bind(this)} size="sm" color="primary" className="btn-brand mr-1 mb-1"><i className="fas fa-plus"></i><span>Thêm Sản Phẩm</span></Button>
+              <Button onClick={this.onAddproduct.bind(this)} size="sm" color="primary" className="btn-brand"><i className="fas fa-plus"></i><span>Thêm Sản Phẩm</span></Button>{' '}
+              <Button size="sm" color="success" onClick={this.onSave.bind(this)}><i className="fa fa-dot-circle-o"></i>{' '}Lưu</Button>
             </Col>
           </Row>
-            <Table dataSource={this.state.dataView}>
-              <Column
-                title="Tên sản phẩm"
-                dataIndex="product"
-                key="product"
-              />
-              <Column
-                title="Số lượng"
-                dataIndex="amount"
-                key="amount"
-              />
-              <Column
-                title="Đơn vị"
-                dataIndex="specUnit"
-                key="specUnit"
-              />
-              <Column
-                title="Trị Giá"
-                dataIndex="price"
-                key="price"
-              />
-            </Table>
+            <Table dataSource={this.state.dataView} columns={columns} rowKey='product'/>
+            
           <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)} >
             <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>
             <ModalBody>
@@ -156,13 +155,12 @@ export class TableBuy extends Component {
                 <Input name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor='price'>Trị Giá</Label>
+                <Label htmlFor='price'>Đơn Giá</Label>
                 <InputGroup>
                   <Input 
                     type="number" 
                     id="price" 
                     name="price" 
-                    placeholder="Trị giá" 
                     onChange={this.changeHandler.bind(this)}
                     value={this.state.price}/>
                   <InputGroupAddon addonType="append">
@@ -188,6 +186,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onGetSpecUnit: (id) => {
     return dispatch(getSpecUnit(id))
+  },
+  onSave: (data) => {
+    return dispatch(save(data));
   }
 })
 

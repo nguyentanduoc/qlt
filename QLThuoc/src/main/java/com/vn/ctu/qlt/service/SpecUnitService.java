@@ -36,5 +36,13 @@ public interface SpecUnitService {
 	 * @return the all by selection
 	 */
 	public Set<SpecUnit> getAllBySelection(Set<SpecUnitSelectionDto> selection);
+	
+	/**
+	 * Gets the by selection.
+	 *
+	 * @param selection the selection
+	 * @return the by selection
+	 */
+	public SpecUnit getBySelection(SpecUnitSelectionDto selection);
 
 }

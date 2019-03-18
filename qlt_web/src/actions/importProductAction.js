@@ -20,10 +20,10 @@ export const initSuccess = (data) => {
   }
 }
 
-export const getSpecUnit = (productId) =>{
+export const getSpecUnit = (productId) => {
   return async (dispatch) => {
     try {
-      const response = await Axios.post(API.PRODUCT.GET_SPEC_UNIT, productId ,headerConfig);
+      const response = await Axios.post(API.PRODUCT.GET_SPEC_UNIT, productId, headerConfig);
       dispatch(setSpecUnitSelection(response.data));
     } catch(err) {
       dispatch(showAlertFail(err));
@@ -34,5 +34,15 @@ export const setSpecUnitSelection = (data) => {
   return {
     type: ACTION_TYPES.IMPORT.SET_SPEC_SELECTION,
     payload: data
+  }
+}
+export const save = (data) => {
+  return async (dispatch) => {
+    try {
+      const response = await Axios.post(API.IMPORT.SAVE, data, headerConfig);
+      dispatch(showAlertFail(response));
+    } catch (err) {
+      dispatch(showAlertFail(err));
+    }
   }
 }

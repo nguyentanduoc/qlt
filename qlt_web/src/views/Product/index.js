@@ -32,7 +32,9 @@ export class index extends Component {
       image:'',
       active: false,
       imageSrc: '',
-      specUnits: []
+      specUnits: [],
+      unit:{},
+      producer:{}
     }
   }
   changeHandler = (e) => {
@@ -47,13 +49,14 @@ export class index extends Component {
     const model = {
       productName: this.state.productName,
       virtue: this.state.virtue,
-      specUnits: this.state.specUnits
+      specUnits: this.state.specUnits,
+      unit: this.state.unit,
+      producer: this.state.producer
     }
     const data = new FormData();
     data.append('file', this.state.files[0]);
     data.append('model',JSON.stringify(model));
     this.props.onSave(data);
-    
   }
   onReset = (e) => {
     e.preventDefault();
@@ -67,9 +70,26 @@ export class index extends Component {
     this.props.onInit();
   }
   handleSeletion = (e, selection) => {
-    this.setState({
-      specUnits: e
-    })
+    switch (selection.name) {
+      case "specUnits":
+        this.setState({
+          specUnits: e
+        })
+        break;
+      case "unit":
+        this.setState({
+          unit: e
+        })
+        break;
+      case "producer":
+        this.setState({
+          producer: e
+        })
+        break;
+      default:
+        break;
+    }
+    
   }
   render() {
     return (
@@ -105,12 +125,31 @@ export class index extends Component {
                     value={this.state.virtue}/>
                 </FormGroup>
                 <FormGroup>
+                  <Label htmlFor="unit">Đơn vị chuẩn</Label>
+                  <Select 
+                    options={this.props.productReducer.units}
+                    onChange={this.handleSeletion.bind(this)}
+                    isMulti = {false}
+                    name="unit"
+                    />
+                </FormGroup>
+                <FormGroup>
                   <Label htmlFor="specUnit">Quy Định Đơn Vị</Label>
                   <Select 
                     options={this.props.productReducer.specUnits}
                     onChange={this.handleSeletion.bind(this)}
                     isMulti = {true}
                     name="specUnit"
+                    />
+                </FormGroup>
+                
+                <FormGroup>
+                  <Label htmlFor="producer">Nhà sản xuất</Label>
+                  <Select 
+                    options={this.props.productReducer.producers}
+                    onChange={this.handleSeletion.bind(this)}
+                    isMulti = {false}
+                    name="producer"
                     />
                 </FormGroup>
                 <FormGroup>
@@ -152,7 +191,6 @@ const mapDispatchToProps = (dispath) => ({
   onInit: () => {
     return dispath(init());
   }
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)
