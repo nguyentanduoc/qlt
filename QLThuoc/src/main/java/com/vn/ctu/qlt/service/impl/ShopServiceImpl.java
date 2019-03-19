@@ -194,4 +194,10 @@ public class ShopServiceImpl implements ShopService {
 	public Optional<Shop> findShopByDirector(Employee employee) {
 		return shopRepository.findByEmployee(employee);
 	}
+
+	@Override
+	public Shop getShopByEmployee(Employee employee) {
+		
+		return null;
+	}
 }

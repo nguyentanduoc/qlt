@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="SEQ_DEFAULT_PRODUCT_OF_BRANCH" cycle="false" minValue="1"
+			maxValue="9223372036854775807" startValue="100" incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="san_pham_cua_chi_nhanh">
+			<column name="san_pham_id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_PRODUCT_OF_BRANCH')">
+				<constraints nullable="false"/>
+			</column>
+			<column name="chi_nhanh_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="so_luong" type="double">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="san_pham_id" baseTableName="san_pham_cua_chi_nhanh"
+			constraintName="fk_san_pham_id_san_pham_cua_chi_nhanh" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="san_pham" />
+		<addForeignKeyConstraint baseColumnNames="chi_nhanh_id" baseTableName="san_pham_cua_chi_nhanh"
+			constraintName="fk_chi_nhanh_id_san_pham_cua_chi_nhanh" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="chi_nhanh" />
+	</changeSet>
+</databaseChangeLog>

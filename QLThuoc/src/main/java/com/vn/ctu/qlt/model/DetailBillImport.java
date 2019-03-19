@@ -20,7 +20,7 @@ import lombok.Data;
 public class DetailBillImport implements Serializable {
 
 	private static final long serialVersionUID = -7284552303232962073L;
-
+	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hoa_don_nhap_id", referencedColumnName = "id")

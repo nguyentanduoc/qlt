@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TableImport from './TableImport'
 import { init } from '../../../actions/importProductAction'
-import AlertCommon from '../../Common/AlertCommon'
 import {
   Card,
   CardHeader,
@@ -29,7 +28,6 @@ export class index extends Component {
         <Card>
           <CardHeader>Hóa Đơn Nhập</CardHeader>
           <CardBody>
-            <AlertCommon/>
             <Form onSubmit={this.onSubmit.bind(this)} onReset = {this.onReset.bind(this)}>
               <TableImport/>
             </Form>

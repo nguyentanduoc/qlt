@@ -7,5 +7,5 @@ import com.vn.ctu.qlt.model.Branch;
 
 @Repository
 public interface BranchRepository extends PagingAndSortingRepository<Branch, Long> {
-
+	
 }

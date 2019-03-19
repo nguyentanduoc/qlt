@@ -31,6 +31,9 @@
 			<column name="dia_chi" type="varchar(254)">
 				<constraints nullable="false" />
 			</column>
+			<column name="chi_nhanh_chinh" type="boolean">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 		<addForeignKeyConstraint
 			baseColumnNames="cua_hang_id" baseTableName="chi_nhanh"
@@ -49,6 +52,7 @@
 			<column name="hoat_dong" type="BOOLEAN" />
 			<column name="dia_chi" type="String"/>
 			<column name="cua_hang_id" type="NUMERIC"/>
+			<column name="chi_nhanh_chinh" type="BOOLEAN"/>
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

@@ -26,4 +26,7 @@
 	<include file="changelog/1552877065_edited_san_pham.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1552891416_created_hoa_don_nhap.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1552892144_created_ct_hoa_don_nhap.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552967465_created_lich_su_gia.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1552969864_created_san_pham_cua_chi_nhanh.xml" relativeToChangelogFile="true"/>
+	
 </databaseChangeLog>

@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.BranchRepository;
+import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.EmployeeService;
 import com.vn.ctu.qlt.service.ShopService;
@@ -69,23 +71,22 @@ public class BranchSerivceImpl implements BranchService {
 	@Autowired
 	private UserSerivce userService;
 
+	@Autowired
+	private IAuthenticationFacade authenticationFacade;
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.vn.ctu.qlt.service.BranchService#save(com.vn.ctu.qlt.dto.BranchDto)
 	 */
 	public void save(BranchDto branch) {
-		Optional<Employee> empOptional = employeeService.findById(branch.getIdDirector());
-		Shop shop = shopService.findShopByDirector(empOptional.get()).get();
-		Branch branchModel = Branch.builder()
-				.withAddress(branch.getAddress())
-				.withId(branch.getId())
-				.withIsEnabled(branch.getIsEnabled())
-				.withLatitude(branch.getLatitude())
-				.withLongitude(branch.getLongitude())
-				.withShop(shop)
-				.withName(branch.getName())
-				.build();
+		Employee employee = authenticationFacade.getEmployee();
+		Shop shop = shopService.findShopByDirector(employee).get();
+
+		Branch branchModel = new Branch();
+		BeanUtils.copyProperties(branch, branchModel);
+		branchModel.setShop(shop);
+
 		branchRepository.save(branchModel);
 	}
 
@@ -218,6 +219,25 @@ public class BranchSerivceImpl implements BranchService {
 			branchsResult.add(branch);
 		}
 		return branchsResult;
+	}
+
+	@Override
+	public Branch getBranchByEmployee(Employee employee) {
+		return null;
+	}
+
+	@Override
+	public Branch getBranchById(Long id) {
+		Optional<Branch> branchOptional = branchRepository.findById(id);
+		if (branchOptional.isPresent()) {
+			return branchOptional.get();
+		} else
+			return null;
+	}
+
+	@Override
+	public void save(Branch branch) {
+		branchRepository.save(branch);
 	}
 
 }

@@ -21,7 +21,7 @@ export const loginSuccess = (data) => {
   sessionStorage.setItem(LOCAL_STORAGE.IS_LOGIN, true);
   sessionStorage.setItem(LOCAL_STORAGE.ACCESS_KEY, data.jwtAuthenticationResponse.accessToken);
   return {
-    type: ACTION_TYPES.LOGIN_SUCCESS,
+    type: ACTION_TYPES.AUTH.LOGIN_SUCCESS,
     payload: data
   }
 }
@@ -37,6 +37,12 @@ export const logout = () => {
   sessionStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
   sessionStorage.removeItem(LOCAL_STORAGE.ACCESS_KEY);
   return {
-    type: ACTION_TYPES.LOGOUT
+    type: ACTION_TYPES.AUTH.LOGOUT
+  }
+}
+export const setBranch = (branch) => {
+  return {
+    type: ACTION_TYPES.AUTH.SET_BRANCH,
+    payload: branch
   }
 }

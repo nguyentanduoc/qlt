@@ -51,4 +51,11 @@ public interface ProductService {
 	 * @return the product by selection
 	 */
 	public Product getProductBySelection(ProductSelectionDto product);
+	
+	/**
+	 * Gets the all for seletion with producer.
+	 *
+	 * @return the all for seletion with producer
+	 */
+	public Set<ProductSelectionDto> getAllForSeletionWithProducer();
 }

@@ -16,12 +16,12 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="ngay_nhap" type="date">
-				<constraints nullable="false" unique="true" />
+				<constraints nullable="false" />
 			</column>
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="nhan_vien_id" baseTableName="hoa_don_nhap"
-			constraintName="fk_nhan_vien_id_hoa_don_nhap" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="id" referencedTableName="nhan_vien" />
+			constraintName="fk_nhan_vien_id_hoa_don_nhap" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="nhan_vien" />
 	</changeSet>
 	<changeSet id="02" author="ntduoc">
 		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1552891416_created_hoa_don_nhap.csv"

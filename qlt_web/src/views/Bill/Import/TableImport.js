@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 import Select from 'react-select'
-import { getSpecUnit, save } from '../../../actions/importProductAction'
+import { getSpecUnit, save, resetSaveSuccess } from '../../../actions/importProductAction'
 import DatePicker from 'react-datepicker'
+import AlertCommon from '../../Common/AlertCommon'
 import {
   Button,
   Row,
@@ -100,18 +101,28 @@ export class TableBuy extends Component {
     });
     this.setState({data: data, dataView: dataView});
   }
+  addImportAndExit = (e) => {
+    this.addImport(e);
+    this.toggle();
+  }
   handleChangeDate = (e) => {
 
   }
   onSave = (e) => {
     e.preventDefault();
-    this.props.onSave(this.state.data);
+    this.props.onSave(this.state.data, this.props.authenReducer.branch);
+  }
+  componentDidUpdate(){
+    if(this.props.importRoductReducer.saveSuccess){
+      this.setState({ data:[], dataView:[]});
+      this.props.onResetSaveSuccess();
+    }
   }
   render() {
     return (
       <div>
           <Row >
-            <Col xs="6" md="6">
+            <Col xs="4" md="4">
               <FormGroup>
                 <Label htmlFor='dateCreated' className='pr-1'>Ngày Nhập</Label>
                 <DatePicker
@@ -122,13 +133,15 @@ export class TableBuy extends Component {
                       name='dateCreated'/>
               </FormGroup>
             </Col>
-            <Col xs="6" md="6" className="text-right">
+            <Col xs="4" md="4" className="text-right">
+              <AlertCommon/>
+            </Col>
+            <Col xs="4" md="4" className="text-right">
               <Button onClick={this.onAddproduct.bind(this)} size="sm" color="primary" className="btn-brand"><i className="fas fa-plus"></i><span>Thêm Sản Phẩm</span></Button>{' '}
               <Button size="sm" color="success" onClick={this.onSave.bind(this)}><i className="fa fa-dot-circle-o"></i>{' '}Lưu</Button>
             </Col>
           </Row>
             <Table dataSource={this.state.dataView} columns={columns} rowKey='product'/>
-            
           <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)} >
             <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>
             <ModalBody>
@@ -171,6 +184,7 @@ export class TableBuy extends Component {
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.addImport.bind(this)}>Lưu và Tiếp Tục</Button>{' '}
+              <Button color="warning" onClick={this.addImportAndExit.bind(this)}>Lưu và Thoát</Button>{' '}
               <Button color="secondary" onClick={this.toggle.bind(this)}>Thoát</Button>
             </ModalFooter>
           </Modal>
@@ -180,15 +194,19 @@ export class TableBuy extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  importRoductReducer: state.importRoductReducer
+  importRoductReducer: state.importRoductReducer,
+  authenReducer: state.auth,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onGetSpecUnit: (id) => {
     return dispatch(getSpecUnit(id))
   },
-  onSave: (data) => {
-    return dispatch(save(data));
+  onSave: (data, branch) => {
+    return dispatch(save(data, branch));
+  },
+  onResetSaveSuccess: () => {
+    return dispatch(resetSaveSuccess());
   }
 })
 

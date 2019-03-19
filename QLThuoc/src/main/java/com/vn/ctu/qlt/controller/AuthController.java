@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.vn.ctu.qlt.exception.AppException;
+import com.vn.ctu.qlt.model.Branch;
+import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Navigration;
 import com.vn.ctu.qlt.model.Role;
 import com.vn.ctu.qlt.model.RoleName;
@@ -40,6 +42,7 @@ import com.vn.ctu.qlt.repository.RoleRepository;
 import com.vn.ctu.qlt.repository.UserRepository;
 import com.vn.ctu.qlt.security.JwtTokenProvider;
 import com.vn.ctu.qlt.security.UserPrincipal;
+import com.vn.ctu.qlt.service.EmployeeService;
 import com.vn.ctu.qlt.service.NavService;
 
 /**
@@ -54,7 +57,7 @@ public class AuthController {
 
 	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	/** The authentication manager. */
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -79,6 +82,9 @@ public class AuthController {
 	@Autowired
 	private NavService roleService;
 
+	@Autowired
+	private EmployeeService employeeService;
+
 	/**
 	 * Authenticate user.
 	 *
@@ -97,10 +103,16 @@ public class AuthController {
 			UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 			Optional<User> user = userRepository.findById(userPrincipal.getId());
 			Set<String> authorities = new HashSet<String>();
-			for(Role role : user.get().getRoles()) {
+			for (Role role : user.get().getRoles()) {
 				authorities.add(role.getName().toString());
 			}
-			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs, authorities);
+			Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
+			Set<Branch> branchs = null;
+			if (employee.isPresent()) {
+				branchs = employee.get().getBranchs();
+			}
+			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
+					authorities, branchs);
 			return ResponseEntity.ok(loginSuccess);
 		} catch (BadCredentialsException e) {
 			throw e;

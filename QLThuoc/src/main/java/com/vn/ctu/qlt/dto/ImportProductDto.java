@@ -1,16 +1,14 @@
 package com.vn.ctu.qlt.dto;
 
+import java.util.Set;
+
 import lombok.Data;
 
 @Data
 public class ImportProductDto {
 
-	private ProductSelectionDto product;
+	private Set<DetailProductDto> data;
 	
-	private SpecUnitSelectionDto specUnit;
-	
-	private Integer amount;
-	
-	private Double price;
+	private BranchDto branch;
 
 }

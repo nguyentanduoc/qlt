@@ -29,7 +29,8 @@ class FormBranch extends Component {
       name: '',
       address: '',
       isEnabled: true,
-      idDirector: this.props.authReducer.user.id
+      idDirector: this.props.authReducer.user.id,
+      isMain: false
     }
   }
   componentWillMount(){
@@ -46,7 +47,7 @@ class FormBranch extends Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         })
-      }, (error) => {
+      }, () => {
         this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
       })
     }
@@ -54,10 +55,17 @@ class FormBranch extends Component {
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    if (e.target.type === 'checkbox' & name === 'isEnabled') {
-      this.setState({
-        isEnabled: !this.state.isEnabled
-      });
+    if (e.target.type === 'checkbox') {
+      if(name === 'isEnabled'){
+        this.setState({
+          isEnabled: !this.state.isEnabled
+        });
+      }
+      if(name === 'isMain'){
+        this.setState({
+          isMain: !this.state.isMain
+        });
+      }
     } else {
       this.setState({
         [name]: value
@@ -70,6 +78,7 @@ class FormBranch extends Component {
     this.props.onSave(this.state);
   }
   handleReset = (e) => {
+    e.preventDefault();
     this.setState({
       id:'',
       latitude: '',
@@ -77,6 +86,7 @@ class FormBranch extends Component {
       name:'',
       address:'',
       isEnabled:true,
+      isMain: false
     });
     this.getLocation();
   }
@@ -155,6 +165,19 @@ class FormBranch extends Component {
               </Col>
             </Row>
             <FormGroup row>
+                <Col md="6"><Label>Chi Nhánh Chính</Label></Col>
+                <Col md="6" xs="12">
+                    <CustomInput
+                      type="switch"
+                      id='isMain'
+                      label='Hoạt động'
+                      name='isMain'
+                      checked={this.state.isMain}
+                      onChange={this.changeHandler.bind(this)}
+                      value = {this.state.isMain} />
+                </Col>
+            </FormGroup>
+            <FormGroup row>
                 <Col md="6"><Label>Hoạt động</Label></Col>
                 <Col md="6" xs="12">
                     <CustomInput
@@ -169,8 +192,8 @@ class FormBranch extends Component {
             </FormGroup>
           </CardBody>
           <CardFooter className='text-right'>
-            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
-            <Button type="reset" size="sm" color="danger" ><i className="fa fa-ban"></i> Reset</Button>
+            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button> {' '}
+            <Button type="reset" size="sm" color="danger" ><i className="fa fa-ban"></i> Làm Rỗng</Button>
           </CardFooter>
         </Card>
       </Form>

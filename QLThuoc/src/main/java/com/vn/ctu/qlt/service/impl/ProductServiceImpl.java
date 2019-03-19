@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -116,6 +117,21 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProductBySelection(ProductSelectionDto productSelection) {
-		return productRepository.getOne(productSelection.getValue());
+		Optional<Product> productOptional = productRepository.findById(productSelection.getValue());
+		if(productOptional.isPresent()) {
+			return productOptional.get();
+		}
+		return null;
+	}
+
+	@Override
+	public Set<ProductSelectionDto> getAllForSeletionWithProducer() {
+		List<Product> products = productRepository.findAll();
+		Set<ProductSelectionDto> productSelectionsDto = new HashSet<>();
+		products.forEach(p -> {
+			String name = p.getProductName() +" [" +p.getProducer().getProducerName() + "]";
+			productSelectionsDto.add(new ProductSelectionDto(p.getId(), name));
+		});
+		return productSelectionsDto;
 	}
 }

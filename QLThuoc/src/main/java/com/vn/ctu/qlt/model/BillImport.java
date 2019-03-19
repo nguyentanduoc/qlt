@@ -3,10 +3,7 @@ package com.vn.ctu.qlt.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,29 +49,9 @@ public class BillImport implements Serializable {
 	@OneToMany(mappedBy = "billImport", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DetailBillImport> detailBillImports = new ArrayList<DetailBillImport>();
 
-	public BillImport(Employee employee, DetailBillImport ...detailBillImports) {
+	public BillImport(Employee employee) {
 		this.employee = employee;
 		this.importDate = new Date();
-		this.detailBillImports = Stream.of(detailBillImports).collect(Collectors.toList());
-	}
-
-	public void addDetail(Product product, SpecUnit spectUnit, Integer amount, Double price) {
-		DetailBillImport detalBillImport = new DetailBillImport(this, product, spectUnit, amount, price);
-		detailBillImports.add(detalBillImport);
-
-	}
-
-	public void removeDetail(Product product) {
-		for (Iterator<DetailBillImport> iterator = detailBillImports.iterator(); iterator.hasNext();) {
-			DetailBillImport detailBillImport = iterator.next();
-
-			if (detailBillImport.getBillImport().equals(this) && detailBillImport.getProduct().equals(product)) {
-				iterator.remove();
-				detailBillImport.getBillImport().getDetailBillImports().remove(detailBillImport);
-				detailBillImport.setProduct(null);
-				detailBillImport.setBillImport(null);
-			}
-		}
 	}
 
 	@Override

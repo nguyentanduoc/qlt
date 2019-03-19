@@ -9,10 +9,13 @@ import org.springframework.data.domain.Pageable;
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.BranchsSeletionDto;
 import com.vn.ctu.qlt.model.Branch;
+import com.vn.ctu.qlt.model.Employee;
 
 public interface BranchService {
 
 	public void save(BranchDto branch);
+	
+	public void save(Branch branch);
 
 	public Page<Branch> findAll(Pageable pageable);
 	
@@ -25,4 +28,8 @@ public interface BranchService {
 	public Set<Branch> selectBranchByDirector(Long idDirector);
 	
 	public Set<Branch> findByList(Set<BranchsSeletionDto> branchs);
+	
+	public Branch getBranchByEmployee(Employee employee);
+	
+	public Branch getBranchById(Long id);
 }

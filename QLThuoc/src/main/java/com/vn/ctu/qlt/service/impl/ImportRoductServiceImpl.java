@@ -1,8 +1,7 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -13,13 +12,18 @@ import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.ImportProductDto;
 import com.vn.ctu.qlt.model.BillImport;
+import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.DetailBillImport;
 import com.vn.ctu.qlt.model.Employee;
+import com.vn.ctu.qlt.model.PriceHistory;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.SpecUnit;
 import com.vn.ctu.qlt.repository.BillImportRepository;
+import com.vn.ctu.qlt.security.IAuthenticationFacade;
+import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ImportRoductService;
 import com.vn.ctu.qlt.service.ProductService;
+import com.vn.ctu.qlt.service.ShopService;
 import com.vn.ctu.qlt.service.SpecUnitService;
 
 @Service
@@ -27,7 +31,7 @@ import com.vn.ctu.qlt.service.SpecUnitService;
 public class ImportRoductServiceImpl implements ImportRoductService {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	private BillImportRepository billImportRepository;
 
@@ -37,21 +41,51 @@ public class ImportRoductServiceImpl implements ImportRoductService {
 	@Autowired
 	private SpecUnitService specUnitService;
 
+	@Autowired
+	private ShopService shopService;
+	
+	@Autowired
+	private IAuthenticationFacade authenticationFacade;
+	
+	@Autowired
+	private BranchService branchService;
+
 	@Override
-	public void save(Set<ImportProductDto> importProductsDto, Employee employee) {
+	public void save(ImportProductDto importProductDto) {
 		try {
-			List<DetailBillImport> detailBillImports = new ArrayList<DetailBillImport>();
+			Employee employee = authenticationFacade.getEmployee();
 			BillImport billImport = new BillImport(employee);
-			importProductsDto.forEach(p -> {
+
+			Branch mainBranch = branchService.getBranchById(importProductDto.getBranch().getId());
+			
+			importProductDto.getData().forEach(p -> {
+				
 				Product product = productService.getProductBySelection(p.getProduct());
 				SpecUnit specUnit = specUnitService.getBySelection(p.getSpecUnit());
-				detailBillImports.add(new DetailBillImport(billImport, product, specUnit, p.getAmount(), p.getPrice()));
+				DetailBillImport detail = new DetailBillImport(billImport, product, specUnit, p.getAmount(),
+						p.getPrice());
+				billImport.getDetailBillImports().add(detail);
+
+				List<PriceHistory> priceHistorys = mainBranch.getPriceHistorys();
+
+				PriceHistory priceHistory = priceHistorys.stream()
+						.filter(predicate -> product.equals(predicate.getProduct())).findAny().orElse(null);
+				
+				if (priceHistory == null || priceHistory.getPrice() != p.getPrice()) {
+					PriceHistory price = new PriceHistory();
+					price.setBranch(mainBranch);
+					price.setDate(new Date());
+					price.setPrice(p.getPrice());
+					price.setProduct(product);
+					mainBranch.getPriceHistorys().add(price);
+				}
 			});
+			branchService.save(mainBranch);
 			billImportRepository.save(billImport);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
+
 	}
 
 }

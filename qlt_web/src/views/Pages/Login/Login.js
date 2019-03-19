@@ -33,9 +33,7 @@ class Login extends Component {
       password: this.state.password
     };
     await this.props.onLogin(auth);
-    if(this.props.auth.isLogin === true) {
-      this.props.history.push('/dashboard');
-    }
+    
   }
 
   handleKeUpEnter = (event) => {
@@ -47,8 +45,17 @@ class Login extends Component {
     if( this.props.error.isErrored === true ) {
       this.props.onResetError();
     }
-
     document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
+  }
+  componentDidUpdate(){
+    if(this.props.auth.isLogin === true) {
+      if(this.props.auth.isChooseBranch === true){
+        this.props.history.push('/choose-branch');
+      }
+      else {
+        this.props.history.push('/dashboard');
+      }
+    }
   }
   render() {
     return (
@@ -131,7 +138,7 @@ const mapStateToProps = state => {
     error: state.error
   }
 }
-const mapDispathToProps = (dispatch, props) => {
+const mapDispathToProps = (dispatch) => {
   return {
     onLogin : async (auth) => {
       return dispatch(login(auth));

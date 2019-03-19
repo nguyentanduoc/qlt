@@ -1,2 +1,2 @@
-id,ten_chi_nhanh,kinh_do,vi_do,hoat_dong,dia_chi, cua_hang_id
-1,chi nhánh 1,12,12,true,"phường 13, Tan Binh, Ho Chi Minh City",1
+id,ten_chi_nhanh,kinh_do,vi_do,hoat_dong,dia_chi, cua_hang_id, chi_nhanh_chinh
+1,chi nhánh 1,12,12,true,"phường 13, Tan Binh, Ho Chi Minh City",1, true

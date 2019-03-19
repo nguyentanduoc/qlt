@@ -1,7 +1,7 @@
 import Axios from "axios"
 import headerConfig from '../helpers/headerHelper'
 import { API, ACTION_TYPES } from "../constants"
-import { showAlertFail } from "./alertAction";
+import { showAlertFail, showAlertAndReset } from "./alertAction";
 
 export const init = () => {
   return async (dispatch) => {
@@ -36,13 +36,28 @@ export const setSpecUnitSelection = (data) => {
     payload: data
   }
 }
-export const save = (data) => {
+export const save = (data, branch) => {
   return async (dispatch) => {
     try {
-      const response = await Axios.post(API.IMPORT.SAVE, data, headerConfig);
-      dispatch(showAlertFail(response));
+      const response = await Axios.post(API.IMPORT.SAVE, {data, branch}, headerConfig);
+      if(response.status === 200) {
+        dispatch(saveSuccess());
+        dispatch(showAlertAndReset());
+      } else {
+        dispatch(showAlertFail(response));
+      }
     } catch (err) {
       dispatch(showAlertFail(err));
     }
+  }
+}
+export const saveSuccess = () => {
+  return {
+    type: ACTION_TYPES.IMPORT.SAVE_SUCCESS
+  }
+}
+export const resetSaveSuccess = () => {
+  return {
+    type: ACTION_TYPES.IMPORT.RESET_SAVE_SUCCESS
   }
 }
