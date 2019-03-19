@@ -1,6 +1,5 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -23,7 +22,6 @@ import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ImportRoductService;
 import com.vn.ctu.qlt.service.ProductService;
-import com.vn.ctu.qlt.service.ShopService;
 import com.vn.ctu.qlt.service.SpecUnitService;
 
 @Service
@@ -40,9 +38,6 @@ public class ImportRoductServiceImpl implements ImportRoductService {
 
 	@Autowired
 	private SpecUnitService specUnitService;
-
-	@Autowired
-	private ShopService shopService;
 	
 	@Autowired
 	private IAuthenticationFacade authenticationFacade;
@@ -65,23 +60,23 @@ public class ImportRoductServiceImpl implements ImportRoductService {
 				DetailBillImport detail = new DetailBillImport(billImport, product, specUnit, p.getAmount(),
 						p.getPrice());
 				billImport.getDetailBillImports().add(detail);
-
-				List<PriceHistory> priceHistorys = mainBranch.getPriceHistorys();
-
-				PriceHistory priceHistory = priceHistorys.stream()
-						.filter(predicate -> product.equals(predicate.getProduct())).findAny().orElse(null);
 				
-				if (priceHistory == null || priceHistory.getPrice() != p.getPrice()) {
-					PriceHistory price = new PriceHistory();
-					price.setBranch(mainBranch);
-					price.setDate(new Date());
-					price.setPrice(p.getPrice());
-					price.setProduct(product);
-					mainBranch.getPriceHistorys().add(price);
+				try {
+					List<PriceHistory> priceHistorys = mainBranch.getPriceHistorys();
+
+					PriceHistory priceHistory = priceHistorys.stream()
+							.filter(predicate -> product.equals(predicate.getProduct())).findAny().orElse(null);
+					
+					if (priceHistory == null) {
+						mainBranch.addPriceHistory(product, p.getPrice());
+					}
+				} catch (Exception e) {
+					logger.error(e.getMessage());
 				}
+				
 			});
-			branchService.save(mainBranch);
 			billImportRepository.save(billImport);
+			branchService.save(mainBranch);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

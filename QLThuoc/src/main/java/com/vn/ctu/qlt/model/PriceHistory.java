@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -24,12 +25,15 @@ public class PriceHistory implements Serializable {
 
 	private static final long serialVersionUID = 1899221885017462334L;
 
-	@Id
+	@EmbeddedId
+	private PriceHistoryId id;
+
+	@MapsId("branchId")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chi_nhanh_id", referencedColumnName = "id")
 	private Branch branch;
 
-	@Id
+	@MapsId("productId")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "san_pham_id", referencedColumnName = "id")
 	private Product product;
@@ -39,4 +43,12 @@ public class PriceHistory implements Serializable {
 
 	@Column(name = "don_gia")
 	private Double price;
+
+	public PriceHistory(Branch branch, Product product, Double price) {
+		this.id = new PriceHistoryId(product.getId(), branch.getId());
+		this.branch = branch;
+		this.product = product;
+		this.date = new Date();
+		this.price = price;
+	}
 }

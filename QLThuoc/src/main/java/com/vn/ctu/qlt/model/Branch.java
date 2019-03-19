@@ -34,7 +34,7 @@ import lombok.EqualsAndHashCode;
  */
 @Entity
 @Table(name = "chi_nhanh")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Data
 @EqualsAndHashCode
 public class Branch implements Serializable {
@@ -68,8 +68,8 @@ public class Branch implements Serializable {
 	/** The is enabled. */
 	@Column(name = "hoat_dong")
 	private Boolean isEnabled;
-	
-	@Column(name="chi_nhanh_chinh")
+
+	@Column(name = "chi_nhanh_chinh")
 	private Boolean isMain;
 
 	/** The shop. */
@@ -77,17 +77,21 @@ public class Branch implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cua_hang_id")
 	private Shop shop;
-	
+
 	@OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProductOfBranch> productsOfBranch = new ArrayList<ProductOfBranch>();
 
 	@OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PriceHistory> priceHistorys = new ArrayList<PriceHistory>();
-	
+
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "nhan_vien_chi_nhanh", 
-		joinColumns = @JoinColumn(name = "chi_nhanh_id"), 
-		inverseJoinColumns = @JoinColumn(name = "nhan_vien_id"))
+	@JoinTable(name = "nhan_vien_chi_nhanh", joinColumns = @JoinColumn(name = "chi_nhanh_id"), inverseJoinColumns = @JoinColumn(name = "nhan_vien_id"))
 	@JsonIgnore
 	private List<Employee> employees = new ArrayList<Employee>();
+
+	public void addPriceHistory(Product product, Double price) {
+		PriceHistory priceHistory = new PriceHistory(this, product, price);
+		priceHistorys.add(priceHistory);
+		product.getPriceHistorys().add(priceHistory);
+	}
 }
