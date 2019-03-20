@@ -20,7 +20,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * The Class Role.
@@ -30,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "quyen")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role implements Serializable {
 
 	/** The Constant serialVersionUID. */

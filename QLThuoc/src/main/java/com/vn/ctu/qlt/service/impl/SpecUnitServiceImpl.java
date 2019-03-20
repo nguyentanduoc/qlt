@@ -1,6 +1,8 @@
 package com.vn.ctu.qlt.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -53,8 +55,8 @@ public class SpecUnitServiceImpl implements SpecUnitService {
 	 * @see com.vn.ctu.qlt.service.SpecUnitService#getAllBySelection(java.util.Set)
 	 */
 	@Override
-	public Set<SpecUnit> getAllBySelection(Set<SpecUnitSelectionDto> selection){
-		Set<SpecUnit> result = new HashSet<SpecUnit>();
+	public List<SpecUnit> getAllBySelection(Set<SpecUnitSelectionDto> selection){
+		List<SpecUnit> result = new ArrayList<SpecUnit>();
 		for(SpecUnitSelectionDto susd: selection) {
 			result.add(getById(susd.getValue()));
 		}

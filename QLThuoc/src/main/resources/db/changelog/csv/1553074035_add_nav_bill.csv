@@ -1,0 +1,3 @@
+id,badge_id,name,url,icon,title,sort_num,has_children,is_children,parent_id
+18,null,Yêu Cầu Sản Phẩm,/bill/request-products,fas fa-star-of-life,false,403,false,true,12
+19,null,Xác Nhận Yêu Cầu,/bill/accept-request-products,fas fa-vote-yea,false,404,false,true,12

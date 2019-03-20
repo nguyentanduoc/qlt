@@ -1,5 +1,6 @@
 package com.vn.ctu.qlt.service;
 
+import java.util.List;
 import java.util.Set;
 
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
@@ -35,7 +36,7 @@ public interface SpecUnitService {
 	 * @param selection the selection
 	 * @return the all by selection
 	 */
-	public Set<SpecUnit> getAllBySelection(Set<SpecUnitSelectionDto> selection);
+	public List<SpecUnit> getAllBySelection(Set<SpecUnitSelectionDto> selection);
 	
 	/**
 	 * Gets the by selection.

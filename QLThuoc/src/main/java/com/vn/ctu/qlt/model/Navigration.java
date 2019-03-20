@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -32,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 @Entity
 @Table(name = "navigration")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Navigration {
 
 	/** The id. */

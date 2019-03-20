@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -199,5 +200,34 @@ public class ShopServiceImpl implements ShopService {
 	public Shop getShopByEmployee(Employee employee) {
 		
 		return null;
+	}
+
+	@Override
+	public Page<ShopDto> selectDto(String condition, Pageable pageable) {
+		Page<Shop> shopPage = select(condition, pageable);
+		List<Shop> shops = shopPage.getContent();
+		return new PageImpl<>(modelToDto(shops), pageable, shopPage.getTotalPages());
+	}
+
+	@Override
+	public List<ShopDto> selectAllDto() {
+		Iterable<Shop> shopIterable = selectAll();
+		List<ShopDto> shopsDto = new ArrayList<>();
+		shopIterable.forEach(action -> {
+			ShopDto shopDto = new ShopDto();
+			BeanUtils.copyProperties(action, shopDto);
+			shopsDto.add(shopDto);
+		});
+		return shopsDto;
+	}
+	
+	private List<ShopDto> modelToDto(List<Shop> shop){
+		List<ShopDto> shopsDto = new ArrayList<>();
+		shop.forEach(action -> {
+			ShopDto shopDto = new ShopDto();
+			BeanUtils.copyProperties(action, shopDto);
+			shopsDto.add(shopDto);
+		});
+		return shopsDto;
 	}
 }

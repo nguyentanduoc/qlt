@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,6 @@ import com.google.gson.JsonSyntaxException;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.exception.FileEmpty;
 import com.vn.ctu.qlt.exception.FileStorageException;
-import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.service.ProducerService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
@@ -69,14 +69,15 @@ public class ProductController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@PostMapping(path = "/api/product/save")
-	public ResponseEntity<Product> save(@RequestParam("model") String model,
+	public ResponseEntity<Void> save(@RequestParam("model") String model,
 			@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 
 		try {
 			if (file.isEmpty()) {
 				throw new FileEmpty("Failed to store empty file");
 			} else {
-				return ResponseEntity.ok().body(productService.save(model, file));
+				productService.save(model, file);
+				return new ResponseEntity<Void>(HttpStatus.OK);
 			}
 		} catch (IOException e) {
 			String msg = String.format("Failed to store file", file.getName());

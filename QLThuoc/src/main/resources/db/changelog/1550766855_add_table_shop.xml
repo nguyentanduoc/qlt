@@ -18,13 +18,13 @@
 			<column name="ten_cua_hang" type="varchar(254)">
 				<constraints nullable="false" unique="true" />
 			</column>
-			<column name="ngay_thanh_lap" type="date">
+			<column name="ngay_thanh_lap" type="DATETIME">
 				<constraints nullable="false" />
 			</column>
-			<column name="ngay_tao" type="date" defaultValueComputed="CURRENT_TIMESTAMP">
+			<column name="ngay_tao" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
 				<constraints nullable="false" />
 			</column>
-			<column name="ngay_cap_nhat" type="date" defaultValueComputed="CURRENT_TIMESTAMP">
+			<column name="ngay_cap_nhat" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
 				<constraints nullable="false" />
 			</column>
 			<column name="hoat_dong" type="boolean">

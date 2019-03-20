@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * The Class Employee.
@@ -27,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name="nhan_vien")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Employee implements Serializable {
 
 	/** The Constant serialVersionUID. */

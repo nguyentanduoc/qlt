@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.exception.AppException;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Employee;
@@ -108,11 +110,18 @@ public class AuthController {
 			}
 			Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
 			Set<Branch> branchs = null;
+			Set<BranchDto> branchsDto = new HashSet<>();
 			if (employee.isPresent()) {
 				branchs = employee.get().getBranchs();
+				branchs.forEach(action->{
+					BranchDto branchDto = new BranchDto();
+					BeanUtils.copyProperties(action, branchDto);
+					branchsDto.add(branchDto);
+				});
 			}
+			
 			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
-					authorities, branchs);
+					authorities, branchsDto);
 			return ResponseEntity.ok(loginSuccess);
 		} catch (BadCredentialsException e) {
 			throw e;

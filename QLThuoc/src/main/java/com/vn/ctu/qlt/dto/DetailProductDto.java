@@ -9,7 +9,7 @@ public class DetailProductDto {
 
 	private SpecUnitSelectionDto specUnit;
 
-	private Integer amount;
+	private Double amount;
 
 	private Double price;
 }

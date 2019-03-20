@@ -18,8 +18,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * The Class User.
  *
@@ -28,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "tai_khoan")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends DateAudit {
 
 	/** The Constant serialVersionUID. */

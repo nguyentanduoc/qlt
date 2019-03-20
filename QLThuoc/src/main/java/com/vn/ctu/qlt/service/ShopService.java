@@ -1,5 +1,6 @@
 package com.vn.ctu.qlt.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,9 +17,13 @@ public interface ShopService {
 	
 	public Page<Shop> select(String condition, Pageable page);
 	
+	public Page<ShopDto> selectDto(String condition, Pageable page);
+	
 	public void delete(Long[] keys);
 	
 	public Iterable<Shop> selectAll();
+	
+	public List<ShopDto> selectAllDto();
 	
 	public Optional<Shop> findById(Long id);
 	

@@ -38,15 +38,17 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
-const Role = React.lazy(() => import('./views/Roles/Role'));
-const SettingNav = React.lazy(() => import('./views/SettingNav/SettingNav'));
+const Role = React.lazy(() => import('./views/Roles/Roles'));
+const SettingNav = React.lazy(() => import('./views/SettingNav'));
 const Account = React.lazy(() => import('./views/Account'));
 const Branch = React.lazy(() => import('./views/Branch'));
-const Shop = React.lazy(() => import('./views/Shop'));
+const Shop = React.lazy(() => import('./views/Shop/Shop'));
 const Employee = React.lazy(() => import('./views/Employee'));
 const Product = React.lazy(()=> import('./views/Product'));
 const BillImport = React.lazy(() => import('./views/Bill/Import'));
 const BillExport = React.lazy(() => import('./views/Bill/Export'));
+const BillRequestProduct = React.lazy(() => {import('./views/Bill/Request')})
+const BillAcceptProduct = React.lazy(() => {import('./views/Bill/Accept')})
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -100,9 +102,10 @@ const routes = [
   { path: '/director/employee', exact: true, name: 'Nhân Viên', component: Employee, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/director/shop', exact: true, name: 'Thông Tin Cửa Hàng', component: Branch, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/products/actions', exact: true, name: 'Thao Tác Sản Phẩm', component: Product, roles: [ROLES.ROLE_EMPLOYEE] },
-  { path: '/bill/buy-products', exact: true, name: 'Nhập Hàng', component: BillImport, roles: [ROLES.ROLE_EMPLOYEE] },
-  { path: '/bill/sell-products', exact: true, name: 'Nhập Hàng', component: BillExport, roles: [ROLES.ROLE_EMPLOYEE] }
-  
+  { path: '/bill/buy-products', exact: true, name: 'Nhập Sản Phẩm', component: BillImport, roles: [ROLES.ROLE_EMPLOYEE], isMainBranch: true },
+  { path: '/bill/sell-products', exact: true, name: 'Bán Sản Phẩm', component: BillExport, roles: [ROLES.ROLE_EMPLOYEE], },
+  { path: '/bill/request-products', exact: true, name: 'Yêu cầu Sản Phẩm', component: BillRequestProduct, roles: [ROLES.ROLE_EMPLOYEE], isMainBranch: false },
+  { path: '/bill/accept-request-products', exact: true, name: 'Xác nhận Chuyển Sản Phẩm', component: BillAcceptProduct, roles: [ROLES.ROLE_EMPLOYEE], isMainBranch: true }
 ];
 
 export default routes;

@@ -24,10 +24,10 @@
 			<column name="hoat_dong" type="boolean">
 				<constraints nullable="false" />
 			</column>
-			<column name="ngay_tao" type="date" defaultValueComputed="CURRENT_TIMESTAMP">
+			<column name="ngay_tao" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
 				<constraints nullable="true" />
 			</column>
-			<column name="ngay_cap_nhat" type="date" defaultValueComputed="CURRENT_TIMESTAMP">
+			<column name="ngay_cap_nhat" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
 				<constraints nullable="true" />
 			</column>
 		</createTable>

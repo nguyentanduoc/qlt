@@ -1,7 +1,5 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ import com.vn.ctu.qlt.model.BillImport;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.DetailBillImport;
 import com.vn.ctu.qlt.model.Employee;
-import com.vn.ctu.qlt.model.PriceHistory;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.SpecUnit;
 import com.vn.ctu.qlt.repository.BillImportRepository;
@@ -60,25 +57,12 @@ public class ImportRoductServiceImpl implements ImportRoductService {
 				DetailBillImport detail = new DetailBillImport(billImport, product, specUnit, p.getAmount(),
 						p.getPrice());
 				billImport.getDetailBillImports().add(detail);
-				
-				try {
-					List<PriceHistory> priceHistorys = mainBranch.getPriceHistorys();
-
-					PriceHistory priceHistory = priceHistorys.stream()
-							.filter(predicate -> product.equals(predicate.getProduct())).findAny().orElse(null);
-					
-					if (priceHistory == null) {
-						mainBranch.addPriceHistory(product, p.getPrice());
-					}
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-				}
-				
+				productService.saveImportProduct(product.getId(), mainBranch.getId(), p.getAmount() ,p.getPrice(), p.getSpecUnit().getValue());
 			});
 			billImportRepository.save(billImport);
-			branchService.save(mainBranch);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			throw e;
 		}
 
 	}

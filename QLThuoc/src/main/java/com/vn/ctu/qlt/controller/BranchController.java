@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.QueryBranchDto;
-import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.service.BranchService;
 
 /**
@@ -44,6 +43,7 @@ public class BranchController {
 	@PostMapping(path = "/api/branch/save")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void save(@RequestBody BranchDto branch) {
+		logger.debug("/api/branch/save");
 		try {
 			branchService.save(branch);
 		} catch (DataIntegrityViolationException e) {
@@ -59,8 +59,8 @@ public class BranchController {
 	 * @return the response entity
 	 */
 	@PostMapping(path = "/api/branch/select")
-	public ResponseEntity<Page<Branch>> select(@RequestBody QueryBranchDto query) {
-
+	public ResponseEntity<Page<BranchDto>> select(@RequestBody QueryBranchDto query) {
+		logger.debug("/api/branch/select");
 		try {
 			PageRequest pageRequest = PageRequest.of(query.getPageable().getPage(), query.getPageable().getSize());
 			return ResponseEntity.ok().body(branchService.getBranhByDirector(query.getIdDirector(), pageRequest));
@@ -77,10 +77,11 @@ public class BranchController {
 	 */
 	@PostMapping(path = "/api/branch/delete")
 	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
+		logger.debug("/api/branch/delete");
 		branchService.deleteAll(keys);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Select branch by director.
 	 *
@@ -88,7 +89,8 @@ public class BranchController {
 	 * @return the response entity
 	 */
 	@PostMapping(path = "/api/branch/select-branch-by-director")
-	public ResponseEntity<Set<Branch>> selectBranchByDirector(@RequestBody Long idDirector){
-		return ResponseEntity.ok().body(branchService.selectBranchByDirector(idDirector));
+	public ResponseEntity<Set<BranchDto>> selectBranchByDirector(@RequestBody Long idDirector) {
+		logger.debug("/api/branch/select-branch-by-director");
+		return ResponseEntity.ok().body(branchService.selectBranchByDirectorDto(idDirector));
 	}
 }

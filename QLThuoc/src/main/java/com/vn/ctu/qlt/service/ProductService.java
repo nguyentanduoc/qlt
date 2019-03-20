@@ -58,4 +58,13 @@ public interface ProductService {
 	 * @return the all for seletion with producer
 	 */
 	public Set<ProductSelectionDto> getAllForSeletionWithProducer();
+	
+	/**
+	 * Save import product.
+	 *
+	 * @param productId the product id
+	 * @param branchId the branch id
+	 * @param price the price
+	 */
+	public void saveImportProduct(Long productId, Long branchId, Double amount, Double price, Long specUnit);
 }

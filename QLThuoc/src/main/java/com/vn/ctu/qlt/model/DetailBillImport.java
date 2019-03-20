@@ -36,12 +36,12 @@ public class DetailBillImport implements Serializable {
 	private SpecUnit spectUnit;
 
 	@Column(name = "so_luong")
-	private Integer amount;
+	private Double amount;
 
 	@Column(name = "don_gia")
 	private Double price;
 
-	public DetailBillImport(BillImport billImport, Product product, SpecUnit spectUnit, Integer amount, Double price) {
+	public DetailBillImport(BillImport billImport, Product product, SpecUnit spectUnit, Double amount, Double price) {
 		super();
 		this.billImport = billImport;
 		this.product = product;

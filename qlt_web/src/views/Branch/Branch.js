@@ -21,8 +21,7 @@ import {
   InputGroup
   } from 'reactstrap'
 
-export class index extends Component {
-
+class index extends Component {
   constructor(props){
     super(props);
     this.state = {

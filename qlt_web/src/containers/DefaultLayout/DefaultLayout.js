@@ -65,16 +65,37 @@ class DefaultLayout extends Component {
                 <Switch>
                   {
                     routes.map((route, idx) => {
-                      return (route.component && _.intersectionWith(this.props.authReducer.authorities, route.roles, _.isEqual)) ? (
-                        <Route
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          name={route.name}
-                          render={props => (
-                            <route.component {...props} />
-                          )} />
-                      ) : (null);
+                      if(route.component && _.intersectionWith(this.props.authReducer.authorities, route.roles, _.isEqual)) {
+                        if(typeof(route.isMainBranch) === 'undefined') {
+                          return (<Route
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            name={route.name}
+                            render={props => (
+                              <route.component {...props} />
+                            )} />)
+                        } else {
+                          if(this.props.authReducer.branch) {
+                            if(this.props.authReducer.branch.isMain === route.isMainBranch) {
+                              return (<Route
+                                key={idx}
+                                path={route.path}
+                                exact={route.exact}
+                                name={route.name}
+                                render={props => (
+                                  <route.component {...props} />
+                                )} />)
+                            } else {
+                              return null;
+                            }
+                          } else {
+                            return null;
+                          }
+                        }
+                      } else {
+                        return null;
+                      }
                   })}
                   <Redirect from="/" to="/dashboard" />
                 </Switch>

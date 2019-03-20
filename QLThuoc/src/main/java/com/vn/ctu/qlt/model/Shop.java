@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * The Class Shop.
@@ -27,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "cua_hang")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Shop extends DateAudit {
 
 	/** The Constant serialVersionUID. */

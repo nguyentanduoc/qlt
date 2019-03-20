@@ -25,6 +25,9 @@
 				<constraints nullable="false"/>
 			</column>
 		</createTable>
+		<addUniqueConstraint catalogName="cat" columnNames="san_pham_id, hoa_don_nhap_id"
+			constraintName="const_chi_tiet_hoa_don_nhap" deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="chi_tiet_hoa_don_nhap" />
 		<addForeignKeyConstraint baseColumnNames="hoa_don_nhap_id" baseTableName="chi_tiet_hoa_don_nhap"
 			constraintName="fk_hoa_don_nhap_id_chi_tiet_hoa_don_nhap" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="hoa_don_nhap" />

@@ -42,7 +42,7 @@ import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
  */
 @Service
 @Transactional
-public class BranchSerivceImpl implements BranchService {
+public class BranchServiceImpl implements BranchService {
 
 	/** The from table. */
 	private final String FROM_TABLE = "from chi_nhanh ";
@@ -82,11 +82,9 @@ public class BranchSerivceImpl implements BranchService {
 	public void save(BranchDto branch) {
 		Employee employee = authenticationFacade.getEmployee();
 		Shop shop = shopService.findShopByDirector(employee).get();
-
 		Branch branchModel = new Branch();
 		BeanUtils.copyProperties(branch, branchModel);
 		branchModel.setShop(shop);
-
 		branchRepository.save(branchModel);
 	}
 
@@ -98,8 +96,17 @@ public class BranchSerivceImpl implements BranchService {
 	 * Pageable)
 	 */
 	@Override
-	public Page<Branch> findAll(Pageable pageable) {
-		return branchRepository.findAll(pageable);
+	public Page<BranchDto> findAll(Pageable pageable) {
+		Page<Branch> pageBranch = branchRepository.findAll(pageable);
+		List<Branch> branchs = pageBranch.getContent();
+		
+		List<BranchDto> branchsDto = new ArrayList<BranchDto>();
+		branchs.forEach(action -> {
+			BranchDto branchDto = new BranchDto();
+			BeanUtils.copyProperties(action, branchDto);
+			branchsDto.add(branchDto);
+		});
+		return new PageImpl<>(branchsDto,pageable, pageBranch.getTotalPages());
 	}
 
 	/*
@@ -121,7 +128,7 @@ public class BranchSerivceImpl implements BranchService {
 	 * org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<Branch> search(String condition, Pageable pageable) {
+	public Page<BranchDto> search(String condition, Pageable pageable) {
 		String[] conditions = condition.split(" ");
 		String[] commonSubtract = { "Chi", "Nhanh", "chi", "nhanh", "nhánh", "Nhánh" };
 		Collection<String> subtract = CollectionUtils.subtract(Arrays.asList(conditions),
@@ -145,7 +152,7 @@ public class BranchSerivceImpl implements BranchService {
 		sql.append("LIMIT ").append(pageable.getPageSize()).append(" ");
 		sql.append("OFFSET ").append(pageable.getOffset());
 		List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), params.toArray(), branchMapper);
-		return new PageImpl<Branch>(resultBranch, pageable, countRecord);
+		return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
 	}
 
 	/**
@@ -169,7 +176,7 @@ public class BranchSerivceImpl implements BranchService {
 	 * org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public PageImpl<Branch> getBranhByDirector(Long idDirector, Pageable pageable) {
+	public PageImpl<BranchDto> getBranhByDirector(Long idDirector, Pageable pageable) {
 		Object[] param = new Long[] { idDirector };
 		StringBuilder sql = new StringBuilder();
 		StringBuilder where = new StringBuilder();
@@ -187,7 +194,7 @@ public class BranchSerivceImpl implements BranchService {
 		sql.append(where).append("LIMIT ").append(pageable.getPageSize()).append(" ");
 		sql.append("OFFSET ").append(pageable.getOffset());
 		List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), param, branchMapper);
-		return new PageImpl<Branch>(resultBranch, pageable, countRecord);
+		return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
 	}
 
 	/*
@@ -240,4 +247,22 @@ public class BranchSerivceImpl implements BranchService {
 		branchRepository.save(branch);
 	}
 
+	private Collection<BranchDto> modelToDto(Collection<Branch> branchs){
+		List<BranchDto> branchsDto = new ArrayList<BranchDto>();
+		branchs.forEach(action -> {
+			BranchDto branchDto = new BranchDto();
+			BeanUtils.copyProperties(action, branchDto);
+			branchsDto.add(branchDto);
+		});
+		return branchsDto;
+	}
+
+	@Override
+	public Set<BranchDto> selectBranchByDirectorDto(Long idDirector) {
+		Optional<User> userOptional = userService.findById(idDirector);
+		Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
+		Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
+		Shop shop = shopOptional.get();
+		return (Set<BranchDto>) modelToDto(shop.getBranchs());
+	}
 }

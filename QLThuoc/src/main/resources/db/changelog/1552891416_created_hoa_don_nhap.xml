@@ -15,7 +15,7 @@
 			<column name="nhan_vien_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
-			<column name="ngay_nhap" type="date">
+			<column name="ngay_nhap" type="DATETIME">
 				<constraints nullable="false" />
 			</column>
 		</createTable>

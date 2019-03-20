@@ -1,9 +1,7 @@
 package com.vn.ctu.qlt.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -56,7 +54,7 @@ public class Product {
 	/** The spec units. */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "quy_dinh_don_vi_san_pham", joinColumns = @JoinColumn(name = "san_pham_id"), inverseJoinColumns = @JoinColumn(name = "quy_dinh_don_vi_id"))
-	private Set<SpecUnit> specUnits = new HashSet<>();
+	private List<SpecUnit> specUnits = new ArrayList<>();
 
 	/** The unit. */
 	@JsonIgnore

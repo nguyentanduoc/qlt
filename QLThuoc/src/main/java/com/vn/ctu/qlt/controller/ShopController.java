@@ -1,5 +1,6 @@
 package com.vn.ctu.qlt.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vn.ctu.qlt.dto.ShopDto;
-import com.vn.ctu.qlt.model.Shop;
 import com.vn.ctu.qlt.service.ShopService;
 
 @RestController
@@ -30,8 +30,8 @@ public class ShopController {
 	}
 
 	@GetMapping(path = "/select")
-	public ResponseEntity<Page<Shop>> select(String condition, Pageable page) {
-		return ResponseEntity.ok().body(shopService.select(condition, page));
+	public ResponseEntity<Page<ShopDto>> select(String condition, Pageable page) {
+		return ResponseEntity.ok().body(shopService.selectDto(condition, page));
 	}
 
 	@PostMapping(path = "/delete")
@@ -41,7 +41,7 @@ public class ShopController {
 	}
 	
 	@GetMapping(path="/select-all")
-	public  ResponseEntity<Iterable<Shop>> selectAll() {
-		return ResponseEntity.ok().body(shopService.selectAll());
+	public  ResponseEntity<List<ShopDto>> selectAll() {
+		return ResponseEntity.ok().body(shopService.selectAllDto());
 	}
 }

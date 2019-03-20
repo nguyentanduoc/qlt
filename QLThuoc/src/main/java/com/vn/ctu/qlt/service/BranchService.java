@@ -17,15 +17,17 @@ public interface BranchService {
 	
 	public void save(Branch branch);
 
-	public Page<Branch> findAll(Pageable pageable);
+	public Page<BranchDto> findAll(Pageable pageable);
 	
 	public void deleteAll(Long[] keys);
 	
-	public Page<Branch> search(String condition, Pageable pageable);
+	public Page<BranchDto> search(String condition, Pageable pageable);
 	
-	public PageImpl<Branch> getBranhByDirector(Long idDirector, Pageable pageable);
+	public PageImpl<BranchDto> getBranhByDirector(Long idDirector, Pageable pageable);
 	
 	public Set<Branch> selectBranchByDirector(Long idDirector);
+	
+	public Set<BranchDto> selectBranchByDirectorDto(Long idDirector);
 	
 	public Set<Branch> findByList(Set<BranchsSeletionDto> branchs);
 	

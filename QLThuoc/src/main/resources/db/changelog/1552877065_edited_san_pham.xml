@@ -8,6 +8,8 @@
 			<column name="nha_san_xuat_id" type="bigint" />
 			<column name="don_vi_chuan" type="bigint" />
 		</addColumn>
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
 		<addForeignKeyConstraint baseColumnNames="nha_san_xuat_id" baseTableName="san_pham"
 			constraintName="fk_nha_san_xuat_id_san_pham" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="nha_san_xuat" />
@@ -15,7 +17,8 @@
 			constraintName="fk_don_vi_chuan_san_pham" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
 			referencedColumnNames="id" referencedTableName="don_vi" />
 	</changeSet>
-	<changeSet id="02" author="ntduoc">
+	
+	<changeSet id="03" author="ntduoc">
 		<loadUpdateData primaryKey="id" encoding="UTF-8" file="db/changelog/csv/1552877065_edited_san_pham.csv" schemaName="public"
 			tableName="san_pham">
 			<column name="id" type="NUMERIC" />
