@@ -31,14 +31,14 @@ public class NavigrationMapper implements RowMapper<Navigration> {
 			badge.setText(rs.getString("text"));
 			badge.setVariant(rs.getString("variant"));
 		}
-		return Navigration.builder()
-				.withId(rs.getInt("id"))
-				.withBadge(badge)
-				.withUrl(rs.getString("url"))
-				.withIcon(rs.getString("icon"))
-				.withTitle(rs.getBoolean("title"))
-				.withName(rs.getString("name"))
-				.withChirent(children)
-				.build();
+		Navigration nav = new Navigration();
+		nav.setId(rs.getLong("id"));
+		nav.setBadge(badge);
+		nav.setUrl(rs.getString("url"));
+		nav.setIcon(rs.getString("icon"));
+		nav.setTitle(rs.getBoolean("title"));
+		nav.setName(rs.getString("name"));
+		nav.setChildren(children);
+		return nav;
 	}
 }

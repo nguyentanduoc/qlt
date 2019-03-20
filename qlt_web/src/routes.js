@@ -47,8 +47,8 @@ const Employee = React.lazy(() => import('./views/Employee'));
 const Product = React.lazy(()=> import('./views/Product'));
 const BillImport = React.lazy(() => import('./views/Bill/Import'));
 const BillExport = React.lazy(() => import('./views/Bill/Export'));
-const BillRequestProduct = React.lazy(() => {import('./views/Bill/Request')})
-const BillAcceptProduct = React.lazy(() => {import('./views/Bill/Accept')})
+const BillRequestProduct = React.lazy(() => import('./views/Bill/Request'))
+const BillAcceptProduct = React.lazy(() => import('./views/Bill/Accept'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [

@@ -1,4 +1,5 @@
 import {ACTION_TYPES} from '../constants';
+import _ from 'lodash';
 const initState  = {
   errors:"",
   authentication:{},
@@ -16,6 +17,7 @@ export default (state = initState, action) => {
       const payload = action.payload;
       if(payload.branchs) {
         if(payload.branchs.length > 1) {
+          
           return {...state, 
             authentication: payload.authentication, 
             isLogin: true, 
@@ -26,6 +28,7 @@ export default (state = initState, action) => {
             branchs: payload.branchs
           };
         } else {
+          navBranch(payload.nav, payload.branchs[0]);
           return {...state, 
             authentication: payload.authentication, 
             isLogin: true, 
@@ -55,4 +58,21 @@ export default (state = initState, action) => {
     default:
       return state;
   }
+}
+const navBranch = (navs, branch) => {
+  navs.forEach(element => {
+    if(element.url === "/bill") {
+      _.remove(element.children, function(nav) {
+        if(branch.isMain === true) {
+          if(nav.url === "/bill/request-products") {
+            return nav;
+          }
+        } else {
+          if(nav.url === "/bill/accept-request-products" || nav.url === "/bill/buy-products") {
+            return nav;
+          }
+        }
+      });
+    }
+  });
 }

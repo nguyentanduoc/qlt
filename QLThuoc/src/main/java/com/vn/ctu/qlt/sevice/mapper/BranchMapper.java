@@ -29,6 +29,7 @@ public class BranchMapper implements RowMapper<Branch> {
 		branch.setLongitude(rs.getDouble("kinh_do"));
 		branch.setName(rs.getString("ten_chi_nhanh"));
 		branch.setShop(shop.get());
+		branch.setIsMain(rs.getBoolean("chi_nhanh_chinh"));
 		return branch;
 	}
 }

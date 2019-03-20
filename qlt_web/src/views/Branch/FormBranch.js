@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { save, resetBranch, selectAllShop } from '../../actions/branchAction'
 import AlertCommon from '../Common/AlertCommon'
 import { resetAlert } from  '../../actions/alertAction'
+import _ from 'lodash'
 import {
   Button,
   Card,
@@ -111,6 +112,12 @@ class FormBranch extends Component {
     return (!str || 0 === str.length);
   }
   render() {
+    const enabledSwithMainBranch = () => {
+      const branchs = this.props.branchReducer.branchs;
+      const result = _.find(branchs, function(o){
+        return o.isMain === true });
+      return result ? true : false;
+    }
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
@@ -168,6 +175,7 @@ class FormBranch extends Component {
                 <Col md="6"><Label>Chi Nhánh Chính</Label></Col>
                 <Col md="6" xs="12">
                     <CustomInput
+                      disabled ={enabledSwithMainBranch()}
                       type="switch"
                       id='isMain'
                       label='Hoạt động'

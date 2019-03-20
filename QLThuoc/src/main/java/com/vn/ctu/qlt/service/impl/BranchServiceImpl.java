@@ -181,7 +181,7 @@ public class BranchServiceImpl implements BranchService {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder where = new StringBuilder();
 
-		sql.append("select chi_nhanh.id, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, ");
+		sql.append("select chi_nhanh.id, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, chi_nhanh.chi_nhanh_chinh, ");
 		sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.cua_hang_id ");
 		where.append("from chi_nhanh ");
 		where.append("inner join cua_hang on chi_nhanh.cua_hang_id = cua_hang.id ");
@@ -247,8 +247,18 @@ public class BranchServiceImpl implements BranchService {
 		branchRepository.save(branch);
 	}
 
-	private Collection<BranchDto> modelToDto(Collection<Branch> branchs){
+	private List<BranchDto> modelToDto(List<Branch> branchs){
 		List<BranchDto> branchsDto = new ArrayList<BranchDto>();
+		branchs.forEach(action -> {
+			BranchDto branchDto = new BranchDto();
+			BeanUtils.copyProperties(action, branchDto);
+			branchsDto.add(branchDto);
+		});
+		return branchsDto;
+	}
+	
+	private Set<BranchDto> modelToDto(Set<Branch> branchs){
+		Set<BranchDto> branchsDto = new HashSet<BranchDto>();
 		branchs.forEach(action -> {
 			BranchDto branchDto = new BranchDto();
 			BeanUtils.copyProperties(action, branchDto);
@@ -263,6 +273,6 @@ public class BranchServiceImpl implements BranchService {
 		Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
 		Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
 		Shop shop = shopOptional.get();
-		return (Set<BranchDto>) modelToDto(shop.getBranchs());
+		return modelToDto(shop.getBranchs());
 	}
 }

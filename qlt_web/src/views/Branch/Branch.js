@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { select, setBranch, deleteBranch } from '../../actions/branchAction'
 import FormBrach from  './FormBranch'
@@ -20,29 +19,36 @@ import {
   Button,
   InputGroup
   } from 'reactstrap'
-
+const columns = [
+  {
+    key: 'id',
+    title: 'ID',
+    dataIndex: 'id',
+  },
+  {
+    key: 'name',
+    title: 'Tên Chi Nhánh',
+    dataIndex: 'name',
+  },
+  {
+    key: 'isEnabled',
+    title: 'Hoạt động',
+    dataIndex: 'isEnabled',
+    render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
+  },
+  {
+    key: 'isMain',
+    title: 'Chi Nhánh Chính',
+    dataIndex: 'isMain',
+    render: value => (
+      <Badge className="align-items-center" color={value ? 'success': 'secondary'}><i className="fas fa-home"></i></Badge>
+    )
+  },
+];
 class index extends Component {
   constructor(props){
     super(props);
     this.state = {
-      columns: [
-        {
-          key: 'id',
-          title: 'ID',
-          dataIndex: 'id',
-        },
-        {
-          key: 'name',
-          title: 'Tên Chi Nhánh',
-          dataIndex: 'name',
-        },
-        {
-          key: 'isEnabled',
-          title: 'Hoạt động',
-          dataIndex: 'isEnabled',
-          render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
-        },
-      ],
       seletedKeys: [],
       condition:'',
       idDirector: this.props.authReducer.user.id
@@ -116,7 +122,7 @@ class index extends Component {
                 </Form>
                 <Table
                   rowKey='id'
-                  columns={this.state.columns}
+                  columns={columns}
                   dataSource={this.props.branchReducer.branchs}
                   pagination = {false}
                   rowSelection={rowSelection}
