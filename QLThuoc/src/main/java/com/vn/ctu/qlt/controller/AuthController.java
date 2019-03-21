@@ -1,6 +1,7 @@
 package com.vn.ctu.qlt.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -110,7 +111,7 @@ public class AuthController {
 			}
 			Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
 			Set<Branch> branchs = null;
-			Set<BranchDto> branchsDto = new HashSet<>();
+			List<BranchDto> branchsDto = new ArrayList<>();
 			if (employee.isPresent()) {
 				branchs = employee.get().getBranchs();
 				branchs.forEach(action->{

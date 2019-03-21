@@ -12,6 +12,9 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<addUniqueConstraint catalogName="cat" columnNames="nhan_vien_id, chi_nhanh_id"
+			constraintName="const_nhan_vien_id_chi_nhanh_id" deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="nhan_vien_chi_nhanh" />
 		<addForeignKeyConstraint baseColumnNames="nhan_vien_id" baseTableName="nhan_vien_chi_nhanh"
 			constraintName="fk_nhan_vien_chi_nhanh_nhan_vien" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
 			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="nhan_vien" />

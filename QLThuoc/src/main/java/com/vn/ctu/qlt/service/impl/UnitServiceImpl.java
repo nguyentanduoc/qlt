@@ -1,6 +1,7 @@
 package com.vn.ctu.qlt.service.impl;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.UnitSelection;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.Unit;
 import com.vn.ctu.qlt.repository.UnitRepository;
 import com.vn.ctu.qlt.service.UnitService;
@@ -38,6 +40,16 @@ public class UnitServiceImpl implements UnitService {
 	@Override
 	public Unit getByUnitSeletion(UnitSelection unit) {
 		return unitRepository.getOne(unit.getValue());
+	}
+
+	@Override
+	public Unit getUnitById(Long id) {
+		Optional<Unit> unit = unitRepository.findById(id);
+		if(unit.isPresent()) {
+			return unit.get();
+		} else {
+			throw new BadRequestException("Đơn vị không tồn tại");
+		}
 	}
 
 }

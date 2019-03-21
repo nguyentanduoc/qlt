@@ -12,6 +12,7 @@ import shopReducer from './shopReducer';
 import employeeReducer from './employeeReducer';
 import importRoductReducer from './importProductReducer';
 import productReducer from './productReducer';
+import requestReducer from './requestReducer';
 
 export default combineReducers({
     error: errorReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
     shopReducer,
     employeeReducer,
     importRoductReducer,
-    productReducer
+    productReducer,
+    requestReducer
 });

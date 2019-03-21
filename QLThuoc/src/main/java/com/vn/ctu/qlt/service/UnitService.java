@@ -12,4 +12,6 @@ public interface UnitService {
 	public Set<UnitSelection> getAllForSelection();
 	
 	public Unit getByUnitSeletion(UnitSelection unit);
+	
+	public Unit getUnitById(Long id);
 }

@@ -24,6 +24,11 @@ public class AuthenticationFacade implements IAuthenticationFacade {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
+	public Long getIdAccount() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+		return userPrincipal.getId();
+	}
 	@Override
 	public Employee getEmployee() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

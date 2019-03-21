@@ -12,6 +12,9 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<addUniqueConstraint catalogName="cat" columnNames="navigration_id, role_id"
+			constraintName="const_navigration_roles_navigration_id_role_id" deferrable="true" disabled="true" initiallyDeferred="true"
+			schemaName="public" tableName="navigration_roles" />
 		<addForeignKeyConstraint baseColumnNames="navigration_id" baseTableName="navigration_roles"
 			constraintName="fk_navigration_roles_navigration" deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
 			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="navigration" />

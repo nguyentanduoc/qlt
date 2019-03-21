@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.QueryBranchDto;
+import com.vn.ctu.qlt.security.AuthenticationFacade;
 import com.vn.ctu.qlt.service.BranchService;
 
 /**
@@ -34,6 +35,9 @@ public class BranchController {
 	/** The branch service. */
 	@Autowired
 	private BranchService branchService;
+	
+	@Autowired
+	private AuthenticationFacade authenticationFacade;
 
 	/**
 	 * Save.
@@ -42,10 +46,13 @@ public class BranchController {
 	 */
 	@PostMapping(path = "/api/branch/save")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void save(@RequestBody BranchDto branch) {
+	public ResponseEntity<Page<BranchDto>> save(@RequestBody BranchDto branch) {
 		logger.debug("/api/branch/save");
 		try {
 			branchService.save(branch);
+			PageRequest pageRequest = PageRequest.of(0, 5);
+			Page<BranchDto> pageBranch = branchService.getBranhByDirector(authenticationFacade.getIdAccount(), pageRequest);
+			return ResponseEntity.ok().body(pageBranch);
 		} catch (DataIntegrityViolationException e) {
 			logger.error(e.getMessage());
 			throw e;

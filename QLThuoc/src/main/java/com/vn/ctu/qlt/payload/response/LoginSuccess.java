@@ -20,10 +20,10 @@ public class LoginSuccess {
 
 	private Set<String> authorities;
 	
-	private Set<BranchDto> branchs;
+	private List<BranchDto> branchs;
 
 	public LoginSuccess(JwtAuthenticationResponse jwtAuthenticationResponse, User user, List<Navigration> nav,
-			Set<String> authorities, Set<BranchDto> branchs) {
+			Set<String> authorities, List<BranchDto> branchs) {
 		super();
 		this.jwtAuthenticationResponse = jwtAuthenticationResponse;
 		this.user = user;

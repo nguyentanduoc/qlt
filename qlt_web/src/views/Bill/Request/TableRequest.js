@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'
 import AlertCommon from '../../Common/AlertCommon'
 import { Table } from 'antd'
 import Select from 'react-select'
-import { getAllProduct } from '../../../actions/requestProductAction'
+import { getAllProduct, getUnit, getAmountProduct } from '../../../actions/requestProductAction'
 import {
   Button,
   Row,
@@ -15,7 +15,11 @@ import {
   ModalFooter,
   FormGroup,
   Label,
-  Input
+  Input,
+  FormFeedback,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
 } from 'reactstrap'
 
 const columns  = [{
@@ -28,8 +32,8 @@ const columns  = [{
   key: 'amount',
 },{
   title: 'Đơn Vị',
-  dataIndex: 'specUnit',
-  key: 'specUnit',
+  dataIndex: 'unit',
+  key: 'unit',
 }]
 
 export class TableRequest extends Component {
@@ -40,9 +44,10 @@ export class TableRequest extends Component {
       dataView:[],
       modal: false,
       product: {},
-      specUnit: {},
+      unit: {},
       amount:0,
       createBillDate: new Date(),
+      invalid: false
     }
   }
   onAddproduct = (e) => {
@@ -57,12 +62,9 @@ export class TableRequest extends Component {
   handleSeletion = (e, selection) => {
     switch (selection.name) {
       case 'product':
-        this.props.onGetSpecUnit(e.value);
+        this.props.onGetUnit(e.value);
+        this.props.onGetAmountProduct(e.value, this.props.authenReducer.branch.id);
         this.setState({product: e});
-        break;
-      
-      case 'specUnit':
-        this.setState({specUnit: e});
         break;
       
       default:
@@ -78,19 +80,25 @@ export class TableRequest extends Component {
   }
   addImport = (e) => {
     e.preventDefault();
-    let data = this.state.data;
-    let dataView = this.state.dataView;
-    data.push({
-      product: this.state.product,
-      specUnit: this.state.specUnit,
-      amount:this.state.amount
-    });
-    dataView.push({
-      product: this.state.product.label,
-      specUnit: this.state.specUnit.label,
-      amount:this.state.amount
-    });
-    this.setState({data: data, dataView: dataView});
+    this.setState({unit: this.props.requestReducer.unit});
+    if(this.state.amount > this.props.requestReducer.amount) {
+      this.setState({invalid: true});
+    } else {
+      let {data, dataView} = this.state;
+      data.push({
+        product: this.state.product,
+        unit: this.state.unit,
+        amount:this.state.amount
+      });
+      dataView.push({
+        product: this.state.product.label,
+        unit: this.state.unit.unitName,
+        amount:this.state.amount
+      });
+      console.log(dataView);
+      console.log(data);
+      this.setState({data: data, dataView: dataView, invalid: false});
+    }
   }
   addImportAndExit = (e) => {
     this.addImport(e);
@@ -101,15 +109,17 @@ export class TableRequest extends Component {
     this.props.onSave(this.state.data, this.props.authenReducer.branch);
   }
   componentDidUpdate(){
-    if(this.props.importRoductReducer.saveSuccess){
-      this.setState({ data:[], dataView:[]});
-      this.props.onResetSaveSuccess();
-    }
+    // if(this.props.importRoductReducer.saveSuccess){
+    //   this.setState({ data:[], dataView:[]});
+    //   this.props.onResetSaveSuccess();
+    // }
+    
   }
   componentWillMount(){
-    this.props.onGetAllProduct();
+    this.props.onGetAllProduct(this.props.authenReducer.branch);
   }
   render() {
+    const { products, unit, amount } = this.props.requestReducer;
     return (
       <div>
           <Row>
@@ -139,24 +149,23 @@ export class TableRequest extends Component {
               <FormGroup>
                 <Label htmlFor=''>Sản Phẩm</Label>
                   <Select 
-                    options={this.props.importRoductReducer.products}
+                    options={products}
                     onChange={this.handleSeletion.bind(this)}
                     isMulti = {false}
                     name="product"
                   />
               </FormGroup>
-              <FormGroup>
-                <Label htmlFor=''>Đơn Vị</Label>
-                  <Select 
-                      options={this.props.importRoductReducer.specUnitSelection}
-                      onChange={this.handleSeletion.bind(this)}
-                      isMulti = {false}
-                      name="specUnit"
-                    />
-              </FormGroup>
-              <FormGroup>
                 <Label htmlFor=''>Số Lượng</Label>
-                <Input name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
+                  <InputGroup>
+                    <Input invalid={this.state.invalid} name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
+                    <FormFeedback>Xin lỗi! vui lòng nhập số lượng nhỏ hơn {amount}</FormFeedback>
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        {unit.unitName}
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+              <FormGroup>
               </FormGroup>
             </ModalBody>
             <ModalFooter>
@@ -171,22 +180,26 @@ export class TableRequest extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  importRoductReducer: state.importRoductReducer,
+  requestReducer: state.requestReducer,
   authenReducer: state.auth,
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetAllProduct: () => {
-    return dispatch(getAllProduct());
+  onGetAllProduct: (branch) => {
+    return dispatch(getAllProduct(branch));
   },
-  onGetSpecUnit: (id) => {
-    // return dispatch(getSpecUnit(id))
+  onGetUnit: (id) => {
+     return dispatch(getUnit(id))
   },
   onSave: (data, branch) => {
     // return dispatch(save(data, branch));
   },
   onResetSaveSuccess: () => {
     // return dispatch(resetSaveSuccess());
+  },
+  onGetAmountProduct: (id, branchId) => {
+    return dispatch(getAmountProduct(id, branchId))
   }
 })
 

@@ -6,10 +6,12 @@ import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.ProductSelectionDto;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.model.Product;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ProductService.
  *
@@ -64,7 +66,34 @@ public interface ProductService {
 	 *
 	 * @param productId the product id
 	 * @param branchId the branch id
+	 * @param amount the amount
 	 * @param price the price
+	 * @param specUnit the spec unit
 	 */
 	public void saveImportProduct(Long productId, Long branchId, Double amount, Double price, Long specUnit);
+	
+	/**
+	 * Gets the product for request.
+	 *
+	 * @param branchDto the branch dto
+	 * @return the product for request
+	 */
+	public List<ProductSelectionDto> getProductForRequest(BranchDto branchDto);
+	
+	/**
+	 * Gets the amount of product.
+	 *
+	 * @param productId the product id
+	 * @param branchId the branch id
+	 * @return the amount of product
+	 */
+	public Double getAmountOfProduct(Long productId, Long branchId);
+	
+	/**
+	 * Gets the product by id.
+	 *
+	 * @param id the id
+	 * @return the product by id
+	 */
+	public Product getProductById(Long id);
 }

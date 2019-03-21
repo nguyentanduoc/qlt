@@ -7,8 +7,9 @@ import { setPagination } from '../actions/paginationAction'
 export const save = (branch) => {
   return async (dispatch) => {
     try {
-      await axios.post(API.BRANCH.SAVE, branch ,headerConfig);
-      await dispatch(select());
+      const res = await axios.post(API.BRANCH.SAVE, branch ,headerConfig);
+      await dispatch(setPagination(res.data));
+      await dispatch(selectSuccess(res.data.content));
       await dispatch(showAlertAndReset());
     }
     catch (err) {

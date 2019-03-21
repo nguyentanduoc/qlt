@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.BranchsSeletionDto;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
@@ -274,5 +275,17 @@ public class BranchServiceImpl implements BranchService {
 		Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
 		Shop shop = shopOptional.get();
 		return modelToDto(shop.getBranchs());
+	}
+
+	@Override
+	public Branch getMainBranchByBranch(Long id) {
+		Optional<Branch> branch = branchRepository.findById(id);
+		if(branch.isPresent()) {
+			Shop shop = branch.get().getShop();
+			Set<Branch> branchs = shop.getBranchs();
+			return branchs.stream().filter(b -> b.getIsMain() == true).findAny().orElse(null);
+		} else {
+			throw new BadRequestException("Không tìm thấy chi nhánh");
+		}
 	}
 }

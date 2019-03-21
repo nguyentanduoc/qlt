@@ -26,25 +26,31 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.vn.ctu.qlt.dao.PriceHistoryDao;
 import com.vn.ctu.qlt.dao.ProductOfBranchDao;
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.ProductDto;
 import com.vn.ctu.qlt.dto.ProductSelectionDto;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.exception.DivRemainderException;
 import com.vn.ctu.qlt.exception.ProductException;
 import com.vn.ctu.qlt.exception.SpecOfProductException;
+import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.SpecUnit;
 import com.vn.ctu.qlt.model.Unit;
 import com.vn.ctu.qlt.repository.ProductRepository;
+import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ProducerService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
 import com.vn.ctu.qlt.service.UnitService;
 import com.vn.ctu.qlt.sevice.mapper.PriceHistoryMapper;
+import com.vn.ctu.qlt.sevice.mapper.ProductMapper;
 import com.vn.ctu.qlt.sevice.mapper.ProductOfBranchMapper;
 
 import liquibase.util.file.FilenameUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ProductServiceImpl.
  *
@@ -93,6 +99,12 @@ public class ProductServiceImpl implements ProductService {
 	/** The product of branch mapper. */
 	@Autowired
 	private ProductOfBranchMapper productOfBranchMapper;
+
+	@Autowired
+	private BranchService branchService;
+	
+	@Autowired
+	private ProductMapper productMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -184,6 +196,13 @@ public class ProductServiceImpl implements ProductService {
 		return productSelectionsDto;
 	}
 
+	/**
+	 * Save price history.
+	 *
+	 * @param productId the product id
+	 * @param branchId  the branch id
+	 * @param price     the price
+	 */
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -260,6 +279,7 @@ public class ProductServiceImpl implements ProductService {
 	 * @param productId the product id
 	 * @param branchId  the branch id
 	 * @param amount    the amount
+	 * @param spectUnit the spect unit
 	 */
 	private void saveProductOfBranch(Long productId, Long branchId, Double amount, Long spectUnit) {
 		Product product;
@@ -268,7 +288,7 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			ProductOfBranchDao productOfBranch = selectProductOfBranch(productId, branchId);
 			Optional<Product> productOptional = productRepository.findById(productId);
-			if(productOptional.isPresent()) {
+			if (productOptional.isPresent()) {
 				product = productOptional.get();
 				unitOfProduct = product.getUnit();
 				specUnit = specUnitService.getById(spectUnit);
@@ -287,6 +307,16 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+	/**
+	 * Push amount.
+	 *
+	 * @param unitOfProduct   the unit of product
+	 * @param specUnit        the spec unit
+	 * @param productOfBranch the product of branch
+	 * @param amount          the amount
+	 * @param product         the product
+	 * @return the double
+	 */
 	private double pushAmount(Unit unitOfProduct, SpecUnit specUnit, ProductOfBranchDao productOfBranch, Double amount,
 			Product product) {
 		double countAmount = 0d;
@@ -310,13 +340,21 @@ public class ProductServiceImpl implements ProductService {
 		return countAmount;
 	}
 
+	/**
+	 * Push amount.
+	 *
+	 * @param unitOfProduct the unit of product
+	 * @param specUnit      the spec unit
+	 * @param amount        the amount
+	 * @param product       the product
+	 * @return the double
+	 */
 	private double pushAmount(Unit unitOfProduct, SpecUnit specUnit, Double amount, Product product) {
 		double countAmount = 0d;
 		SpecUnit straightUnit;
 		if (unitOfProduct.getId().equals(specUnit.getUnitIn().getId())) {
 			countAmount = amount;
-		}
-		if (unitOfProduct.getId().equals(specUnit.getUnitOut().getId())) {
+		} else if (unitOfProduct.getId().equals(specUnit.getUnitOut().getId())) {
 			countAmount = (amount * specUnit.getAmount());
 		} else {
 			List<SpecUnit> specUnitsOfProduct = product.getSpecUnits();
@@ -402,6 +440,7 @@ public class ProductServiceImpl implements ProductService {
 	 * @param branchId  the branch id
 	 * @param amount    the amountW
 	 * @param price     the price
+	 * @param specUnit  the spec unit
 	 */
 	public void saveImportProduct(Long productId, Long branchId, Double amount, Double price, Long specUnit) {
 		try {
@@ -409,6 +448,62 @@ public class ProductServiceImpl implements ProductService {
 			savePriceHistory(productId, branchId, price);
 		} catch (DivRemainderException e) {
 			throw e;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vn.ctu.qlt.service.ProductService#getProductForRequest()
+	 */
+	@Override
+	public List<ProductSelectionDto> getProductForRequest(BranchDto branchDto) {
+		try {
+			Branch mainBranch = branchService.getMainBranchByBranch(branchDto.getId());
+			StringBuilder sql = new StringBuilder();
+			sql.append("select sp.id, sp.ten_san_pham, sp.cong_dung, sp.hinh_anh, sp.nha_san_xuat_id, sp.don_vi_chuan ");
+			sql.append("from san_pham sp inner join san_pham_cua_chi_nhanh spccn on sp.id = spccn.san_pham_id ");
+			sql.append("where spccn.chi_nhanh_id = ? and spccn.so_luong > 0");
+			
+			List<Product> products = jdbcTemplate.query(sql.toString(), new Object[] {mainBranch.getId()}, productMapper);
+			
+			if(products.size() > 0) {
+				List<ProductSelectionDto> result = new ArrayList<ProductSelectionDto>();
+				products.forEach(action->{
+					result.add(new ProductSelectionDto(action.getId(), action.getProductName() + "[" + action.getProducer().getProducerName() +"]"));
+				});
+				return result;
+			} else {
+				throw new BadRequestException("Không tìm thấy sản phẩm");
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw e;
+		}
+
+	}
+
+	@Override
+	public Double getAmountOfProduct(Long productId, Long branchId) {
+		try {
+			Branch mainBranch = branchService.getMainBranchByBranch(branchId);
+			StringBuilder sql = new  StringBuilder();
+			sql.append("select spccn.so_luong ");
+			sql.append("from san_pham sp inner join san_pham_cua_chi_nhanh spccn on sp.id = spccn.san_pham_id ");
+			sql.append("where spccn.chi_nhanh_id = ? and sp.id = ? ");
+			return jdbcTemplate.queryForObject(sql.toString(),new Object[] {mainBranch.getId(), productId }, Double.class);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public Product getProductById(Long id) {
+		Optional<Product> productOption = productRepository.findById(id);
+		if(productOption.isPresent()) {
+			return productOption.get();
+		} else {
+			throw new BadRequestException("Sản phẩm không tồn tại");
 		}
 	}
 }

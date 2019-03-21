@@ -10,4 +10,6 @@ public interface ProducerService {
 	public Set<ProducerSeletion> getAllForSelection();
 
 	public Producer getByProducerSeletion(ProducerSeletion producerSelection);
+	
+	public Producer getProducerById(Long id);
 }

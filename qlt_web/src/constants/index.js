@@ -68,6 +68,12 @@ export const ACTION_TYPES = {
   },
   PRODUCT: {
     INIT_SUCCESS: "PRODUCT_INIT_SUCCESS"
+  },
+  REQUEST: {
+    SET_PRODUCT: "REQUEST_SET_PRODUCT",
+    SET_UNIT: "REQUEST_SET_UNIT",
+    SET_AMOUNT_PRODUCT: "REQUEST_SET_AMOUNT_PRODUCT",
+    GET_AMOUNT_PRODUCT_SUCCESS: "REQUEST_GET_AMOUNT_PRODUCT_SUCCESS"
   }
 }
 export const LOCAL_STORAGE = {
@@ -113,6 +119,8 @@ export const API = {
     SAVE: `${BASE_URI}/api/product/save`,
     GET_SPEC_UNIT: `${BASE_URI}/api/product/get-spec-unit`,
     GET_PRODUCT_FOR_REQUEST: `${BASE_URI}/api/product/get-product-for-request`,
+    GET_AMOUNT_PRODUCT: `${BASE_URI}/api/product/get-amount-product`,
+    GET_UNIT_OF_PRODUCT: `${BASE_URI}/api/product/get-unit-of-product`
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
