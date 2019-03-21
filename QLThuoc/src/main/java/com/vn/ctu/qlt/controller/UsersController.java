@@ -40,12 +40,12 @@ public class UsersController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@PostMapping(path = "/getAll")
+	@PostMapping(path = "/get-all")
 	public ResponseEntity<List<User>> getAllUser() {
 		return ResponseEntity.ok().body(userSerive.findAll());
 	}
 
-	@PostMapping(path = "/updateRole")
+	@PostMapping(path = "/update-role")
 	public ResponseEntity<User> updateUser(@RequestBody UpdateUserRoleDto user) {
 		Optional<User> userOptional = userSerive.findById(user.getId());
 		if (userOptional.get() != null) {
@@ -75,7 +75,7 @@ public class UsersController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);
 	}
 
-	@GetMapping(path = "/getUserLimit")
+	@GetMapping(path = "/get-user-limit")
 	public ResponseEntity<Page<User>> getUserLimit(Pageable pageable) {
 		return ResponseEntity.ok().body(userSerive.getAllUser(pageable));
 	}

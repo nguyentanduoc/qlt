@@ -75,18 +75,18 @@ export const LOCAL_STORAGE = {
   IS_LOGIN: "IS_LOGIN"
 }
 export const API = {
-  GET_ALL_USER: `${BASE_URI}/api/admin/users/getAll`,
+  GET_ALL_USER: `${BASE_URI}/api/admin/users/get-all`,
   LOGIN: `${BASE_URI}/api/auth/signin`,
-  UPDATE_USER_ROLE: `${BASE_URI}/api/admin/users/updateRole`,
+  UPDATE_USER_ROLE: `${BASE_URI}/api/admin/users/update-role`,
   ROLE: {
-    GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/getAll`,
-    GET_ROLE_FOR_ADMIN: `${BASE_URI}/api/admin/roles/getRoleForAdmin`,
-    GET_ROLES_BY_ROLES:  `${BASE_URI}/api/admin/roles/getRolesByRoles`,
+    GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/get-all`,
+    GET_ROLE_FOR_ADMIN: `${BASE_URI}/api/admin/roles/get-role-for-admin`,
+    GET_ROLES_BY_ROLES:  `${BASE_URI}/api/admin/roles/get-roles-by-roles`,
   },
   USER: {
     SEARCH_USER: `${BASE_URI}/api/admin/users/search`,
     CREATE_ACCOUNT: `${BASE_URI}/api/admin/users/create`,
-    GET_USER_LIMIT: `${BASE_URI}/api/admin/users/getUserLimit`,
+    GET_USER_LIMIT: `${BASE_URI}/api/admin/users/get-user-limit`,
     DELETE_USER: `${BASE_URI}/api/admin/users/delete`,
   },
   BRANCH:{
@@ -111,7 +111,8 @@ export const API = {
   PRODUCT: {
     INIT: `${BASE_URI}/api/product/init`,
     SAVE: `${BASE_URI}/api/product/save`,
-    GET_SPEC_UNIT: `${BASE_URI}/api/product/getSpecUnit`
+    GET_SPEC_UNIT: `${BASE_URI}/api/product/get-spec-unit`,
+    GET_PRODUCT_FOR_REQUEST: `${BASE_URI}/api/product/get-product-for-request`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
@@ -136,9 +137,9 @@ export const NAV_ACTION_TYPE = {
   RESET_ALL: "RESET_ALL_NAV"
 }
 export const NAV_API = {
-  GET_ALL_NAV: `${BASE_URI}/api/admin/nav/getAll`,
-  GET_ALL_SUB_NAV: `${BASE_URI}/api/admin/nav/getSubNav`,
-  UPDATE_NAV: `${BASE_URI}/api/admin/nav/updateNav`,
+  GET_ALL_NAV: `${BASE_URI}/api/admin/nav/get-all`,
+  GET_ALL_SUB_NAV: `${BASE_URI}/api/admin/nav/get-sub-nav`,
+  UPDATE_NAV: `${BASE_URI}/api/admin/nav/update-nav`,
 }
 export const ALERT_ACTIONS = {
   IS_SUCCESS: "IS_SUCCESS",

@@ -24,7 +24,7 @@ public class NavigrationController {
 	@Autowired
 	private NavigrationRepository navigrationRepository;
 
-	@PostMapping(path = "/api/admin/nav/getAll")
+	@PostMapping(path = "/api/admin/nav/get-all")
 	public ResponseEntity<List<NavigrationDto>> getAllNav() {
 		List<NavigrationDto> navs = new ArrayList<NavigrationDto>();
 		List<Navigration> nav = navigrationRepository.findAllByTitleByOrderBySortNum(Sort.by("sortNum").ascending());
@@ -36,7 +36,7 @@ public class NavigrationController {
 		return ResponseEntity.ok().body(navs);
 	}
 
-	@PostMapping(path = "/api/admin/nav/getSubNav")
+	@PostMapping(path = "/api/admin/nav/get-sub-nav")
 	public ResponseEntity<List<NavigrationDto>> getSubNav(@RequestBody Long id) {
 		Set<Navigration> navs = navigrationRepository.findAllByIdParent(id, Sort.by("sortNum").ascending());
 		List<NavigrationDto> navresponse = new ArrayList<NavigrationDto>();
@@ -48,7 +48,7 @@ public class NavigrationController {
 		return ResponseEntity.ok().body(navresponse);
 	}
 
-	@PostMapping(path = "/api/admin/nav/updateNav")
+	@PostMapping(path = "/api/admin/nav/update-nav")
 	public ResponseEntity<Navigration> updateNav(@RequestBody NavigrationDto nav) {
 		try {
 			Optional<Navigration> navOptional = navigrationRepository.findById(nav.getId());

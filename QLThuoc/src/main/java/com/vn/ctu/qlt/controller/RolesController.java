@@ -32,7 +32,7 @@ public class RolesController {
 	 *
 	 * @return the all user
 	 */
-	@PostMapping(path = "/getAll")
+	@PostMapping(path = "/get-all")
 	public ResponseEntity<List<Role>> getAllUser() {
 		return ResponseEntity.ok().body(roleService.getAll());
 	}
@@ -42,7 +42,7 @@ public class RolesController {
 	 *
 	 * @return the role for admin
 	 */
-	@PostMapping(path = "/getRoleForAdmin")
+	@PostMapping(path = "/get-role-for-admin")
 	public ResponseEntity<List<Role>> getRoleForAdmin() {
 		return ResponseEntity.ok().body(roleService.getByRoleNameForAdmin());
 	}
@@ -53,7 +53,7 @@ public class RolesController {
 	 * @param roles the roles
 	 * @return the roles by roles
 	 */
-	@PostMapping(path = "/getRolesByRoles")
+	@PostMapping(path = "/get-roles-by-roles")
 	public ResponseEntity<Set<Role>> getRolesByRoles(@RequestBody List<Role> roles) {
 		return ResponseEntity.ok().body(roleService.getRolesByRoles(roles));
 	}

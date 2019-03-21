@@ -93,8 +93,9 @@ public class ProductController {
 	 * @param id the id
 	 * @return the spec unit
 	 */
-	@PostMapping(path="/api/product/getSpecUnit")
+	@PostMapping(path="/api/product/get-spec-unit")
 	public ResponseEntity<Set<SpecUnitSelectionDto>> getSpecUnit(@RequestBody Long id){
 		return ResponseEntity.ok().body(productService.getSpecUnit(id));
 	}
+	
 }

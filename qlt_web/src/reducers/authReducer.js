@@ -17,7 +17,6 @@ export default (state = initState, action) => {
       const payload = action.payload;
       if(payload.branchs) {
         if(payload.branchs.length > 1) {
-          
           return {...state, 
             authentication: payload.authentication, 
             isLogin: true, 
