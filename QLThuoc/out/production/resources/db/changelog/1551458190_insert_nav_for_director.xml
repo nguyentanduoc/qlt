@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="01" author="ntduoc">
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551458190_navigrations.csv" schemaName="public"
+			tableName="danh_muc">
+			<column name="ma" type="numeric" />
+			<column name="ma_huy_hieu" type="numeric" />
+			<column name="ten" type="STRING" />
+			<column name="url" type="STRING" />
+			<column name="tieu_de" type="BOOLEAN" />
+			<column name="so_thu_tu" type="numeric" />
+			<column name="co_danh_muc_con" type="BOOLEAN" />
+			<column name="la_danh_muc_cha" type="BOOLEAN" />
+			<column name="ma_danh_muc_cha" type="numeric" />
+		</loadData>
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1551458190_navigration_role.csv"
+			schemaName="public" tableName="quyen_danh_muc">
+			<column name="ma_danh_muc" type="numeric" />
+			<column name="ma_quyen" type="numeric" />
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

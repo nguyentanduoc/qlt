@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { select, setBranch, deleteBranch } from '../../actions/branchAction'
-import FormBrach from  './FormBranch'
-import { Table } from 'antd'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {select, setBranch, deleteBranch} from '../../actions/branchAction'
+import FormBranch from './FormBranch'
+import {Table} from 'antd'
 import PaginationCommon from '../Common/PaginationCommon'
-import { pageRequestDefault } from '../../helpers/pageable'
+import {pageRequestDefault} from '../../helpers/pageable'
 import {
   Row,
   Col,
@@ -18,7 +18,8 @@ import {
   InputGroupAddon,
   Button,
   InputGroup
-  } from 'reactstrap'
+} from 'reactstrap'
+
 const columns = [
   {
     key: 'id',
@@ -34,33 +35,37 @@ const columns = [
     key: 'isEnabled',
     title: 'Hoạt động',
     dataIndex: 'isEnabled',
-    render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
+    render: value => (
+      <Badge color={value ? 'success' : 'danger'}>{value ? 'Hoạt động' : 'Dừng hoạt động'}</Badge>
+    )
   },
   {
     key: 'isMain',
     title: 'Chi Nhánh Chính',
     dataIndex: 'isMain',
     render: value => (
-      <Badge className="align-items-center" color={value ? 'success': 'secondary'}><i className="fas fa-home"></i></Badge>
+      <Badge className="align-items-center" color={value ? 'success' : 'secondary'}>
+        <i className="fas fa-home"/></Badge>
     )
   },
 ];
+
 class index extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       seletedKeys: [],
-      condition:'',
+      condition: '',
       idDirector: this.props.authReducer.user.id
     }
-    
+
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.onSelect(
       {
-        idDirector:this.state.idDirector,
-        pageable:pageRequestDefault()
+        idDirector: this.state.idDirector,
+        pageable: pageRequestDefault()
       }
     );
   }
@@ -69,7 +74,7 @@ class index extends Component {
     this.setState({seletedKeys: keys});
   }
 
-  handleSubmit =  (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.onSelect(this.state.condition);
   }
@@ -108,23 +113,29 @@ class index extends Component {
           <Col md="8">
             <Card>
               <CardHeader>
-                  <i className="fas fa-list-alt"></i> Danh Sách <strong>Chi Nhánh</strong>
+                <i className="fas fa-list-alt"/> Danh Sách <strong>Chi Nhánh</strong>
               </CardHeader>
               <CardBody>
                 <Form onSubmit={this.handleSubmit.bind(this)} className='form-inline justify-content-end pb-2'>
                   <InputGroup className="float-right">
-                    <Input type="text" id="condition" name="condition" placeholder="Tên Chi Nhánh" onChange={this.changeHandler.bind(this)}/>
+                    <Input type="text" id="condition" name="condition" placeholder="Tên Chi Nhánh"
+                           onChange={this.changeHandler.bind(this)}/>
                     <InputGroupAddon addonType="append">
-                      <Button type="submit" color="primary" className="btn-square"><i className="fas fa-search"></i></Button>
+                      <Button type="submit" color="primary" className="btn-square">
+                        <i className="fas fa-search"/>
+                      </Button>
                     </InputGroupAddon>
                   </InputGroup>
-                  <Button color='warning' className="btn-square ml-1" disabled={this.state.seletedKeys.length > 0 ? false : true} onClick={this.handleDeletedRow.bind(this)}><i className="far fa-trash-alt"></i></Button>
+                  <Button color='warning' className="btn-square ml-1" disabled={this.state.seletedKeys.length <= 0}
+                          onClick={this.handleDeletedRow.bind(this)}>
+                    <i className="far fa-trash-alt"/>
+                  </Button>
                 </Form>
                 <Table
                   rowKey='id'
                   columns={columns}
                   dataSource={this.props.branchReducer.branchs}
-                  pagination = {false}
+                  pagination={false}
                   rowSelection={rowSelection}
                   onRow={onRow}
                   bordered={true}
@@ -136,7 +147,7 @@ class index extends Component {
             </Card>
           </Col>
           <Col>
-              <FormBrach/>
+            <FormBranch/>
           </Col>
         </Row>
       </div>
@@ -150,7 +161,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onSelect: (condition) =>  {
+  onSelect: (condition) => {
     return dispatch(select(condition))
   },
   onSetBranch: (branch) => {

@@ -14,7 +14,7 @@ public class ShopMapper implements RowMapper<Shop> {
 	@Override
 	public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return Shop.builder()
-				.withId(rs.getLong("id"))
+				.withId(rs.getLong("ma"))
 				.withNameShop(rs.getString("ten_cua_hang"))
 				.withIsEnabled(rs.getBoolean("hoat_dong"))
 				.withEstablishAt(rs.getTimestamp("ngay_thanh_lap"))

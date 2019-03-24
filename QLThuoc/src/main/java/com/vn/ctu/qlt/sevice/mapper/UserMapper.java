@@ -25,9 +25,9 @@ public class UserMapper implements RowMapper<User> {
 	@Override
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		try {
-			Set<Role> roles = roleService.getRoleByUserId(rs.getLong("id"));
+			Set<Role> roles = roleService.getRoleByUserId(rs.getLong("ma"));
 			return new User(
-					rs.getLong("id"),
+					rs.getLong("ma"),
 					rs.getString("ten_dang_nhap"),
 					rs.getString("email"),
 					rs.getString("mat_khau"),

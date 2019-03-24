@@ -29,12 +29,15 @@ public class NavServiceImpl implements NavService {
 	public List<Navigration> getNavListRoleName(Collection<? extends GrantedAuthority> roleNames) {
 		StringBuilder sqlBuilder = new StringBuilder();
 		sqlBuilder.append(
-				"select nav.id, nav.name, nav.url, nav.icon,nav.title,nav.has_children, nav.is_children, nav.badge_id, nav.variant, nav.\"text\" from (\r\n"
-						+ "	select distinct ON (navigration.id) navigration.id, navigration.\"name\", navigration.url, navigration.icon, navigration.title, navigration.sort_num, navigration.has_children, navigration.is_children, badges.id as badge_id, badges.\"text\", badges.variant from navigration\r\n"
-						+ "	inner join navigration_roles navr on navigration.id = navr.navigration_id\r\n"
-						+ "	left join quyen on navr.role_id = quyen.id\r\n"
-						+ "	left join badges on badges.id = navigration.badge_id\r\n")
-				.append(" where navigration.is_children = false and (");
+				"select nav.ma, nav.ten, nav.url, nav.icon,nav.tieu_de,nav.co_danh_muc_con, nav.la_danh_muc_cha, nav.ma_huy_hieu, nav.bien_the, nav.chuoi from ("
+						+ "	select distinct ON (danh_muc.ma) danh_muc.ma, danh_muc.ten, danh_muc.url, "
+						+ " danh_muc.icon, danh_muc.tieu_de, danh_muc.so_thu_tu, danh_muc.co_danh_muc_con, "
+						+ " danh_muc.la_danh_muc_cha, huy_hieu.ma as ma_huy_hieu, huy_hieu.chuoi, huy_hieu.bien_the "
+						+ " from danh_muc"
+						+ "	inner join quyen_danh_muc navr on danh_muc.ma = navr.ma_danh_muc"
+						+ "	left join quyen on navr.ma_quyen = quyen.ma"
+						+ "	left join huy_hieu on huy_hieu.ma = danh_muc.ma_huy_hieu")
+				.append(" where danh_muc.la_danh_muc_cha = false and (");
 		List<String> roleArgs = new ArrayList<>();
 		int i = 0;
 		for (GrantedAuthority role : roleNames) {
@@ -44,7 +47,7 @@ public class NavServiceImpl implements NavService {
 				sqlBuilder.append("or").append(" ");
 			i++;
 		}
-		sqlBuilder.append(" )) nav order by nav.sort_num ASC");
+		sqlBuilder.append(" )) nav order by nav.so_thu_tu ASC");
 		// jdbcTemplate.query(sqlBuilder.toString(), new
 		// BeanPropertyRowMapper<Navigration>(Navigration.class));
 

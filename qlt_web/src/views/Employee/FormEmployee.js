@@ -4,6 +4,7 @@ import AlertCommon from '../Common/AlertCommon'
 import Select from 'react-select'
 import { init, save } from '../../actions/employeeAction'
 import DatePicker from 'react-datepicker'
+import { resetAlert } from '../../actions/alertAction'
 import {
   Form,
   Card,
@@ -64,6 +65,9 @@ export class FormEmployee extends Component {
   }
   handleChangeDate = dateJoin => {
     this.setState({ dateJoin: dateJoin});
+  }
+  componentWillUnmount(){
+    this.props.resetAlert();
   }
   render() {
     return (
@@ -157,6 +161,9 @@ const mapDispatchToProps =(dispatch) => ({
   },
   onSave: (employee) => {
     return dispatch(save(employee))
+  },
+  onResetAlert: () => {
+    return dispatch(resetAlert());
   }
 })
 

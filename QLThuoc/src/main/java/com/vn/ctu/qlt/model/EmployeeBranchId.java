@@ -18,11 +18,11 @@ public class EmployeeBranchId implements Serializable {
 	private static final long serialVersionUID = 8615809151734309939L;
 
 	/** The employee id. */
-	@Column(name = "nhan_vien_id")
+	@Column(name = "ma_nhan_vien")
 	private Long employeeId;
 
 	/** The branch id. */
-	@Column(name = "chi_nhanh_id")
+	@Column(name = "ma_chi_nhanh")
 	private Long branchId;
 
 	/**

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import AlertCommon from '../Common/AlertCommon'
-import { showAlertFail } from '../../actions/alertAction'
+import { showAlertFail, resetAlert } from '../../actions/alertAction'
 import { createAccount, resetUserFordetail } from '../../actions/UserAction'
 import {
   Col,
@@ -91,8 +91,9 @@ export class FormAccount extends Component {
       roles: user.roles
     })
   }
-  async componentWillUnmount(){
-    await this.props.onResetUserForDetail();
+  componentWillUnmount(){
+    this.props.onResetUserForDetail();
+    this.props.onResetAlert();
   }
   componentDidUpdate(){
     if(this.props.userReducer.flgClickRow) {
@@ -191,6 +192,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onResetUserForDetail: async() => {
     return await dispatch(resetUserFordetail());
+  },
+  onResetAlert: ()=>{
+    return dispatch(resetAlert());
   }
 })
 

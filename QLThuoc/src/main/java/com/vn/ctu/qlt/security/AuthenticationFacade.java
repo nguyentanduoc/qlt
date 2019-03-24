@@ -1,10 +1,13 @@
 package com.vn.ctu.qlt.security;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.service.EmployeeService;
@@ -33,9 +36,14 @@ public class AuthenticationFacade implements IAuthenticationFacade {
 	public Employee getEmployee() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-		User user = userSerivce.findById(userPrincipal.getId()).get();
-		Employee employee = employeeService.findEmployeeByUser(user).get();
-		return employee;
+		Optional<User> userOption = userSerivce.findById(userPrincipal.getId());
+		if(userOption.isPresent()) {
+			Optional<Employee> employeeOption = employeeService.findEmployeeByUser(userOption.get());
+			if(employeeOption.isPresent()) {
+				return employeeOption.get();
+			}
+		}
+		throw new BadRequestException("Không tìm thấy tài khoản");
 	}
 
 }

@@ -25,6 +25,7 @@ public class Unit {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The unit name. */

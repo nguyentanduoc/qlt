@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.vn.ctu.qlt.model.BillImport;
 
 @Repository
-public interface BillImportRepository extends JpaRepository<BillImport, Long>{
+public interface BillImportRepository extends JpaRepository<BillImport, Long> {
 
 }

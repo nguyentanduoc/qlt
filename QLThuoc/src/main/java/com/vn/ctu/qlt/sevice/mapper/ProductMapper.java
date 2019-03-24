@@ -24,10 +24,10 @@ public class ProductMapper implements RowMapper<Product> {
 	
 	@Override
 	public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Producer producer = producerService.getProducerById(rs.getLong("nha_san_xuat_id"));
+		Producer producer = producerService.getProducerById(rs.getLong("ma_nha_san_xuat"));
 		Unit unit = unitService.getUnitById(rs.getLong("don_vi_chuan"));
 		Product product = new Product();
-		product.setId(rs.getLong("id"));
+		product.setId(rs.getLong("ma"));
 		product.setProductName(rs.getString("ten_san_pham"));
 		product.setVirtue(rs.getString("cong_dung"));
 		product.setImage(rs.getString("hinh_anh"));

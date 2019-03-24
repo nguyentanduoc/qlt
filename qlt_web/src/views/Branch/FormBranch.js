@@ -112,7 +112,8 @@ class FormBranch extends Component {
     return (!str || 0 === str.length);
   }
   render() {
-    const enabledSwithMainBranch = () => {
+
+    const enabledSwitchMainBranch = () => {
       const branchs = this.props.branchReducer.branchs;
       const result = _.find(branchs, function(o){
         return o.isMain === true });
@@ -175,7 +176,7 @@ class FormBranch extends Component {
                 <Col md="6"><Label>Chi Nhánh Chính</Label></Col>
                 <Col md="6" xs="12">
                     <CustomInput
-                      disabled ={enabledSwithMainBranch()}
+                      disabled ={enabledSwitchMainBranch()}
                       type="switch"
                       id='isMain'
                       label='Hoạt động'

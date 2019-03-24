@@ -23,16 +23,16 @@ public class DetailBillImport implements Serializable {
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hoa_don_nhap_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_hoa_don_nhap", referencedColumnName = "ma")
 	private BillImport billImport;
 
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "san_pham_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_san_pham", referencedColumnName = "ma")
 	private Product product;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "quy_dinh_don_vi_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_quy_dinh_don_vi", referencedColumnName = "ma")
 	private SpecUnit spectUnit;
 
 	@Column(name = "so_luong")

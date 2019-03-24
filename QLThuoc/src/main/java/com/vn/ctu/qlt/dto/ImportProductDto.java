@@ -11,5 +11,6 @@ public class ImportProductDto {
 	private Set<DetailProductDto> data;
 	
 	private BranchDto branch;
-
+	
+	private String noteRequest;
 }

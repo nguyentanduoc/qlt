@@ -19,10 +19,10 @@ public class PriceHistoryId implements Serializable {
 
 	private static final long serialVersionUID = -2604468982652523467L;
 
-	@Column(name = "san_pham_id")
+	@Column(name = "ma_san_pham")
 	private Long productId;
 
-	@Column(name = "chi_nhanh_id")
+	@Column(name = "ma_chi_nhanh")
 	private Long branchId;
 
 }

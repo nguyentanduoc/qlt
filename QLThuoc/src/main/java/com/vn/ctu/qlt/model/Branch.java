@@ -43,6 +43,7 @@ public class Branch implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The name. */
@@ -73,7 +74,7 @@ public class Branch implements Serializable {
 	/** The shop. */
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cua_hang_id")
+	@JoinColumn(name = "ma_cua_hang")
 	private Shop shop;
 
 	@OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -83,7 +84,7 @@ public class Branch implements Serializable {
 	private List<PriceHistory> priceHistorys = new ArrayList<PriceHistory>();
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "nhan_vien_chi_nhanh", joinColumns = @JoinColumn(name = "chi_nhanh_id"), inverseJoinColumns = @JoinColumn(name = "nhan_vien_id"))
+	@JoinTable(name = "nhan_vien_chi_nhanh", joinColumns = @JoinColumn(name = "ma_chi_nhanh"), inverseJoinColumns = @JoinColumn(name = "ma_nhan_vien"))
 	@JsonIgnore
 	private List<Employee> employees = new ArrayList<Employee>();
 

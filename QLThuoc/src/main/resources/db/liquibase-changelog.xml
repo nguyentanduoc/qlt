@@ -29,5 +29,7 @@
 	<include file="changelog/1552967465_created_lich_su_gia.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1552969864_created_san_pham_cua_chi_nhanh.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1553074035_add_nav_bill.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1553357057_created_phieu_yeu_cau.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1553370523_created_ct_phieu_yeu_cau.xml" relativeToChangelogFile="true"/>
 	
 </databaseChangeLog>

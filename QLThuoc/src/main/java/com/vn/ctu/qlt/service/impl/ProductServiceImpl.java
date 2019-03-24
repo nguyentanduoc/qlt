@@ -240,7 +240,7 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					"select san_pham_id, chi_nhanh_id, ngay_thay_doi, don_gia from lich_su_gia where san_pham_id = ? and chi_nhanh_id = ? order by ngay_thay_doi desc limit 1");
+					"select ma_san_pham, ma_chi_nhanh, ngay_thay_doi, don_gia from lich_su_gia where ma_san_pham = ? and ma_chi_nhanh = ? order by ngay_thay_doi desc limit 1");
 			return jdbcTemplate.query(sql.toString(), new Object[] { productId, branchId }, priceHistoryMapper);
 		} catch (DataAccessException e) {
 			logger.error(e.getMessage());
@@ -265,7 +265,7 @@ public class ProductServiceImpl implements ProductService {
 			param.add(dao.getPrice());
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					"INSERT INTO public.lich_su_gia (san_pham_id, chi_nhanh_id, ngay_thay_doi, don_gia) VALUES(?, ?, ?, ?)");
+					"INSERT INTO public.lich_su_gia (ma_san_pham, ma_chi_nhanh, ngay_thay_doi, don_gia) VALUES(?, ?, ?, ?)");
 			jdbcTemplate.update(sql.toString(), param.toArray());
 		} catch (DataAccessException e) {
 			logger.error(e.getMessage());
@@ -296,7 +296,7 @@ public class ProductServiceImpl implements ProductService {
 					updateProductOfBranch(productId, branchId,
 							pushAmount(unitOfProduct, specUnit, productOfBranch, amount, product));
 				} else {
-					insetProductOfBranch(productId, branchId, pushAmount(unitOfProduct, specUnit, amount, product));
+					insertProductOfBranch(productId, branchId, pushAmount(unitOfProduct, specUnit, amount, product));
 				}
 			} else {
 				throw new ProductException("Sản phẩm không tồn tại");
@@ -381,13 +381,15 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					"select san_pham_id, chi_nhanh_id, so_luong from san_pham_cua_chi_nhanh where san_pham_id = ? and chi_nhanh_id = ?");
+					"select ma_san_pham, ma_chi_nhanh, so_luong from san_pham_chi_nhanh where ma_san_pham = ? and ma_chi_nhanh = ?");
 			List<ProductOfBranchDao> result = jdbcTemplate.query(sql.toString(), new Object[] { productId, branchId },
 					productOfBranchMapper);
 			if (result.size() > 0) {
 				return result.get(0);
+			} else {
+				return null;
 			}
-			return null;
+			
 		} catch (DataAccessException e) {
 			logger.error(e.getMessage());
 			throw e;
@@ -404,10 +406,10 @@ public class ProductServiceImpl implements ProductService {
 	 * @param branchId  the branch id
 	 * @param amount    the amount
 	 */
-	private void insetProductOfBranch(Long productId, Long branchId, Double amount) {
+	private void insertProductOfBranch(Long productId, Long branchId, Double amount) {
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO public.san_pham_cua_chi_nhanh(san_pham_id, chi_nhanh_id, so_luong)VALUES(?, ?, ?)");
+			sql.append("INSERT INTO public.san_pham_chi_nhanh(ma_san_pham, ma_chi_nhanh, so_luong)VALUES(?, ?, ?)");
 			jdbcTemplate.update(sql.toString(), new Object[] { productId, branchId, amount });
 		} catch (DataAccessException e) {
 			logger.error(e.getMessage());
@@ -425,7 +427,7 @@ public class ProductServiceImpl implements ProductService {
 	private void updateProductOfBranch(Long productId, Long branchId, Double amount) {
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE public.san_pham_cua_chi_nhanh SET so_luong= ? WHERE san_pham_id=? AND chi_nhanh_id=?;");
+			sql.append("UPDATE public.san_pham_chi_nhanh SET so_luong= ? WHERE ma_san_pham=? AND ma_chi_nhanh=?;");
 			jdbcTemplate.update(sql.toString(), new Object[] { amount, productId, branchId });
 		} catch (DataAccessException e) {
 			logger.error(e.getMessage());
@@ -461,9 +463,9 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			Branch mainBranch = branchService.getMainBranchByBranch(branchDto.getId());
 			StringBuilder sql = new StringBuilder();
-			sql.append("select sp.id, sp.ten_san_pham, sp.cong_dung, sp.hinh_anh, sp.nha_san_xuat_id, sp.don_vi_chuan ");
-			sql.append("from san_pham sp inner join san_pham_cua_chi_nhanh spccn on sp.id = spccn.san_pham_id ");
-			sql.append("where spccn.chi_nhanh_id = ? and spccn.so_luong > 0");
+			sql.append("select sp.ma, sp.ten_san_pham, sp.cong_dung, sp.hinh_anh, sp.ma_nha_san_xuat, sp.don_vi_chuan ");
+			sql.append("from san_pham sp inner join san_pham_chi_nhanh spccn on sp.ma = spccn.ma_san_pham ");
+			sql.append("where spccn.ma_chi_nhanh = ? and spccn.so_luong > 0");
 			
 			List<Product> products = jdbcTemplate.query(sql.toString(), new Object[] {mainBranch.getId()}, productMapper);
 			
@@ -489,8 +491,8 @@ public class ProductServiceImpl implements ProductService {
 			Branch mainBranch = branchService.getMainBranchByBranch(branchId);
 			StringBuilder sql = new  StringBuilder();
 			sql.append("select spccn.so_luong ");
-			sql.append("from san_pham sp inner join san_pham_cua_chi_nhanh spccn on sp.id = spccn.san_pham_id ");
-			sql.append("where spccn.chi_nhanh_id = ? and sp.id = ? ");
+			sql.append("from san_pham sp inner join san_pham_chi_nhanh spccn on sp.ma = spccn.ma_san_pham ");
+			sql.append("where spccn.ma_chi_nhanh = ? and sp.ma = ? ");
 			return jdbcTemplate.queryForObject(sql.toString(),new Object[] {mainBranch.getId(), productId }, Double.class);
 		} catch (Exception e) {
 			throw e;
@@ -504,6 +506,24 @@ public class ProductServiceImpl implements ProductService {
 			return productOption.get();
 		} else {
 			throw new BadRequestException("Sản phẩm không tồn tại");
+		}
+	}
+
+	@Override
+	public void saveExchange(Long branchExchangeId, Long branchRecieveId, Long productId, Double amount) {
+		try {
+			ProductOfBranchDao productOfBranchExchange = selectProductOfBranch(productId, branchExchangeId);
+			updateProductOfBranch(productId, branchExchangeId, productOfBranchExchange.getAmount() - amount);
+			
+			ProductOfBranchDao productOfBranchRecieve = selectProductOfBranch(productId, branchRecieveId);
+			if(productOfBranchRecieve != null) {
+				updateProductOfBranch(productId, branchRecieveId, productOfBranchRecieve.getAmount() + amount);
+			} else {
+				insertProductOfBranch(productId, branchRecieveId, amount);
+			}
+			
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 }

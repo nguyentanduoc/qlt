@@ -4,12 +4,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<changeSet id="add_sequence" author="ntduoc">
-		<createSequence sequenceName="SEQ_DEFAULT_USERS" cycle="false" minValue="1" maxValue="9223372036854775807"
+		<createSequence sequenceName="seq_user" cycle="false" minValue="1" maxValue="9223372036854775807"
 			startValue="100" incrementBy="1" />
 	</changeSet>
 	<changeSet id="01" author="ntduoc">
 		<createTable tableName="tai_khoan">
-			<column name="id" type="bigint" defaultValueComputed="nextval('SEQ_DEFAULT_USERS')">
+			<column name="ma" type="bigint" defaultValueComputed="nextval('seq_user')">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<column name="ten_dang_nhap" type="varchar(255)">
@@ -34,11 +34,11 @@
 	</changeSet>
 	<changeSet author="ntduoc" id="02">
 		<loadData encoding="UTF-8" file="db/changelog/csv/1548996651_users.csv" schemaName="public" tableName="tai_khoan">
-			<column name="id" type="NUMERIC" />
-			<column name="ten_dang_nhap" type="STRING" />
-			<column name="email" type="STRING" />
-			<column name="mat_khau" type="STRING" />
-			<column name="hoat_dong" type="BOOLEAN" />
+			<column name="ma" type="numeric" />
+			<column name="ten_dang_nhap" type="string" />
+			<column name="email" type="string" />
+			<column name="mat_khau" type="string" />
+			<column name="hoat_dong" type="boolean" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

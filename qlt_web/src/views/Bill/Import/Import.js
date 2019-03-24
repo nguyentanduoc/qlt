@@ -14,10 +14,10 @@ class Import extends Component {
     this.props.onInit();
   }
   onSubmit = (e) => {
-    e.reventDefault();
+    e.preventDefault();
   }
   onReset = (e) => {
-    e.reventDefault();
+    e.preventDefault();
   }
   handleChangeDate = () => {
 
@@ -40,7 +40,7 @@ class Import extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  importRoductReducer: state.importRoductReducer
+  importProductReducer: state.importProductReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({

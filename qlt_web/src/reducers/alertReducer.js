@@ -11,7 +11,7 @@ export default (state = initState, action) => {
         case ALERT_ACTIONS.IS_ERRORED:
             return { ...state, isShow: true, message: action.payload, color: "danger"};
         case ALERT_ACTIONS.RESET_ALERT:
-            return { ...state, isShow: false, message: "", color: "" };
+            return state;
         default:
             return state;
     }

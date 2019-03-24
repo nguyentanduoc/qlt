@@ -1,8 +1,7 @@
-
-import { API, ACTION_TYPES } from '../constants';
+import {API, ACTION_TYPES} from '../constants';
 import Axios from 'axios';
 import headerConfig from '../helpers/headerHelper'
-import {showAlertFail} from './alertAction.js'
+import {showAlertFail, showAlertSuccess} from './alertAction.js'
 
 export const getAllProduct = (branch) => {
   return async (dispatch) => {
@@ -27,30 +26,58 @@ export const getUnit = (productId) => {
     try {
       const response = await Axios.post(API.PRODUCT.GET_UNIT_OF_PRODUCT, productId, headerConfig);
       dispatch(setUnitSelection(response.data));
-    } catch(err) {
+    } catch (err) {
       dispatch(showAlertFail(err));
     }
   }
 }
+
 export const setUnitSelection = (data) => {
   return {
     type: ACTION_TYPES.REQUEST.SET_UNIT,
     payload: data
   }
 }
+
 export const getAmountProduct = (id, branchId) => {
   return async (dispatch) => {
     try {
       const response = await Axios.post(API.PRODUCT.GET_AMOUNT_PRODUCT, {id, branchId}, headerConfig);
       dispatch(getAmountProductSuccess(response.data));
-    } catch(err) {
+    } catch (err) {
       dispatch(showAlertFail(err));
     }
   }
 }
+
 export const getAmountProductSuccess = (data) => {
   return {
     type: ACTION_TYPES.REQUEST.GET_AMOUNT_PRODUCT_SUCCESS,
     payload: data
   }
 }
+
+export const save = (data, branch, noteRequest) => {
+  return async (dispatch) => {
+    try {
+      await Axios.post(API.REQUEST.SAVE, {data, branch, noteRequest}, headerConfig);
+      dispatch(showAlertSuccess());
+      dispatch(saveSuccess());
+    } catch (err) {
+      dispatch(showAlertFail(err));
+    }
+  }
+}
+
+export const saveSuccess = () => {
+  return {
+    type: ACTION_TYPES.REQUEST.SAVE_SUCCESS
+  }
+}
+
+export const resetSaveSuccess = () => {
+  return {
+    type: ACTION_TYPES.REQUEST.RESET_SAVE_SUCCESS
+  }
+}
+

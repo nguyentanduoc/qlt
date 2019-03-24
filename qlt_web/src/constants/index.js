@@ -73,7 +73,15 @@ export const ACTION_TYPES = {
     SET_PRODUCT: "REQUEST_SET_PRODUCT",
     SET_UNIT: "REQUEST_SET_UNIT",
     SET_AMOUNT_PRODUCT: "REQUEST_SET_AMOUNT_PRODUCT",
-    GET_AMOUNT_PRODUCT_SUCCESS: "REQUEST_GET_AMOUNT_PRODUCT_SUCCESS"
+    GET_AMOUNT_PRODUCT_SUCCESS: "REQUEST_GET_AMOUNT_PRODUCT_SUCCESS",
+    SAVE_SUCCESS: "REQUEST_SAVE_SUCCESS",
+    RESET_SAVE_SUCCESS: "REQUEST_RESET_SAVE_SUCCESS"
+  },
+  ACCEPT: {
+    GET_ALL_BILL_SUCCESS: "ACCEPT_GET_ALL_BILL_SUCCESS",
+    GET_DETAIL_SUCCESS: "ACCEPT_GET_DETAIL_SUCCESS",
+    ACCEPT_SUCCESS: "ACCEPT_SUCCESS",
+    RESULT_NOT_FOUND: "ACCEPT_RESULT_NOT_FOUND"
   }
 }
 export const LOCAL_STORAGE = {
@@ -83,6 +91,7 @@ export const LOCAL_STORAGE = {
 export const API = {
   GET_ALL_USER: `${BASE_URI}/api/admin/users/get-all`,
   LOGIN: `${BASE_URI}/api/auth/signin`,
+  LOGOUT: `${BASE_URI}/api/auth/logout`,
   UPDATE_USER_ROLE: `${BASE_URI}/api/admin/users/update-role`,
   ROLE: {
     GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/get-all`,
@@ -125,6 +134,13 @@ export const API = {
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
     SAVE: `${BASE_URI}/api/import-product/save`,
+  },
+  REQUEST: {
+    SAVE: `${BASE_URI}/api/request/save`,
+    GET_BILL_REQUEST: `${BASE_URI}/api/request/get-bill-request`,
+    GET_DETAIL: `${BASE_URI}/api/request/get-detail`,
+    ACCEPT: `${BASE_URI}/api/request/accept`,
+    CANCEL: `${BASE_URI}/api/request/cancel`,
   }
 }
 

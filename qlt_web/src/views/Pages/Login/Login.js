@@ -1,15 +1,30 @@
-import React, { Component } from 'react';
-import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Alert } from 'reactstrap';
-import { connect } from 'react-redux';
-import { login } from '../../../actions/authenAction';
-import { resetError } from '../../../actions/errorAction';
+import React, {Component} from 'react';
+import {Button } from "antd";
+import {
+  Card,
+  CardBody,
+  CardGroup,
+  Col,
+  Container,
+  Form,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Row,
+  Alert
+} from 'reactstrap';
+import {connect} from 'react-redux';
+import {login} from '../../../actions/authenAction';
+import {resetError} from '../../../actions/errorAction';
 
 class Login extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
-        usernameOrEmail: '',
-        password: ''
+      usernameOrEmail: '',
+      password: '',
+      loading: false
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,17 +38,18 @@ class Login extends Component {
     const name = event.target.name;
     const value = event.target.value;
     this.setState({
-          [name]: value
+      [name]: value
     });
   }
   handleSubmit = async (event) => {
     event.preventDefault();
+    this.setState({loading: !this.state.loading});
     const auth = {
       usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     };
     await this.props.onLogin(auth);
-    
+    this.setState({loading: !this.state.loading});
   }
 
   handleKeUpEnter = (event) => {
@@ -41,22 +57,26 @@ class Login extends Component {
       this.handleSubmit(event);
     }
   }
-  componentWillUnmount(){
-    if( this.props.error.isErrored === true ) {
-      this.props.onResetError();
+
+  componentWillUnmount() {
+    if (this.props.error.isErrored === true) {
+      // this.props.onResetError();
+      document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
+      this.setState({loading: !this.state.loading});
     }
-    document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
   }
-  componentDidUpdate(){
-    if(this.props.auth.isLogin === true) {
-      if(this.props.auth.isChooseBranch === true){
+
+  componentDidUpdate() {
+    if (this.props.auth.isLogin === true) {
+      if (this.props.auth.isChooseBranch === true) {
         this.props.history.push('/choose-branch');
-      }
-      else {
+      } else {
         this.props.history.push('/dashboard');
       }
+      this.setState({loading: !this.state.loading});
     }
   }
+
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -70,12 +90,12 @@ class Login extends Component {
                       <h1>Đăng nhập</h1>
                       <p className="text-muted">Điền thông tin tài khoản của bạn</p>
                       <Alert color="danger" isOpen={this.props.error.isShowAlert}>
-                         {this.props.error.errorMessage}
+                        {this.props.error.errorMessage}
                       </Alert>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="icon-user"></i>
+                            <i className="icon-user"/>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
@@ -84,12 +104,12 @@ class Login extends Component {
                           type="text"
                           placeholder="Tên tài khoản"
                           autoComplete="usernameOrEmail"
-                          onChange = {this.changeHandler}/>
+                          onChange={this.changeHandler}/>
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="icon-lock"></i>
+                            <i className="icon-lock"/>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
@@ -98,31 +118,24 @@ class Login extends Component {
                           type="password"
                           placeholder="Mật khẩu"
                           autoComplete="password"
-                          onChange = {this.changeHandler}/>
+                          onChange={this.changeHandler}/>
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4" type="submit" onClick={this.handleSubmit}>Đăng nhập </Button>
+                          <Button
+                            htmlType={'submit'}
+                            loading={this.state.loading}
+                            type="primary"
+                            onClick={this.handleSubmit}>Đăng nhập
+                          </Button>
                         </Col>
-                        <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">Quên mật khẩu?</Button>
-                        </Col>
+                        {/*<Col xs="6" className="text-right">*/}
+                          {/*<Button color="link" className="px-0">Quên mật khẩu?</Button>*/}
+                        {/*</Col>*/}
                       </Row>
                     </Form>
                   </CardBody>
                 </Card>
-                {/* <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
-                  <CardBody className="text-center">
-                    <div>
-                      <h2>Sign up</h2>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
-                      <Link to="/register">
-                        <Button color="primary" className="mt-3" active tabIndex={-1}>Register Now!</Button>
-                      </Link>
-                    </div>
-                  </CardBody>
-                </Card> */}
               </CardGroup>
             </Col>
           </Row>
@@ -134,13 +147,13 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth : state.auth,
+    auth: state.auth,
     error: state.error
   }
 }
-const mapDispathToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onLogin : async (auth) => {
+    onLogin: async (auth) => {
       return dispatch(login(auth));
     },
     onResetError: () => {
@@ -148,4 +161,4 @@ const mapDispathToProps = (dispatch) => {
     }
   }
 }
-export default connect(mapStateToProps,mapDispathToProps) (Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

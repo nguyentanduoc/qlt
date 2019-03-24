@@ -1,4 +1,4 @@
-id,badge_id,name,url,icon,title,sort_num,has_children,is_children,parent_id
+ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha
 12,null,Hóa Đơn,/bill,fas fa-file-invoice,false,400,true,false,
 13,null,Xuất Hàng,/bill/sell-products,fas fa-outdent,false,401,false,true,12
 14,null,Nhập Hàng,/bill/buy-products,fas fa-indent,false,402,false,true,12

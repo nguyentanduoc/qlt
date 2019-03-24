@@ -37,6 +37,7 @@ public class Role implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The name. */
@@ -55,7 +56,7 @@ public class Role implements Serializable {
 	/** The navigrations. */
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "navigration_roles", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "navigration_id"))
+	@JoinTable(name = "quyen_danh_muc", joinColumns = @JoinColumn(name = "ma_quyen"), inverseJoinColumns = @JoinColumn(name = "ma_danh_muc"))
 	private Set<Navigration> navigrations = new HashSet<>();
 
 	/**

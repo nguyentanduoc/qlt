@@ -75,16 +75,16 @@ class index extends Component {
           <Col xs="12" lg="6" md="6">
             <Card>
               <CardHeader>
-                <i className="fas fa-store"></i>Danh sách <strong>Cửa hàng</strong>
+                <i className="fas fa-store"/>Danh sách <strong>Cửa hàng</strong>
               </CardHeader>
               <CardBody>
                 <div className="float-right pt-1">
                   <Button
                     color='warning'
                     className="btn-square"
-                    disabled={this.state.seletedKeys.length > 0 ? false : true}
+                    disabled={this.state.seletedKeys.length <= 0}
                     onClick={this.handleDeletedRow.bind(this)}>
-                      <i className="far fa-trash-alt"></i>
+                      <i className="far fa-trash-alt"/>
                   </Button>
                 </div>
                 <Table

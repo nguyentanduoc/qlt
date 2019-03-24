@@ -37,6 +37,7 @@ public class Product {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The product name. */
@@ -53,7 +54,7 @@ public class Product {
 
 	/** The spec units. */
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "quy_dinh_don_vi_san_pham", joinColumns = @JoinColumn(name = "san_pham_id"), inverseJoinColumns = @JoinColumn(name = "quy_dinh_don_vi_id"))
+	@JoinTable(name = "quy_dinh_don_vi_san_pham", joinColumns = @JoinColumn(name = "ma_san_pham"), inverseJoinColumns = @JoinColumn(name = "ma_quy_dinh_don_vi"))
 	private List<SpecUnit> specUnits = new ArrayList<>();
 
 	/** The unit. */
@@ -65,7 +66,7 @@ public class Product {
 	/** The producer. */
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nha_san_xuat_id")
+	@JoinColumn(name = "ma_nha_san_xuat")
 	private Producer producer;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

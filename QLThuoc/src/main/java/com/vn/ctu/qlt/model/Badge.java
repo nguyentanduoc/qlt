@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @since 2019-03-13
  */
 @Entity
-@Table(name = "badges")
+@Table(name = "huy_hieu")
 public class Badge implements Serializable {
 
 	/** The Constant serialVersionUID. */
@@ -25,14 +25,15 @@ public class Badge implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@Column(name="ma")
+	private Long id;
 
 	/** The variant. */
-	@Column(length = 254, name = "variant")
+	@Column(length = 254, name = "bien_the")
 	private String variant;
 
 	/** The text. */
-	@Column(length = 254, name = "text")
+	@Column(length = 254, name = "chuoi")
 	private String text;
 
 	/**
@@ -49,7 +50,7 @@ public class Badge implements Serializable {
 	 * @param variant the variant
 	 * @param text the text
 	 */
-	public Badge(Integer id, String variant, String text) {
+	public Badge(Long id, String variant, String text) {
 		super();
 		this.id = id;
 		this.variant = variant;
@@ -61,7 +62,7 @@ public class Badge implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -70,7 +71,7 @@ public class Badge implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

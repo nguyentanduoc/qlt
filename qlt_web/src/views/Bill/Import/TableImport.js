@@ -5,6 +5,7 @@ import Select from 'react-select'
 import { getSpecUnit, save, resetSaveSuccess } from '../../../actions/importProductAction'
 import DatePicker from 'react-datepicker'
 import AlertCommon from '../../Common/AlertCommon'
+import { resetAlert } from '../../../actions/alertAction'
 import {
   Button,
   Row,
@@ -113,10 +114,13 @@ export class TableBuy extends Component {
     this.props.onSave(this.state.data, this.props.authenReducer.branch);
   }
   componentDidUpdate(){
-    if(this.props.importRoductReducer.saveSuccess){
+    if(this.props.importProductReducer.saveSuccess){
       this.setState({ data:[], dataView:[]});
       this.props.onResetSaveSuccess();
     }
+  }
+  componentWillUnmount(){
+    this.props.onResetAlert();
   }
   render() {
     return (
@@ -148,7 +152,7 @@ export class TableBuy extends Component {
               <FormGroup>
                 <Label htmlFor=''>Sản Phẩm</Label>
                   <Select 
-                    options={this.props.importRoductReducer.products}
+                    options={this.props.importProductReducer.products}
                     onChange={this.handleSeletion.bind(this)}
                     isMulti = {false}
                     name="product"
@@ -157,7 +161,7 @@ export class TableBuy extends Component {
               <FormGroup>
                 <Label htmlFor=''>Đơn Vị</Label>
                   <Select 
-                      options={this.props.importRoductReducer.specUnitSelection}
+                      options={this.props.importProductReducer.specUnitSelection}
                       onChange={this.handleSeletion.bind(this)}
                       isMulti = {false}
                       name="specUnit"
@@ -194,7 +198,7 @@ export class TableBuy extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  importRoductReducer: state.importRoductReducer,
+  importProductReducer: state.importProductReducer,
   authenReducer: state.auth,
 })
 
@@ -207,6 +211,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onResetSaveSuccess: () => {
     return dispatch(resetSaveSuccess());
+  },
+  onResetAlert: () => {
+    return dispatch(resetAlert());
   }
 })
 

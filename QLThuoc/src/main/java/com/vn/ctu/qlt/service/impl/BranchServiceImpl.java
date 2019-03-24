@@ -182,13 +182,13 @@ public class BranchServiceImpl implements BranchService {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder where = new StringBuilder();
 
-		sql.append("select chi_nhanh.id, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, chi_nhanh.chi_nhanh_chinh, ");
-		sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.cua_hang_id ");
+		sql.append("select chi_nhanh.ma, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, chi_nhanh.chi_nhanh_chinh, ");
+		sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.ma_cua_hang ");
 		where.append("from chi_nhanh ");
-		where.append("inner join cua_hang on chi_nhanh.cua_hang_id = cua_hang.id ");
-		where.append("inner join nhan_vien on cua_hang.nhan_vien_id = nhan_vien.id ");
-		where.append("inner join tai_khoan on nhan_vien.tai_khoan_id = tai_khoan.id ");
-		where.append("where tai_khoan.id =? ");
+		where.append("inner join cua_hang on chi_nhanh.ma_cua_hang = cua_hang.ma ");
+		where.append("inner join nhan_vien on cua_hang.ma_nhan_vien = nhan_vien.ma ");
+		where.append("inner join tai_khoan on nhan_vien.ma_tai_khoan = tai_khoan.ma ");
+		where.append("where tai_khoan.ma =? ");
 
 		Long countRecord = count(where, param);
 

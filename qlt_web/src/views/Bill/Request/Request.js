@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TableRequest from './TableRequest'
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Form} from 'reactstrap'
 
 class Request extends Component {
   onSubmit = (e) => {
@@ -18,15 +12,7 @@ class Request extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Card>
-          <CardHeader>Yêu Cầu Nhập Sản Phẩm</CardHeader>
-          <CardBody>
-            <Form onSubmit={this.onSubmit.bind(this)} onReset = {this.onReset.bind(this)}>
-              <TableRequest/>
-            </Form>
-          </CardBody>
-          <CardFooter></CardFooter>
-        </Card>
+        <TableRequest/>
       </div>
     )
   }

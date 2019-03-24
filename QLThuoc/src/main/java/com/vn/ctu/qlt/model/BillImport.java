@@ -36,6 +36,7 @@ public class BillImport implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	@Column(name = "ngay_nhap")
@@ -43,7 +44,7 @@ public class BillImport implements Serializable {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nhan_vien_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_nhan_vien", referencedColumnName = "ma")
 	private Employee employee;
 
 	@OneToMany(mappedBy = "billImport", cascade = CascadeType.ALL, orphanRemoval = true)

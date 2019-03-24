@@ -4,26 +4,13 @@ import java.util.Set;
 
 import com.vn.ctu.qlt.model.Role;
 
+import lombok.Data;
+
+@Data
 public class UpdateUserRoleDto {
-	
+
 	private Long id;
 
- 	private Set<Role> roles;
+	private Set<Role> roles;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
- 	
 }

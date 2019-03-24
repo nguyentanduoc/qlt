@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import {combineReducers} from "redux";
 import errorReducer from './errorReducer';
 import authReducer from './authReducer';
 import userReducer from './UserPreducer';
@@ -10,23 +10,25 @@ import appSettingReducer from './appSettingReducer';
 import branchReducer from './branchReducer';
 import shopReducer from './shopReducer';
 import employeeReducer from './employeeReducer';
-import importRoductReducer from './importProductReducer';
+import importProductReducer from './importProductReducer';
 import productReducer from './productReducer';
 import requestReducer from './requestReducer';
+import acceptReducer from './acceptReducer';
 
 export default combineReducers({
-    error: errorReducer,
-    auth: authReducer,
-    user: userReducer,
-    role: roleReducer,
-    navReducer,
-    alertReducer,
-    paginationReducer,
-    appSettingReducer,
-    branchReducer,
-    shopReducer,
-    employeeReducer,
-    importRoductReducer,
-    productReducer,
-    requestReducer
+  error: errorReducer,
+  auth: authReducer,
+  user: userReducer,
+  role: roleReducer,
+  navReducer,
+  alertReducer,
+  paginationReducer,
+  appSettingReducer,
+  branchReducer,
+  shopReducer,
+  employeeReducer,
+  importProductReducer,
+  productReducer,
+  requestReducer,
+  acceptReducer
 });

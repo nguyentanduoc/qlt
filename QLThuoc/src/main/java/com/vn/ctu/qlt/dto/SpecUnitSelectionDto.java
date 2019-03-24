@@ -1,6 +1,10 @@
 package com.vn.ctu.qlt.dto;
 
+import java.io.Serializable;
+
 import com.vn.ctu.qlt.model.SpecUnit;
+
+import lombok.Data;
 
 /**
  * The Class SpectUnitSelectionDto.
@@ -8,7 +12,8 @@ import com.vn.ctu.qlt.model.SpecUnit;
  * @author ntduoc
  * @since 2019-03-13
  */
-public class SpecUnitSelectionDto {
+@Data
+public class SpecUnitSelectionDto implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1850806046481045442L;
@@ -37,6 +42,7 @@ public class SpecUnitSelectionDto {
 	public SpecUnitSelectionDto() {
 		super();
 	}
+
 	/**
 	 * Instantiates a new spec unit selection dto.
 	 *
@@ -51,48 +57,4 @@ public class SpecUnitSelectionDto {
 		this.label = lable.toString();
 	}
 
-	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	public Long getValue() {
-		return value;
-	}
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param value the new value
-	 */
-	public void setValue(Long value) {
-		this.value = value;
-	}
-
-	/**
-	 * Gets the label.
-	 *
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-	/**
-	 * Sets the label.
-	 *
-	 * @param label the new label
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	/**
-	 * Gets the serialversionuid.
-	 *
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

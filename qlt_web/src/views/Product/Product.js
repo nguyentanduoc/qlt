@@ -8,6 +8,7 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
 import AlertCommon from '../Common/AlertCommon'
+import { resetAlert } from '../../actions/alertAction'
 import Select from 'react-select'
 import {
   Row,
@@ -90,6 +91,9 @@ export class index extends Component {
         break;
     }
     
+  }
+  componentWillUnmount(){
+    this.props.onResetAlert();
   }
   render() {
     return (
@@ -190,6 +194,9 @@ const mapDispatchToProps = (dispath) => ({
   },
   onInit: () => {
     return dispath(init());
+  },
+  onResetAlert: () => {
+    return dispath(resetAlert());
   }
 })
 

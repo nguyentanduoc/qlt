@@ -96,4 +96,9 @@ public interface ProductService {
 	 * @return the product by id
 	 */
 	public Product getProductById(Long id);
+	
+	/**
+	 * Save exchange.
+	 */
+	public void saveExchange(Long branchExchangeId, Long branchRecieveId, Long productId, Double amount);
 }

@@ -14,8 +14,8 @@ public class ProductOfBranchMapper implements RowMapper<ProductOfBranchDao>{
 	@Override
 	public ProductOfBranchDao mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return ProductOfBranchDao.builder()
-				.branchId(rs.getLong("chi_nhanh_id"))
-				.productId(rs.getLong("san_pham_id"))
+				.branchId(rs.getLong("ma_chi_nhanh"))
+				.productId(rs.getLong("ma_san_pham"))
 				.amount(rs.getDouble("so_luong"))
 				.build();
 	}

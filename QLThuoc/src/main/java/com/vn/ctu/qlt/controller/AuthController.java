@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -22,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,13 +118,13 @@ public class AuthController {
 			List<BranchDto> branchsDto = new ArrayList<>();
 			if (employee.isPresent()) {
 				branchs = employee.get().getBranchs();
-				branchs.forEach(action->{
+				branchs.forEach(action -> {
 					BranchDto branchDto = new BranchDto();
 					BeanUtils.copyProperties(action, branchDto);
 					branchsDto.add(branchDto);
 				});
 			}
-			
+
 			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
 					authorities, branchsDto);
 			return ResponseEntity.ok(loginSuccess);
@@ -155,5 +159,13 @@ public class AuthController {
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
 				.buildAndExpand(result.getUsername()).toUri();
 		return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+	}
+
+	@PostMapping(path = "/logout")
+	public void logoutPage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
 	}
 }

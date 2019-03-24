@@ -1,0 +1,7 @@
+ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha
+12,null,Hóa Đơn,/bill,fas fa-file-invoice,false,400,true,false,
+13,null,Xuất Hàng,/bill/sell-products,fas fa-outdent,false,401,false,true,12
+14,null,Nhập Hàng,/bill/buy-products,fas fa-indent,false,402,false,true,12
+15,null,Sản Phẩm,/products,fas fa-prescription-bottle-alt,false,500,true,false,
+16,null,Tra Cứu,/products/search,fas fa-search,false,502,false,true,15
+17,null,Thao Tác Sản Phẩm,/products/actions,fas fa-capsules,false,503,false,true,15

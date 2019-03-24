@@ -20,9 +20,9 @@ public class BranchMapper implements RowMapper<Branch> {
 	
 	@Override
 	public Branch mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Optional<Shop> shop = shopRepository.findById(rs.getLong("cua_hang_id"));
+		Optional<Shop> shop = shopRepository.findById(rs.getLong("ma_cua_hang"));
 		Branch branch = new Branch();
-		branch.setId(rs.getLong("id"));
+		branch.setId(rs.getLong("ma"));
 		branch.setAddress(rs.getString("dia_chi"));
 		branch.setIsEnabled(rs.getBoolean("hoat_dong"));
 		branch.setLatitude(rs.getDouble("vi_do"));

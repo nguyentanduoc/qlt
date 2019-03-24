@@ -66,7 +66,8 @@ export const deleteBranch = (keys) => {
 export const selectAllShop = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get(API.SHOP.SELECT_ALL, headerForGet());
+      const header = await headerForGet();
+      const res = await axios.get(API.SHOP.SELECT_ALL, header);
       dispatch(getAllShopSuccess(res.data));
     } catch (err) {
       dispatch(showAlertFail(err));

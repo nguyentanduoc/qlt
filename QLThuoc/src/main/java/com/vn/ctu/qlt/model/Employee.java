@@ -34,11 +34,12 @@ public class Employee implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 	
 	/** The user. */
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tai_khoan_id")
+	@JoinColumn(name = "ma_tai_khoan")
 	private User user;
 	
 	/** The name employee. */
@@ -60,8 +61,8 @@ public class Employee implements Serializable {
 	/** The branchs. */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nhan_vien_chi_nhanh", 
-		joinColumns = @JoinColumn(name = "nhan_vien_id"), 
-		inverseJoinColumns = @JoinColumn(name = "chi_nhanh_id"))
+		joinColumns = @JoinColumn(name = "ma_nhan_vien"), 
+		inverseJoinColumns = @JoinColumn(name = "ma_chi_nhanh"))
 	@JsonIgnore
 	private Set<Branch> branchs;
 

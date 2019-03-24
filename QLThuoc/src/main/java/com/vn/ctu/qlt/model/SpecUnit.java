@@ -28,16 +28,17 @@ public class SpecUnit {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The unit in. */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "don_vi_dau_id")
+	@JoinColumn(name = "ma_don_vi_dau")
 	private Unit unitIn;
 
 	/** The unit out. */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "don_vi_cuoi_id")
+	@JoinColumn(name = "ma_don_vi_cuoi")
 	private Unit unitOut;
 
 	/** The amount. */

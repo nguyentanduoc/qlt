@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table
 @Data
 @NoArgsConstructor
-@Entity(name = "san_pham_cua_chi_nhanh")
+@Entity(name = "san_pham_chi_nhanh")
 @EqualsAndHashCode
 public class ProductOfBranch implements Serializable {
 
@@ -25,12 +25,12 @@ public class ProductOfBranch implements Serializable {
 
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chi_nhanh_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_chi_nhanh", referencedColumnName = "ma")
 	private Branch branch;
 
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "san_pham_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_san_pham", referencedColumnName = "ma")
 	private Product product;
 
 	@Column(name = "so_luong")

@@ -22,22 +22,22 @@ public class NavigrationMapper implements RowMapper<Navigration> {
 	@Override
 	public Navigration mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Set<Navigration> children = Collections.emptySet();
-		if(rs.getBoolean("has_children")) {
-			children = navigrationRepository.getChildren(rs.getLong("id"));
+		if(rs.getBoolean("co_danh_muc_con")) {
+			children = navigrationRepository.getChildren(rs.getLong("ma"));
 		}
 		Badge badge = new Badge();
-		if (rs.getObject("badge_id") != null) {
-			badge.setId(rs.getInt("badge_id"));
-			badge.setText(rs.getString("text"));
-			badge.setVariant(rs.getString("variant"));
+		if (rs.getObject("ma_huy_hieu") != null) {
+			badge.setId(rs.getLong("ma_huy_hieu"));
+			badge.setText(rs.getString("chuoi"));
+			badge.setVariant(rs.getString("bien_the"));
 		}
 		Navigration nav = new Navigration();
-		nav.setId(rs.getLong("id"));
+		nav.setId(rs.getLong("ma"));
 		nav.setBadge(badge);
 		nav.setUrl(rs.getString("url"));
 		nav.setIcon(rs.getString("icon"));
-		nav.setTitle(rs.getBoolean("title"));
-		nav.setName(rs.getString("name"));
+		nav.setTitle(rs.getBoolean("tieu_De"));
+		nav.setName(rs.getString("ten"));
 		nav.setChildren(children);
 		return nav;
 	}

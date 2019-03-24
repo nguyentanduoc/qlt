@@ -2,73 +2,28 @@ package com.vn.ctu.qlt.dto;
 
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * The Class SelectionDto.
  *
  * @author NTDSIVAL
  * @since 06-03-2019
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SelectionDto implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -60108939071150557L;
-	
+
 	/** The value. */
 	private Long value;
-	
+
 	/** The label. */
 	private String label;
-	
-	/**
-	 * Instantiates a new selection dto.
-	 */
-	public SelectionDto() {
-		super();
-	}
-	/**
-	 * Instantiates a new selection dto.
-	 *
-	 * @param value the value
-	 * @param label the label
-	 */
-	public SelectionDto(Long value, String label) {
-		this.value = value;
-		this.label = label;
-	}
 
-	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	public Long getValue() {
-		return value;
-	}
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param value the new value
-	 */
-	public void setValue(Long value) {
-		this.value = value;
-	}
-
-	/**
-	 * Gets the label.
-	 *
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-	/**
-	 * Sets the label.
-	 *
-	 * @param label the new label
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
 }

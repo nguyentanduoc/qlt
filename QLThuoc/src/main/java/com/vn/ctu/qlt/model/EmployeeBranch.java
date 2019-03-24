@@ -29,13 +29,13 @@ public class EmployeeBranch implements Serializable {
 	/** The employee. */
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nhan_vien_id")
+	@JoinColumn(name = "ma_nhan_vien")
 	private Employee employee;
 
 	/** The branch. */
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chi_nhanh_id")
+	@JoinColumn(name = "ma_chi_nhanh")
 	private Branch branch;
 
 	/** The date join. */

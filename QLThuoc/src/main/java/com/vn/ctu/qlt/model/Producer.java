@@ -9,8 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "nha_san_xuat")
+@Data
 public class Producer implements Serializable {
 
 	private static final long serialVersionUID = 7893043818529469662L;
@@ -18,29 +21,9 @@ public class Producer implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	@Column(name = "ten_nha_san_xuat")
 	private String producerName;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getProducerName() {
-		return producerName;
-	}
-
-	public void setProducerName(String producerName) {
-		this.producerName = producerName;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 }

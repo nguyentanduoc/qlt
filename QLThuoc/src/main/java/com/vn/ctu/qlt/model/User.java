@@ -34,6 +34,7 @@ public class User extends DateAudit {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The username. */
@@ -59,7 +60,7 @@ public class User extends DateAudit {
 
 	/** The roles. */
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "quyen_tai_khoan", joinColumns = @JoinColumn(name = "tai_khoan_id"), inverseJoinColumns = @JoinColumn(name = "quyen_id"))
+	@JoinTable(name = "quyen_tai_khoan", joinColumns = @JoinColumn(name = "ma_tai_khoan"), inverseJoinColumns = @JoinColumn(name = "ma_quyen"))
 	private Set<Role> roles = new HashSet<>();
 
 	/**

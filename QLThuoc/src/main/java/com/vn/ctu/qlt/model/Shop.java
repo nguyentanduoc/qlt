@@ -34,6 +34,7 @@ public class Shop extends DateAudit {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The name shop. */
@@ -50,7 +51,7 @@ public class Shop extends DateAudit {
 
 	/** The employee. */
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "nhan_vien_id")
+	@JoinColumn(name = "ma_nhan_vien")
 	private Employee employee;
 
 	/** The branchs. */

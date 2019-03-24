@@ -104,8 +104,8 @@ const routes = [
   { path: '/products/actions', exact: true, name: 'Thao Tác Sản Phẩm', component: Product, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER] },
   { path: '/bill/buy-products', exact: true, name: 'Nhập Sản Phẩm', component: BillImport, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: true },
   { path: '/bill/sell-products', exact: true, name: 'Bán Sản Phẩm', component: BillExport, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], },
-  { path: '/bill/request-products', exact: true, name: 'Yêu cầu Sản Phẩm', component: BillRequestProduct, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: false },
-  { path: '/bill/accept-request-products', exact: true, name: 'Xác nhận Chuyển Sản Phẩm', component: BillAcceptProduct, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: true }
+  { path: '/bill/request-products', exact: true, name: 'Yêu Cầu Sản Phẩm', component: BillRequestProduct, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: false },
+  { path: '/bill/accept-request-products', exact: true, name: 'Xác Nhận Yêu cầu Sản Phẩm', component: BillAcceptProduct, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: true }
 ];
 
 export default routes;

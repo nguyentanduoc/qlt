@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.dto.EmployeeDto;
 import com.vn.ctu.qlt.dto.ShopDto;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Shop;
@@ -215,7 +216,10 @@ public class ShopServiceImpl implements ShopService {
 		List<ShopDto> shopsDto = new ArrayList<>();
 		shopIterable.forEach(action -> {
 			ShopDto shopDto = new ShopDto();
+			EmployeeDto dto = new EmployeeDto();
 			BeanUtils.copyProperties(action, shopDto);
+			BeanUtils.copyProperties(action.getEmployee(), dto);
+			shopDto.setEmployee(dto);
 			shopsDto.add(shopDto);
 		});
 		return shopsDto;
@@ -225,7 +229,10 @@ public class ShopServiceImpl implements ShopService {
 		List<ShopDto> shopsDto = new ArrayList<>();
 		shop.forEach(action -> {
 			ShopDto shopDto = new ShopDto();
+			EmployeeDto dto = new EmployeeDto();
 			BeanUtils.copyProperties(action, shopDto);
+			BeanUtils.copyProperties(action.getEmployee(), dto);
+			shopDto.setEmployee(dto);
 			shopsDto.add(shopDto);
 		});
 		return shopsDto;

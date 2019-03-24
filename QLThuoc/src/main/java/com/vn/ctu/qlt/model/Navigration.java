@@ -30,23 +30,24 @@ import lombok.Data;
  * @since 2019-03-13
  */
 @Entity
-@Table(name = "navigration")
+@Table(name = "danh_muc")
 @Data
 public class Navigration {
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
 	private Long id;
 
 	/** The badge. */
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "badge_id")
+	@JoinColumn(name = "ma_huy_hieu")
 	private Badge badge;
 
 	/** The name. */
-	@Column(length = 254, name = "name")
+	@Column(length = 254, name = "ten")
 	private String name;
 
 	/** The url. */
@@ -59,28 +60,28 @@ public class Navigration {
 
 	/** The title. */
 	@JsonIgnore
-	@Column(name = "title")
+	@Column(name = "tieu_de")
 	private Boolean title;
 
 	/** The sort num. */
 	@JsonIgnore
-	@Column(name = "sortNum")
+	@Column(name = "so_thu_tu")
 	private Integer sortNum;
 
 	/** The is children. */
 	@JsonIgnore
-	@Column(name = "is_children")
+	@Column(name = "la_danh_muc_cha")
 	private Boolean isChildren;
 
 	/** The has children. */
 	@JsonIgnore
-	@Column(name = "has_children")
+	@Column(name = "co_danh_muc_con")
 	private Boolean hasChildren;
 
 	/** The roles. */
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "navigration_roles", joinColumns = @JoinColumn(name = "navigration_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "quyen_danh_muc", joinColumns = @JoinColumn(name = "ma_danh_muc"), inverseJoinColumns = @JoinColumn(name = "ma_quyen"))
 	private Set<Role> roles = new HashSet<>();
 	
 	/** The children. */
@@ -90,7 +91,7 @@ public class Navigration {
 	
 	/** The id parent. */
 	@JsonIgnore
-	@Column(name="parent_id")
+	@Column(name="ma_danh_muc_cha")
 	private Long idParent;
 
 }

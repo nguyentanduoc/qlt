@@ -30,12 +30,12 @@ public class PriceHistory implements Serializable {
 
 	@MapsId("branchId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chi_nhanh_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_chi_nhanh", referencedColumnName = "ma")
 	private Branch branch;
 
 	@MapsId("productId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "san_pham_id", referencedColumnName = "id")
+	@JoinColumn(name = "ma_san_pham", referencedColumnName = "ma")
 	private Product product;
 
 	@Column(name = "ngay_thay_doi")
