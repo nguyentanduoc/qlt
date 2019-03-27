@@ -212,9 +212,9 @@ public class ProductServiceImpl implements ProductService {
 	public void savePriceHistory(Long productId, Long branchId, Double price) {
 		// TODO Auto-generated method stub
 		try {
-			List<PriceHistoryDao> priceHistorys = selectPriceHistory(productId, branchId);
-			if (priceHistorys.size() > 0) {
-				PriceHistoryDao priceHistory = priceHistorys.get(0);
+			List<PriceHistoryDao> pricesHistory = selectPriceHistory(productId, branchId);
+			if (pricesHistory.size() > 0) {
+				PriceHistoryDao priceHistory = pricesHistory.get(0);
 				if (!priceHistory.getPrice().equals(price)) {
 					insertHistory(PriceHistoryDao.builder().branchId(branchId).productId(productId).date(new Date())
 							.price(price).build());

@@ -67,7 +67,7 @@ export class FormEmployee extends Component {
     this.setState({ dateJoin: dateJoin});
   }
   componentWillUnmount(){
-    this.props.resetAlert();
+    this.props.onResetAlert();
   }
   render() {
     return (

@@ -2,5 +2,5 @@
   "name": "Accept",
   "version": "0.0.0",
   "private": true,
-  "main": "./Accept.js"
+  "main": "Accept.js"
 }

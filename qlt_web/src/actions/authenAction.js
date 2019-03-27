@@ -10,6 +10,7 @@ export const login = (auth) => {
       dispatch(loginSuccess(res.data));
     }
     catch (err) {
+      dispatch(setLoading());
       if (err && err.response && err.response.data && err.response.data.message) {
         dispatch(loginFail(err.response.data.message));
       } else {
@@ -58,5 +59,10 @@ export const setBranch = (branch) => {
   return {
     type: ACTION_TYPES.AUTH.SET_BRANCH,
     payload: branch
+  }
+}
+export const setLoading = () => {
+  return {
+    type:ACTION_TYPES.AUTH.SET_LOADING
   }
 }

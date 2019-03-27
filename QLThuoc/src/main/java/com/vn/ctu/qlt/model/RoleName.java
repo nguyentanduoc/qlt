@@ -12,7 +12,7 @@ public enum RoleName {
 	ROLE_ADMIN,
 	
 	/** The role employee. */
-	ROLE_EMPLOYEE,
+	ROLE_EMPLOYEE_EXPORT,
 	
 	/** The role leader. */
 	ROLE_LEADER,
@@ -21,7 +21,7 @@ public enum RoleName {
 	ROLE_DIRECTOR,
 	
 	/** The role warehouse manager. */
-	ROLE_WAREHOUSE_MANAGER,
+	ROLE_EMPLOYEE_IMPORT,
 	
 	/** The role marketing. */
 	ROLE_MARKETING

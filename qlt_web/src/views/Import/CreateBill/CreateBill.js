@@ -9,7 +9,7 @@ import {
   CardFooter,
   Form} from 'reactstrap'
 
-class Import extends Component {
+class CreateBill extends Component {
   componentWillMount(){
     this.props.onInit();
   }
@@ -49,4 +49,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Import)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBill)

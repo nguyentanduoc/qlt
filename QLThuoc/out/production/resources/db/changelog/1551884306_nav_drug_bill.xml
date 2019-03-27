@@ -16,6 +16,7 @@
 			<column name="co_danh_muc_con" type="BOOLEAN" />
 			<column name="la_danh_muc_cha" type="BOOLEAN" />
 			<column name="ma_danh_muc_cha" type="numeric" />
+			<column name="la_chi_nhanh_chinh" type="boolean"/>
 		</loadData>
 	</changeSet>
 	<changeSet id="02" author="ntduoc">

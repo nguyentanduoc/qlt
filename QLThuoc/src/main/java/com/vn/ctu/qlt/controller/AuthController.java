@@ -87,7 +87,7 @@ public class AuthController {
 
 	/** The role service. */
 	@Autowired
-	private NavService roleService;
+	private NavService navService;
 
 	@Autowired
 	private EmployeeService employeeService;
@@ -100,12 +100,13 @@ public class AuthController {
 	 */
 	@PostMapping("/signin")
 	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		logger.debug("AuthController do signin");
+		logger.debug("AuthController do sign in");
 		try {
+			boolean flgIsMainBranch = false;
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			List<Navigration> navs = roleService.getNavListRoleName(authentication.getAuthorities());
+			List<Navigration> navs = navService.getNavListRoleName(authentication.getAuthorities());
 			String jwt = tokenProvider.generateToken(authentication);
 			UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 			Optional<User> user = userRepository.findById(userPrincipal.getId());
@@ -114,19 +115,17 @@ public class AuthController {
 				authorities.add(role.getName().toString());
 			}
 			Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
-			Set<Branch> branchs = null;
-			List<BranchDto> branchsDto = new ArrayList<>();
+			List<BranchDto> branchesDto = new ArrayList<>();
 			if (employee.isPresent()) {
-				branchs = employee.get().getBranchs();
-				branchs.forEach(action -> {
+				Set<Branch> branches = employee.get().getBranchs();
+				branches.forEach(action -> {
 					BranchDto branchDto = new BranchDto();
 					BeanUtils.copyProperties(action, branchDto);
-					branchsDto.add(branchDto);
+					branchesDto.add(branchDto);
 				});
 			}
-
 			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
-					authorities, branchsDto);
+					authorities, branchesDto);
 			return ResponseEntity.ok(loginSuccess);
 		} catch (BadCredentialsException e) {
 			throw e;

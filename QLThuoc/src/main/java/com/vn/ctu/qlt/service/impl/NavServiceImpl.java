@@ -29,10 +29,11 @@ public class NavServiceImpl implements NavService {
 	public List<Navigration> getNavListRoleName(Collection<? extends GrantedAuthority> roleNames) {
 		StringBuilder sqlBuilder = new StringBuilder();
 		sqlBuilder.append(
-				"select nav.ma, nav.ten, nav.url, nav.icon,nav.tieu_de,nav.co_danh_muc_con, nav.la_danh_muc_cha, nav.ma_huy_hieu, nav.bien_the, nav.chuoi from ("
+				"select nav.ma, nav.ten, nav.url, nav.icon,nav.tieu_de,nav.co_danh_muc_con, "
+						+ "nav.la_danh_muc_cha, nav.ma_huy_hieu, nav.bien_the, nav.chuoi, nav.la_chi_nhanh_chinh from ("
 						+ "	select distinct ON (danh_muc.ma) danh_muc.ma, danh_muc.ten, danh_muc.url, "
 						+ " danh_muc.icon, danh_muc.tieu_de, danh_muc.so_thu_tu, danh_muc.co_danh_muc_con, "
-						+ " danh_muc.la_danh_muc_cha, huy_hieu.ma as ma_huy_hieu, huy_hieu.chuoi, huy_hieu.bien_the "
+						+ " danh_muc.la_danh_muc_cha, danh_muc.la_chi_nhanh_chinh, huy_hieu.ma as ma_huy_hieu, huy_hieu.chuoi, huy_hieu.bien_the "
 						+ " from danh_muc"
 						+ "	inner join quyen_danh_muc navr on danh_muc.ma = navr.ma_danh_muc"
 						+ "	left join quyen on navr.ma_quyen = quyen.ma"

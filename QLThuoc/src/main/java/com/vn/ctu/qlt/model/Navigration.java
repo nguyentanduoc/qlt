@@ -94,4 +94,6 @@ public class Navigration {
 	@Column(name="ma_danh_muc_cha")
 	private Long idParent;
 
+	@Column(name="la_chi_nhanh_chinh")
+	private Boolean isMain;
 }

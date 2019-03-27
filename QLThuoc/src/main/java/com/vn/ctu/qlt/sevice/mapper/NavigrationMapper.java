@@ -38,6 +38,7 @@ public class NavigrationMapper implements RowMapper<Navigration> {
 		nav.setIcon(rs.getString("icon"));
 		nav.setTitle(rs.getBoolean("tieu_De"));
 		nav.setName(rs.getString("ten"));
+		nav.setIsMain(rs.getBoolean("la_chi_nhanh_chinh"));
 		nav.setChildren(children);
 		return nav;
 	}

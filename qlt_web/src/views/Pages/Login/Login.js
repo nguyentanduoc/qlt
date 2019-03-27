@@ -15,7 +15,7 @@ import {
   Alert
 } from 'reactstrap';
 import {connect} from 'react-redux';
-import {login} from '../../../actions/authenAction';
+import {login, setLoading} from '../../../actions/authenAction';
 import {resetError} from '../../../actions/errorAction';
 
 class Login extends Component {
@@ -43,13 +43,12 @@ class Login extends Component {
   }
   handleSubmit = async (event) => {
     event.preventDefault();
-    this.setState({loading: !this.state.loading});
+    this.props.onSetLoading();
     const auth = {
       usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     };
     await this.props.onLogin(auth);
-    this.setState({loading: !this.state.loading});
   }
 
   handleKeUpEnter = (event) => {
@@ -59,21 +58,17 @@ class Login extends Component {
   }
 
   componentWillUnmount() {
-    if (this.props.error.isErrored === true) {
-      // this.props.onResetError();
-      document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
-      this.setState({loading: !this.state.loading});
-    }
+    this.props.onResetError();
+    document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
   }
 
   componentDidUpdate() {
-    if (this.props.auth.isLogin === true) {
-      if (this.props.auth.isChooseBranch === true) {
+    if (this.props.auth.isLogin) {
+      if (this.props.auth.isChooseBranch) {
         this.props.history.push('/choose-branch');
       } else {
         this.props.history.push('/dashboard');
       }
-      this.setState({loading: !this.state.loading});
     }
   }
 
@@ -124,7 +119,7 @@ class Login extends Component {
                         <Col xs="6">
                           <Button
                             htmlType={'submit'}
-                            loading={this.state.loading}
+                            loading={this.props.auth.isLoading}
                             type="primary"
                             onClick={this.handleSubmit}>Đăng nhập
                           </Button>
@@ -158,6 +153,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onResetError: () => {
       return dispatch(resetError());
+    },
+    onSetLoading: () => {
+      return dispatch(setLoading());
     }
   }
 }

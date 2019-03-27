@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-export class index extends Component {
+export class SearchBill extends Component {
   render() {
     return (
       <div>
-        <h1>Sell</h1>
+        <h1>SearchBill</h1>
       </div>
     )
   }
@@ -19,4 +19,4 @@ const mapDispatchToProps = {
   
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(index)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBill)

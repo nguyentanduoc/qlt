@@ -1,3 +1,6 @@
-ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha
-18,null,Yêu Cầu Sản Phẩm,/bill/request-products,fas fa-star-of-life,false,403,false,true,12
-19,null,Xác Nhận Yêu Cầu,/bill/accept-request-products,fas fa-vote-yea,false,404,false,true,12
+ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha,la_chi_nhanh_chinh
+19,null,Yêu Cầu,/request,fas fa-cart-arrow-down,false,600,true,false,,false
+20,null,Lập Phiếu,/request/request-product,fas fa-star-of-life,false,601,false,true,19,false
+21,null,Tra Cứu,/request/search-request-product,fas fa-search,false,602,false,true,19,false
+22,null,Xác Nhận Phiếu,/request/accept-request-product,fas fa-clipboard-check,false,603,false,true,19,true
+23,null,Tra Cứu Xác Nhận,/request/search-accept-product,fas fa-search,false,604,false,true,19,true

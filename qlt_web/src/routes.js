@@ -44,11 +44,16 @@ const Account = React.lazy(() => import('./views/Account'));
 const Branch = React.lazy(() => import('./views/Branch'));
 const Shop = React.lazy(() => import('./views/Shop/Shop'));
 const Employee = React.lazy(() => import('./views/Employee'));
-const Product = React.lazy(()=> import('./views/Product'));
-const BillImport = React.lazy(() => import('./views/Bill/Import'));
-const BillExport = React.lazy(() => import('./views/Bill/Export'));
-const BillRequestProduct = React.lazy(() => import('./views/Bill/Request'))
-const BillAcceptProduct = React.lazy(() => import('./views/Bill/Accept'))
+const CreateProduct = React.lazy(()=> import('./views/Product/CreateProduct'));
+const SearchProduct = React.lazy(()=> import('./views/Product/SearchProduct'));
+const ExportCreateBill = React.lazy(() => import('./views/Export/CreateBill'));
+const ExportSearchBill = React.lazy(() => import('./views/Export/SearchBill'));
+const ImportCreateBill = React.lazy(() => import('./views/Import/CreateBill'));
+const ImportSearchBill = React.lazy(() => import('./views/Import/SearchBill'));
+const Request = React.lazy(() => import('./views/Request/Request/'));
+const Accept = React.lazy(() => import('./views/Request/Accept'));
+const SearchRequest = React.lazy(() => import('./views/Request/SearchRequest'));
+const SearchAccept = React.lazy(() => import('./views/Request/SearchAccept'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -101,11 +106,17 @@ const routes = [
   { path: '/director/branch', exact: true, name: 'Chi Nhánh', component: Branch, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/director/employee', exact: true, name: 'Nhân Viên', component: Employee, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/director/shop', exact: true, name: 'Thông Tin Cửa Hàng', component: Branch, roles: [ROLES.ROLE_DIRECTOR] },
-  { path: '/products/actions', exact: true, name: 'Thao Tác Sản Phẩm', component: Product, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER] },
-  { path: '/bill/buy-products', exact: true, name: 'Nhập Sản Phẩm', component: BillImport, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: true },
-  { path: '/bill/sell-products', exact: true, name: 'Bán Sản Phẩm', component: BillExport, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], },
-  { path: '/bill/request-products', exact: true, name: 'Yêu Cầu Sản Phẩm', component: BillRequestProduct, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: false },
-  { path: '/bill/accept-request-products', exact: true, name: 'Xác Nhận Yêu cầu Sản Phẩm', component: BillAcceptProduct, roles: [ROLES.ROLE_EMPLOYEE, ROLES.ROLE_LEADER], isMainBranch: true }
+  { path: '/product/create', exact: true, name: 'Tạo Sản Phẩm', component: CreateProduct, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER] },
+  { path: '/product/search', exact: true, name: 'Tra Cứu', component: SearchProduct, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER] },
+  { path: '/export/create-bill', exact: true, name: 'Lập Hóa Đơn', component: ExportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER], },
+  { path: '/export/search-bill', exact: true, name: 'Tra Cứu Hóa Đơn', component: ExportSearchBill, roles: [ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER], },
+  { path: '/import/create-bill', exact: true, name: 'Lập Hóa Đơn', component: ImportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
+  { path: '/import/search-bill', exact: true, name: 'Tra Cứu Hóa Đơn', component: ImportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
+  { path: '/request/request-product', exact: true, name: 'Lập Phiếu Yêu Cầu', component: Request, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: false },
+  { path: '/request/search-request-product', exact: true, name: 'Tra Cứu Phiếu Yêu Cầu', component: SearchRequest, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: false },
+  { path: '/request/accept-request-product', exact: true, name: 'Xác Nhận Yêu Cầu', component: Accept, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
+  { path: '/request/search-accept-product', exact: true, name: 'Tra Cứu Xác Nhận', component: SearchAccept, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true }
 ];
+
 
 export default routes;
