@@ -1,6 +1,5 @@
 import { ACTION_TYPES, API, LOCAL_STORAGE } from '../constants';
 import {showAlertFail} from './alertAction.js'
-import headerConfig from '../helpers/headerHelper'
 import axios from 'axios';
 
 export const login = (auth) => {
@@ -38,11 +37,9 @@ export const loginFail = (err) => {
 export const logout = () => {
   return async (dispatch) => {
     try{
-      const res = await axios.post(API.LOGOUT, null, headerConfig);
-      if(res.status === 200){
-        await sessionStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
-        await sessionStorage.removeItem(LOCAL_STORAGE.ACCESS_KEY);
-      }
+      // const res = await axios.post(API.LOGOUT, null, headerConfig);
+      await sessionStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
+      await sessionStorage.removeItem(LOCAL_STORAGE.ACCESS_KEY);
       return dispatch(logoutSuccess());
     } catch (err) {
       return dispatch(showAlertFail("Thoát thất bại"));

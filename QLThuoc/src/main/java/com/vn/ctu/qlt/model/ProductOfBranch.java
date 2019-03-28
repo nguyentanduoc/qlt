@@ -34,5 +34,5 @@ public class ProductOfBranch implements Serializable {
 	private Product product;
 
 	@Column(name = "so_luong")
-	private Integer amount;
+	private Double amount;
 }

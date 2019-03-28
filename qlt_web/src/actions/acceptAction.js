@@ -72,7 +72,7 @@ export const acceptSuccess = () => {
 export const cancel = (id) => {
   return async (dispatch) => {
     try {
-      const response = await Axios.post(API.REQUEST.CANCEL, id, headerHelper);
+      await Axios.post(API.REQUEST.CANCEL, id, headerHelper);
     } catch (e) {
       return dispatch(showAlertFail(e));
     }

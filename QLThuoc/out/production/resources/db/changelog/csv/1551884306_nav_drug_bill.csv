@@ -1,10 +1,10 @@
 ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha,la_chi_nhanh_chinh
-10,null,Sản Phẩm,/product,fas fa-prescription-bottle-alt,false,300,true,false,,false
-11,null,Tạo Sản Phẩm,/product/create,fas fa-capsules,false,301,false,true,10,false
-12,null,Tra Cứu,/product/search,fas fa-search,false,302,false,true,10,false
-13,null,Bán Sản Phẩm,/export,fas fa-file-invoice,false,400,true,false,,false
-14,null,Lập Hóa Đơn,/export/create-bill,fas fa-outdent,false,401,false,true,13,false
-15,null,Tra Cứu Hóa Đơn,/export/search-bill,fas fa-search,false,402,false,true,13,false
-16,null,Nhập Sản Phẩm,/import,fas fa-cart-arrow-down,false,500,true,false,,false
-17,null,Lập Hóa Đơn,/import/create-bill,fas fa-file-invoice,false,501,false,true,16,false
-18,null,Tra Cứu Hóa Đơn,/import/search-bill,fas fa-search,false,502,false,true,16,false
+10,null,Sản Phẩm,/product,fas fa-prescription-bottle-alt,false,300,true,false,,
+11,null,Tạo Sản Phẩm,/product/create,fas fa-capsules,false,301,false,true,10,true
+12,null,Tra Cứu,/product/search,fas fa-search,false,302,false,true,10,
+13,null,Bán Sản Phẩm,/export,fas fa-file-invoice,false,400,true,false,,
+14,null,Lập Hóa Đơn,/export/create-bill,fas fa-outdent,false,401,false,true,13,
+15,null,Tra Cứu Hóa Đơn,/export/search-bill,fas fa-search,false,402,false,true,13,
+16,null,Nhập Sản Phẩm,/import,fas fa-cart-arrow-down,false,500,true,false,,true
+17,null,Lập Hóa Đơn,/import/create-bill,fas fa-file-invoice,false,501,false,true,16,true
+18,null,Tra Cứu Hóa Đơn,/import/search-bill,fas fa-search,false,502,false,true,16,true

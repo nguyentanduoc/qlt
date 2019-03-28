@@ -111,7 +111,7 @@ const routes = [
   { path: '/export/create-bill', exact: true, name: 'Lập Hóa Đơn', component: ExportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER], },
   { path: '/export/search-bill', exact: true, name: 'Tra Cứu Hóa Đơn', component: ExportSearchBill, roles: [ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER], },
   { path: '/import/create-bill', exact: true, name: 'Lập Hóa Đơn', component: ImportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
-  { path: '/import/search-bill', exact: true, name: 'Tra Cứu Hóa Đơn', component: ImportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
+  { path: '/import/search-bill', exact: true, name: 'Tra Cứu Hóa Đơn', component: ImportSearchBill, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
   { path: '/request/request-product', exact: true, name: 'Lập Phiếu Yêu Cầu', component: Request, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: false },
   { path: '/request/search-request-product', exact: true, name: 'Tra Cứu Phiếu Yêu Cầu', component: SearchRequest, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: false },
   { path: '/request/accept-request-product', exact: true, name: 'Xác Nhận Yêu Cầu', component: Accept, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },

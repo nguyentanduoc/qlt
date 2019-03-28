@@ -14,6 +14,8 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import com.vn.ctu.qlt.dto.*;
+import com.vn.ctu.qlt.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.vn.ctu.qlt.dao.PriceHistoryDao;
 import com.vn.ctu.qlt.dao.ProductOfBranchDao;
-import com.vn.ctu.qlt.dto.BranchDto;
-import com.vn.ctu.qlt.dto.ProductDto;
-import com.vn.ctu.qlt.dto.ProductSelectionDto;
-import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.exception.DivRemainderException;
 import com.vn.ctu.qlt.exception.ProductException;
 import com.vn.ctu.qlt.exception.SpecOfProductException;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Product;
-import com.vn.ctu.qlt.model.SpecUnit;
-import com.vn.ctu.qlt.model.Unit;
 import com.vn.ctu.qlt.repository.ProductRepository;
 import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ProducerService;
@@ -525,5 +519,19 @@ public class ProductServiceImpl implements ProductService {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	@Override
+	public List<ProductOfBranchDto> getAllProductByBranch(BranchDto branchDto) {
+		Branch branch = branchService.getBranchById(branchDto.getId());
+		List<ProductOfBranch> productModel = branch.getProductsOfBranch();
+		List<ProductOfBranchDto> productsOfBranchDto = new ArrayList<>();
+		productModel.forEach(element -> {
+			String productName = element.getProduct().getProductName() + "[" + element.getProduct().getProducer().getProducerName()+ "]";
+			ProductSelectionDto selectionDto = new ProductSelectionDto(element.getProduct().getId(), productName);
+			productsOfBranchDto.add(new ProductOfBranchDto(selectionDto, element.getAmount()));
+
+		});
+		return productsOfBranchDto;
 	}
 }

@@ -40,8 +40,8 @@
 				<constraints nullable="true" />
 			</column>
 			<column name="la_chi_nhanh_chinh" type="boolean">
-			<constraints nullable="false" />
-		</column>
+				<constraints nullable="true" />
+			</column>
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="ma_huy_hieu" baseTableName="danh_muc"
 			constraintName="fk_danh_muc_huy_hieu" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"

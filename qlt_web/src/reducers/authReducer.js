@@ -27,7 +27,7 @@ export default (state = initState, action) => {
             branches: payload.branches
           };
         } else {
-          const navs = navBranch(payload.nav, payload.branches[0]);
+          // navBranch(payload.nav, payload.branches[0]);
           return {...state, 
             authentication: payload.authentication,
             isLogin: true, 
@@ -57,7 +57,6 @@ const navBranch = (navs, branch) => {
   if(branch) {
     navs.forEach(element => {
       _.remove(element.children, function(nav) {
-
         if(nav.isMain) {
           if(!branch.isMain){
             return nav;

@@ -83,6 +83,9 @@ export const ACTION_TYPES = {
     GET_DETAIL_SUCCESS: "ACCEPT_GET_DETAIL_SUCCESS",
     ACCEPT_SUCCESS: "ACCEPT_SUCCESS",
     RESULT_NOT_FOUND: "ACCEPT_RESULT_NOT_FOUND"
+  },
+  EXPORT : {
+    GET_PRODUCT_SUCCESS: "EXPORT_GET_PRODUCT_SUCCESS"
   }
 }
 export const LOCAL_STORAGE = {
@@ -130,7 +133,8 @@ export const API = {
     GET_SPEC_UNIT: `${BASE_URI}/api/product/get-spec-unit`,
     GET_PRODUCT_FOR_REQUEST: `${BASE_URI}/api/product/get-product-for-request`,
     GET_AMOUNT_PRODUCT: `${BASE_URI}/api/product/get-amount-product`,
-    GET_UNIT_OF_PRODUCT: `${BASE_URI}/api/product/get-unit-of-product`
+    GET_UNIT_OF_PRODUCT: `${BASE_URI}/api/product/get-unit-of-product`,
+    GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,

@@ -1,5 +1,5 @@
 ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha,la_chi_nhanh_chinh
-19,null,Yêu Cầu,/request,fas fa-cart-arrow-down,false,600,true,false,,false
+19,null,Yêu Cầu,/request,fas fa-cart-arrow-down,false,600,true,false,,
 20,null,Lập Phiếu,/request/request-product,fas fa-star-of-life,false,601,false,true,19,false
 21,null,Tra Cứu,/request/search-request-product,fas fa-search,false,602,false,true,19,false
 22,null,Xác Nhận Phiếu,/request/accept-request-product,fas fa-clipboard-check,false,603,false,true,19,true

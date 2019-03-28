@@ -14,6 +14,7 @@ import importProductReducer from './importProductReducer';
 import productReducer from './productReducer';
 import requestReducer from './requestReducer';
 import acceptReducer from './acceptReducer';
+import exportReducer from './exportReducer';
 
 export default combineReducers({
   error: errorReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
   importProductReducer,
   productReducer,
   requestReducer,
-  acceptReducer
+  acceptReducer,
+  exportReducer
 });

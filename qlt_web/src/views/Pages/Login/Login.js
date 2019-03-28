@@ -22,8 +22,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: '',
-      password: '',
+      usernameOrEmail: 'nv2',
+      // usernameOrEmail: 'tvb',
+      password: '12345678x@X',
       loading: false
     };
     this.changeHandler = this.changeHandler.bind(this);
@@ -41,6 +42,7 @@ class Login extends Component {
       [name]: value
     });
   }
+
   handleSubmit = async (event) => {
     event.preventDefault();
     this.props.onSetLoading();
@@ -55,6 +57,14 @@ class Login extends Component {
     if (event.key === 'Enter') {
       this.handleSubmit(event);
     }
+  }
+
+  componentWillMount() {
+    const auth = {
+      usernameOrEmail: this.state.usernameOrEmail,
+      password: this.state.password
+    };
+    this.props.onLogin(auth);
   }
 
   componentWillUnmount() {
@@ -98,7 +108,8 @@ class Login extends Component {
                           name="usernameOrEmail"
                           type="text"
                           placeholder="Tên tài khoản"
-                          autoComplete="usernameOrEmail"
+                          value={this.state.usernameOrEmail}
+                          // autoComplete="usernameOrEmail"
                           onChange={this.changeHandler}/>
                       </InputGroup>
                       <InputGroup className="mb-4">
@@ -112,7 +123,8 @@ class Login extends Component {
                           name="password"
                           type="password"
                           placeholder="Mật khẩu"
-                          autoComplete="password"
+                          // autoComplete="password"
+                          value={this.state.password}
                           onChange={this.changeHandler}/>
                       </InputGroup>
                       <Row>

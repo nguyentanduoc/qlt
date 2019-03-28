@@ -1,15 +1,15 @@
 package com.vn.ctu.qlt.service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.vn.ctu.qlt.dto.BranchDto;
+import com.vn.ctu.qlt.dto.ProductOfBranchDto;
 import com.vn.ctu.qlt.dto.ProductSelectionDto;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.model.Product;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -101,4 +101,12 @@ public interface ProductService {
 	 * Save exchange.
 	 */
 	public void saveExchange(Long branchExchangeId, Long branchRecieveId, Long productId, Double amount);
+
+	/**
+	 * Get all product by branch.
+	 *
+	 * @param branchDto the {@link BranchDto}
+	 * @return list {@link ProductOfBranchDto}
+	 */
+	public List<ProductOfBranchDto> getAllProductByBranch(BranchDto branchDto);
 }
