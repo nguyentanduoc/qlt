@@ -1,0 +1,6 @@
+{
+  "name": "ChooseBranch",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ChooseBranch.js"
+}

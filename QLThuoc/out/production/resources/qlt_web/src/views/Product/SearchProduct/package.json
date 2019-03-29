@@ -1,0 +1,6 @@
+{
+  "name": "SearchProduct",
+  "version": "0.0.0",
+  "private": true,
+  "main": "SearchProduct.js"
+}
