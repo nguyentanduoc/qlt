@@ -5,19 +5,21 @@ import lombok.Data;
 @Data
 public class BranchDto {
 
-	private Long id;
+    private Long id;
 
-	private String name;
+    private String name;
 
-	private Double longitude;
+    private Double longitude;
 
-	private Double latitude;
+    private Double latitude;
 
-	private String address;
+    private String address;
 
-	private Boolean isEnabled;
+    private Boolean isEnabled;
 
-	private Long idDirector;
-	
-	private Boolean isMain;
+    private Long idDirector;
+
+    private Boolean isMain;
+
+    private SpecLevelBranchDtoSelection specLevelBranch;
 }

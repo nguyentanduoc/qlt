@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="01" author="ntduoc">
+        <createTable tableName="chi_tiet_hoa_don_ban_hang">
+            <column name="ma_hoa_don_ban_hang" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_san_pham" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_quy_dinh_don_vi" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_lich_su_gia" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="so_luong" type="double">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                catalogName="cat" columnNames="ma_hoa_don_ban_hang, ma_san_pham"
+                constraintName="const_ma_hoa_don_ban_hang_ma_san_pham" deferrable="true" disabled="true"
+                initiallyDeferred="true"
+                schemaName="public" tableName="chi_tiet_hoa_don_ban_hang"/>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_hoa_don_ban_hang" baseTableName="chi_tiet_hoa_don_ban_hang"
+                constraintName="fk_ma_hoa_don_ban_hang_chi_tiet_hoa_don_ban_hang" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="hoa_don_ban_hang"/>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_san_pham" baseTableName="chi_tiet_hoa_don_ban_hang"
+                constraintName="fk_ma_san_pham_chi_tiet_hoa_don_ban_hang" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="san_pham"/>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_lich_su_gia" baseTableName="chi_tiet_hoa_don_ban_hang"
+                constraintName="fk_ma_lich_su_gia_chi_tiet_hoa_don_ban_hang" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="lich_su_gia"/>
+    </changeSet>
+</databaseChangeLog>

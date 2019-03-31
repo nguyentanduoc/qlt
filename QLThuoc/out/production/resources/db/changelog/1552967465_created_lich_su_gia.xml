@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-	<changeSet id="01" author="ntduoc">
-		<createTable tableName="lich_su_gia">
-			<column name="ma_san_pham" type="bigint">
-				<constraints nullable="false"/>
-			</column>
-			<column name="ma_chi_nhanh" type="bigint">
-				<constraints nullable="false"/>
-			</column>
-			<column name="ngay_thay_doi" type="datetime">
-				<constraints nullable="false"/>
-			</column>
-			<column name="don_gia" type="double">
-				<constraints nullable="false"/>
-			</column>
-		</createTable>
-		<addUniqueConstraint catalogName="cat" columnNames="ma_san_pham, ma_chi_nhanh, ngay_thay_doi"
-			constraintName="const_lich_su_gia" deferrable="true" disabled="true" initiallyDeferred="true"
-			schemaName="public" tableName="lich_su_gia" />
-		<addForeignKeyConstraint baseColumnNames="ma_san_pham" baseTableName="lich_su_gia"
-			constraintName="fk_ma_san_phan_lich_su_gia" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="ma" referencedTableName="san_pham" />
-		<addForeignKeyConstraint baseColumnNames="ma_chi_nhanh" baseTableName="lich_su_gia"
-			constraintName="fk_ma_chi_nhanh_lich_su_gia" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="ma" referencedTableName="chi_nhanh" />
-	</changeSet>
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="add_sequence" author="ntduoc">
+        <createSequence
+                sequenceName="seq_history_price_product" cycle="false" minValue="1"
+                maxValue="9223372036854775807" startValue="100" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="01" author="ntduoc">
+        <createTable tableName="lich_su_gia">
+            <column name="ma" type="bigint" defaultValueComputed="nextval('seq_history_price_product')">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="ma_san_pham" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ma_cua_hang" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ngay_thay_doi" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="don_gia" type="double">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_san_pham" baseTableName="lich_su_gia"
+                constraintName="fk_ma_san_phan_lich_su_gia" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="san_pham"/>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_cua_hang" baseTableName="lich_su_gia"
+                constraintName="fk_ma_cua_hang_lich_su_gia" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="cua_hang"/>
+    </changeSet>
 </databaseChangeLog>

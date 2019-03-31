@@ -31,5 +31,10 @@
 	<include file="changelog/1553074035_add_nav_bill.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1553357057_created_phieu_yeu_cau.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1553370523_created_ct_phieu_yeu_cau.xml" relativeToChangelogFile="true"/>
-	
+	<include file="changelog/1553970652_create_bill_export.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1553971196_create_detail_bill_export.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1553971738_created_spec_level_and_price_of_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1553972077_edited_table_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1554006384_add_nav_spec_level_branch.xml" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

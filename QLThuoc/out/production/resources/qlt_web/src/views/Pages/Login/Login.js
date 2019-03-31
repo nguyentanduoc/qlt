@@ -22,7 +22,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'nv2',
+      usernameOrEmail: 'ntduoc',
       // usernameOrEmail: 'tvb',
       password: '12345678x@X'
     };

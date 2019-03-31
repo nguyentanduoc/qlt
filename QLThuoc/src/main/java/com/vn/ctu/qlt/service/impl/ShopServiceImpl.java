@@ -198,12 +198,6 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public Shop getShopByEmployee(Employee employee) {
-		
-		return null;
-	}
-
-	@Override
 	public Page<ShopDto> selectDto(String condition, Pageable pageable) {
 		Page<Shop> shopPage = select(condition, pageable);
 		List<Shop> shops = shopPage.getContent();

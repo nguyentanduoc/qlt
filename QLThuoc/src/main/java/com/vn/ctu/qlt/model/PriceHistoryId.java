@@ -22,7 +22,7 @@ public class PriceHistoryId implements Serializable {
 	@Column(name = "ma_san_pham")
 	private Long productId;
 
-	@Column(name = "ma_chi_nhanh")
-	private Long branchId;
+	@Column(name = "ma_cua_hang")
+	private Long shopId;
 
 }

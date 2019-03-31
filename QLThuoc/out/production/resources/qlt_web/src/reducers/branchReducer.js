@@ -4,7 +4,8 @@ const initialState = {
   branch: {},
   flgSet: false,
   shops: [],
-  branchSelection:[]
+  branchSelection:[],
+  specLevelBranchReducer: []
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -26,6 +27,9 @@ export default (state = initialState, { type, payload }) => {
   
     case ACTION_TYPES.BRANCH.BRANCH_FOR_SELECTION:
       return {...state, branchSelection: payload }
+
+    case ACTION_TYPES.BRANCH.GET_SPEC_LEVEL_BRANCH_SUCCESS:
+      return {...state, specLevelBranchReducer: payload}
   default:
     return state
   }

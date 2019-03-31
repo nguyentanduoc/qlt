@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="add_sequence" author="ntduoc">
+        <createSequence sequenceName="seq_level_branch" cycle="false" minValue="1"
+                        maxValue="9223372036854775807" startValue="100" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="01" author="ntduoc">
+        <createTable tableName="cap_do_chi_nhanh">
+            <column name="ma" type="bigint" defaultValueComputed="nextval('seq_level_branch')">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="ma_cua_hang" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ten_cap_do" type="varchar(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quy_dinh_phan_tram_loi" type="double">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_cua_hang" baseTableName="cap_do_chi_nhanh"
+                constraintName="fk_ma_cua_hang_cap_do_chi_nhanh" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="cua_hang"/>
+    </changeSet>
+</databaseChangeLog>

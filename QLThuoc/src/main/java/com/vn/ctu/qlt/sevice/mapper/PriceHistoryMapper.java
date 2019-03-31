@@ -14,7 +14,7 @@ public class PriceHistoryMapper implements RowMapper<PriceHistoryDao> {
 	@Override
 	public PriceHistoryDao mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return PriceHistoryDao.builder()
-				.branchId(rs.getLong("ma_chi_nhanh"))
+				.shopId(rs.getLong("ma_cua_hang"))
 				.productId(rs.getLong("ma_san_pham"))
 				.date(rs.getDate("ngay_thay_doi"))
 				.price(rs.getDouble("don_gia"))

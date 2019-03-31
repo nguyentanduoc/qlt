@@ -17,8 +17,8 @@ public class PriceHistoryDao {
 	/** The product id. */
 	private Long productId;
 
-	/** The branch id. */
-	private Long branchId;
+	/** The shop id. */
+	private Long shopId;
 	
 	private Date date;
 

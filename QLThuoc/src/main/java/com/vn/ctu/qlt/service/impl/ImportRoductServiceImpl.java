@@ -25,46 +25,46 @@ import com.vn.ctu.qlt.service.SpecUnitService;
 @Transactional
 public class ImportRoductServiceImpl implements ImportRoductService {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private BillImportRepository billImportRepository;
+    @Autowired
+    private BillImportRepository billImportRepository;
 
-	@Autowired
-	private ProductService productService;
+    @Autowired
+    private ProductService productService;
 
-	@Autowired
-	private SpecUnitService specUnitService;
-	
-	@Autowired
-	private IAuthenticationFacade authenticationFacade;
-	
-	@Autowired
-	private BranchService branchService;
+    @Autowired
+    private SpecUnitService specUnitService;
 
-	@Override
-	public void save(ImportProductDto importProductDto) {
-		try {
-			Employee employee = authenticationFacade.getEmployee();
-			BillImport billImport = new BillImport(employee);
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
-			Branch mainBranch = branchService.getBranchById(importProductDto.getBranch().getId());
-			
-			importProductDto.getData().forEach(p -> {
-				
-				Product product = productService.getProductBySelection(p.getProduct());
-				SpecUnit specUnit = specUnitService.getBySelection(p.getSpecUnit());
-				DetailBillImport detail = new DetailBillImport(billImport, product, specUnit, p.getAmount(),
-						p.getPrice());
-				billImport.getDetailBillImports().add(detail);
-				productService.saveImportProduct(product.getId(), mainBranch.getId(), p.getAmount() ,p.getPrice(), p.getSpecUnit().getValue());
-			});
-			billImportRepository.save(billImport);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw e;
-		}
+    @Autowired
+    private BranchService branchService;
 
-	}
+    @Override
+    public void save(ImportProductDto importProductDto) {
+        try {
+            Employee employee = authenticationFacade.getEmployee();
+            BillImport billImport = new BillImport(employee);
+
+            Branch mainBranch = branchService.getBranchById(importProductDto.getBranch().getId());
+
+            importProductDto.getData().forEach(p -> {
+
+                Product product = productService.getProductBySelection(p.getProduct());
+                SpecUnit specUnit = specUnitService.getBySelection(p.getSpecUnit());
+                DetailBillImport detail = new DetailBillImport(billImport, product, specUnit, p.getAmount(),
+                        p.getPrice());
+                billImport.getDetailBillImports().add(detail);
+                productService.saveImportProduct(product.getId(), mainBranch.getId(), p.getAmount(), p.getPrice(), p.getSpecUnit().getValue());
+            });
+            billImportRepository.save(billImport);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw e;
+        }
+
+    }
 
 }

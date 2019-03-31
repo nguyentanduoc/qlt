@@ -10,7 +10,11 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.service.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,16 +27,8 @@ import org.springframework.stereotype.Service;
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.BranchsSeletionDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Employee;
-import com.vn.ctu.qlt.model.Shop;
-import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.BranchRepository;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
-import com.vn.ctu.qlt.service.BranchService;
-import com.vn.ctu.qlt.service.EmployeeService;
-import com.vn.ctu.qlt.service.ShopService;
-import com.vn.ctu.qlt.service.UserSerivce;
 import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 
 /**
@@ -44,6 +40,8 @@ import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 @Service
 @Transactional
 public class BranchServiceImpl implements BranchService {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/** The from table. */
 	private final String FROM_TABLE = "from chi_nhanh ";
@@ -75,6 +73,9 @@ public class BranchServiceImpl implements BranchService {
 	@Autowired
 	private IAuthenticationFacade authenticationFacade;
 
+	@Autowired
+	private SpecLevelBranchService specLevelBranchService;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -86,7 +87,14 @@ public class BranchServiceImpl implements BranchService {
 		Branch branchModel = new Branch();
 		BeanUtils.copyProperties(branch, branchModel);
 		branchModel.setShop(shop);
-		branchRepository.save(branchModel);
+		Optional<SpecLevelBranch> specLevelBranch = specLevelBranchService.getById(branch.getSpecLevelBranch().getValue());
+		if(specLevelBranch.isPresent()){
+			branchModel.setSpecLevelBranch(specLevelBranch.get());
+			branchRepository.save(branchModel);
+		}else {
+			logger.error("Không tìm thấy specLevelBranch");
+			throw new  BadRequestException("Không tìm thấy specLevelBranch");
+		}
 	}
 
 	/*

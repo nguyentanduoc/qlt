@@ -28,10 +28,10 @@ public class PriceHistory implements Serializable {
 	@EmbeddedId
 	private PriceHistoryId id;
 
-	@MapsId("branchId")
+	@MapsId("shopId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ma_chi_nhanh", referencedColumnName = "ma")
-	private Branch branch;
+	@JoinColumn(name = "ma_cua_hang", referencedColumnName = "ma")
+	private Shop shop;
 
 	@MapsId("productId")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -44,9 +44,9 @@ public class PriceHistory implements Serializable {
 	@Column(name = "don_gia")
 	private Double price;
 
-	public PriceHistory(Branch branch, Product product, Double price) {
-		this.id = new PriceHistoryId(product.getId(), branch.getId());
-		this.branch = branch;
+	public PriceHistory(Shop shop, Product product, Double price) {
+		this.id = new PriceHistoryId(product.getId(), shop.getId());
+		this.shop = shop;
 		this.product = product;
 		this.date = new Date();
 		this.price = price;

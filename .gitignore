@@ -52,6 +52,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .metadata
+/QLThuoc/src/main/resources/qlt_web/node_modules/
 /qlt_web/node_modules/
 /QLThuoc/bin/
 /QLThuoc/build/
+/QLThuoc/out/

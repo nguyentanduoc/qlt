@@ -3,7 +3,10 @@ import {ACTION_TYPES} from "../constants";
 const initState = {
   productSelection: [],
   product:[],
-  spectUnit: []
+  specUnits: [],
+  quantity: 0,
+  dataViews: [],
+  dataSubmits: []
 }
 export default (state = initState, {type, payload}) => {
   switch (type) {
@@ -15,9 +18,21 @@ export default (state = initState, {type, payload}) => {
       })
       return {...state, product: payload, productSelection: productSelection}
 
-    case ACTION_TYPES.EXPORT.GET_SPECT_UNIT_SUCCESS: {
-      return {...state, spectUnit: payload}
-    }
+    case ACTION_TYPES.EXPORT.GET_SPEC_UNIT_SUCCESS:
+      return {...state, specUnits: payload.specUnits, quantity: payload.quantity}
+
+    case ACTION_TYPES.EXPORT.SET_DETAIL_BILL:
+      const dataView = {
+        productName: payload.product.label,
+        amount: payload.amount,
+        specUnit: payload.specUnit.label,
+        price: payload.price
+      };
+      let dataSubmits = state.dataSubmits;
+      let dataViews = state.dataViews;
+      dataSubmits.push(payload);
+      dataViews.push(dataView);
+      return  {...state, dataSubmits:dataSubmits , dataViews: dataViews}
     default:
       return state;
   }

@@ -98,3 +98,20 @@ export const branchForSelection = (data) => {
     payload: selection
   }
 }
+export const getSpecLevelBranch = () => {
+  return async (dispatch) => {
+    try{
+      const response = await axios.post(API.SPEC_LEVEL_BRANCH.GET_ALL_FOR_SELECTION, null, headerConfig);
+      console.log(response);
+      return dispatch(getSpecLevelBranchSuccess(response.data));
+    } catch (e) {
+      return dispatch(showAlertFail(e));
+    }
+  }
+}
+export const getSpecLevelBranchSuccess = (data) => (
+  {
+    type: ACTION_TYPES.BRANCH.GET_SPEC_LEVEL_BRANCH_SUCCESS,
+    payload:data
+  }
+)

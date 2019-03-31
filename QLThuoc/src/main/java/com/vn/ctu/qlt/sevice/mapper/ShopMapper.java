@@ -11,15 +11,15 @@ import com.vn.ctu.qlt.model.Shop;
 @Component
 public class ShopMapper implements RowMapper<Shop> {
 
-	@Override
-	public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return Shop.builder()
-				.withId(rs.getLong("ma"))
-				.withNameShop(rs.getString("ten_cua_hang"))
-				.withIsEnabled(rs.getBoolean("hoat_dong"))
-				.withEstablishAt(rs.getTimestamp("ngay_thanh_lap"))
-				.withCreateAt(rs.getTimestamp("ngay_tao"))
-				.withUpdateAt(rs.getTimestamp("ngay_cap_nhat"))
-				.build();
-	}
+    @Override
+    public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Shop shop = new Shop();
+        shop.setId(rs.getLong("ma"));
+        shop.setNameShop(rs.getString("ten_cua_hang"));
+        shop.setIsEnabled(rs.getBoolean("hoat_dong"));
+        shop.setEstablishAt(rs.getTimestamp("ngay_thanh_lap"));
+        shop.setCreatedAt(rs.getTimestamp("ngay_tao"));
+        shop.setUpdatedAt(rs.getTimestamp("ngay_cap_nhat"));
+        return shop;
+    }
 }
