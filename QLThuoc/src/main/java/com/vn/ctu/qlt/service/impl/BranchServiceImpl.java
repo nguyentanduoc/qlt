@@ -41,259 +41,276 @@ import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 @Transactional
 public class BranchServiceImpl implements BranchService {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	/** The from table. */
-	private final String FROM_TABLE = "from chi_nhanh ";
+    /**
+     * The from table.
+     */
+    private final String FROM_TABLE = "from chi_nhanh ";
 
-	/** The jdbc template. */
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+    /**
+     * The jdbc template.
+     */
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-	/** The branch repository. */
-	@Autowired
-	private BranchRepository branchRepository;
+    /**
+     * The branch repository.
+     */
+    @Autowired
+    private BranchRepository branchRepository;
 
-	/** The shop service. */
-	@Autowired
-	private ShopService shopService;
+    /**
+     * The shop service.
+     */
+    @Autowired
+    private ShopService shopService;
 
-	/** The branch mapper. */
-	@Autowired
-	private BranchMapper branchMapper;
+    /**
+     * The branch mapper.
+     */
+    @Autowired
+    private BranchMapper branchMapper;
 
-	/** The employee service. */
-	@Autowired
-	private EmployeeService employeeService;
+    /**
+     * The employee service.
+     */
+    @Autowired
+    private EmployeeService employeeService;
 
-	/** The user service. */
-	@Autowired
-	private UserSerivce userService;
+    /**
+     * The user service.
+     */
+    @Autowired
+    private UserSerivce userService;
 
-	@Autowired
-	private IAuthenticationFacade authenticationFacade;
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
-	@Autowired
-	private SpecLevelBranchService specLevelBranchService;
+    @Autowired
+    private SpecLevelBranchService specLevelBranchService;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vn.ctu.qlt.service.BranchService#save(com.vn.ctu.qlt.dto.BranchDto)
-	 */
-	public void save(BranchDto branch) {
-		Employee employee = authenticationFacade.getEmployee();
-		Shop shop = shopService.findShopByDirector(employee).get();
-		Branch branchModel = new Branch();
-		BeanUtils.copyProperties(branch, branchModel);
-		branchModel.setShop(shop);
-		Optional<SpecLevelBranch> specLevelBranch = specLevelBranchService.getById(branch.getSpecLevelBranch().getValue());
-		if(specLevelBranch.isPresent()){
-			branchModel.setSpecLevelBranch(specLevelBranch.get());
-			branchRepository.save(branchModel);
-		}else {
-			logger.error("Không tìm thấy specLevelBranch");
-			throw new  BadRequestException("Không tìm thấy specLevelBranch");
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vn.ctu.qlt.service.BranchService#save(com.vn.ctu.qlt.dto.BranchDto)
+     */
+    public void save(BranchDto branch) {
+        Employee employee = authenticationFacade.getEmployee();
+        Shop shop = shopService.findShopByDirector(employee).get();
+        Branch branchModel = getBranchById(branch.getId());
+        if (branchModel == null) {
+            branchModel = new Branch();
+        }
+        BeanUtils.copyProperties(branch, branchModel);
+        branchModel.setShop(shop);
+        Optional<SpecLevelBranch> specLevelBranch = specLevelBranchService.getById(branch.getSpecLevelBranch().getValue());
+        if (specLevelBranch.isPresent()) {
+            branchModel.setSpecLevelBranch(specLevelBranch.get());
+            branchRepository.save(branchModel);
+        } else {
+            logger.error("Không tìm thấy specLevelBranch");
+            throw new BadRequestException("Không tìm thấy specLevelBranch");
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vn.ctu.qlt.service.BranchService#findAll(org.springframework.data.domain.
-	 * Pageable)
-	 */
-	@Override
-	public Page<BranchDto> findAll(Pageable pageable) {
-		Page<Branch> pageBranch = branchRepository.findAll(pageable);
-		List<Branch> branchs = pageBranch.getContent();
-		
-		List<BranchDto> branchsDto = new ArrayList<BranchDto>();
-		branchs.forEach(action -> {
-			BranchDto branchDto = new BranchDto();
-			BeanUtils.copyProperties(action, branchDto);
-			branchsDto.add(branchDto);
-		});
-		return new PageImpl<>(branchsDto,pageable, pageBranch.getTotalPages());
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.vn.ctu.qlt.service.BranchService#findAll(org.springframework.data.domain.
+     * Pageable)
+     */
+    @Override
+    public Page<BranchDto> findAll(Pageable pageable) {
+        Page<Branch> pageBranch = branchRepository.findAll(pageable);
+        List<Branch> branchs = pageBranch.getContent();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vn.ctu.qlt.service.BranchService#deleteAll(java.lang.Long[])
-	 */
-	@Override
-	public void deleteAll(Long[] keys) {
-		for (Long id : keys) {
-			branchRepository.deleteById(id);
-		}
-	}
+        List<BranchDto> branchsDto = new ArrayList<BranchDto>();
+        branchs.forEach(action -> {
+            BranchDto branchDto = new BranchDto();
+            BeanUtils.copyProperties(action, branchDto);
+            branchsDto.add(branchDto);
+        });
+        return new PageImpl<>(branchsDto, pageable, pageBranch.getTotalPages());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vn.ctu.qlt.service.BranchService#search(java.lang.String,
-	 * org.springframework.data.domain.Pageable)
-	 */
-	@Override
-	public Page<BranchDto> search(String condition, Pageable pageable) {
-		String[] conditions = condition.split(" ");
-		String[] commonSubtract = { "Chi", "Nhanh", "chi", "nhanh", "nhánh", "Nhánh" };
-		Collection<String> subtract = CollectionUtils.subtract(Arrays.asList(conditions),
-				Arrays.asList(commonSubtract));
-		List<String> params = new ArrayList<>();
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vn.ctu.qlt.service.BranchService#deleteAll(java.lang.Long[])
+     */
+    @Override
+    public void deleteAll(Long[] keys) {
+        for (Long id : keys) {
+            branchRepository.deleteById(id);
+        }
+    }
 
-		StringBuilder sqlSelect = new StringBuilder("select * ");
-		StringBuilder sqlFrom = new StringBuilder(FROM_TABLE);
-		StringBuilder sqlWhere = new StringBuilder("where ");
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vn.ctu.qlt.service.BranchService#search(java.lang.String,
+     * org.springframework.data.domain.Pageable)
+     */
+    @Override
+    public Page<BranchDto> search(String condition, Pageable pageable) {
+        String[] conditions = condition.split(" ");
+        String[] commonSubtract = {"Chi", "Nhanh", "chi", "nhanh", "nhánh", "Nhánh"};
+        Collection<String> subtract = CollectionUtils.subtract(Arrays.asList(conditions),
+                Arrays.asList(commonSubtract));
+        List<String> params = new ArrayList<>();
 
-		for (int i = 0; i < subtract.size(); i++) {
-			sqlWhere.append("ten_chi_nhanh like ? ");
-			params.add("%" + subtract.toArray()[i] + "%");
-			if (subtract.size() - 1 != i)
-				sqlWhere.append("or").append(" ");
-		}
+        StringBuilder sqlSelect = new StringBuilder("select * ");
+        StringBuilder sqlFrom = new StringBuilder(FROM_TABLE);
+        StringBuilder sqlWhere = new StringBuilder("where ");
 
-		Long countRecord = count(sqlFrom.append(sqlWhere), params.toArray());
+        for (int i = 0; i < subtract.size(); i++) {
+            sqlWhere.append("ten_chi_nhanh like ? ");
+            params.add("%" + subtract.toArray()[i] + "%");
+            if (subtract.size() - 1 != i)
+                sqlWhere.append("or").append(" ");
+        }
 
-		StringBuilder sql = sqlSelect.append(sqlFrom);
-		sql.append("LIMIT ").append(pageable.getPageSize()).append(" ");
-		sql.append("OFFSET ").append(pageable.getOffset());
-		List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), params.toArray(), branchMapper);
-		return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
-	}
+        Long countRecord = count(sqlFrom.append(sqlWhere), params.toArray());
 
-	/**
-	 * Count.
-	 *
-	 * @param sql    the sql
-	 * @param params the params
-	 * @return the long
-	 * @throws DataAccessException the data access exception
-	 */
-	public Long count(StringBuilder sql, Object[] params) throws DataAccessException {
-		StringBuilder sqlCount = new StringBuilder("Select count(*) ");
-		sqlCount.append(sql);
-		return jdbcTemplate.queryForObject(sqlCount.toString(), params, Long.class);
-	}
+        StringBuilder sql = sqlSelect.append(sqlFrom);
+        sql.append("LIMIT ").append(pageable.getPageSize()).append(" ");
+        sql.append("OFFSET ").append(pageable.getOffset());
+        List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), params.toArray(), branchMapper);
+        return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vn.ctu.qlt.service.BranchService#getBranhByDirector(java.lang.Long,
-	 * org.springframework.data.domain.Pageable)
-	 */
-	@Override
-	public PageImpl<BranchDto> getBranhByDirector(Long idDirector, Pageable pageable) {
-		Object[] param = new Long[] { idDirector };
-		StringBuilder sql = new StringBuilder();
-		StringBuilder where = new StringBuilder();
+    /**
+     * Count.
+     *
+     * @param sql    the sql
+     * @param params the params
+     * @return the long
+     * @throws DataAccessException the data access exception
+     */
+    public Long count(StringBuilder sql, Object[] params) throws DataAccessException {
+        StringBuilder sqlCount = new StringBuilder("Select count(*) ");
+        sqlCount.append(sql);
+        return jdbcTemplate.queryForObject(sqlCount.toString(), params, Long.class);
+    }
 
-		sql.append("select chi_nhanh.ma, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, chi_nhanh.chi_nhanh_chinh, ");
-		sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.ma_cua_hang ");
-		where.append("from chi_nhanh ");
-		where.append("inner join cua_hang on chi_nhanh.ma_cua_hang = cua_hang.ma ");
-		where.append("inner join nhan_vien on cua_hang.ma_nhan_vien = nhan_vien.ma ");
-		where.append("inner join tai_khoan on nhan_vien.ma_tai_khoan = tai_khoan.ma ");
-		where.append("where tai_khoan.ma =? ");
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vn.ctu.qlt.service.BranchService#getBranhByDirector(java.lang.Long,
+     * org.springframework.data.domain.Pageable)
+     */
+    @Override
+    public PageImpl<BranchDto> getBranhByDirector(Long idDirector, Pageable pageable) {
+        Object[] param = new Long[]{idDirector};
+        StringBuilder sql = new StringBuilder();
+        StringBuilder where = new StringBuilder();
 
-		Long countRecord = count(where, param);
+        sql.append("select chi_nhanh.ma, chi_nhanh.dia_chi, chi_nhanh.hoat_dong, chi_nhanh.chi_nhanh_chinh, ");
+        sql.append("chi_nhanh.kinh_do, chi_nhanh.vi_do, chi_nhanh.ten_chi_nhanh, chi_nhanh.ma_cua_hang ");
+        where.append("from chi_nhanh ");
+        where.append("inner join cua_hang on chi_nhanh.ma_cua_hang = cua_hang.ma ");
+        where.append("inner join nhan_vien on cua_hang.ma_nhan_vien = nhan_vien.ma ");
+        where.append("inner join tai_khoan on nhan_vien.ma_tai_khoan = tai_khoan.ma ");
+        where.append("where tai_khoan.ma =? ");
 
-		sql.append(where).append("LIMIT ").append(pageable.getPageSize()).append(" ");
-		sql.append("OFFSET ").append(pageable.getOffset());
-		List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), param, branchMapper);
-		return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
-	}
+        Long countRecord = count(where, param);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vn.ctu.qlt.service.BranchService#selectBranchByDirector(java.lang.Long)
-	 */
-	@Override
-	public Set<Branch> selectBranchByDirector(Long idDirector) {
-		Optional<User> userOptional = userService.findById(idDirector);
-		Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
-		Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
-		Shop shop = shopOptional.get();
-		return shop.getBranchs();
-	}
+        sql.append(where).append("LIMIT ").append(pageable.getPageSize()).append(" ");
+        sql.append("OFFSET ").append(pageable.getOffset());
+        List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), param, branchMapper);
+        return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vn.ctu.qlt.service.BranchService#findByList(java.util.Set)
-	 */
-	@Override
-	@Transactional
-	public Set<Branch> findByList(Set<BranchsSeletionDto> branchs) {
-		Set<Branch> branchsResult = new HashSet<>();
-		for (BranchsSeletionDto b : branchs) {
-			Branch branch = branchRepository.findById(b.getValue()).get();
-			branchsResult.add(branch);
-		}
-		return branchsResult;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.vn.ctu.qlt.service.BranchService#selectBranchByDirector(java.lang.Long)
+     */
+    @Override
+    public Set<Branch> selectBranchByDirector(Long idDirector) {
+        Optional<User> userOptional = userService.findById(idDirector);
+        Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
+        Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
+        Shop shop = shopOptional.get();
+        return shop.getBranchs();
+    }
 
-	@Override
-	public Branch getBranchByEmployee(Employee employee) {
-		return null;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vn.ctu.qlt.service.BranchService#findByList(java.util.Set)
+     */
+    @Override
+    @Transactional
+    public Set<Branch> findByList(Set<BranchsSeletionDto> branchs) {
+        Set<Branch> branchsResult = new HashSet<>();
+        for (BranchsSeletionDto b : branchs) {
+            Branch branch = branchRepository.findById(b.getValue()).get();
+            branchsResult.add(branch);
+        }
+        return branchsResult;
+    }
 
-	@Override
-	public Branch getBranchById(Long id) {
-		Optional<Branch> branchOptional = branchRepository.findById(id);
-		if (branchOptional.isPresent()) {
-			return branchOptional.get();
-		} else
-			return null;
-	}
+    @Override
+    public Branch getBranchByEmployee(Employee employee) {
+        return null;
+    }
 
-	@Override
-	public void save(Branch branch) {
-		branchRepository.save(branch);
-	}
+    @Override
+    public Branch getBranchById(Long id) {
+        Optional<Branch> branchOptional = branchRepository.findById(id);
+        if (branchOptional.isPresent()) {
+            return branchOptional.get();
+        } else
+            return null;
+    }
 
-	private List<BranchDto> modelToDto(List<Branch> branchs){
-		List<BranchDto> branchsDto = new ArrayList<BranchDto>();
-		branchs.forEach(action -> {
-			BranchDto branchDto = new BranchDto();
-			BeanUtils.copyProperties(action, branchDto);
-			branchsDto.add(branchDto);
-		});
-		return branchsDto;
-	}
-	
-	private Set<BranchDto> modelToDto(Set<Branch> branchs){
-		Set<BranchDto> branchsDto = new HashSet<BranchDto>();
-		branchs.forEach(action -> {
-			BranchDto branchDto = new BranchDto();
-			BeanUtils.copyProperties(action, branchDto);
-			branchsDto.add(branchDto);
-		});
-		return branchsDto;
-	}
+    @Override
+    public void save(Branch branch) {
+        branchRepository.save(branch);
+    }
 
-	@Override
-	public Set<BranchDto> selectBranchByDirectorDto(Long idDirector) {
-		Optional<User> userOptional = userService.findById(idDirector);
-		Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
-		Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
-		Shop shop = shopOptional.get();
-		return modelToDto(shop.getBranchs());
-	}
+    private List<BranchDto> modelToDto(List<Branch> branchs) {
+        List<BranchDto> branchsDto = new ArrayList<BranchDto>();
+        branchs.forEach(action -> {
+            BranchDto branchDto = new BranchDto();
+            BeanUtils.copyProperties(action, branchDto);
+            branchsDto.add(branchDto);
+        });
+        return branchsDto;
+    }
 
-	@Override
-	public Branch getMainBranchByBranch(Long id) {
-		Optional<Branch> branch = branchRepository.findById(id);
-		if(branch.isPresent()) {
-			Shop shop = branch.get().getShop();
-			Set<Branch> branchs = shop.getBranchs();
-			return branchs.stream().filter(b -> b.getIsMain() == true).findAny().orElse(null);
-		} else {
-			throw new BadRequestException("Không tìm thấy chi nhánh");
-		}
-	}
+    private Set<BranchDto> modelToDto(Set<Branch> branchs) {
+        Set<BranchDto> branchsDto = new HashSet<BranchDto>();
+        branchs.forEach(action -> {
+            BranchDto branchDto = new BranchDto();
+            BeanUtils.copyProperties(action, branchDto);
+            branchsDto.add(branchDto);
+        });
+        return branchsDto;
+    }
+
+    @Override
+    public Set<BranchDto> selectBranchByDirectorDto(Long idDirector) {
+        Optional<User> userOptional = userService.findById(idDirector);
+        Optional<Employee> employeeOptional = employeeService.findEmployeeByUser(userOptional.get());
+        Optional<Shop> shopOptional = shopService.findShopByDirector(employeeOptional.get());
+        Shop shop = shopOptional.get();
+        return modelToDto(shop.getBranchs());
+    }
+
+    @Override
+    public Branch getMainBranchByBranch(Long id) {
+        Optional<Branch> branch = branchRepository.findById(id);
+        if (branch.isPresent()) {
+            Shop shop = branch.get().getShop();
+            Set<Branch> branchs = shop.getBranchs();
+            return branchs.stream().filter(b -> b.getIsMain() == true).findAny().orElse(null);
+        } else {
+            throw new BadRequestException("Không tìm thấy chi nhánh");
+        }
+    }
 }

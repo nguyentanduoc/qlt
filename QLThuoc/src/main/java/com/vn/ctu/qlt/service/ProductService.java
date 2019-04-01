@@ -109,4 +109,6 @@ public interface ProductService {
 	 * @return list {@link ProductOfBranchDto}
 	 */
 	public List<ProductOfBranchDto> getAllProductByBranch(BranchDto branchDto);
+
+	public Double getPriceByBranch(Long productId);
 }

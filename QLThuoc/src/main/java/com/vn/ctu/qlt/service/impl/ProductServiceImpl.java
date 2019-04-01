@@ -568,6 +568,16 @@ public class ProductServiceImpl implements ProductService {
             productsOfBranchDto.add(new ProductOfBranchDto(selectionDto, element.getAmount()));
 
         });
+
         return productsOfBranchDto;
+    }
+
+    @Override
+    public Double getPriceByBranch(Long productId){
+        Double price = new Double(0);
+        Product product = getProductById(productId);
+        List<PriceHistory> priceHistories = product.getPriceHistorys();
+        priceHistories.sort((p1,p2) -> p1.getDate().compareTo(p2.getDate()));
+        return  priceHistories.get(0).getPrice();
     }
 }

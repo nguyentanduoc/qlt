@@ -36,5 +36,6 @@
 	<include file="changelog/1553971738_created_spec_level_and_price_of_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1553972077_edited_table_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1554006384_add_nav_spec_level_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1554155932_insert_data_spec_level_branch.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

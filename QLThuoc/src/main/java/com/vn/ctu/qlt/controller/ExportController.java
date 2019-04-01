@@ -4,10 +4,8 @@ import com.vn.ctu.qlt.dto.BranchSaveExport;
 import com.vn.ctu.qlt.dto.ProductAndBranchId;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.dto.UnitDto;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Product;
-import com.vn.ctu.qlt.model.ProductOfBranch;
-import com.vn.ctu.qlt.model.Unit;
+import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
@@ -49,8 +47,16 @@ public class ExportController {
         ProductOfBranch productOfBranchAmount = productsOfBranch.stream().filter(productOfBranch -> {
             return productOfBranch.getProduct().getId().equals(productAndBranchId.getProductId());
         }).findAny().orElse(null);
-        response.put("quantity", productOfBranchAmount.getAmount());
-        return ResponseEntity.ok().body(response);
+        Double priceProduct = productService.getPriceByBranch(productAndBranchId.getProductId());
+        if(branch.getSpecLevelBranch() != null) {
+            Double price = priceProduct * branch.getSpecLevelBranch().getPercentProfit();
+            response.put("quantity", productOfBranchAmount.getAmount());
+            response.put("price", price);
+            return ResponseEntity.ok().body(response);
+        } else {
+            throw new BadRequestException("Chi nhánh chưa được xếp cấp độ");
+        }
+
     }
 
     @PostMapping(path="/save")
