@@ -39,7 +39,7 @@
 			<column name="ma_danh_muc_cha" type="bigint">
 				<constraints nullable="true" />
 			</column>
-			<column name="la_chi_nhanh_chinh" type="boolean">
+			<column name="la_chi_nhanh_chinh" type="int">
 				<constraints nullable="true" />
 			</column>
 		</createTable>
@@ -62,7 +62,7 @@
 			<column name="co_danh_muc_con" type="boolean" />
 			<column name="la_danh_muc_cha" type="boolean" />
 			<column name="ma_danh_muc_cha" type="numeric" />
-			<column name="la_chi_nhanh_chinh" type="boolean"/>
+			<column name="la_chi_nhanh_chinh" type="numeric"/>
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

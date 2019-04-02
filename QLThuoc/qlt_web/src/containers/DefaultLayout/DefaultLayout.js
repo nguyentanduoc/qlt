@@ -69,41 +69,32 @@ class DefaultLayout extends Component {
                   {
                     routes.map((route, idx) => {
                       if (route.component && _.intersectionWith(this.props.authReducer.authorities, route.roles, _.isEqual)) {
-                        return (<Route
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          name={route.name}
-                          render={props => (
-                            <route.component {...props} />
-                          )}/>)
-                        // if (typeof (route.isMainBranch)==='boolean' ) {
-                        //   if (this.props.authReducer.branch &&
-                        //     this.props.authReducer.branch.isMain === route.isMainBranch) {
-                        //     return (<Route
-                        //       key={idx}
-                        //       path={route.path}
-                        //       exact={route.exact}
-                        //       name={route.name}
-                        //       render={props => (
-                        //         <route.component {...props} />
-                        //       )}/>)
-                        //   } else {
-                        //     console.log(route);
-                        //     return null;
-                        //   }
-                        // } else {
-                        //   return (<Route
-                        //     key={idx}
-                        //     path={route.path}
-                        //     exact={route.exact}
-                        //     name={route.name}
-                        //     render={props => (
-                        //       <route.component {...props} />
-                        //     )}/>)
-                        // }
+                        if (typeof (route.isMainBranch)==='boolean' ) {
+                          if (this.props.authReducer.branch &&
+                            this.props.authReducer.branch.isMain === route.isMainBranch) {
+                            return (<Route
+                              key={idx}
+                              path={route.path}
+                              exact={route.exact}
+                              name={route.name}
+                              render={props => (
+                                <route.component {...props} />
+                              )}/>)
+                          } else {
+                            console.log(route);
+                            return null;
+                          }
+                        } else {
+                          return (<Route
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            name={route.name}
+                            render={props => (
+                              <route.component {...props} />
+                            )}/>)
+                        }
                       } else {
-                        // console.log(route);
                         return null;
                       }
                     })

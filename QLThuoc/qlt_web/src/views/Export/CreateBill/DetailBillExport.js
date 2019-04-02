@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Card, CardBody, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import {Table, Button, Icon} from "antd";
-import {save} from '../../../actions/exportAction';
+import {save, deleteExport} from '../../../actions/exportAction';
 import NumberFormat from 'react-number-format';
 
 class DetailBillExport extends Component {
@@ -23,6 +23,9 @@ class DetailBillExport extends Component {
       dataSubmits: dataSubmits
     })
   }
+  delete = (record) => {
+    this.props.onDeleteExport(record);
+  }
 
   render() {
     const {dataViews, total} = this.props.exportReducer;
@@ -31,7 +34,7 @@ class DetailBillExport extends Component {
         <CardBody>
           <Row>
             <Col md={4}>
-              <Button disabled={dataViews.length <= 0} onClick={this.submit}>Hoàn Tất</Button>
+              <Button disabled={dataViews.length <= 0} onClick={this.submit} type={"primary"}>Hoàn Tất</Button>
             </Col>
             <Col md={'8'}>
               <Row>
@@ -39,7 +42,7 @@ class DetailBillExport extends Component {
                   <FormGroup inline={true} row>
                     <Label md={5}>Thành tiền</Label>
                     <Col md={7}>
-                      <NumberFormat displayType={'text'} thousandSeparator={true} value={total} className={'form-control text-right'}/>
+                      <NumberFormat displayType={'input'} thousandSeparator={true} value={total} className={'form-control text-right'}/>
                     </Col>
                   </FormGroup>
                 </Col>
@@ -72,9 +75,12 @@ class DetailBillExport extends Component {
               dataIndex={'action'}
               key={'action'}
               render={(text, record) => (
-                <span>
-                  <Button htmlType={'button'} type="danger"><Icon type="minus" /></Button>
-                </span>
+                <Button
+                  htmlType={'button'}
+                  type="danger"
+                  size={'default'}
+                  icon={'minus-circle'}
+                  onClick={this.delete.bind(this,record)}/>
               )}/>
           </Table>
         </CardBody>
@@ -88,9 +94,8 @@ const mapStateToProps = (state) => ({
   authenticationReducer: state.auth
 });
 const mapDispatchToProps = (dispatch) => ({
-  onSave: (data) => {
-    return dispatch(save(data));
-  }
+  onSave: (data) => dispatch(save(data)),
+  onDeleteExport: (data) => dispatch(deleteExport(data))
 });
 export default connect(
   mapStateToProps, mapDispatchToProps

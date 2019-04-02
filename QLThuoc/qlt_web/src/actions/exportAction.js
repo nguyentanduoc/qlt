@@ -69,9 +69,11 @@ export const getInventory = (data) => {
     }
   }
 };
-export const getInventorySuccess = (data) => {
-  return {
-    type: ACTION_TYPES.EXPORT.GET_INVENTORY,
-    payload: data
-  }
-};
+export const getInventorySuccess = (data) => ({
+  type: ACTION_TYPES.EXPORT.GET_INVENTORY,
+  payload: data
+});
+export const deleteExport = (record) => ({
+  type: ACTION_TYPES.EXPORT.DELETE,
+  payload: record
+});

@@ -15,6 +15,15 @@ export const showAlertAndReset = () => {
   }
 }
 
+export const showAlertErrorAndReset = (message) => {
+  return dispatch => {
+    dispatch(showError(message));
+    setTimeout(() => {
+      dispatch(resetAlert());
+    }, 3000)
+  }
+}
+
 export const showAlertSuccess = () => {
   return {
     type: ALERT_ACTIONS.IS_SUCCESS,
@@ -23,23 +32,26 @@ export const showAlertSuccess = () => {
 }
 
 export const showAlertFail = (err) => {
-  let message;
-  if(typeof(err)==='object' && typeof(err.response) ===  'object' ) {
-    switch(err.response.data.status){
-      case 404:  message = 'Không tìm thấy url'; break;
-      default:
-        message = err.response.data.message
-    }
-  } else {
-    if(typeof(err)=== 'string') {
-      message = err;
+  return (dispatch) => {
+    let message;
+    if(typeof(err)==='object' && typeof(err.response) ===  'object' ) {
+      switch(err.response.data.status){
+        case 404:  message = 'Không tìm thấy url'; break;
+        default:
+          message = err.response.data.message
+      }
     } else {
-      message = err.toString();
+      if(typeof(err)=== 'string') {
+        message = err;
+      } else {
+        message = err.toString();
+      }
     }
-  }
-  return {
-    type: ALERT_ACTIONS.IS_ERRORED,
-    payload: message
+    dispatch(showError(message));
   }
 }
+export const showError = (message) => ({
+  type: ALERT_ACTIONS.IS_ERRORED,
+  payload: message
+})
 

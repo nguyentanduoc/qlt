@@ -52,6 +52,16 @@ export default (state = initState, {type, payload}) => {
     case ACTION_TYPES.EXPORT.GET_INVENTORY:
       return {...state, inventory: payload};
 
+    case ACTION_TYPES.EXPORT.DELETE:
+      const dataViewMinus = _.filter(state.dataViews, (o) => {
+        return o.productName !== payload.productName
+      });
+      const dataSubmitMinus = _.filter(state.dataSubmits, (o) => {
+        return o.product.label !== payload.productName
+      });
+      const totalMinus = state.total - payload.amount * payload.price;
+      return {...state, dataViews: dataViewMinus, dataSubmits: dataSubmitMinus, total: totalMinus}
+
     default:
       return state;
   }

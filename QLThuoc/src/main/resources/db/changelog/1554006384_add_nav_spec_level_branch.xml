@@ -10,14 +10,14 @@
                   schemaName="public" tableName="danh_muc">
             <column name="ma" type="numeric"/>
             <column name="ma_huy_hieu" type="numeric"/>
-            <column name="ten" type="STRING"/>
-            <column name="url" type="STRING"/>
+            <column name="ten" type="string"/>
+            <column name="url" type="string"/>
             <column name="tieu_de" type="BOOLEAN"/>
             <column name="so_thu_tu" type="numeric"/>
-            <column name="co_danh_muc_con" type="BOOLEAN"/>
-            <column name="la_danh_muc_cha" type="BOOLEAN"/>
+            <column name="co_danh_muc_con" type="boolean"/>
+            <column name="la_danh_muc_cha" type="boolean"/>
             <column name="ma_danh_muc_cha" type="numeric"/>
-            <column name="la_chi_nhanh_chinh" type="boolean"/>
+            <column name="la_chi_nhanh_chinh" type="numeric"/>
         </loadData>
     </changeSet>
     <changeSet id="02" author="ntduoc">

@@ -5,6 +5,9 @@ import DetailBillExport from "./DetailBillExport";
 import {Form, Input, Button} from 'antd';
 import {getAllProduct, getSpecUnit, setListDetail, getInventory} from '../../../actions/exportAction';
 import Select from 'react-select';
+import _ from 'lodash';
+import {showAlertErrorAndReset} from '../../../actions/alertAction';
+import AlertCommon from '../../Common/AlertCommon'
 
 class CreateBill extends Component {
   constructor(props) {
@@ -54,16 +57,21 @@ class CreateBill extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    const {priceHistory} = this.props.exportReducer;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onSetListDetail({
-          product: this.state.product,
-          specUnit: this.state.specUnit,
-          price: values.price,
-          amount: values.amount,
-          priceHistory: priceHistory
-        });
+        const {priceHistory, dataSubmits} = this.props.exportReducer;
+        const compare = _.find(dataSubmits, (o) => this.state.product.value === o.product.value)
+        if(typeof(compare) === 'undefined'){
+          this.props.onSetListDetail({
+            product: this.state.product,
+            specUnit: this.state.specUnit,
+            price: values.price,
+            amount: values.amount,
+            priceHistory: priceHistory
+          });
+        } else {
+          this.props.onShowAlertErrorAndReset("Sản Phẩm đã được thêm vào trước đó");
+        }
       }
     });
   };
@@ -77,11 +85,11 @@ class CreateBill extends Component {
           Tạo Hóa Đơn Bán Hàng
         </CardHeader>
         <CardBody>
-          <Button htmlType={'button'} onClick={this.printPdf}> click</Button>
           <Row>
             <Col md={4}>
               <Card>
                 <CardBody>
+                  <AlertCommon/>
                   <Row>
                     <Col md={6}>
                       <Form.Item label={"Số lượng tồn"}>
@@ -125,7 +133,7 @@ class CreateBill extends Component {
                           validator: this.validateAmount,
                         }],
                       })(
-                        <Input type="number" disabled={this.state.product === null && this.state.specUnit === null}/>
+                        <Input type="number" disabled={typeof(this.state.product.value) === 'undefined' || typeof(this.state.specUnit.value) === 'undefined'}/>
                       )}
                     </Form.Item>
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>Thêm Sản Phẩm</Button>
@@ -148,17 +156,11 @@ const mapStateToProps = (state) => ({
   exportReducer: state.exportReducer
 });
 const mapDispatchToProps = (dispatch) => ({
-  onGetAllProduct: (branch) => (
-    dispatch(getAllProduct(branch))
-  ),
-  onGetSpecUnit: (productId, branchId) => (
-    dispatch(getSpecUnit(productId, branchId))
-  ),
-  onSetListDetail: (data) => (
-    dispatch(setListDetail(data))
-  ),
-  onGetInventory: (data) =>
-    (dispatch(getInventory(data)))
+  onGetAllProduct: (branch) => dispatch(getAllProduct(branch)),
+  onGetSpecUnit: (productId, branchId) => dispatch(getSpecUnit(productId, branchId)),
+  onSetListDetail: (data) => dispatch(setListDetail(data)),
+  onGetInventory: (data) => dispatch(getInventory(data)),
+  onShowAlertErrorAndReset: (message) => dispatch(showAlertErrorAndReset(message))
 });
 const createBillForm = Form.create({name: 'register'})(CreateBill);
 export default connect(mapStateToProps, mapDispatchToProps)(createBillForm);

@@ -95,5 +95,5 @@ public class Navigration {
 	private Long idParent;
 
 	@Column(name="la_chi_nhanh_chinh")
-	private Boolean isMain;
+	private Integer isMain;
 }

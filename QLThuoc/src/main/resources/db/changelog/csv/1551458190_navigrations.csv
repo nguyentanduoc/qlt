@@ -1,5 +1,5 @@
 ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha,la_chi_nhanh_chinh
-6,null,Quản Trị Cửa Hàng,/director,fas fa-users-cog,false,200,true,false,,
-7,null,Chi Nhánh,/director/branch,fas fa-code-branch,false,201,false,true,6,
-8,null,Nhân Viên,/director/employee,fas fa-user-plus,false,202,false,true,6,
-9,null,Thông Tin Cửa Hàng,/director/shop,fas fa-store-alt,false,203,false,true,6,
+6,null,Quản Trị Cửa Hàng,/director,fas fa-users-cog,false,200,true,false,,0
+7,null,Chi Nhánh,/director/branch,fas fa-code-branch,false,201,false,true,6,0
+8,null,Nhân Viên,/director/employee,fas fa-user-plus,false,202,false,true,6,0
+9,null,Thông Tin Cửa Hàng,/director/shop,fas fa-store-alt,false,203,false,true,6,0
