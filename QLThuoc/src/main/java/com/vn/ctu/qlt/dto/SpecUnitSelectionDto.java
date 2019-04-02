@@ -6,6 +6,9 @@ import com.vn.ctu.qlt.model.SpecUnit;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * The Class SpectUnitSelectionDto.
  *
@@ -19,9 +22,13 @@ public class SpecUnitSelectionDto implements Serializable {
 	private static final long serialVersionUID = 1850806046481045442L;
 
 	/** The value. */
+	@NotNull
+	@NotBlank
 	private Long value;
 
 	/** The label. */
+	@NotNull
+	@NotBlank
 	private String label;
 
 	/**

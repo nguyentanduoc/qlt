@@ -5,12 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -19,6 +14,7 @@ import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -188,10 +184,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductBySelection(ProductSelectionDto productSelection) {
         Optional<Product> productOptional = productRepository.findById(productSelection.getValue());
-        if (productOptional.isPresent()) {
-            return productOptional.get();
-        }
-        return null;
+        return productOptional.orElse(null);
     }
 
     /*
@@ -270,9 +263,6 @@ public class ProductServiceImpl implements ProductService {
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
             throw e;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
         }
     }
 
@@ -308,20 +298,18 @@ public class ProductServiceImpl implements ProductService {
      */
     private void saveProductOfBranch(Long productId, Long branchId, Double amount, Long spectUnit) {
         Product product;
-        Unit unitOfProduct;
         SpecUnit specUnit;
         try {
             ProductOfBranchDao productOfBranch = selectProductOfBranch(productId, branchId);
             Optional<Product> productOptional = productRepository.findById(productId);
             if (productOptional.isPresent()) {
                 product = productOptional.get();
-                unitOfProduct = product.getUnit();
                 specUnit = specUnitService.getById(spectUnit);
                 if (productOfBranch != null) {
                     updateProductOfBranch(productId, branchId,
-                            pushAmount(unitOfProduct, specUnit, productOfBranch, amount, product));
+                            pushAmount(specUnit, productOfBranch, amount, product));
                 } else {
-                    insertProductOfBranch(productId, branchId, pushAmount(unitOfProduct, specUnit, amount, product));
+                    insertProductOfBranch(productId, branchId, pushAmount(specUnit, amount, product));
                 }
             } else {
                 throw new ProductException("Sản phẩm không tồn tại");
@@ -335,31 +323,30 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Push amount.
      *
-     * @param unitOfProduct   the unit of product
      * @param specUnit        the spec unit
      * @param productOfBranch the product of branch
      * @param amount          the amount
      * @param product         the product
-     * @return the double
+     * @return the Double
      */
-    private double pushAmount(Unit unitOfProduct, SpecUnit specUnit, ProductOfBranchDao productOfBranch, Double amount,
-                              Product product) {
+    @Override
+    public Double pushAmount(SpecUnit specUnit, ProductOfBranchDao productOfBranch, Double amount, Product product) {
         double countAmount = 0d;
         SpecUnit straightUnit;
-        if (unitOfProduct.getId().equals(specUnit.getUnitIn().getId())) {
+        if (product.getUnit().getId().equals(specUnit.getUnitIn().getId())) {
             countAmount = productOfBranch.getAmount() + amount;
         } else {
-            if (unitOfProduct.getId().equals(specUnit.getUnitOut().getId())) {
+            if (product.getUnit().getId().equals(specUnit.getUnitOut().getId())) {
                 countAmount = (amount * specUnit.getAmount()) + productOfBranch.getAmount();
             } else {
                 List<SpecUnit> specUnitsOfProduct = product.getSpecUnits();
                 straightUnit = specUnitsOfProduct.stream()
                         .filter(predicate -> specUnit.getUnitIn().equals(predicate.getUnitOut())).findAny().orElse(null);
                 if (straightUnit != null) {
-                    double remainder = amount.doubleValue() / straightUnit.getAmount().doubleValue();
-                    countAmount = productOfBranch.getAmount() + remainder;
+                    countAmount = productOfBranch.getAmount() + amount / straightUnit.getAmount().doubleValue();
+                    ;
                 } else {
-                    logger.error("pushAmount: not found straightUnit" );
+                    logger.error("pushAmount: not found straightUnit");
                     throw new SpecOfProductException("Định nghĩa dư liệu không tồn tại");
                 }
             }
@@ -370,31 +357,21 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Push amount.
      *
-     * @param unitOfProduct the unit of product
-     * @param specUnit      the spec unit
-     * @param amount        the amount
-     * @param product       the product
+     * @param specUnit the spec unit
+     * @param amount   the amount
+     * @param product  the product
      * @return the double
      */
-    private double pushAmount(Unit unitOfProduct, SpecUnit specUnit, Double amount, Product product) {
-        double countAmount = 0d;
-        SpecUnit straightUnit;
-        if (unitOfProduct.getId().equals(specUnit.getUnitIn().getId())) {
-            countAmount = amount;
-        } else if (unitOfProduct.getId().equals(specUnit.getUnitOut().getId())) {
-            countAmount = (amount * specUnit.getAmount());
+    @Override
+    public Double pushAmount(SpecUnit specUnit, Double amount, Product product) {
+        Unit unit = product.getUnit();
+        if (unit.equals(specUnit.getUnitIn())) {
+            return amount;
+        } else if (unit.equals(specUnit.getUnitOut())) {
+            return (amount * specUnit.getAmount());
         } else {
-            List<SpecUnit> specUnitsOfProduct = product.getSpecUnits();
-            straightUnit = specUnitsOfProduct.stream()
-                    .filter(predicate -> specUnit.getUnitIn().equals(predicate.getUnitOut())).findAny().orElse(null);
-            if (straightUnit != null) {
-                double remainder = amount.doubleValue() / straightUnit.getAmount().doubleValue();
-                countAmount = remainder;
-            } else {
-                throw new SpecOfProductException("Định nghĩa dư liệu không tồn tại");
-            }
+            return amount / specUnit.getAmount();
         }
-        return countAmount;
     }
 
     /**
@@ -420,9 +397,6 @@ public class ProductServiceImpl implements ProductService {
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
             throw e;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
         }
     }
 
@@ -437,7 +411,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             StringBuilder sql = new StringBuilder();
             sql.append("INSERT INTO public.san_pham_chi_nhanh(ma_san_pham, ma_chi_nhanh, so_luong)VALUES(?, ?, ?)");
-            jdbcTemplate.update(sql.toString(), new Object[]{productId, branchId, amount});
+            jdbcTemplate.update(sql.toString(), productId, branchId, amount);
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
             throw e;
@@ -451,11 +425,11 @@ public class ProductServiceImpl implements ProductService {
      * @param branchId  the branch id
      * @param amount    the amount
      */
-    private void updateProductOfBranch(Long productId, Long branchId, Double amount) {
+    public void updateProductOfBranch(Long productId, Long branchId, Double amount) {
         try {
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE public.san_pham_chi_nhanh SET so_luong= ? WHERE ma_san_pham=? AND ma_chi_nhanh=?;");
-            jdbcTemplate.update(sql.toString(), new Object[]{amount, productId, branchId});
+            jdbcTemplate.update(sql.toString(), amount, productId, branchId);
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
             throw e;
@@ -501,9 +475,9 @@ public class ProductServiceImpl implements ProductService {
 
             if (products.size() > 0) {
                 List<ProductSelectionDto> result = new ArrayList<ProductSelectionDto>();
-                products.forEach(action -> {
-                    result.add(new ProductSelectionDto(action.getId(), action.getProductName() + "[" + action.getProducer().getProducerName() + "]"));
-                });
+                products.forEach(action -> result.add(
+                        new ProductSelectionDto(action.getId(),
+                                action.getProductName() + "[" + action.getProducer().getProducerName() + "]")));
                 return result;
             } else {
                 throw new BadRequestException("Không tìm thấy sản phẩm");
@@ -573,11 +547,54 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Double getPriceByBranch(Long productId){
-        Double price = new Double(0);
+    public PriceHistory getPriceByBranch(Long productId) {
+        Double price = (double) 0;
         Product product = getProductById(productId);
         List<PriceHistory> priceHistories = product.getPriceHistorys();
-        priceHistories.sort((p1,p2) -> p1.getDate().compareTo(p2.getDate()));
-        return  priceHistories.get(0).getPrice();
+        priceHistories.sort(Comparator.comparing(PriceHistory::getDate));
+        return priceHistories.get(0);
+    }
+
+    @Override
+    public Double getInventory(ProductAndSpecUnit productAndSpecUnit) {
+        Product product = getProductById(productAndSpecUnit.getProductId());
+        SpecUnit specUnit = specUnitService.getById(productAndSpecUnit.getSpecUnitId());
+        Branch branch = branchService.getBranchById(productAndSpecUnit.getBranchId());
+        List<ProductOfBranch> productsOfBranch = branch.getProductsOfBranch();
+        ProductOfBranch productOfBranch = productsOfBranch.stream().filter(predicate -> predicate.getProduct().equals(product)).findAny().orElse(null);
+
+        Unit unitProduct = product.getUnit();
+        assert productOfBranch != null;
+        if (specUnit.getUnitIn().equals(unitProduct)) {
+            return productOfBranch.getAmount();
+        } else if (unitProduct.equals(specUnit.getUnitOut())) {
+            return (productOfBranch.getAmount() / specUnit.getAmount());
+        } else {
+            return productOfBranch.getAmount() * specUnit.getAmount();
+        }
+    }
+
+    @Override
+    public ProductDtoForExport getProductForExport(Long id) {
+        ProductDtoForExport productDtoForExport = new ProductDtoForExport();
+        Product product = getProductById(id);
+        Set<SpecUnitDto> specUnitsDto = new HashSet<>();
+        BeanUtils.copyProperties(product, productDtoForExport);
+        product.getSpecUnits().forEach(action -> {
+            SpecUnitDto specUnitDto = new SpecUnitDto();
+            UnitDto unitOut = new UnitDto();
+            UnitDto unitIn = new UnitDto();
+            BeanUtils.copyProperties(action.getUnitOut(), unitOut);
+            BeanUtils.copyProperties(action.getUnitIn(), unitIn);
+            BeanUtils.copyProperties(action, specUnitDto);
+            specUnitDto.setUnitIn(unitIn);
+            specUnitDto.setUnitOut(unitOut);
+            specUnitsDto.add(specUnitDto);
+        });
+        UnitDto unit = new UnitDto();
+        BeanUtils.copyProperties(product.getUnit(), unit);
+        productDtoForExport.setSpecUnits(specUnitsDto);
+        productDtoForExport.setUnit(unit);
+        return productDtoForExport;
     }
 }

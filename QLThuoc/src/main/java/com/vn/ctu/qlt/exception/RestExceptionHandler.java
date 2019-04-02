@@ -15,23 +15,31 @@ import com.vn.ctu.qlt.payload.ApiError;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = {BadCredentialsException.class})
-	protected ResponseEntity<ApiError> BadCredentialsException(BadCredentialsException ex) {
+	public ResponseEntity<ApiError> badCredentialsException(BadCredentialsException ex) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage("Sai tên tài khoản hoặc mật khẩu!");
-		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
+		apiError.setDebugMessage(ex.getMessage());
+		return ResponseEntity.badRequest().body(apiError);
 	}
 	
 	@ExceptionHandler(value = {UsernameNotFoundException.class})
-	protected ResponseEntity<ApiError> NotFound(Exception ex) {
+	public ResponseEntity<ApiError> notFound(Exception ex) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage(ex.getMessage());
-		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
+		return ResponseEntity.badRequest().body(apiError);
 	}
 	
 	@ExceptionHandler(value = {DataIntegrityViolationException.class})
-	protected ResponseEntity<ApiError> duplicateData(Exception ex) {
+	public ResponseEntity<ApiError> duplicateData(Exception ex) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
-		apiError.setMessage("Dữ liệu đã tồn tại");
-		return new ResponseEntity<ApiError>(apiError, apiError.getStatus());
+		apiError.setMessage(ex.getMessage());
+		return ResponseEntity.badRequest().body(apiError);
+	}
+
+	@ExceptionHandler(value = AssertionError.class)
+	public ResponseEntity<ApiError> assertionError(Exception ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+		apiError.setMessage(ex.getMessage());
+		return ResponseEntity.badRequest().body(apiError);
 	}
 }

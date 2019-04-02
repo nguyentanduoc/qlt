@@ -38,7 +38,7 @@ const columns = [{
   title: 'Đơn Đơn giá',
   dataIndex: 'price',
   key: 'price'
-}]
+}];
 
 export class TableBuy extends Component {
   constructor(props) {
@@ -55,15 +55,15 @@ export class TableBuy extends Component {
     }
   }
 
-  onAddproduct = (e) => {
+  onAddProduct = (e) => {
     e.preventDefault();
     this.toggle();
-  }
+  };
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
     });
-  }
+  };
   handleSeletion = (e, selection) => {
     switch (selection.name) {
       case 'product':
@@ -78,14 +78,14 @@ export class TableBuy extends Component {
       default:
         break;
     }
-  }
+  };
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
       [name]: value
     });
-  }
+  };
   addImport = (e) => {
     e.preventDefault();
     let data = this.state.data;
@@ -103,18 +103,18 @@ export class TableBuy extends Component {
       price: this.state.price
     });
     this.setState({data: data, dataView: dataView});
-  }
+  };
   addImportAndExit = (e) => {
     this.addImport(e);
     this.toggle();
-  }
+  };
   handleChangeDate = (e) => {
 
-  }
+  };
   onSave = (e) => {
     e.preventDefault();
     this.props.onSave(this.state.data, this.props.authenReducer.branch);
-  }
+  };
 
   componentDidUpdate() {
     if (this.props.importProductReducer.saveSuccess) {
@@ -135,6 +135,7 @@ export class TableBuy extends Component {
             <FormGroup>
               <Label htmlFor='dateCreated' className='pr-1'>Ngày Nhập</Label>
               <DatePicker
+                dropdownMode={'scroll'}
                 className="form-control"
                 selected={this.state.createBillDate}
                 dateFormat="dd/MM/yyyy"
@@ -146,10 +147,10 @@ export class TableBuy extends Component {
             <AlertCommon/>
           </Col>
           <Col xs="4" md="4" className="text-right">
-            <Button onClick={this.onAddproduct.bind(this)} size="sm" color="primary" className="btn-brand"><i
-              className="fas fa-plus"></i><span>Thêm Sản Phẩm</span></Button>{' '}
-            <Button size="sm" color="success" onClick={this.onSave.bind(this)}><i
-              className="fa fa-dot-circle-o"></i>{' '}Lưu</Button>
+            <Button onClick={this.onAddProduct.bind(this)} size="sm" color="primary" className="btn-brand">
+              <i className="fas fa-plus"/><span>Thêm Sản Phẩm</span></Button>{' '}
+            <Button size="sm" color="success" onClick={this.onSave.bind(this)}>
+              <i className="fa fa-dot-circle-o"/>{' '}Lưu</Button>
           </Col>
         </Row>
         <Table dataSource={this.state.dataView} columns={columns} rowKey='product'/>

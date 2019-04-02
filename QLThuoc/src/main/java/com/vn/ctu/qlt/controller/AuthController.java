@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.vn.ctu.qlt.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -111,6 +112,7 @@ public class AuthController {
 			UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 			Optional<User> user = userRepository.findById(userPrincipal.getId());
 			Set<String> authorities = new HashSet<String>();
+			if(!user.isPresent()) throw new BadRequestException("không tìm thấy user");
 			for (Role role : user.get().getRoles()) {
 				authorities.add(role.getName().toString());
 			}
