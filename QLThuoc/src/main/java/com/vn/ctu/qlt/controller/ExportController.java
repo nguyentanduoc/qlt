@@ -46,6 +46,7 @@ public class ExportController {
                 .findAny().orElse(null);
         PriceHistory priceHistory = productService.getPriceByBranch(productAndBranchId.getProductId());
         if (branch.getSpecLevelBranch() != null) {
+            Product product = productService.getProductById(productAndBranchId.getProductId());
             Double price = priceHistory.getPrice() + (priceHistory.getPrice() * branch.getSpecLevelBranch().getPercentProfit());
             if (productOfBranchAmount == null)
                 throw new AssertionError("getSpecAndPriceAndQuality: productOfBranchAmount is null");

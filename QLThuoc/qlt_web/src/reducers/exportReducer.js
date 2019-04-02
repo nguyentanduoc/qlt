@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {ACTION_TYPES} from "../constants";
 
 const initState = {
@@ -10,7 +11,8 @@ const initState = {
   dataSubmits: [],
   priceHistory:{},
   inventory: 0,
-  productDto:{}
+  productDto:{},
+  total:0
 };
 export default (state = initState, {type, payload}) => {
   switch (type) {
@@ -23,21 +25,29 @@ export default (state = initState, {type, payload}) => {
       return {...state, product: payload, productSelection: productSelection};
 
     case ACTION_TYPES.EXPORT.GET_SPEC_UNIT_SUCCESS:
-      return {...state, specUnits: payload.specUnits, quantity: payload.quantity, price: payload.price, priceHistory: payload.priceHistory, productDto: payload.productDto};
+      return {...state,
+        specUnits: payload.specUnits,
+        quantity: payload.quantity,
+        price: payload.price,
+        priceHistory: payload.priceHistory,
+        productDto: payload.productDto
+      };
 
     case ACTION_TYPES.EXPORT.SET_DETAIL_BILL:
+      const price = unitPrice(state.productDto, state.specUnitsDto, payload.specUnit,state.price );
       const dataView = {
         productName: payload.product.label,
         amount: payload.amount,
         specUnit: payload.specUnit.label,
-        price: payload.price,
-        priceHistory: payload.priceHistory
+        price: price,
+        priceHistory: payload.priceHistory,
       };
       let dataSubmits = state.dataSubmits;
       let dataViews = state.dataViews;
       dataSubmits.push(payload);
       dataViews.push(dataView);
-      return  {...state, dataSubmits:dataSubmits , dataViews: dataViews};
+      const total = state.total + (price * payload.amount);
+      return  {...state, dataSubmits:dataSubmits , dataViews: dataViews, total: total};
 
     case ACTION_TYPES.EXPORT.GET_INVENTORY:
       return {...state, inventory: payload};
@@ -47,6 +57,18 @@ export default (state = initState, {type, payload}) => {
   }
 }
 
-const totalAmount = (productDto, ) => {
-
+const unitPrice = (productDto, specUnitsDto, specUnitChoose, price) => {
+  const {specUnits} = productDto;
+  const specUnit = _.find(specUnits, function(o){
+    return o.id === specUnitChoose.value;
+  });
+  if(specUnit.unitIn.id === productDto.unit.id){
+    return price;
+  } else {
+    if(productDto.unit.id === specUnit.unitOut.id){
+      return price * specUnit.amount;
+    } else {
+      return price / specUnit.amount;
+    }
+  }
 };

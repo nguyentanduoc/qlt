@@ -41,5 +41,10 @@
                 constraintName="fk_ma_lich_su_gia_chi_tiet_hoa_don_ban_hang" deferrable="true"
                 initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
                 referencedColumnNames="ma" referencedTableName="lich_su_gia"/>
+        <addForeignKeyConstraint
+                baseColumnNames="ma_quy_dinh_don_vi" baseTableName="chi_tiet_hoa_don_ban_hang"
+                constraintName="fk_ma_quy_dinh_don_vi_chi_tiet_hoa_don_ban_hang" deferrable="true"
+                initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+                referencedColumnNames="ma" referencedTableName="quy_dinh_don_vi"/>
     </changeSet>
 </databaseChangeLog>

@@ -77,6 +77,7 @@ class CreateBill extends Component {
           Tạo Hóa Đơn Bán Hàng
         </CardHeader>
         <CardBody>
+          <Button htmlType={'button'} onClick={this.printPdf}> click</Button>
           <Row>
             <Col md={4}>
               <Card>
