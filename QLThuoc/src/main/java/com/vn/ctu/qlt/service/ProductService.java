@@ -1,10 +1,10 @@
 package com.vn.ctu.qlt.service;
 
-import com.vn.ctu.qlt.dto.BranchDto;
-import com.vn.ctu.qlt.dto.ProductOfBranchDto;
-import com.vn.ctu.qlt.dto.ProductSelectionDto;
-import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
+import com.vn.ctu.qlt.dao.ProductOfBranchDao;
+import com.vn.ctu.qlt.dto.*;
+import com.vn.ctu.qlt.model.PriceHistory;
 import com.vn.ctu.qlt.model.Product;
+import com.vn.ctu.qlt.model.SpecUnit;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -110,5 +110,15 @@ public interface ProductService {
 	 */
 	public List<ProductOfBranchDto> getAllProductByBranch(BranchDto branchDto);
 
-	public Double getPriceByBranch(Long productId);
+	public PriceHistory getPriceByBranch(Long productId);
+
+	public Double pushAmount(SpecUnit specUnit, ProductOfBranchDao productOfBranch, Double amount, Product product);
+
+	public Double pushAmount(SpecUnit specUnit, Double amount, Product product);
+
+	public void updateProductOfBranch(Long productId, Long branchId, Double amount);
+
+	public Double getInventory(ProductAndSpecUnit productAndSpecUnit);
+
+	public ProductDtoForExport getProductForExport(Long id);
 }

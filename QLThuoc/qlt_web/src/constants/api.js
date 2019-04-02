@@ -56,7 +56,8 @@ export default {
   },
   EXPORT: {
     GET_SPEC_UNIT_AND_PRICE_AND_QUANLITY_IN_STORE: `${BASE_URI}/api/export/get-spec-and-unit-and-price-and-quantity-in-store`,
-    SAVE:`${BASE_URI}/api/export/save`
+    SAVE:`${BASE_URI}/api/export/save`,
+    GET_INVENTORY: `${BASE_URI}/api/export/get-inventory`,
   },
   SPEC_LEVEL_BRANCH: {
     SAVE: `${BASE_URI}/api/spec-level-branch/save`,

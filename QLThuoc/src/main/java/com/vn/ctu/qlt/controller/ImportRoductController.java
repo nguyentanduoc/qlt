@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vn.ctu.qlt.dto.ImportProductDto;
-import com.vn.ctu.qlt.service.ImportRoductService;
+import com.vn.ctu.qlt.service.ImportProductService;
 import com.vn.ctu.qlt.service.ProductService;
 
 /**
@@ -28,7 +28,7 @@ public class ImportRoductController {
 	private ProductService productService;
 	
 	@Autowired
-	private ImportRoductService importRoductService;
+	private ImportProductService importRoductService;
 	
 	/**
 	 * Inits the.

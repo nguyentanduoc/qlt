@@ -3,15 +3,9 @@ package com.vn.ctu.qlt.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,12 +15,15 @@ import lombok.NoArgsConstructor;
 @Entity(name = "lich_su_gia")
 @Table
 @EqualsAndHashCode
+@AllArgsConstructor
 public class PriceHistory implements Serializable {
 
 	private static final long serialVersionUID = 1899221885017462334L;
 
-	@EmbeddedId
-	private PriceHistoryId id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ma")
+	private Long id;
 
 	@MapsId("shopId")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -43,12 +40,4 @@ public class PriceHistory implements Serializable {
 
 	@Column(name = "don_gia")
 	private Double price;
-
-	public PriceHistory(Shop shop, Product product, Double price) {
-		this.id = new PriceHistoryId(product.getId(), shop.getId());
-		this.shop = shop;
-		this.product = product;
-		this.date = new Date();
-		this.price = price;
-	}
 }

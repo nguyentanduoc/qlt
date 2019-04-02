@@ -44,12 +44,12 @@ export const setListDetail = (data) => {
     type: ACTION_TYPES.EXPORT.SET_DETAIL_BILL,
     payload: data
   }
-}
+};
 export const save = (data) => {
   return async (dispatch) => {
     try {
-      const response =  await Axios.post(API.EXPORT.SAVE, data, headerHelper);
-      if(response.status === 200){
+      const response = await Axios.post(API.EXPORT.SAVE, data, headerHelper);
+      if (response.status === 200) {
         return dispatch(showAlertAndReset());
       } else {
         return dispatch(showAlertFail("Lưu thất bại"));
@@ -58,5 +58,20 @@ export const save = (data) => {
       return dispatch(showAlertFail(e));
     }
   }
-}
-
+};
+export const getInventory = (data) => {
+  return async (dispatch) => {
+    try {
+      const response = await Axios.post(API.EXPORT.GET_INVENTORY, data, headerHelper);
+      return dispatch(getInventorySuccess(response.data));
+    } catch (e) {
+      return dispatch(showAlertFail(e));
+    }
+  }
+};
+export const getInventorySuccess = (data) => {
+  return {
+    type: ACTION_TYPES.EXPORT.GET_INVENTORY,
+    payload: data
+  }
+};

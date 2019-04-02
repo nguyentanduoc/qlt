@@ -7,4 +7,5 @@ public class SaveExportDto {
     private ProductSelectionDto product;
     private SpecUnitSelectionDto specUnit;
     private Double amount;
+    private Long priceHistory;
 }
