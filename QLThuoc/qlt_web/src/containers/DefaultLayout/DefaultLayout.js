@@ -28,12 +28,12 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>;
 
   signOut = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     await this.props.onLogout();
-  }
+  };
 
   componentDidUpdate() {
     if (!this.props.authReducer.isLogin) {
@@ -81,7 +81,6 @@ class DefaultLayout extends Component {
                                 <route.component {...props} />
                               )}/>)
                           } else {
-                            console.log(route);
                             return null;
                           }
                         } else {
@@ -124,8 +123,8 @@ const mapStateToProps = state => {
   return {
     authReducer: state.auth
   }
-}
-const mapDispathToProps = (dispatch) => {
+};
+const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => {
       return dispatch(logout());
@@ -134,5 +133,5 @@ const mapDispathToProps = (dispatch) => {
       return dispatch(resetAlert());
     }
   }
-}
-export default connect(mapStateToProps, mapDispathToProps)(DefaultLayout);
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultLayout);

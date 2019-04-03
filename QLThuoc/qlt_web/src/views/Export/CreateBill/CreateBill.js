@@ -8,6 +8,7 @@ import Select from 'react-select';
 import _ from 'lodash';
 import {showAlertErrorAndReset} from '../../../actions/alertAction';
 import AlertCommon from '../../Common/AlertCommon'
+import ExportBillToPdf from './ExportBillToPDF';
 
 class CreateBill extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class CreateBill extends Component {
   };
 
   render() {
-    const {productSelection, specUnits, inventory, price} = this.props.exportReducer;
+    const {productSelection, specUnits, price, inventory} = this.props.exportReducer;
     const {getFieldDecorator} = this.props.form;
     return (
       <Card>
@@ -143,6 +144,7 @@ class CreateBill extends Component {
             </Col>
             <Col md={8}>
               <DetailBillExport/>
+              <ExportBillToPdf/>
             </Col>
           </Row>
         </CardBody>

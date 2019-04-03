@@ -8,7 +8,6 @@ export const login = (auth) => {
     dispatch(setLoading());
     try {
       const res = await axios.post(API.LOGIN, auth);
-      console.log(res);
       dispatch(loginSuccess(res.data));
     }
     catch (err) {
@@ -20,7 +19,7 @@ export const login = (auth) => {
       }
     }
   }
-}
+};
 export const loginSuccess = (data) => {
   sessionStorage.setItem(LOCAL_STORAGE.IS_LOGIN, true);
   sessionStorage.setItem(LOCAL_STORAGE.ACCESS_KEY, data.jwtAuthenticationResponse.accessToken);
@@ -28,19 +27,16 @@ export const loginSuccess = (data) => {
     type: ACTION_TYPES.AUTH.LOGIN_SUCCESS,
     payload: data
   }
-}
-
+};
 export const loginFail = (err) => {
   return {
     type: ACTION_TYPES.HAS_ERROR,
     payload: err
   }
-}
-
+};
 export const logout = () => {
   return async (dispatch) => {
     try{
-      // const res = await axios.post(API.LOGOUT, null, headerConfig);
       await sessionStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
       await sessionStorage.removeItem(LOCAL_STORAGE.ACCESS_KEY);
       return dispatch(logoutSuccess());
@@ -48,21 +44,20 @@ export const logout = () => {
       return dispatch(showAlertFail("Thoát thất bại"));
     }
   }
-
-}
+};
 export const logoutSuccess = () => {
   return {
     type: ACTION_TYPES.AUTH.LOGOUT
   }
-}
+};
 export const setBranch = (branch) => {
   return {
     type: ACTION_TYPES.AUTH.SET_BRANCH,
     payload: branch
   }
-}
+};
 export const setLoading = () => {
   return {
     type:ACTION_TYPES.AUTH.SET_LOADING
   }
-}
+};

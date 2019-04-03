@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, CardHeader, Col} from "reactstrap";
+import {Card, CardBody, CardHeader} from "reactstrap";
 import {Table} from 'antd';
 import {getAll} from '../../actions/specLevelBranchAction';
 import {resetAlert} from '../../actions/alertAction'

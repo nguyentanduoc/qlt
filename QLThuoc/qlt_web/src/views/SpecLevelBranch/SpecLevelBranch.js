@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row} from 'reactstrap';
-import {Form} from 'antd';
 import FormSpecLevelBranch from "./FormSpecLevelBranch";
 import TableSpecLevelBranch from './TableSpecLevelBranch';
 

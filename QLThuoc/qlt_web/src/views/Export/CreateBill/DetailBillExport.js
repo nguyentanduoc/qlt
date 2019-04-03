@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, Col, FormGroup, Input, Label, Row} from "reactstrap";
-import {Table, Button, Icon} from "antd";
-import {save, deleteExport} from '../../../actions/exportAction';
+import {Card, CardBody, Col, FormGroup, Label, Row, CustomInput} from "reactstrap";
+import {Table, Button} from "antd";
+import {save, deleteExport, setIsPrint} from '../../../actions/exportAction';
 import NumberFormat from 'react-number-format';
+import mathRound from '../../../helpers/decimalAdjustment';
 
 class DetailBillExport extends Component {
   constructor(props) {
@@ -17,32 +18,38 @@ class DetailBillExport extends Component {
     const {dataSubmits} = this.props.exportReducer;
     const {branch} = this.props.authenticationReducer;
     e.preventDefault();
-    console.log(dataSubmits);
     this.props.onSave({
       branch: branch,
       dataSubmits: dataSubmits
     })
-  }
+  };
   delete = (record) => {
     this.props.onDeleteExport(record);
-  }
+  };
+
+  setIsPrint = () => {
+    this.props.onSetIsPrint()
+  };
 
   render() {
-    const {dataViews, total} = this.props.exportReducer;
+    const {dataViews, total, isPrint} = this.props.exportReducer;
     return (
       <Card>
         <CardBody>
           <Row>
             <Col md={4}>
-              <Button disabled={dataViews.length <= 0} onClick={this.submit} type={"primary"}>Hoàn Tất</Button>
+              <CustomInput type="checkbox" id="isPrint" label="In Hóa Đơn" defaultChecked={isPrint}
+                           onClick={this.setIsPrint} inline/>
+              <Button htmlType={'button'} disabled={dataViews.length <= 0} onClick={this.submit} type={"primary"}>Hoàn Tất</Button>
             </Col>
             <Col md={'8'}>
               <Row>
-                <Col md={{size:'8', offset:'4'}}>
+                <Col md={{size: '8', offset: '4'}}>
                   <FormGroup inline={true} row>
                     <Label md={5}>Thành tiền</Label>
                     <Col md={7}>
-                      <NumberFormat displayType={'input'} thousandSeparator={true} value={total} className={'form-control text-right'}/>
+                      <NumberFormat displayType={'input'} thousandSeparator={true} value={mathRound(total, -3)}
+                                    className={'form-control text-right'}/>
                     </Col>
                   </FormGroup>
                 </Col>
@@ -67,7 +74,8 @@ class DetailBillExport extends Component {
               dataIndex={'price'}
               key={'price'}
               render={(text) => (
-                <NumberFormat displayType={'text'} thousandSeparator={true} value={text} disabled={true} className={'form-control text-right'}/>
+                <NumberFormat displayType={'text'} thousandSeparator={true} value={text} disabled={true}
+                              className={'form-control text-right'}/>
               )}
             />
             <Table.Column
@@ -80,7 +88,7 @@ class DetailBillExport extends Component {
                   type="danger"
                   size={'default'}
                   icon={'minus-circle'}
-                  onClick={this.delete.bind(this,record)}/>
+                  onClick={this.delete.bind(this, record)}/>
               )}/>
           </Table>
         </CardBody>
@@ -95,7 +103,8 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   onSave: (data) => dispatch(save(data)),
-  onDeleteExport: (data) => dispatch(deleteExport(data))
+  onDeleteExport: (data) => dispatch(deleteExport(data)),
+  onSetIsPrint: () => dispatch(setIsPrint())
 });
 export default connect(
   mapStateToProps, mapDispatchToProps

@@ -5226,6 +5226,11 @@ html-minifier@^3.2.3:
     relateurl "0.2.x"
     uglify-js "3.4.x"
 
+html-to-image@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/html-to-image/-/html-to-image-0.1.0.tgz#09261dd2831baa5f2f360f9d26625ca24f55c669"
+  integrity sha512-/VLH+jjGQgLDs+BlVDVAzI1rdghYfFWFcPmFHChiD3UHMmckyDuvJpH3N3lli0elJkWfyv/EKrWNXTxm3mg4oQ==
+
 html-webpack-plugin@4.0.0-alpha.2:
   version "4.0.0-alpha.2"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-4.0.0-alpha.2.tgz#7745967e389a57a098e26963f328ebe4c19b598d"
@@ -5239,7 +5244,7 @@ html-webpack-plugin@4.0.0-alpha.2:
     tapable "^1.0.0"
     util.promisify "1.0.0"
 
-html2canvas@1.0.0-alpha.12:
+html2canvas@1.0.0-alpha.12, html2canvas@^1.0.0-alpha.12:
   version "1.0.0-alpha.12"
   resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.0.0-alpha.12.tgz#3b1992e3c9b3f56063c35fd620494f37eba88513"
   integrity sha1-OxmS48mz9WBjw1/WIElPN+uohRM=
@@ -6583,6 +6588,11 @@ jsonify@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
   integrity sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=
+
+jspdf-customfonts@^0.0.4-rc.4:
+  version "0.0.4-rc.4"
+  resolved "https://registry.yarnpkg.com/jspdf-customfonts/-/jspdf-customfonts-0.0.4-rc.4.tgz#9ae8e75e13e9797ffbcb29055a93809610f1f0de"
+  integrity sha512-88gO7B2cZQDGqnpFRJ1XztI94ofZTcq9a3KJBXZpMDhg7Z8JGYOpAj+LfCLaXoMH5oW21E4UL69XXXR5liI99w==
 
 jspdf@^1.5.3:
   version "1.5.3"

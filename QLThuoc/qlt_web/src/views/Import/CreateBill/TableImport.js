@@ -1,11 +1,13 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Table} from 'antd'
-import Select from 'react-select'
-import {getSpecUnit, save, resetSaveSuccess} from '../../../actions/importProductAction'
-import DatePicker from 'react-datepicker'
-import AlertCommon from '../../Common/AlertCommon'
-import {resetAlert} from '../../../actions/alertAction'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Table} from 'antd';
+import Select from 'react-select';
+import {getSpecUnit, save, resetSaveSuccess} from '../../../actions/importProductAction';
+import DatePicker from 'react-datepicker';
+import AlertCommon from '../../Common/AlertCommon';
+import {resetAlert} from '../../../actions/alertAction';
+import NumberFormat from 'react-number-format';
+import _ from 'lodash';
 import {
   Button,
   Row,
@@ -20,7 +22,8 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-} from 'reactstrap'
+  Alert
+} from 'reactstrap';
 
 const columns = [{
   title: 'Tên Sản Phẩm',
@@ -52,6 +55,7 @@ export class TableBuy extends Component {
       amount: 0,
       price: 0,
       createBillDate: new Date(),
+      isError: false
     }
   }
 
@@ -62,9 +66,10 @@ export class TableBuy extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
+      isError: false
     });
   };
-  handleSeletion = (e, selection) => {
+  handleSelection = (e, selection) => {
     switch (selection.name) {
       case 'product':
         this.props.onGetSpecUnit(e.value);
@@ -90,30 +95,32 @@ export class TableBuy extends Component {
     e.preventDefault();
     let data = this.state.data;
     let dataView = this.state.dataView;
-    data.push({
-      product: this.state.product,
-      specUnit: this.state.specUnit,
-      amount: this.state.amount,
-      price: this.state.price
-    });
-    dataView.push({
-      product: this.state.product.label,
-      specUnit: this.state.specUnit.label,
-      amount: this.state.amount,
-      price: this.state.price
-    });
-    this.setState({data: data, dataView: dataView});
+    const compare = _.find(data, (o) => o.product.value === this.state.product.value);
+    if (typeof (compare) === 'undefined') {
+      data.push({
+        product: this.state.product,
+        specUnit: this.state.specUnit,
+        amount: this.state.amount,
+        price: parseFloat(this.state.price)
+      });
+      dataView.push({
+        product: this.state.product.label,
+        specUnit: this.state.specUnit.label,
+        amount: this.state.amount,
+        price: parseFloat(this.state.price)
+      });
+      this.setState({data: data, dataView: dataView, isError: false});
+    } else {
+      this.setState({isError: true})
+    }
   };
   addImportAndExit = (e) => {
     this.addImport(e);
     this.toggle();
   };
-  handleChangeDate = (e) => {
-
-  };
   onSave = (e) => {
     e.preventDefault();
-    this.props.onSave(this.state.data, this.props.authenReducer.branch);
+    this.props.onSave(this.state.data, this.props.authenticationReducer.branch);
   };
 
   componentDidUpdate() {
@@ -121,11 +128,11 @@ export class TableBuy extends Component {
       this.setState({data: [], dataView: []});
       this.props.onResetSaveSuccess();
     }
-  }
+  };
 
   componentWillUnmount() {
     this.props.onResetAlert();
-  }
+  };
 
   render() {
     return (
@@ -136,11 +143,12 @@ export class TableBuy extends Component {
               <Label htmlFor='dateCreated' className='pr-1'>Ngày Nhập</Label>
               <DatePicker
                 dropdownMode={'scroll'}
-                className="form-control"
+                className="form-control text-right"
                 selected={this.state.createBillDate}
                 dateFormat="dd/MM/yyyy"
-                onChange={this.handleChangeDate.bind(this)}
-                name='dateCreated'/>
+                onChange={() => {
+                }}
+                name='dateCreated' disabled={true}/>
             </FormGroup>
           </Col>
           <Col xs="4" md="4" className="text-right">
@@ -149,19 +157,22 @@ export class TableBuy extends Component {
           <Col xs="4" md="4" className="text-right">
             <Button onClick={this.onAddProduct.bind(this)} size="sm" color="primary" className="btn-brand">
               <i className="fas fa-plus"/><span>Thêm Sản Phẩm</span></Button>{' '}
-            <Button size="sm" color="success" onClick={this.onSave.bind(this)}>
+            <Button size="sm" color="success" onClick={this.onSave.bind(this)} disabled={this.state.data.length <= 0}>
               <i className="fa fa-dot-circle-o"/>{' '}Lưu</Button>
           </Col>
         </Row>
-        <Table dataSource={this.state.dataView} columns={columns} rowKey='product'/>
+        <Table dataSource={this.state.dataView} columns={columns} rowKey='product' bordered={true}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)}>
           <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>
           <ModalBody>
+            <Alert color="danger" isOpen={this.state.isError}>
+              Sẩn phẩm đã được nhập
+            </Alert>
             <FormGroup>
               <Label htmlFor=''>Sản Phẩm</Label>
               <Select
                 options={this.props.importProductReducer.products}
-                onChange={this.handleSeletion.bind(this)}
+                onChange={this.handleSelection.bind(this)}
                 isMulti={false}
                 name="product"
               />
@@ -170,7 +181,7 @@ export class TableBuy extends Component {
               <Label htmlFor=''>Đơn Vị</Label>
               <Select
                 options={this.props.importProductReducer.specUnitSelection}
-                onChange={this.handleSeletion.bind(this)}
+                onChange={this.handleSelection.bind(this)}
                 isMulti={false}
                 name="specUnit"
               />
@@ -182,12 +193,8 @@ export class TableBuy extends Component {
             <FormGroup>
               <Label htmlFor='price'>Đơn Giá</Label>
               <InputGroup>
-                <Input
-                  type="number"
-                  id="price"
-                  name="price"
-                  onChange={this.changeHandler.bind(this)}
-                  value={this.state.price}/>
+                <NumberFormat value={this.state.price} className={'form-control'} thousandSeparator={true} name="price"
+                              onChange={this.changeHandler.bind(this)}/>
                 <InputGroupAddon addonType="append">
                   <InputGroupText>VN Đồng</InputGroupText>
                 </InputGroupAddon>
@@ -207,8 +214,8 @@ export class TableBuy extends Component {
 
 const mapStateToProps = (state) => ({
   importProductReducer: state.importProductReducer,
-  authenReducer: state.auth,
-})
+  authenticationReducer: state.auth,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onGetSpecUnit: (id) => {
@@ -223,6 +230,6 @@ const mapDispatchToProps = (dispatch) => ({
   onResetAlert: () => {
     return dispatch(resetAlert());
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableBuy)

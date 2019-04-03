@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.vn.ctu.qlt.dto.ShopDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,7 +123,10 @@ public class AuthController {
 				Set<Branch> branches = employee.get().getBranchs();
 				branches.forEach(action -> {
 					BranchDto branchDto = new BranchDto();
+					ShopDto shopDto = new ShopDto();
 					BeanUtils.copyProperties(action, branchDto);
+					BeanUtils.copyProperties(action.getShop(), shopDto);
+					branchDto.setShop(shopDto);
 					branchesDto.add(branchDto);
 				});
 			}

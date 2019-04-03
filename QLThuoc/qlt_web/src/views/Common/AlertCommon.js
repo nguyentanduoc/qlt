@@ -4,10 +4,11 @@ import { Alert } from 'reactstrap';
 
 class AlertCommon extends Component {
   render() {
+    const {color,isShow, message} = this.props.alertReducer;
     return (
       <div>
-        <Alert color={this.props.alertReducer.color} className="text-center" isOpen={this.props.alertReducer.isShow}>
-          {this.props.alertReducer.message}
+        <Alert color={color} className="text-center" isOpen={isShow}>
+          {message}
         </Alert>
       </div>
     )
@@ -16,10 +17,10 @@ class AlertCommon extends Component {
 
 const mapStateToProps = (state) => ({
   alertReducer: state.alertReducer
-})
+});
 
 const mapDispatchToProps = {
 
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlertCommon)

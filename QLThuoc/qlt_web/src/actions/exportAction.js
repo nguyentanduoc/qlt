@@ -77,3 +77,7 @@ export const deleteExport = (record) => ({
   type: ACTION_TYPES.EXPORT.DELETE,
   payload: record
 });
+export const setIsPrint = () => ({
+  type: ACTION_TYPES.EXPORT.SET_IS_PRINT
+});
+

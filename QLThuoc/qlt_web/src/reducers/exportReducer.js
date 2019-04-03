@@ -5,14 +5,14 @@ const initState = {
   productSelection: [],
   product:[],
   specUnits: [],
-  quantity: 0,
   price: 0,
   dataViews: [],
   dataSubmits: [],
   priceHistory:{},
   inventory: 0,
   productDto:{},
-  total:0
+  total:0,
+  isPrint: false
 };
 export default (state = initState, {type, payload}) => {
   switch (type) {
@@ -27,7 +27,7 @@ export default (state = initState, {type, payload}) => {
     case ACTION_TYPES.EXPORT.GET_SPEC_UNIT_SUCCESS:
       return {...state,
         specUnits: payload.specUnits,
-        quantity: payload.quantity,
+        inventory: payload.inventory,
         price: payload.price,
         priceHistory: payload.priceHistory,
         productDto: payload.productDto
@@ -62,6 +62,8 @@ export default (state = initState, {type, payload}) => {
       const totalMinus = state.total - payload.amount * payload.price;
       return {...state, dataViews: dataViewMinus, dataSubmits: dataSubmitMinus, total: totalMinus}
 
+    case ACTION_TYPES.EXPORT.SET_IS_PRINT:
+      return {...state, isPrint: !state.isPrint};
     default:
       return state;
   }

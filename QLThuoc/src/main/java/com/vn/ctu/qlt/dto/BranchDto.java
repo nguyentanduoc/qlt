@@ -22,4 +22,6 @@ public class BranchDto {
     private Boolean isMain;
 
     private SpecLevelBranchDtoSelection specLevelBranch;
+
+    private ShopDto shop;
 }
