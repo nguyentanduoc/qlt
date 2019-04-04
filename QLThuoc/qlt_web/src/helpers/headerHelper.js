@@ -11,7 +11,7 @@ export const header = () => {
             'Content-Type': 'application/json'
         };
     }
-}
+};
 export const headerForGet = (params) => {
     return {
         headers : {
@@ -20,7 +20,7 @@ export const headerForGet = (params) => {
         },
         params: params
     }
-}
+};
 
 
 export default {headers: header()};

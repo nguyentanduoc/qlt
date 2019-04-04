@@ -22,21 +22,21 @@ public interface RoleService {
 	 * @param id the id
 	 * @return the role by user id
 	 */
-	public Set<Role> getRoleByUserId(Long id); 
+	Set<Role> getRoleByUserId(Long id);
 	
 	/**
 	 * Gets the all.
 	 *
 	 * @return the all
 	 */
-	public List<Role> getAll();
+	List<Role> getAll();
 	
 	/**
 	 * Gets the by role name for admin.
 	 *
 	 * @return the by role name for admin
 	 */
-	public List<Role> getByRoleNameForAdmin();
+	List<Role> getByRoleNameForAdmin();
 	
 	/**
 	 * Gets the roles by roles.
@@ -44,7 +44,7 @@ public interface RoleService {
 	 * @param roles the roles
 	 * @return the roles by roles
 	 */
-	public Set<Role> getRolesByRoles(List<Role> roles);
+	Set<Role> getRolesByRoles(List<Role> roles);
 	
 	/**
 	 * Gets the role by role name.
@@ -52,14 +52,14 @@ public interface RoleService {
 	 * @param roleName the role name
 	 * @return the role by role name
 	 */
-	public Optional<Role> getRoleByRoleName(RoleName roleName);
+	Optional<Role> getRoleByRoleName(RoleName roleName);
 	
 	/**
 	 * Gets the role for director.
 	 *
 	 * @return the role for director
 	 */
-	public List<Role> getRoleForDirector();
+	List<Role> getRoleForDirector();
 	
 	/**
 	 * Gets the roles by role seletion.
@@ -67,5 +67,7 @@ public interface RoleService {
 	 * @param roles the roles
 	 * @return the roles by role seletion
 	 */
-	public Set<Role> getRolesByRoleSeletion(Set<RoleSeletionDto> roles);
+	Set<Role> getRolesByRoleSeletion(Set<RoleSeletionDto> roles);
+
+	Set<RoleSeletionDto> convertRolesToRolesDto(Set<Role> roles);
 }

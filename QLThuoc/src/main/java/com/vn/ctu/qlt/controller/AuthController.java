@@ -1,4 +1,4 @@
-	package com.vn.ctu.qlt.controller;
+package com.vn.ctu.qlt.controller;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -64,113 +64,126 @@ import com.vn.ctu.qlt.service.NavService;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-	/** The logger. */
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * The logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	/** The authentication manager. */
-	@Autowired
-	private AuthenticationManager authenticationManager;
+    /**
+     * The authentication manager.
+     */
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-	/** The user repository. */
-	@Autowired
-	private UserRepository userRepository;
+    /**
+     * The user repository.
+     */
+    @Autowired
+    private UserRepository userRepository;
 
-	/** The role repository. */
-	@Autowired
-	private RoleRepository roleRepository;
+    /**
+     * The role repository.
+     */
+    @Autowired
+    private RoleRepository roleRepository;
 
-	/** The password encoder. */
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    /**
+     * The password encoder.
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	/** The token provider. */
-	@Autowired
-	private JwtTokenProvider tokenProvider;
+    /**
+     * The token provider.
+     */
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
-	/** The role service. */
-	@Autowired
-	private NavService navService;
+    /**
+     * The role service.
+     */
+    @Autowired
+    private NavService navService;
 
-	@Autowired
-	private EmployeeService employeeService;
+    @Autowired
+    private EmployeeService employeeService;
 
-	/**
-	 * Authenticate user.
-	 *
-	 * @param loginRequest the login request
-	 * @return the response entity
-	 */
-	@PostMapping("/signin")
-	public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		logger.debug("AuthController do sign in");
-		try {
-			boolean flgIsMainBranch = false;
-			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			List<Navigration> navs = navService.getNavListRoleName(authentication.getAuthorities());
-			String jwt = tokenProvider.generateToken(authentication);
-			UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-			Optional<User> user = userRepository.findById(userPrincipal.getId());
-			Set<String> authorities = new HashSet<String>();
-			if(!user.isPresent()) throw new BadRequestException("không tìm thấy user");
-			for (Role role : user.get().getRoles()) {
-				authorities.add(role.getName().toString());
-			}
-			Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
-			List<BranchDto> branchesDto = new ArrayList<>();
-			if (employee.isPresent()) {
-				Set<Branch> branches = employee.get().getBranchs();
-				branches.forEach(action -> {
-					BranchDto branchDto = new BranchDto();
-					ShopDto shopDto = new ShopDto();
-					BeanUtils.copyProperties(action, branchDto);
-					BeanUtils.copyProperties(action.getShop(), shopDto);
-					branchDto.setShop(shopDto);
-					branchesDto.add(branchDto);
-				});
-			}
-			LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
-					authorities, branchesDto);
-			return ResponseEntity.ok(loginSuccess);
-		} catch (BadCredentialsException e) {
-			throw e;
-		}
-	}
+    /**
+     * Authenticate user.
+     *
+     * @param loginRequest the login request
+     * @return the response entity
+     */
+    @PostMapping("/signin")
+    public ResponseEntity<LoginSuccess> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        logger.debug("AuthController do sign in");
+        try {
+            boolean flgIsMainBranch = false;
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            List<Navigration> navs = navService.getNavListRoleName(authentication.getAuthorities());
+            String jwt = tokenProvider.generateToken(authentication);
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            Optional<User> user = userRepository.findById(userPrincipal.getId());
+            Set<String> authorities = new HashSet<String>();
+            if (!user.isPresent()) throw new BadRequestException("không tìm thấy user");
+            for (Role role : user.get().getRoles()) {
+                authorities.add(role.getName().toString());
+            }
+            Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
+            List<BranchDto> branchesDto = new ArrayList<>();
+            if (!employee.isPresent()) throw new BadRequestException("Nhân viên không tồn tại");
+            Set<Branch> branches = employee.get().getBranchs();
+            branches.forEach(action -> {
+                BranchDto branchDto = new BranchDto();
+                ShopDto shopDto = new ShopDto();
+                BeanUtils.copyProperties(action, branchDto);
+                BeanUtils.copyProperties(action.getShop(), shopDto);
+                branchDto.setShop(shopDto);
+                branchesDto.add(branchDto);
+            });
+            LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
+                    authorities, branchesDto);
+            return ResponseEntity.ok(loginSuccess);
+        } catch (BadCredentialsException e) {
+            throw e;
+        }
+    }
 
-	/**
-	 * Register user.
-	 *
-	 * @param signUpRequest the sign up request
-	 * @return the response entity
-	 */
-	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return new ResponseEntity<Object>(new ApiResponse(false, "Username is already taken!"),
-					HttpStatus.BAD_REQUEST);
-		}
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return new ResponseEntity<Object>(new ApiResponse(false, "Email Address already in use!"),
-					HttpStatus.BAD_REQUEST);
-		}
-		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-				signUpRequest.getPassword());
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-				.orElseThrow(() -> new AppException("User Role not set."));
-		user.setRoles(Collections.singleton(userRole));
-		User result = userRepository.save(user);
-		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
-				.buildAndExpand(result.getUsername()).toUri();
-		return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
-	}
+    /**
+     * Register user.
+     *
+     * @param signUpRequest the sign up request
+     * @return the response entity
+     */
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity<Object>(new ApiResponse(false, "Username is already taken!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<Object>(new ApiResponse(false, "Email Address already in use!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                signUpRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new AppException("User Role not set."));
+        user.setRoles(Collections.singleton(userRole));
+        User result = userRepository.save(user);
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
+                .buildAndExpand(result.getUsername()).toUri();
+        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
 
-	@PostMapping(path = "/logout")
-	public void logoutPage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-	}
+    @PostMapping(path = "/logout")
+    public void logoutPage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+    }
 }

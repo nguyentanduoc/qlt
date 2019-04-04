@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import FormEmployee from './FormEmployee'
-import {
-  Row,
-  Col,
-} from 'reactstrap'
+import {Col, Row,} from 'reactstrap'
 import TableEmployee from "./TableEmployee";
 
 export class Employee extends Component {
@@ -27,10 +24,10 @@ export class Employee extends Component {
 
 const mapStateToProps = (state) => ({
   branchReducer: state.branchReducer
-})
+});
 
 const mapDispatchToProps = {
 
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Employee)

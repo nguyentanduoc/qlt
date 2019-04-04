@@ -62,14 +62,11 @@ public class NavigrationController {
     public ResponseEntity<Navigration> updateNav(@RequestBody NavigrationDto nav) {
         try {
             Optional<Navigration> navOptional = navigrationRepository.findById(nav.getId());
-            if (navOptional.isPresent()) {
-                Navigration navModal = navOptional.get();
-                navModal.setRoles(nav.getRoles());
-                navigrationRepository.save(navModal);
-                return ResponseEntity.ok().body(navModal);
-            } else {
-                throw new BadRequestException("Danh mục không tồn tại");
-            }
+            if (!navOptional.isPresent()) throw new BadRequestException("Danh mục không tồn tại");
+            Navigration navModal = navOptional.get();
+            navModal.setRoles(nav.getRoles());
+            navigrationRepository.save(navModal);
+            return ResponseEntity.ok().body(navModal);
         } catch (Exception e) {
             throw e;
         }

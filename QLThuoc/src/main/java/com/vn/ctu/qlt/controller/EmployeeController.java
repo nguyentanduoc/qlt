@@ -1,25 +1,26 @@
 package com.vn.ctu.qlt.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.vn.ctu.qlt.dto.BranchesSelectionDto;
+import com.vn.ctu.qlt.dto.EmployeeDto;
+import com.vn.ctu.qlt.dto.RoleSeletionDto;
+import com.vn.ctu.qlt.model.Branch;
+import com.vn.ctu.qlt.model.Employee;
+import com.vn.ctu.qlt.model.Role;
+import com.vn.ctu.qlt.service.BranchService;
+import com.vn.ctu.qlt.service.EmployeeService;
+import com.vn.ctu.qlt.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.vn.ctu.qlt.dto.EmployeeDto;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Role;
-import com.vn.ctu.qlt.service.BranchService;
-import com.vn.ctu.qlt.service.EmployeeService;
-import com.vn.ctu.qlt.service.RoleService;
+import java.util.*;
 
 /**
  * The Class EmployeeController.
@@ -28,6 +29,7 @@ import com.vn.ctu.qlt.service.RoleService;
  * @since 06-03-2019
  */
 @Controller
+@RequestMapping(path = "/api/employee")
 public class EmployeeController {
 
 	/** The logger. */
@@ -48,13 +50,17 @@ public class EmployeeController {
 	/**
 	 * Save.
 	 *
-	 * @param employee the employee
+	 * @param employeeDto the employee
 	 * @return the response entity
 	 */
-	@PostMapping(path = "/api/employee/save")
-	public ResponseEntity<Void> save(@RequestBody EmployeeDto employee) {
-		employeeService.save(employee);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	@PostMapping(path = "/save")
+	public ResponseEntity<EmployeeDto> save(@RequestBody EmployeeDto employeeDto) {
+		Employee employee = employeeService.save(employeeDto);
+		EmployeeDto employeeDto1 = new EmployeeDto();
+		BeanUtils.copyProperties(employee, employeeDto1);
+		Set<RoleSeletionDto> rolesSelectionDto = roleService.convertRolesToRolesDto(employee.getUser().getRoles());
+		employeeDto1.setRoles(rolesSelectionDto);
+		return ResponseEntity.ok().body(employeeDto1);
 	}
 
 	/**
@@ -63,19 +69,38 @@ public class EmployeeController {
 	 * @param idDirector the id director
 	 * @return the response entity
 	 */
-	@PostMapping(path = "/api/employee/init")
+	@PostMapping(path = "/init")
 	public ResponseEntity<Map<String, Object>> init(@RequestBody Long idDirector) {
 		try {
-			Set<Branch> branchs = branchService.selectBranchByDirector(idDirector);
+			Set<Branch> branches = branchService.selectBranchByDirector(idDirector);
 			List<Role> roles = roleService.getRoleForDirector();
+			List<BranchesSelectionDto> branchesDto = new ArrayList<>();
+			List<RoleSeletionDto> rolesSelectionDto = new ArrayList<>();
+			branches.forEach(branch -> {
+				BranchesSelectionDto branchesSelectionDto = new BranchesSelectionDto();
+				branchesSelectionDto.setLabel(branch.getName());
+				branchesSelectionDto.setValue(branch.getId());
+				branchesDto.add(branchesSelectionDto);
+			});
+			roles.forEach(role -> {
+				RoleSeletionDto roleSeletionDto = new RoleSeletionDto();
+				roleSeletionDto.setLabel(role.getDetail());
+				roleSeletionDto.setValue(role.getId());
+				rolesSelectionDto.add(roleSeletionDto);
+			});
 			Map<String, Object> result = new HashMap<>();
-			result.put("roles", roles);
-			result.put("branchs", branchs);
+			result.put("roles", rolesSelectionDto);
+			result.put("branches", branchesDto);
+			result.put("employees", employeeService.getAllEmployeeByDirector());
 			return ResponseEntity.ok(result);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw e;
 		}
-		
+	}
+	@PostMapping(path = "/delete")
+	public ResponseEntity deleteEmployee(@RequestBody Long id){
+		employeeService.deleteEmployee(id);
+		return new ResponseEntity(HttpStatus.OK);
 	}
 }

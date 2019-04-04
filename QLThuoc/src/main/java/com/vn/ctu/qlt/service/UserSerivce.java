@@ -26,4 +26,6 @@ public interface UserSerivce {
 	public void delete(Long[] ids);
 	
 	public User createUserDireactor(User user);
+
+	public Optional<User> findByUserName(String userName);
 }

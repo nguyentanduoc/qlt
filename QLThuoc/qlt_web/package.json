@@ -34,6 +34,7 @@
     "jquery": "1.9.1",
     "jspdf": "^1.5.3",
     "jspdf-customfonts": "^0.0.4-rc.4",
+    "khong-dau": "^2.0.0",
     "lodash": "^4.17.11",
     "moment": "2.19.1",
     "moment-timezone": "^0.5.23",

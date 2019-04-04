@@ -30,9 +30,9 @@ import com.vn.ctu.qlt.service.UserSerivce;
 public class UsersController {
 
 	@Autowired
-	private UserSerivce userSerive;
+	private UserSerivce userSerivce;
 
-	@Value("${app.passworDefault}")
+	@Value("${app.passwordDefault}")
 	private String passwordDefault;
 
 	@Autowired
@@ -42,28 +42,25 @@ public class UsersController {
 
 	@PostMapping(path = "/get-all")
 	public ResponseEntity<List<User>> getAllUser() {
-		return ResponseEntity.ok().body(userSerive.findAll());
+		return ResponseEntity.ok().body(userSerivce.findAll());
 	}
 
 	@PostMapping(path = "/update-role")
 	public ResponseEntity<User> updateUser(@RequestBody UpdateUserRoleDto user) {
-		Optional<User> userOptional = userSerive.findById(user.getId());
-		if (userOptional.get() != null) {
-			User userModel = userOptional.get();
-			userModel.setRoles(user.getRoles());
-			userSerive.save(userModel);
-			return ResponseEntity.ok().body(userModel);
-		} else {
-			logger.error(String.format("Tài khoản %s không tồn tại", user.getId()));
-			throw new UsernameNotFoundException(String.format("Tài khoản %s không tồn tại", user.getId()));
-		}
+		Optional<User> userOptional = userSerivce.findById(user.getId());
+		if(!userOptional.isPresent()) throw new UsernameNotFoundException(String.format("Tài khoản %s không tồn tại", user.getId()));
+		User userModel = userOptional.get();
+		userModel.setRoles(user.getRoles());
+		userSerivce.save(userModel);
+		return ResponseEntity.ok().body(userModel);
 	}
 
 	@PostMapping(path = "/search")
 	public ResponseEntity<PageImpl<User>> search(@RequestBody String condition) {
 		try {
-			return ResponseEntity.ok().body(userSerive.searchUser(condition, PageRequest.of(0, 3)));
+			return ResponseEntity.ok().body(userSerivce.searchUser(condition, PageRequest.of(0, 3)));
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			throw e;
 		}
 	}
@@ -71,18 +68,18 @@ public class UsersController {
 	@PostMapping(path = "/create")
 	public ResponseEntity<User> create(@RequestBody User user) {
 		user.setPassword(passwordEncoder.encode(passwordDefault));
-		userSerive.save(user);
+		userSerivce.save(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);
 	}
 
 	@GetMapping(path = "/get-user-limit")
 	public ResponseEntity<Page<User>> getUserLimit(Pageable pageable) {
-		return ResponseEntity.ok().body(userSerive.getAllUser(pageable));
+		return ResponseEntity.ok().body(userSerivce.getAllUser(pageable));
 	}
 	
 	@PostMapping(path = "/delete")
-	public ResponseEntity<Void> delete(@RequestBody Long[] ids){
-		userSerive.delete(ids);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	public ResponseEntity delete(@RequestBody Long[] ids){
+		userSerivce.delete(ids);
+		return new ResponseEntity(HttpStatus.OK);
 	}
 }

@@ -43,20 +43,19 @@ public class SpecLevelBranchServiceImpl implements SpecLevelBranchService {
         BeanUtils.copyProperties(specLevelBranchDto, specLevelBranch);
         Employee employee = iAuthenticationFacade.getEmployee();
         Optional<Shop> shop = shopService.findShopByDirector(employee);
-        if(shop.isPresent()){
-            specLevelBranch.setShop(shop.get());
-            specLevelBranchRepository.save(specLevelBranch);
-        } else{
+        if (!shop.isPresent()) {
             logger.error("Không tìm thấy cửa hàng");
             throw new BadRequestException("Không tìm thấy cửa hàng");
         }
+        specLevelBranch.setShop(shop.get());
+        specLevelBranchRepository.save(specLevelBranch);
     }
 
     @Override
     public List<SpecLevelBranchDto> getAll() {
         Iterable<SpecLevelBranch> specLevelBranches = specLevelBranchRepository.findAll();
         List<SpecLevelBranchDto> specLevelBranchesDto = new ArrayList<>();
-        specLevelBranches.forEach(action->{
+        specLevelBranches.forEach(action -> {
             SpecLevelBranchDto specLevelBranchDto = new SpecLevelBranchDto();
             BeanUtils.copyProperties(action, specLevelBranchDto);
             specLevelBranchesDto.add(specLevelBranchDto);
@@ -65,19 +64,18 @@ public class SpecLevelBranchServiceImpl implements SpecLevelBranchService {
     }
 
     @Override
-    public List<SpecLevelBranchDto> getAllByShop(){
+    public List<SpecLevelBranchDto> getAllByShop() {
         List<SpecLevelBranchDto> response = new ArrayList<>();
         Employee employee = iAuthenticationFacade.getEmployee();
         Optional<Shop> shopOptional = shopService.findShopByDirector(employee);
-        if(shopOptional.isPresent()){
-            Shop shop = shopOptional.get();
-            List<SpecLevelBranch> specLevelBranches = shop.getSpecLevelBranches();
-            specLevelBranches.forEach(action -> {
-                SpecLevelBranchDto specLevelBranchDto = new SpecLevelBranchDto();
-                BeanUtils.copyProperties(action, specLevelBranchDto);
-                response.add(specLevelBranchDto);
-            });
-        }
+        if (!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy Cửa hàng");
+        Shop shop = shopOptional.get();
+        List<SpecLevelBranch> specLevelBranches = shop.getSpecLevelBranches();
+        specLevelBranches.forEach(action -> {
+            SpecLevelBranchDto specLevelBranchDto = new SpecLevelBranchDto();
+            BeanUtils.copyProperties(action, specLevelBranchDto);
+            response.add(specLevelBranchDto);
+        });
         return response;
     }
 

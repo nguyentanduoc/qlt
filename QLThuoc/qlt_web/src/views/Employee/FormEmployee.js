@@ -5,6 +5,8 @@ import Select from 'react-select'
 import {init, save} from '../../actions/employeeAction'
 import DatePicker from 'react-datepicker'
 import {resetAlert} from '../../actions/alertAction'
+import khongdau from 'khong-dau';
+import NumberFormat from 'react-number-format';
 import {
   Form,
   Card,
@@ -25,7 +27,7 @@ export class FormEmployee extends Component {
       nameEmployee: '',
       numberPhone: '',
       username: '',
-      branchs: [],
+      branches: [],
       roles: [],
       dateJoin: new Date()
     }
@@ -36,49 +38,59 @@ export class FormEmployee extends Component {
   }
 
   handleSubmit = (e) => {
-    console.log(this.state);
     e.preventDefault();
     this.props.onSave(this.state);
-  }
+  };
   handleReset = (e) => {
     e.preventDefault();
-  }
+  };
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({
-      [name]: value
-    });
-  }
-  handleSeletion = (e, selection) => {
+    if (name === 'nameEmployee') {
+      const userNameArray = value.split(" ");
+      let result = "";
+      for (let i = 0; i < userNameArray.length - 1; i++) {
+        result += khongdau(userNameArray[i].charAt(0).toLowerCase());
+      }
+      result += khongdau(userNameArray[userNameArray.length - 1].toLowerCase());
+      this.setState({username: result, nameEmployee: value})
+    } else {
+      this.setState({
+        [name]: value
+      });
+    }
+  };
+  handleSelection = (e, selection) => {
     switch (selection.name) {
-      case "branchs":
+      case "branches":
         this.setState({
-          branchs: e
-        })
+          branches: e
+        });
         break;
       case "roles":
         this.setState({
           roles: e
-        })
+        });
         break;
       default:
         break;
     }
-  }
+  };
   handleChangeDate = dateJoin => {
     this.setState({dateJoin: dateJoin});
-  }
+  };
 
   componentWillUnmount() {
     this.props.onResetAlert();
   }
 
   render() {
+    const {branchesSelection, rolesSelection} = this.props.employeeReducer;
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
-          <CardHeader><i className="fas fa-user-plus"></i> Tạo <strong>Tài Khoản</strong></CardHeader>
+          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản</strong></CardHeader>
           <CardBody>
             <AlertCommon/>
             <Input type="hidden" name="id" value={this.state.id} onChange={this.changeHandler.bind(this)}/>
@@ -92,7 +104,6 @@ export class FormEmployee extends Component {
                   onChange={this.changeHandler.bind(this)}
                   required
                   value={this.state.nameEmployee}
-                  // disabled={this.state.changeHandler === '' ? false: true}/>
                 />
               </Col>
             </FormGroup>
@@ -106,28 +117,27 @@ export class FormEmployee extends Component {
                   onChange={this.changeHandler.bind(this)}
                   required
                   value={this.state.username}
-                  // disabled={this.state.changeHandler === '' ? false: true}/>
                 />
               </Col>
             </FormGroup>
             <FormGroup row>
               <Label md={5}>Số điện thoại</Label>
               <Col md={7}>
-                <Input
-                  type="text"
+                <NumberFormat
+                  onBlur={() => {console.log("brrrr")}}
+                  className={'form-control'}
+                  type={'text'}
                   id="numberPhone"
                   name="numberPhone"
-                  onChange={this.changeHandler.bind(this)}
-                  required
                   value={this.state.numberPhone}
-                  // disabled={this.state.changeHandler === '' ? false: true}/>
-                />
+                  format="#### ### ###" mask="_" onChange={this.changeHandler.bind(this)}/>
               </Col>
             </FormGroup>
             <FormGroup row>
               <Label md={5}>Ngày bắt đầu làm việc</Label>
               <Col md={7}>
                 <DatePicker
+                  dropdownMode={'scroll'}
                   className="form-control"
                   selected={new Date(this.state.dateJoin)}
                   dateFormat="dd/MM/yyyy"
@@ -139,10 +149,10 @@ export class FormEmployee extends Component {
               <Label md={5}>Chi nhánh</Label>
               <Col md={7}>
                 <Select
-                  options={this.props.employeeReducer.branchsSeletion}
-                  onChange={this.handleSeletion.bind(this)}
+                  options={branchesSelection}
+                  onChange={this.handleSelection.bind(this)}
                   isMulti={true}
-                  name="branchs"
+                  name="branches"
                 />
               </Col>
             </FormGroup>
@@ -150,8 +160,8 @@ export class FormEmployee extends Component {
               <Label md={5}>Quyền</Label>
               <Col md={7}>
                 <Select
-                  options={this.props.employeeReducer.rolesSeletion}
-                  onChange={this.handleSeletion.bind(this)}
+                  options={rolesSelection}
+                  onChange={this.handleSelection.bind(this)}
                   isMulti={true}
                   name="roles"
                 />
@@ -159,8 +169,8 @@ export class FormEmployee extends Component {
             </FormGroup>
           </CardBody>
           <CardFooter className="text-right">
-            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button>{' '}
-            <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Hủy</Button>
+            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"/> Lưu</Button>{' '}
+            <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"/> Hủy</Button>
           </CardFooter>
         </Card>
       </Form>
@@ -171,18 +181,12 @@ export class FormEmployee extends Component {
 const mapStateToProps = (state) => ({
   authReducer: state.auth,
   employeeReducer: state.employeeReducer
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  onInit: (idDirector) => {
-    return dispatch(init(idDirector))
-  },
-  onSave: (employee) => {
-    return dispatch(save(employee))
-  },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  }
-})
+  onInit: (idDirector) => dispatch(init(idDirector)),
+  onSave: (employee) => dispatch(save(employee)),
+  onResetAlert: () => dispatch(resetAlert())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormEmployee)

@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import com.vn.ctu.qlt.dto.BranchesSelectionDto;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.*;
 import org.apache.commons.collections4.CollectionUtils;
@@ -25,7 +26,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.BranchDto;
-import com.vn.ctu.qlt.dto.BranchsSeletionDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.repository.BranchRepository;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
@@ -95,23 +95,25 @@ public class BranchServiceImpl implements BranchService {
      *
      * @see com.vn.ctu.qlt.service.BranchService#save(com.vn.ctu.qlt.dto.BranchDto)
      */
-    public void save(BranchDto branch) {
-        Employee employee = authenticationFacade.getEmployee();
-        Shop shop = shopService.findShopByDirector(employee).get();
-        Branch branchModel = getBranchById(branch.getId());
-        if (branchModel == null) {
-            branchModel = new Branch();
-        }
-        BeanUtils.copyProperties(branch, branchModel);
-        branchModel.setShop(shop);
-        Optional<SpecLevelBranch> specLevelBranch = specLevelBranchService.getById(branch.getSpecLevelBranch().getValue());
-        if (specLevelBranch.isPresent()) {
-            branchModel.setSpecLevelBranch(specLevelBranch.get());
-            branchRepository.save(branchModel);
+    public void save(BranchDto branchDto) {
+        Branch branch;
+        if (branchDto.getId() != null) {
+           branch = getBranchById(branchDto.getId());
         } else {
+            branch = new Branch();
+        }
+        Employee employee = authenticationFacade.getEmployee();
+        Optional<Shop> shopOptional = shopService.findShopByDirector(employee);
+        if (!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+        BeanUtils.copyProperties(branchDto, branch);
+        branch.setShop(shopOptional.get());
+        Optional<SpecLevelBranch> specLevelBranch = specLevelBranchService.getById(branchDto.getSpecLevelBranch().getValue());
+        if (!specLevelBranch.isPresent()) {
             logger.error("Không tìm thấy specLevelBranch");
             throw new BadRequestException("Không tìm thấy specLevelBranch");
         }
+        branch.setSpecLevelBranch(specLevelBranch.get());
+        branchRepository.save(branch);
     }
 
     /*
@@ -125,7 +127,6 @@ public class BranchServiceImpl implements BranchService {
     public Page<BranchDto> findAll(Pageable pageable) {
         Page<Branch> pageBranch = branchRepository.findAll(pageable);
         List<Branch> branchs = pageBranch.getContent();
-
         List<BranchDto> branchsDto = new ArrayList<BranchDto>();
         branchs.forEach(action -> {
             BranchDto branchDto = new BranchDto();
@@ -178,7 +179,7 @@ public class BranchServiceImpl implements BranchService {
         sql.append("LIMIT ").append(pageable.getPageSize()).append(" ");
         sql.append("OFFSET ").append(pageable.getOffset());
         List<Branch> resultBranch = jdbcTemplate.query(sql.toString(), params.toArray(), branchMapper);
-        return new PageImpl<BranchDto>((List<BranchDto>) modelToDto(resultBranch), pageable, countRecord);
+        return new PageImpl<>(modelToDto(resultBranch), pageable, countRecord);
     }
 
     /**
@@ -245,13 +246,13 @@ public class BranchServiceImpl implements BranchService {
      */
     @Override
     @Transactional
-    public Set<Branch> findByList(Set<BranchsSeletionDto> branchs) {
-        Set<Branch> branchsResult = new HashSet<>();
-        for (BranchsSeletionDto b : branchs) {
+    public Set<Branch> findByList(Set<BranchesSelectionDto> branches) {
+        Set<Branch> branchesResult = new HashSet<>();
+        for (BranchesSelectionDto b : branches) {
             Branch branch = branchRepository.findById(b.getValue()).get();
-            branchsResult.add(branch);
+            branchesResult.add(branch);
         }
-        return branchsResult;
+        return branchesResult;
     }
 
     @Override
@@ -262,10 +263,8 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public Branch getBranchById(Long id) {
         Optional<Branch> branchOptional = branchRepository.findById(id);
-        if (branchOptional.isPresent()) {
-            return branchOptional.get();
-        } else
-            return null;
+        if (!branchOptional.isPresent()) throw new BadRequestException("Không tìm thấy chi nhánh");
+        return branchOptional.get();
     }
 
     @Override
@@ -305,12 +304,21 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public Branch getMainBranchByBranch(Long id) {
         Optional<Branch> branch = branchRepository.findById(id);
-        if (branch.isPresent()) {
-            Shop shop = branch.get().getShop();
-            Set<Branch> branchs = shop.getBranchs();
-            return branchs.stream().filter(b -> b.getIsMain() == true).findAny().orElse(null);
-        } else {
-            throw new BadRequestException("Không tìm thấy chi nhánh");
-        }
+        if (!branch.isPresent()) throw new BadRequestException("Không tìm thấy chi nhánh");
+        Shop shop = branch.get().getShop();
+        Set<Branch> branches = shop.getBranchs();
+        return branches.stream().filter(Branch::getIsMain).findAny().orElse(null);
+    }
+
+    @Override
+    public Set<BranchesSelectionDto> covertBranchedToBranchesSelection(Set<Branch> branches) {
+        Set<BranchesSelectionDto> branchesSelectionDtos = new HashSet<>();
+        branches.forEach(branch -> {
+            BranchesSelectionDto branchesSelectionDto = new BranchesSelectionDto();
+            branchesSelectionDto.setValue(branch.getId());
+            branchesSelectionDto.setLabel(branch.getName());
+            branchesSelectionDtos.add(branchesSelectionDto);
+        });
+        return branchesSelectionDtos;
     }
 }

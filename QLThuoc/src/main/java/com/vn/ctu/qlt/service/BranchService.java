@@ -1,15 +1,14 @@
 package com.vn.ctu.qlt.service;
 
-import java.util.Set;
-
+import com.vn.ctu.qlt.dto.BranchDto;
+import com.vn.ctu.qlt.dto.BranchesSelectionDto;
+import com.vn.ctu.qlt.model.Branch;
+import com.vn.ctu.qlt.model.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.vn.ctu.qlt.dto.BranchDto;
-import com.vn.ctu.qlt.dto.BranchsSeletionDto;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Employee;
+import java.util.Set;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -85,10 +84,10 @@ public interface BranchService {
 	/**
 	 * Find by list.
 	 *
-	 * @param branchs the branchs
+	 * @param branches the branchs
 	 * @return the sets the
 	 */
-	public Set<Branch> findByList(Set<BranchsSeletionDto> branchs);
+	public Set<Branch> findByList(Set<BranchesSelectionDto> branches);
 	
 	/**
 	 * Gets the branch by employee.
@@ -113,4 +112,6 @@ public interface BranchService {
 	 * @return the main branch by branch
 	 */
 	public Branch getMainBranchByBranch(Long id);
+
+	public Set<BranchesSelectionDto> covertBranchedToBranchesSelection(Set<Branch> branches);
 }

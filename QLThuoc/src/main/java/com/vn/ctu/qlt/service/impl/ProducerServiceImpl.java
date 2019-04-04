@@ -20,32 +20,29 @@ import com.vn.ctu.qlt.service.ProducerService;
 @Transactional
 public class ProducerServiceImpl implements ProducerService {
 
-	@Autowired
-	private ProducerRepository producerRepository;
-	
-	@Override
-	public Set<ProducerSeletion> getAllForSelection() {
-		List<Producer> producerList = producerRepository.findAll();
-		Set<ProducerSeletion> producerSelections = new HashSet<ProducerSeletion>();
-		producerList.forEach(p -> {
-			producerSelections.add(new ProducerSeletion(p.getId(), p.getProducerName()));
-		});
-		return producerSelections;
-	}
+    @Autowired
+    private ProducerRepository producerRepository;
 
-	@Override
-	public Producer getByProducerSeletion(ProducerSeletion producerSelection) {
-		return producerRepository.getOne(producerSelection.getValue());
-	}
+    @Override
+    public Set<ProducerSeletion> getAllForSelection() {
+        List<Producer> producerList = producerRepository.findAll();
+        Set<ProducerSeletion> producerSelections = new HashSet<ProducerSeletion>();
+        producerList.forEach(p -> {
+            producerSelections.add(new ProducerSeletion(p.getId(), p.getProducerName()));
+        });
+        return producerSelections;
+    }
 
-	@Override
-	public Producer getProducerById(Long id) {
-		Optional<Producer> producer = producerRepository.findById(id);
-		if(producer.isPresent()) {
-			return producer.get();
-		} else {
-			throw new BadRequestException("Không tìm thấy Nhà Sản Xuất");
-		}
-	}
-	
+    @Override
+    public Producer getByProducerSeletion(ProducerSeletion producerSelection) {
+        return producerRepository.getOne(producerSelection.getValue());
+    }
+
+    @Override
+    public Producer getProducerById(Long id) {
+        Optional<Producer> producer = producerRepository.findById(id);
+        if (!producer.isPresent()) throw new BadRequestException("Không tìm thấy Nhà Sản Xuất");
+        return producer.get();
+    }
+
 }

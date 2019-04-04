@@ -29,4 +29,5 @@ public interface ShopService {
 	
 	public Optional<Shop> findShopByDirector(Employee employee);
 
+
 }

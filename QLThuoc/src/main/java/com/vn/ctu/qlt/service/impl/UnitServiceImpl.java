@@ -19,37 +19,33 @@ import com.vn.ctu.qlt.service.UnitService;
 @Transactional
 public class UnitServiceImpl implements UnitService {
 
-	@Autowired
-	private UnitRepository unitRepository;
-	
-	@Override
-	public Iterable<Unit> getAll() {
-		return unitRepository.findAll();
-	}
+    @Autowired
+    private UnitRepository unitRepository;
 
-	@Override
-	public Set<UnitSelection> getAllForSelection() {
-		Set<UnitSelection> units = new HashSet<>();
-		Iterable<Unit> unitIterable = getAll();
-		unitIterable.forEach(unit -> {
-			units.add(new UnitSelection(unit.getId(),unit.getUnitName()));
-		});
-		return units;
-	}
+    @Override
+    public Iterable<Unit> getAll() {
+        return unitRepository.findAll();
+    }
 
-	@Override
-	public Unit getByUnitSeletion(UnitSelection unit) {
-		return unitRepository.getOne(unit.getValue());
-	}
+    @Override
+    public Set<UnitSelection> getAllForSelection() {
+        Set<UnitSelection> units = new HashSet<>();
+        Iterable<Unit> unitIterable = getAll();
+        unitIterable.forEach(unit -> {
+            units.add(new UnitSelection(unit.getId(), unit.getUnitName()));
+        });
+        return units;
+    }
 
-	@Override
-	public Unit getUnitById(Long id) {
-		Optional<Unit> unit = unitRepository.findById(id);
-		if(unit.isPresent()) {
-			return unit.get();
-		} else {
-			throw new BadRequestException("Đơn vị không tồn tại");
-		}
-	}
+    @Override
+    public Unit getByUnitSeletion(UnitSelection unit) {
+        return unitRepository.getOne(unit.getValue());
+    }
 
+    @Override
+    public Unit getUnitById(Long id) {
+        Optional<Unit> unit = unitRepository.findById(id);
+        if (!unit.isPresent()) throw new BadRequestException("Đơn vị không tồn tại");
+        return unit.get();
+    }
 }

@@ -1,25 +1,23 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.vn.ctu.qlt.dto.BranchesSelectionDto;
+import com.vn.ctu.qlt.dto.RoleSeletionDto;
+import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.security.IAuthenticationFacade;
+import com.vn.ctu.qlt.service.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.EmployeeDto;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Employee;
-import com.vn.ctu.qlt.model.Role;
-import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.EmployeeRepository;
-import com.vn.ctu.qlt.service.BranchService;
-import com.vn.ctu.qlt.service.EmployeeService;
-import com.vn.ctu.qlt.service.RoleService;
-import com.vn.ctu.qlt.service.UserSerivce;
 
 /**
  * The Class EmployeeServiceImpl.
@@ -31,79 +29,132 @@ import com.vn.ctu.qlt.service.UserSerivce;
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
-	/** The employee repository. */
-	@Autowired
-	private EmployeeRepository employeeRepository;
-	
-	/** The branch service. */
-	@Autowired
-	private BranchService branchService;
-	
-	/** The role serice. */
-	@Autowired 
-	private RoleService roleSerice;
-	
-	/** The password default. */
-	@Value("${app.passworDefault}")
-	private String passwordDefault;
-	
-	/** The password encoder. */
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	/** The user service. */
-	@Autowired
-	private UserSerivce userService;
-	
-	/* (non-Javadoc)
-	 * @see com.vn.ctu.qlt.service.EmployeeService#save(com.vn.ctu.qlt.model.Employee)
-	 */
-	@Override
-	public Employee save(Employee employee) {
-		employeeRepository.save(employee);
-		return employee;
-	}
+    /**
+     * The employee repository.
+     */
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-	/* (non-Javadoc)
-	 * @see com.vn.ctu.qlt.service.EmployeeService#findById(java.lang.Long)
-	 */
-	@Override
-	public Optional<Employee> findById(Long id) {
-		return employeeRepository.findById(id);
-	}
+    @Autowired
+    private UserSerivce userSerivce;
 
-	/* (non-Javadoc)
-	 * @see com.vn.ctu.qlt.service.EmployeeService#findEmployeeByUser(com.vn.ctu.qlt.model.User)
-	 */
-	@Override
-	public Optional<Employee> findEmployeeByUser(User user) {
-		return employeeRepository.findByUser(user);
-	}
+    /**
+     * The branch service.
+     */
+    @Autowired
+    private BranchService branchService;
 
-	/* (non-Javadoc)
-	 * @see com.vn.ctu.qlt.service.EmployeeService#save(com.vn.ctu.qlt.dto.EmployeeDto)
-	 */
-	@Override
-	public Employee save(EmployeeDto employeeDto) {
-		Set<Branch> branchs = branchService.findByList(employeeDto.getBranchs());
-		Set<Role> roles = roleSerice.getRolesByRoleSeletion(employeeDto.getRoles());
-		
-		//create account
-		User user = new User();
-		user.setUsername(employeeDto.getUsername());
-		user.setPassword(passwordEncoder.encode(passwordDefault));
-		user.setRoles(roles);
-		user.setIsEnabled(true);
-		userService.save(user);
-		
-		//create employee
-		Employee employee = new Employee();
-		employee.setUser(user);
-		employee.setBranchs(branchs);
-		employee.setNameEmployee(employeeDto.getNameEmployee());
-		employeeRepository.save(employee);
-		
-		return employee;
-	}
+    /**
+     * The role service.
+     */
+    @Autowired
+    private RoleService roleService;
 
+    /**
+     * The password default.
+     */
+    @Value("${app.passwordDefault}")
+    private String passwordDefault;
+
+    /**
+     * The password encoder.
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
+     * The user service.
+     */
+    @Autowired
+    private UserSerivce userService;
+
+    @Autowired
+    private IAuthenticationFacade iAuthenticationFacade;
+
+    @Autowired
+    private ShopService shopService;
+
+    /* (non-Javadoc)
+     * @see com.vn.ctu.qlt.service.EmployeeService#save(com.vn.ctu.qlt.model.Employee)
+     */
+    @Override
+    public Employee save(Employee employee) {
+        employeeRepository.save(employee);
+        return employee;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vn.ctu.qlt.service.EmployeeService#findById(java.lang.Long)
+     */
+    @Override
+    public Optional<Employee> findById(Long id) {
+        return employeeRepository.findById(id);
+    }
+
+    /* (non-Javadoc)
+     * @see com.vn.ctu.qlt.service.EmployeeService#findEmployeeByUser(com.vn.ctu.qlt.model.User)
+     */
+    @Override
+    public Optional<Employee> findEmployeeByUser(User user) {
+        return employeeRepository.findByUser(user);
+    }
+
+    @Override
+    public Set<EmployeeDto> getAllEmployeeByDirector() {
+        Employee employee = iAuthenticationFacade.getEmployee();
+        Optional<Shop> shop = shopService.findShopByDirector(employee);
+        if (!shop.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+        Set<Employee> employees = new HashSet<>();
+        Set<EmployeeDto> employeesDto = new HashSet<>();
+        Set<Branch> branches = shop.get().getBranchs();
+        branches.forEach(branch -> employees.addAll(branch.getEmployees()));
+        employees.forEach(emp -> {
+            EmployeeDto employeeDto = new EmployeeDto();
+            User user = emp.getUser();
+            Set<Role> roles = user.getRoles();
+            Set<RoleSeletionDto> rolesSelectionDto = roleService.convertRolesToRolesDto(roles);
+            BeanUtils.copyProperties(emp, employeeDto);
+            Set<BranchesSelectionDto> branchesSelectionDto = branchService.covertBranchedToBranchesSelection(emp.getBranchs());
+            employeeDto.setRoles(rolesSelectionDto);
+            employeeDto.setBranches(branchesSelectionDto);
+            employeesDto.add(employeeDto);
+        });
+        return employeesDto;
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (!employeeOptional.isPresent()) throw new BadRequestException("Nhân viên không tồn tại");
+        employeeRepository.deleteById(id);
+    }
+
+    /* (non-Javadoc)
+     * @see com.vn.ctu.qlt.service.EmployeeService#save(com.vn.ctu.qlt.dto.EmployeeDto)
+     */
+    @Override
+    public Employee save(EmployeeDto employeeDto) {
+        if (employeeDto.getId() == null) {
+            Optional<User> optionalEmployee = userSerivce.findByUserName(employeeDto.getUsername());
+            if (optionalEmployee.isPresent()) throw new BadRequestException("Tên đăng nhập đã tồn tại");
+        }
+        Set<Branch> branches = branchService.findByList(employeeDto.getBranches());
+        Set<Role> roles = roleService.getRolesByRoleSeletion(employeeDto.getRoles());
+        //create account
+        User user = new User();
+        user.setUsername(employeeDto.getUsername());
+        user.setPassword(passwordEncoder.encode(passwordDefault));
+        user.setRoles(roles);
+        user.setIsEnabled(true);
+        userService.save(user);
+
+        //create employee
+        Employee employee = new Employee();
+        employee.setUser(user);
+        employee.setBranchs(branches);
+        employee.setNameEmployee(employeeDto.getNameEmployee());
+        employeeRepository.save(employee);
+
+        return employee;
+    }
 }

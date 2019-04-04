@@ -40,7 +40,7 @@ logging:
 app:
   jwtSecret: 12345678x@X
   jwtExpirationInMs: 86400000
-  passworDefault: 12345678x@X
+  passwordDefault: 12345678x@X
   domain.email: '@gmail.com'
 server:
   port: 8090

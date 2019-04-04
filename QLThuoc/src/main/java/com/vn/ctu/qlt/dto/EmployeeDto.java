@@ -3,6 +3,7 @@ package com.vn.ctu.qlt.dto;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -36,7 +37,7 @@ public class EmployeeDto {
 	private Date dateJoin;
 
 	/** The branchs. */
-	private Set<BranchsSeletionDto> branchs;
+	private Set<BranchesSelectionDto> branches;
 
 	/** The roles. */
 	private Set<RoleSeletionDto> roles;

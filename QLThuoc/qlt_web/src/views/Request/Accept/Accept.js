@@ -19,7 +19,7 @@ class Accept extends Component {
       isDone: false,
       flgLoadingShowDetail: false,
       isCancel: false,
-      idBillRequest:''
+      idBillRequest: ''
     }
   }
 
@@ -149,7 +149,8 @@ class Accept extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <Button htmlType={'button'} key="back" onClick={this.handleCancel} icon={'close'} type="danger">Hủy</Button>,
+            <Button htmlType={'button'} key="back" onClick={this.handleCancel} icon={'close'}
+                    type="danger">Hủy</Button>,
             <Button htmlType={'button'} key="submit" type="primary" loading={loading} onClick={this.handleOk}
                     icon={'check'}>
               Xác Nhận

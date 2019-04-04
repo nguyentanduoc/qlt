@@ -16,34 +16,31 @@ import com.vn.ctu.qlt.service.UserSerivce;
 @Component
 public class AuthenticationFacade implements IAuthenticationFacade {
 
-	@Autowired
-	private UserSerivce userSerivce;
-	
-	@Autowired
-	private EmployeeService employeeService;
+    @Autowired
+    private UserSerivce userSerivce;
 
-	@Override
-	public Authentication getAuthentication() {
-		return SecurityContextHolder.getContext().getAuthentication();
-	}
+    @Autowired
+    private EmployeeService employeeService;
 
-	public Long getIdAccount() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-		return userPrincipal.getId();
-	}
-	@Override
-	public Employee getEmployee() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-		Optional<User> userOption = userSerivce.findById(userPrincipal.getId());
-		if(userOption.isPresent()) {
-			Optional<Employee> employeeOption = employeeService.findEmployeeByUser(userOption.get());
-			if(employeeOption.isPresent()) {
-				return employeeOption.get();
-			}
-		}
-		throw new BadRequestException("Không tìm thấy tài khoản");
-	}
+    @Override
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
+    public Long getIdAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        return userPrincipal.getId();
+    }
+
+    @Override
+    public Employee getEmployee() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Optional<User> userOption = userSerivce.findById(userPrincipal.getId());
+        if (!userOption.isPresent()) throw new BadRequestException("Không tìm thấy tài khoản");
+        Optional<Employee> employeeOption = employeeService.findEmployeeByUser(userOption.get());
+        if (!employeeOption.isPresent()) throw new BadRequestException("Không tìm thấy Nhân Viên");
+        return employeeOption.get();
+    }
 }

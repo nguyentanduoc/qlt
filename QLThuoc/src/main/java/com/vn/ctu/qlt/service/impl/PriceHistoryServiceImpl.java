@@ -22,11 +22,10 @@ public class PriceHistoryServiceImpl implements PriceHistoryService {
     @Override
     public PriceHistory getById(Long id) {
         Optional<PriceHistory> optionalPriceHistory = priceHistoryRepository.findById(id);
-        if (optionalPriceHistory.isPresent()) {
-            return optionalPriceHistory.get();
-        } else {
-            logger.error("getById: Không Tìm thấy PriceHistory có ID: "+ id);
-            throw new BadRequestException("Không Tìm thấy PriceHistory có ID: "+ id);
+        if (!optionalPriceHistory.isPresent()) {
+            logger.error("getById: Không Tìm thấy PriceHistory có ID: " + id);
+            throw new BadRequestException("Không Tìm thấy PriceHistory có ID: " + id);
         }
+        return optionalPriceHistory.get();
     }
 }
