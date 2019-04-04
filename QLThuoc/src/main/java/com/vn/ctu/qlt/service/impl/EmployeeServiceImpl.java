@@ -10,6 +10,7 @@ import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -117,6 +118,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Set<BranchesSelectionDto> branchesSelectionDto = branchService.covertBranchedToBranchesSelection(emp.getBranchs());
             employeeDto.setRoles(rolesSelectionDto);
             employeeDto.setBranches(branchesSelectionDto);
+            employeeDto.setUsername(user.getUsername());
             employeesDto.add(employeeDto);
         });
         return employeesDto;
@@ -134,27 +136,28 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Employee save(EmployeeDto employeeDto) {
-        if (employeeDto.getId() == null) {
-            Optional<User> optionalEmployee = userSerivce.findByUserName(employeeDto.getUsername());
-            if (optionalEmployee.isPresent()) throw new BadRequestException("Tên đăng nhập đã tồn tại");
-        }
+        User user;
+        Employee employee;
         Set<Branch> branches = branchService.findByList(employeeDto.getBranches());
         Set<Role> roles = roleService.getRolesByRoleSeletion(employeeDto.getRoles());
-        //create account
-        User user = new User();
-        user.setUsername(employeeDto.getUsername());
-        user.setPassword(passwordEncoder.encode(passwordDefault));
+        if (employeeDto.getId() != null) {
+            Optional<Employee> employeeOption = employeeRepository.findById(employeeDto.getId());
+            if (!employeeOption.isPresent()) throw new BadRequestException("Nhân viên không tồn tại");
+            user = employeeOption.get().getUser();
+            employee = employeeOption.get();
+        } else {
+            user = new User();
+            user.setUsername(employeeDto.getUsername());
+            user.setPassword(passwordEncoder.encode(passwordDefault));
+            user.setIsEnabled(true);
+            employee = new Employee();
+            employee.setUser(user);
+        }
         user.setRoles(roles);
-        user.setIsEnabled(true);
-        userService.save(user);
-
-        //create employee
-        Employee employee = new Employee();
-        employee.setUser(user);
         employee.setBranchs(branches);
         employee.setNameEmployee(employeeDto.getNameEmployee());
+        userService.save(user);
         employeeRepository.save(employee);
-
         return employee;
     }
 }

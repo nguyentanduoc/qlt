@@ -6,13 +6,14 @@ import {Col, Form, FormGroup, Input, Label} from "reactstrap";
 import AlertCommon from '../Common/AlertCommon';
 import Select from 'react-select';
 import _ from 'lodash';
+import {save} from '../../actions/employeeAction'
 
 class ModalEmployee extends Component {
 
   handleOk = (event) => {
     event.preventDefault();
     const {employeeInfo} = this.props.employeeReducer;
-    console.log(employeeInfo);
+    this.props.onSave(employeeInfo);
   };
   handleCancel = (event) => {
     event.preventDefault();
@@ -42,8 +43,8 @@ class ModalEmployee extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel.bind(this)}
           footer={[
-            <Button htmlType={'button'} key="back" onClick={this.handleCancel.bind(this)}>Return</Button>,
-            <Button htmlType={'button'} key="submit" type="primary" onClick={this.handleOk}>Submit</Button>
+            <Button htmlType={'button'} key="back" onClick={this.handleCancel.bind(this)}>Thoát</Button>,
+            <Button htmlType={'button'} key="submit" type="primary" onClick={this.handleOk}>Lưu</Button>
           ]}
         >
           <Form>
@@ -91,7 +92,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProp = (dispatch) => ({
   onToggleModal: () => dispatch(toggleModal()),
   onSetBranchesForEmployeeInfo: (branches) => dispatch(setBranchesForEmployeeInfo(branches)),
-  onSetRolesForEmployeeInfo: (roles) => dispatch(setRolesForEmployeeInfo(roles))
+  onSetRolesForEmployeeInfo: (roles) => dispatch(setRolesForEmployeeInfo(roles)),
+  onSave: (employee) => dispatch(save(employee))
 });
 export default connect(
   mapStateToProps, mapDispatchToProp

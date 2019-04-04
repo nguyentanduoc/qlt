@@ -15,12 +15,15 @@ export default (state = initState, {type, payload}) => {
       return {...state, branchesSelection: branches, rolesSelection: roles, employees: employees};
 
     case ACTION_TYPES.EMPLOYEE.SAVE_SUCCESS:
-      const em = state.employees;
-      em.push(payload);
+      let em = state.employees;
+      const index = _.findIndex(em, (e) => e.id === payload.id);
+      index < 0 ? em.push(payload): em.splice(index, 1, payload);
       return {...state, employees: em};
 
     case ACTION_TYPES.EMPLOYEE.DELETE_SUCCESS:
-      const empAfter = _.filter(state.employees, (o) => o.id !== payload);
+      const empBefore = {...state.employees};
+      const empAfter = _.filter(empBefore, (o) => o.id !== payload);
+      console.log(empBefore);
       return {...state, employees: empAfter};
 
     case ACTION_TYPES.EMPLOYEE.SHOW_INFO:
@@ -30,12 +33,12 @@ export default (state = initState, {type, payload}) => {
       return {...state, employeeInfo: {}, visibleModal: false};
 
     case ACTION_TYPES.EMPLOYEE.SET_ROLES_FOR_EMPLOYEE_INFO:
-      let employeeInfoRole = state.employeeInfo;
+      let employeeInfoRole = {...state.employeeInfo};
       employeeInfoRole.roles = payload;
       return {...state, employeeInfo: employeeInfoRole};
 
     case ACTION_TYPES.EMPLOYEE.SET_BRANCHES_FOR_EMPLOYEE_INFO:
-      let employeeInfoBranches = state.employeeInfo;
+      let employeeInfoBranches = {...state.employeeInfo};
       employeeInfoBranches.branches = payload;
       return {...state, employeeInfo: employeeInfoBranches};
 

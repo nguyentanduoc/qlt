@@ -124,7 +124,6 @@ export class FormEmployee extends Component {
               <Label md={5}>Số điện thoại</Label>
               <Col md={7}>
                 <NumberFormat
-                  onBlur={() => {console.log("brrrr")}}
                   className={'form-control'}
                   type={'text'}
                   id="numberPhone"

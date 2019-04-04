@@ -59,7 +59,11 @@ public class EmployeeController {
 		EmployeeDto employeeDto1 = new EmployeeDto();
 		BeanUtils.copyProperties(employee, employeeDto1);
 		Set<RoleSeletionDto> rolesSelectionDto = roleService.convertRolesToRolesDto(employee.getUser().getRoles());
+		Set<Branch> branches = employee.getBranchs();
+		Set<BranchesSelectionDto> branchesSelectionDto = branchService.covertBranchedToBranchesSelection(branches);
 		employeeDto1.setRoles(rolesSelectionDto);
+		employeeDto1.setBranches(branchesSelectionDto);
+		employeeDto1.setUsername(employee.getUser().getUsername());
 		return ResponseEntity.ok().body(employeeDto1);
 	}
 
