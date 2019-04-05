@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.vn.ctu.qlt.dto.ShopDto;
+import com.vn.ctu.qlt.dto.UserDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -108,6 +110,9 @@ public class AuthController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     /**
      * Authenticate user.
      *
@@ -119,6 +124,7 @@ public class AuthController {
         logger.debug("AuthController do sign in");
         try {
             boolean flgIsMainBranch = false;
+            List<BranchDto> branchesDto = new ArrayList<>();
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -131,19 +137,21 @@ public class AuthController {
             for (Role role : user.get().getRoles()) {
                 authorities.add(role.getName().toString());
             }
-            Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
-            List<BranchDto> branchesDto = new ArrayList<>();
-            if (!employee.isPresent()) throw new BadRequestException("Nhân viên không tồn tại");
-            Set<Branch> branches = employee.get().getBranchs();
-            branches.forEach(action -> {
-                BranchDto branchDto = new BranchDto();
-                ShopDto shopDto = new ShopDto();
-                BeanUtils.copyProperties(action, branchDto);
-                BeanUtils.copyProperties(action.getShop(), shopDto);
-                branchDto.setShop(shopDto);
-                branchesDto.add(branchDto);
-            });
-            LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), user.get(), navs,
+            if (!user.get().getIsAdmin()) {
+                Optional<Employee> employee = employeeService.findEmployeeByUser(user.get());
+                if (!employee.isPresent()) throw new BadRequestException("Nhân viên không tồn tại");
+                Set<Branch> branches = employee.get().getBranchs();
+                branches.forEach(action -> {
+                    BranchDto branchDto = new BranchDto();
+                    ShopDto shopDto = new ShopDto();
+                    BeanUtils.copyProperties(action, branchDto);
+                    BeanUtils.copyProperties(action.getShop(), shopDto);
+                    branchDto.setShop(shopDto);
+                    branchesDto.add(branchDto);
+                });
+            }
+            UserDto userDto = modelMapper.map(user.get(), UserDto.class);
+            LoginSuccess loginSuccess = new LoginSuccess(new JwtAuthenticationResponse(jwt), userDto, navs,
                     authorities, branchesDto);
             return ResponseEntity.ok(loginSuccess);
         } catch (BadCredentialsException e) {
@@ -167,9 +175,10 @@ public class AuthController {
             return new ResponseEntity<Object>(new ApiResponse(false, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                signUpRequest.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
         user.setRoles(Collections.singleton(userRole));

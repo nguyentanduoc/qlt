@@ -1,3 +1,12 @@
 .table-hover tbody tr:hover > td {
     cursor: pointer;
 }
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker-wrapper > .react-datepicker__input-container {
+  width: 100%
+}
+.ant-calendar-picker {
+  width: 100%
+}

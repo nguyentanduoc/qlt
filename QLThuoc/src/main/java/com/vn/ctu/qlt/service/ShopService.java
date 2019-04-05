@@ -29,5 +29,5 @@ public interface ShopService {
 	
 	public Optional<Shop> findShopByDirector(Employee employee);
 
-
+	public ShopDto save(Shop shop);
 }

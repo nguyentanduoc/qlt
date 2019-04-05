@@ -16,6 +16,7 @@ import requestReducer from './requestReducer';
 import acceptReducer from './acceptReducer';
 import exportReducer from './exportReducer';
 import specLevelBranchReducer from './specLevelBranchReducer';
+import shopOfDirectorReducer from './shopOfDirectorReducer';
 
 export default combineReducers({
   error: errorReducer,
@@ -34,5 +35,6 @@ export default combineReducers({
   requestReducer,
   acceptReducer,
   exportReducer,
-  specLevelBranchReducer
+  specLevelBranchReducer,
+  shopOfDirectorReducer
 });

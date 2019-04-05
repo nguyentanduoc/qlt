@@ -23,7 +23,7 @@ class Login extends Component {
     super(props);
     this.state = {
       usernameOrEmail: 'ntduoc',
-      // usernameOrEmail: 'tva',
+      // usernameOrEmail: 'admin',
       password: '12345678x@X'
     };
     this.changeHandler = this.changeHandler.bind(this);

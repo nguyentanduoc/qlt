@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -72,6 +73,9 @@ public class ShopServiceImpl implements ShopService {
 	/** The employee service. */
 	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	/* (non-Javadoc)
 	 * @see com.vn.ctu.qlt.service.ShopService#save(com.vn.ctu.qlt.dto.ShopDto)
@@ -195,6 +199,12 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public Optional<Shop> findShopByDirector(Employee employee) {
 		return shopRepository.findByEmployee(employee);
+	}
+
+	@Override
+	public ShopDto save(Shop shop) {
+		shopRepository.save(shop);
+		return modelMapper.map(shop, ShopDto.class);
 	}
 
 	@Override

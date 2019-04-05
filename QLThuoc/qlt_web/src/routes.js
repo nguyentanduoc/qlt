@@ -55,6 +55,7 @@ const Accept = React.lazy(() => import('./views/Request/Accept'));
 const SearchRequest = React.lazy(() => import('./views/Request/SearchRequest'));
 const SearchAccept = React.lazy(() => import('./views/Request/SearchAccept'));
 const SpecLevelBranch =  React.lazy(()=> import('./views/SpecLevelBranch/'));
+const ShopOfDirector = React.lazy(()=> import('./views/ShopOfDirector/'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -106,7 +107,7 @@ const routes = [
   { path: '/admin/shop', exact: true, name: 'Cửa Hàng', component: Shop, roles: [ROLES.ROLE_ADMIN] },
   { path: '/director/branch', exact: true, name: 'Chi Nhánh', component: Branch, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/director/employee', exact: true, name: 'Nhân Viên', component: Employee, roles: [ROLES.ROLE_DIRECTOR] },
-  { path: '/director/shop', exact: true, name: 'Thông Tin Cửa Hàng', component: Branch, roles: [ROLES.ROLE_DIRECTOR] },
+  { path: '/director/shop', exact: true, name: 'Thông Tin Cửa Hàng', component: ShopOfDirector, roles: [ROLES.ROLE_DIRECTOR] },
   { path: '/product/create', exact: true, name: 'Tạo Sản Phẩm', component: CreateProduct, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER] },
   { path: '/product/search', exact: true, name: 'Tra Cứu', component: SearchProduct, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER] },
   { path: '/export/create-bill', exact: true, name: 'Lập Hóa Đơn', component: ExportCreateBill, roles: [ROLES.ROLE_EMPLOYEE_EXPORT, ROLES.ROLE_LEADER], },

@@ -15,7 +15,7 @@ import com.vn.ctu.qlt.model.User;
  * @since 06-03-2019
  */
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface  UserRepository extends PagingAndSortingRepository<User, Long> {
 
 	/**
 	 * Find by email.

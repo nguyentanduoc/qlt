@@ -9,7 +9,7 @@ const initialState = {
   flgSaveSucess: false,
   password:'',
   isOpenModal: false
-}
+};
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {

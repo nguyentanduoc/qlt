@@ -30,6 +30,9 @@
 			<column name="ngay_cap_nhat" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
 				<constraints nullable="true" />
 			</column>
+			<column name="la_quan_tri" type="boolean" defaultValueComputed="false">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 	</changeSet>
 	<changeSet author="ntduoc" id="02">
@@ -39,6 +42,7 @@
 			<column name="email" type="string" />
 			<column name="mat_khau" type="string" />
 			<column name="hoat_dong" type="boolean" />
+			<column name="la_quan_tri" type="boolean"/>
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

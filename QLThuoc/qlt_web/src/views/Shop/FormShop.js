@@ -32,7 +32,7 @@ export class FormShop extends Component {
       isEnabled: true,
       fullName:''
     }
-  }
+  };
   renderFPD = () => {
     let view = [];
     let account = this.props.shopReducer.account;
@@ -40,16 +40,15 @@ export class FormShop extends Component {
     view.push("Email: " + account.email);
     view.push("Mat Khau: " + this.props.shopReducer.password);
     return view;
-  }
-
+  };
   handleSubmit = async (e) => {
     e.preventDefault();
     await this.props.onSave(this.state);
-  }
+  };
   handleReset = (e) => {
     e.preventDefault();
     this.resetForm();
-  }
+  };
   resetForm = () => {
     this.setState({
       id:'',
@@ -60,11 +59,11 @@ export class FormShop extends Component {
       isEnabled: true,
       fullName:''
     })
-  }
+  };
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    if (e.target.type === 'checkbox' & name === 'isEnabled') {
+    if (e.target.type === 'checkbox' && name === 'isEnabled') {
       this.setState({
         isEnabled: !this.state.isEnabled
       });
@@ -73,10 +72,10 @@ export class FormShop extends Component {
         [name]: value
       });
     }
-  }
+  };
   handleChangeDate = establishAt => {
     this.setState({ establishAt: establishAt});
-  }
+  };
   setShop = async () => {
     let shop = this.props.shopReducer.shop;
     await this.setState({
@@ -88,7 +87,7 @@ export class FormShop extends Component {
       isEnabled: shop.isEnabled,
       fullName: shop.employee.nameEmployee
     });
-  }
+  };
   componentDidUpdate = () => {
     if(this.props.shopReducer.flgDetail) {
       this.setShop();
@@ -101,17 +100,13 @@ export class FormShop extends Component {
       this.resetForm();
       this.props.onResetSaveSuccess();
     }
-  }
-  toggleFormShopInfo = (e) => {
-    e.preventDefault();
-    this.setState({isOpenShopInfo:!this.state.isOpenShopInfo})
-  }
+  };
   render() {
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
             <CardHeader>
-              <i className="fas fa-store"></i>Chi tiết <strong>Cửa hàng</strong>
+              <i className="fas fa-store"/>Chi tiết <strong>Cửa hàng</strong>
             </CardHeader>
             <CardBody>
               <Input type={'hidden'} name='id' id='id' value={this.state.id}/>
