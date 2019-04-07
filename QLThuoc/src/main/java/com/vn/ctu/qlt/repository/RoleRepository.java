@@ -25,6 +25,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	@Query("select r from Role r where r.name like 'ROLE_EMPLOYEE_%'")
 	List<Role> findRoleByLeader();
 
-	@Query("select r from Role r where r.level > :level and r.name != 'ROLE_LEADER'")
+//	@Query("select r from Role r where r.level > :level and r.name != 'ROLE_LEADER'")
 	Set<Role> findRoleByLeader(Long level);
 }
