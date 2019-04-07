@@ -43,4 +43,13 @@ public class AuthenticationFacade implements IAuthenticationFacade {
         if (!employeeOption.isPresent()) throw new BadRequestException("Không tìm thấy Nhân Viên");
         return employeeOption.get();
     }
+
+    @Override
+    public User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Optional<User> userOption = userSerivce.findById(userPrincipal.getId());
+        if(!userOption.isPresent()) throw new BadRequestException("Tài khoản không tồn tại");
+        return userOption.get();
+    }
 }

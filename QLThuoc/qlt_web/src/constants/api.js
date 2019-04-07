@@ -70,5 +70,6 @@ export default {
   },
   EMPLOYEE_OF_BRANCH: {
     GET_ROLES_BY_LEADER: `${BASE_URI}/api/admin/roles/get-roles-for-leader`,
+    SAVE_EMPLOYEE: `${BASE_URI}/api/employee/leader-save-employee`,
   }
 }

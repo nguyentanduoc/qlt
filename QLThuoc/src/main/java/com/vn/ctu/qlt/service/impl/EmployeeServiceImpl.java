@@ -5,12 +5,14 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.vn.ctu.qlt.dto.BranchesSelectionDto;
+import com.vn.ctu.qlt.dto.EmployeeDtoLeaderSave;
 import com.vn.ctu.qlt.dto.RoleSeletionDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
 import jdk.nashorn.internal.runtime.options.Option;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -78,6 +80,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /* (non-Javadoc)
      * @see com.vn.ctu.qlt.service.EmployeeService#save(com.vn.ctu.qlt.model.Employee)
@@ -168,5 +173,38 @@ public class EmployeeServiceImpl implements EmployeeService {
         userService.save(user);
         employeeRepository.save(employee);
         return employee;
+    }
+
+    @Override
+    public EmployeeDto save(EmployeeDtoLeaderSave employeeDto) {
+        Optional<User> userOptional = userSerivce.findByUserName(employeeDto.getUsername());
+        if(userOptional.isPresent()) throw new BadRequestException("Tên tài khoản đã tồn tại");
+
+        Set<Role> roles = roleService.getRolesByRoleSeletion(employeeDto.getRoles());
+        User user = new User();
+        user.setIsAdmin(false);
+        user.setRoles(roles);
+        user.setIsEnabled(true);
+        user.setPassword(passwordEncoder.encode(passwordDefault));
+        user.setUsername(employeeDto.getUsername());
+
+        Set<Branch> branches = new HashSet<>();
+        branches.add(branchService.getBranchById(employeeDto.getBranch().getId()));
+
+        Employee employee = new Employee();
+        employee.setNumberPhone(employeeDto.getNumberPhone());
+        employee.setBranchs(branches);
+        employee.setUser(user);
+        employee.setNameEmployee(employeeDto.getNameEmployee());
+        userSerivce.save(user);
+        save(employee);
+
+        EmployeeDto employeeDto1 = modelMapper.map(employee, EmployeeDto.class);
+        return employeeDto1;
+    }
+
+    @Override
+    public  EmployeeDto update(EmployeeDtoLeaderSave employee) {
+        return null;
     }
 }
