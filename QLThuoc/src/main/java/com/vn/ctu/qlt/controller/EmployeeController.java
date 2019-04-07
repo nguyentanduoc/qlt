@@ -55,6 +55,7 @@ public class EmployeeController {
 	 */
 	@PostMapping(path = "/save")
 	public ResponseEntity<EmployeeDto> save(@RequestBody EmployeeDto employeeDto) {
+		logger.debug("save employee");
 		Employee employee = employeeService.save(employeeDto);
 		EmployeeDto employeeDto1 = new EmployeeDto();
 		BeanUtils.copyProperties(employee, employeeDto1);

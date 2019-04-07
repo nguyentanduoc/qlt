@@ -22,9 +22,11 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'ntduoc',
-      // usernameOrEmail: 'admin',
-      password: '12345678x@X'
+      usernameOrEmail: 'nmminh',
+      password:'12345678x@X'
+      // usernameOrEmail: 'trungsonadmin',
+      // password: 'aZEnDdzczP'
+
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

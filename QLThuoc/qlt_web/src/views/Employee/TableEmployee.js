@@ -30,7 +30,6 @@ class TableEmployee extends Component {
             <Column title={'Mã'} dataIndex={'id'} key={'id'}/>
             <Column title={'Tên Nhân Viên'} dataIndex={'nameEmployee'} key={'nameEmployee'}/>
             <Column title={'Số Điện Thoại'} dataIndex={'numberPhone'} key={'numberPhone'}/>
-            <Column title={'Ngày Làm Việc'} dataIndex={'dateJoin'} key={'dateJoin'}/>
             <Column title={'Chức Vụ'} dataIndex={'roles'} key={'roles'}
                     render={(roles) => (roles && roles.map((value, key) => (
                       <Badge key={key} className="mr-1" color="success">{value.label}</Badge>)))}

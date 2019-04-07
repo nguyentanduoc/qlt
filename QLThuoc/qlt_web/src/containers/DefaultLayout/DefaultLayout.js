@@ -44,6 +44,8 @@ class DefaultLayout extends Component {
 
   render() {
     let items = {items: this.props.authReducer.nav};
+    console.log(items.items);
+    console.log(typeof (items.items));
     return (
       <div className="app">
         <AppHeader fixed>
@@ -56,7 +58,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader/>
             <AppSidebarForm/>
             <Suspense>
-              <AppSidebarNav navConfig={items} {...this.props} />
+                {items.items === null || items.items.length <= 0 ? null : (<AppSidebarNav navConfig={items} {...this.props} />)}
             </Suspense>
             <AppSidebarFooter/>
             <AppSidebarMinimizer/>

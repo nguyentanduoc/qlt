@@ -139,4 +139,9 @@ public class RoleServiceImpl implements RoleService {
         });
         return rolesSelectionDto;
     }
+
+    @Override
+    public Set<RoleSeletionDto> getRolesForLeader() {
+        return null;
+    }
 }

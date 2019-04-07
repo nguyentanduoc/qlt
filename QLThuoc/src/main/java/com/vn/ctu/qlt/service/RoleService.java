@@ -70,4 +70,6 @@ public interface RoleService {
 	Set<Role> getRolesByRoleSeletion(Set<RoleSeletionDto> roles);
 
 	Set<RoleSeletionDto> convertRolesToRolesDto(Set<Role> roles);
+
+	Set<RoleSeletionDto> getRolesForLeader();
 }

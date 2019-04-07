@@ -11,6 +11,8 @@ import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
 import jdk.nashorn.internal.runtime.options.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +31,8 @@ import com.vn.ctu.qlt.repository.EmployeeRepository;
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * The employee repository.
@@ -136,6 +140,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Employee save(EmployeeDto employeeDto) {
+        logger.debug("employeeServiceImpl > save");
+        if (employeeDto.getId() == null && userSerivce.findByUserName(employeeDto.getUsername()).isPresent())
+            throw new BadRequestException("Tên tài khoản tồn tại");
         User user;
         Employee employee;
         Set<Branch> branches = branchService.findByList(employeeDto.getBranches());
@@ -150,12 +157,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             user.setUsername(employeeDto.getUsername());
             user.setPassword(passwordEncoder.encode(passwordDefault));
             user.setIsEnabled(true);
+            user.setIsAdmin(false);
             employee = new Employee();
             employee.setUser(user);
         }
         user.setRoles(roles);
         employee.setBranchs(branches);
         employee.setNameEmployee(employeeDto.getNameEmployee());
+        employee.setNumberPhone(employeeDto.getNumberPhone());
         userService.save(user);
         employeeRepository.save(employee);
         return employee;

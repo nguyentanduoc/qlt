@@ -27,6 +27,7 @@ public class NavServiceImpl implements NavService {
 
 	@Override
 	public List<Navigration> getNavListRoleName(Collection<? extends GrantedAuthority> roleNames) {
+		if(roleNames.size() <= 0) return null;
 		StringBuilder sqlBuilder = new StringBuilder();
 		sqlBuilder.append(
 				"select nav.ma, nav.ten, nav.url, nav.icon,nav.tieu_de,nav.co_danh_muc_con, "

@@ -94,6 +94,7 @@ public class ShopServiceImpl implements ShopService {
 		user.setEmail(userName.append(domainEmail).toString());
 		user.setPassword(passWord);
 		user.setIsEnabled(true);
+		user.setIsAdmin(false);
 		userSerivce.createUserDireactor(user);
 		
 		Employee employee = new Employee();

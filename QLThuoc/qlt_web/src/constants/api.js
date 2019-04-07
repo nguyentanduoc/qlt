@@ -67,5 +67,8 @@ export default {
   SHOP_OF_DIRECTOR: {
     GET_SHOP_OF_DIRECTOR: `${BASE_URI}/api/shop/get-shop-of-director`,
     UPDATE_SHOP: `${BASE_URI}/api/shop/save-shop-director`,
+  },
+  EMPLOYEE_OF_BRANCH: {
+    GET_ROLES_BY_LEADER: `${BASE_URI}/api/admin/roles/get-roles-for-leader`,
   }
 }

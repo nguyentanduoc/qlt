@@ -56,6 +56,7 @@ const SearchRequest = React.lazy(() => import('./views/Request/SearchRequest'));
 const SearchAccept = React.lazy(() => import('./views/Request/SearchAccept'));
 const SpecLevelBranch =  React.lazy(()=> import('./views/SpecLevelBranch/'));
 const ShopOfDirector = React.lazy(()=> import('./views/ShopOfDirector/'));
+const EmployeeOfBranch = React.lazy(()=> import('./views/EmployeeOfBranch'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -118,7 +119,8 @@ const routes = [
   { path: '/request/search-request-product', exact: true, name: 'Tra Cứu Phiếu Yêu Cầu', component: SearchRequest, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: false },
   { path: '/request/accept-request-product', exact: true, name: 'Xác Nhận Yêu Cầu', component: Accept, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
   { path: '/request/search-accept-product', exact: true, name: 'Tra Cứu Xác Nhận', component: SearchAccept, roles: [ROLES.ROLE_EMPLOYEE_IMPORT, ROLES.ROLE_LEADER], isMainBranch: true },
-  { path: '/level-spec-branch', exact: true, name: 'Bản Quy Định Cấp Độ Chi Nhánh', component: SpecLevelBranch, roles: [ROLES.ROLE_DIRECTOR]}
+  { path: '/level-spec-branch', exact: true, name: 'Bản Quy Định Cấp Độ Chi Nhánh', component: SpecLevelBranch, roles: [ROLES.ROLE_DIRECTOR]},
+  { path: '/control-branch/employee', exact: true, name: 'Quản Lý Nhân Viên', component: EmployeeOfBranch, roles: [ROLES.ROLE_LEADER]}
 ];
 
 

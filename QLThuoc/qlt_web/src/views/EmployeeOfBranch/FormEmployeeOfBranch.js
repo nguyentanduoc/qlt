@@ -1,96 +1,35 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import AlertCommon from '../Common/AlertCommon'
-import Select from 'react-select'
-import {init, save} from '../../actions/employeeAction'
-import DatePicker from 'react-datepicker'
-import {resetAlert} from '../../actions/alertAction'
-import khongdau from 'khong-dau';
-import NumberFormat from 'react-number-format';
-import {
-  Form,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-  CardFooter, Col
-} from 'reactstrap';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Form} from 'antd';
+import {Card, CardHeader, CardFooter, CardBody, Input, FormGroup, Label, Col, Button} from 'reactstrap';
+import AlertCommon from "../Common/AlertCommon";
+import NumberFormat from "react-number-format";
+import Select from "react-select";
 
-export class FormEmployee extends Component {
-  constructor(props) {
+class FormEmployeeOfBranch extends Component {
+  constructor(props){
     super(props);
     this.state = {
       id: '',
       nameEmployee: '',
       numberPhone: '',
       username: '',
-      branches: [],
       roles: []
     }
   }
-
-  componentWillMount() {
-    this.props.onInit(this.props.authReducer.user.id);
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onSave(this.state);
-  };
+    console.log("submit");
+  }
   handleReset = (e) => {
     e.preventDefault();
-    this.setState({
-      id: '',
-      nameEmployee: '',
-      numberPhone: '',
-      username: '',
-      branches: [],
-      roles: [],
-    })
-  };
-  changeHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    if (name === 'nameEmployee') {
-      const userNameArray = value.split(" ");
-      let result = "";
-      for (let i = 0; i < userNameArray.length - 1; i++) {
-        result += khongdau(userNameArray[i].charAt(0).toLowerCase());
-      }
-      result += khongdau(userNameArray[userNameArray.length - 1].toLowerCase());
-      this.setState({username: result, nameEmployee: value})
-    } else {
-      this.setState({
-        [name]: value
-      });
-    }
-  };
-  handleSelection = (e, selection) => {
-    switch (selection.name) {
-      case "branches":
-        this.setState({
-          branches: e
-        });
-        break;
-      case "roles":
-        this.setState({
-          roles: e
-        });
-        break;
-      default:
-        break;
-    }
-  };
+    console.log("reset");
+  }
+  componentWillMount() {
 
-  componentWillUnmount() {
-    this.props.onResetAlert();
   }
 
   render() {
-    const {branchesSelection, rolesSelection} = this.props.employeeReducer;
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
@@ -137,17 +76,6 @@ export class FormEmployee extends Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label md={5}>Chi nhánh</Label>
-              <Col md={7}>
-                <Select
-                  options={branchesSelection}
-                  onChange={this.handleSelection.bind(this)}
-                  isMulti={true}
-                  name="branches"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
               <Label md={5}>Quyền</Label>
               <Col md={7}>
                 <Select
@@ -165,19 +93,17 @@ export class FormEmployee extends Component {
           </CardFooter>
         </Card>
       </Form>
-    )
+    );
   }
 }
+const createFormEmployeeOfBranch = Form.create()(FormEmployeeOfBranch);
 
 const mapStateToProps = (state) => ({
-  authReducer: state.auth,
-  employeeReducer: state.employeeReducer
+});
+const mapDispatchToProps = (dispatch) =>({
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onInit: (idDirector) => dispatch(init(idDirector)),
-  onSave: (employee) => dispatch(save(employee)),
-  onResetAlert: () => dispatch(resetAlert())
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormEmployee)
+export default connect(
+  mapStateToProps,mapDispatchToProps
+)(createFormEmployeeOfBranch);
