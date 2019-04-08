@@ -1,0 +1,29 @@
+{
+  "name": "qlt_mobile",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "cpx": "^1.5.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "2.1.8"
+  },
+  "scripts": {
+    "start": "npm run remove:www && react-scripts start",
+    "build": "npm run remove:www && react-scripts build",
+    "build:cordova": "npm run remove:www && react-scripts build && node __script.js && move build www && cp -rf www/. ../qlt_mobile_cordovar/www",
+    "test": "react-scripts test",
+    "eject": "npm run remove:www && react-scripts eject",
+    "remove:www": "if exist www rd /s /q www"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
