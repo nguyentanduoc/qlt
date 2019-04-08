@@ -4,9 +4,7 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
-import com.vn.ctu.qlt.dto.BranchesSelectionDto;
-import com.vn.ctu.qlt.dto.EmployeeDtoLeaderSave;
-import com.vn.ctu.qlt.dto.RoleSeletionDto;
+import com.vn.ctu.qlt.dto.*;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.dto.EmployeeDto;
 import com.vn.ctu.qlt.repository.EmployeeRepository;
 
 /**
@@ -178,7 +175,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto save(EmployeeDtoLeaderSave employeeDto) {
         Optional<User> userOptional = userSerivce.findByUserName(employeeDto.getUsername());
-        if(userOptional.isPresent()) throw new BadRequestException("Tên tài khoản đã tồn tại");
+        if (userOptional.isPresent()) throw new BadRequestException("Tên tài khoản đã tồn tại");
 
         Set<Role> roles = roleService.getRolesByRoleSeletion(employeeDto.getRoles());
         User user = new User();
@@ -204,7 +201,40 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public  EmployeeDto update(EmployeeDtoLeaderSave employee) {
-        return null;
+    public EmployeeDto update(EmployeeDtoLeaderSave employeeDto) {
+        Optional<Employee> employeeOptional = findById(employeeDto.getId());
+        if(!employeeOptional.isPresent()) throw new BadRequestException("Nhân Viên không tồn tại");
+        Set<Role> roles = roleService.getRolesByRoleSeletion(employeeDto.getRoles());
+        Employee employee = employeeOptional.get();
+        User user = employee.getUser();
+        user.setRoles(roles);
+        userSerivce.save(user);
+        employee.setUser(user);
+        save(employee);
+        EmployeeDto employeeDtoResponse = modelMapper.map(employee, EmployeeDto.class);
+        employeeDtoResponse.setRoles(employeeDto.getRoles());
+        return employeeDtoResponse;
+    }
+
+    @Override
+    public Set<EmployeeDto> getAllEmployeeByBranch(BranchDto branchDto) {
+        Branch branch = branchService.getBranchById(branchDto.getId());
+        if(branch==null) throw new BadRequestException("Không tìm thấy Chi Nhánh");
+        List<Employee> employees = branch.getEmployees();
+        Set<EmployeeDto> employeesDto = new HashSet<>();
+        employees.forEach(employee -> {
+            EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
+            Set<Role> roles = employee.getUser().getRoles();
+            Set<RoleSeletionDto> rolesDto = new HashSet<>();
+            roles.forEach(role -> {
+                RoleSeletionDto roleDto = new RoleSeletionDto();
+                roleDto.setValue(role.getId());
+                roleDto.setLabel(role.getDetail());
+                rolesDto.add(roleDto);
+            });
+            employeeDto.setRoles(rolesDto);
+            employeesDto.add(employeeDto);
+        });
+        return employeesDto;
     }
 }

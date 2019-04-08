@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Row, Col} from 'reactstrap';
 import FormEmployeeOfBranch from './FormEmployeeOfBranch'
+import TableEmployeeOfBranch from "./TableEmployeeOfBranch";
 
 class EmployeeOfBranch extends Component {
   render() {
@@ -9,7 +10,7 @@ class EmployeeOfBranch extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col md={4}><FormEmployeeOfBranch/></Col>
-          <Col md={8}></Col>
+          <Col md={8}><TableEmployeeOfBranch/></Col>
         </Row>
       </div>
     );

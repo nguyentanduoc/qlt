@@ -23,7 +23,6 @@ export default (state = initState, {type, payload}) => {
     case ACTION_TYPES.EMPLOYEE.DELETE_SUCCESS:
       const empBefore = {...state.employees};
       const empAfter = _.filter(empBefore, (o) => o.id !== payload);
-      console.log(empBefore);
       return {...state, employees: empAfter};
 
     case ACTION_TYPES.EMPLOYEE.SHOW_INFO:

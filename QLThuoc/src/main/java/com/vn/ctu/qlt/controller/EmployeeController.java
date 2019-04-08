@@ -1,9 +1,6 @@
 package com.vn.ctu.qlt.controller;
 
-import com.vn.ctu.qlt.dto.BranchesSelectionDto;
-import com.vn.ctu.qlt.dto.EmployeeDto;
-import com.vn.ctu.qlt.dto.EmployeeDtoLeaderSave;
-import com.vn.ctu.qlt.dto.RoleSeletionDto;
+import com.vn.ctu.qlt.dto.*;
 import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.Role;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.xml.ws.RequestWrapper;
 import java.util.*;
 
 /**
@@ -124,10 +122,16 @@ public class EmployeeController {
         logger.debug("employeeController > leaderSaveEmployee");
         EmployeeDto employeeDto1;
         if (employeeDto.getId() == null) {
-            employeeDto1 =  employeeService.save(employeeDto);
+            employeeDto1 = employeeService.save(employeeDto);
         } else {
             employeeDto1 = employeeService.update(employeeDto);
         }
         return ResponseEntity.ok().body(employeeDto1);
+    }
+
+    @PostMapping(path = "/leader-get-all-employees")
+    public ResponseEntity<Set<EmployeeDto>> leaderGetAllEmployees(@RequestBody BranchDto branchDto) {
+        logger.debug("employeeController > leaderGetAllEmployees");
+        return ResponseEntity.ok().body(employeeService.getAllEmployeeByBranch(branchDto));
     }
 }

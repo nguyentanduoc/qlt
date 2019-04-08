@@ -102,7 +102,7 @@ public class Branch implements Serializable {
     private List<Employee> employees = new ArrayList<Employee>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ma_cap_do_chi_nhanh")
+    @JoinColumn(name = "ma_cap_do_chi_nhanh")
     private SpecLevelBranch specLevelBranch;
 
 }

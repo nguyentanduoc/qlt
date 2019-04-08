@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Form} from 'antd';
-import {Card, CardHeader, CardFooter, CardBody, Input, FormGroup, Label, Col, Button} from 'reactstrap';
+import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label} from 'reactstrap';
 import AlertCommon from "../Common/AlertCommon";
 import NumberFormat from "react-number-format";
 import Select from "react-select";
@@ -53,7 +53,6 @@ class FormEmployeeOfBranch extends Component {
   };
 
   handleSelection = (option, event) => {
-    const {product} = this.state;
     switch (event.name) {
       case 'roles':
         this.setState({roles: option});
