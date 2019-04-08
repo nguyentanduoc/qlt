@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Badge, Card, CardBody, CardHeader, Row} from 'reactstrap';
-import {Table, Popconfirm} from 'antd';
-import {Button, ButtonGroup} from 'reactstrap';
+import {Badge, Button, ButtonGroup, Card, CardBody, CardHeader} from 'reactstrap';
+import {Popconfirm, Table} from 'antd';
 import {deleteEmployee, showInfo} from '../../actions/employeeAction';
 import ModalEmployee from "./ModalEmployee";
 

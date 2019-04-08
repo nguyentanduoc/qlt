@@ -5,10 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.vn.ctu.qlt.dto.EmployeeDto;
 import com.vn.ctu.qlt.dto.RoleDto;
 import com.vn.ctu.qlt.dto.RoleSeletionDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.RoleName;
+import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -73,13 +76,12 @@ public class RolesController {
     }
 
     @PostMapping(path = "/get-roles-for-leader")
-    public ResponseEntity<List<Role>> getRolesForLeader() {
-        Authentication authentication = iAuthenticationFacade.getAuthentication();
-        Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
-        GrantedAuthority grantedAuthority = (GrantedAuthority) grantedAuthorities.stream().filter(predicate -> ((GrantedAuthority) predicate).getAuthority() == RoleName.ROLE_LEADER.toString());
-        if(grantedAuthority != null) throw new BadRequestException("Bạn không phải trưởng chi nhánh");
-        List<RoleSeletionDto> roleSelectionsDto = new ArrayList<>();
-
-        return ResponseEntity.ok().body(roleService.getByRoleNameForAdmin());
+    public ResponseEntity<Set<RoleSeletionDto>> getRolesForLeader() {
+        User user = iAuthenticationFacade.getUser();
+        Set<Role> roles = user.getRoles();
+        Role role = roles.stream().filter(predicate -> predicate.getName() == RoleName.ROLE_LEADER).findAny().orElse(null);
+        if(role == null) throw new BadRequestException("Bạn không phải trưởng chi nhánh");
+        Set<RoleSeletionDto> roleSelectionsDto = roleService.getRolesForLeader();
+        return ResponseEntity.ok().body(roleSelectionsDto);
     }
 }

@@ -142,6 +142,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<RoleSeletionDto> getRolesForLeader() {
-        return null;
+        Set<RoleSeletionDto> roleSelectionsDto = new HashSet<>();
+        List<Role> roles = roleRepository.findRoleByLeader();
+        roles.forEach(role -> {
+            roleSelectionsDto.add(new RoleSeletionDto(role.getId(), role.getDetail()));
+        });
+
+        return roleSelectionsDto;
     }
 }

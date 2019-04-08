@@ -3,21 +3,10 @@ import {connect} from 'react-redux'
 import AlertCommon from '../Common/AlertCommon'
 import Select from 'react-select'
 import {init, save} from '../../actions/employeeAction'
-import DatePicker from 'react-datepicker'
 import {resetAlert} from '../../actions/alertAction'
 import khongdau from 'khong-dau';
 import NumberFormat from 'react-number-format';
-import {
-  Form,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-  CardFooter, Col
-} from 'reactstrap';
+import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label} from 'reactstrap';
 
 export class FormEmployee extends Component {
   constructor(props) {

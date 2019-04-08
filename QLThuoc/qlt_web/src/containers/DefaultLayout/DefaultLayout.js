@@ -44,8 +44,6 @@ class DefaultLayout extends Component {
 
   render() {
     let items = {items: this.props.authReducer.nav};
-    console.log(items.items);
-    console.log(typeof (items.items));
     return (
       <div className="app">
         <AppHeader fixed>
