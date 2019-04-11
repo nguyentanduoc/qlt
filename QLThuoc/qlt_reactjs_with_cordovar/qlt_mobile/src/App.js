@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
 import FormSearch from "./components/FormSearch/FormSearch";
 import Map from './components/Map/MapComponent'
 import { BrowserRouter as Router, Route } from "react-router-dom";
