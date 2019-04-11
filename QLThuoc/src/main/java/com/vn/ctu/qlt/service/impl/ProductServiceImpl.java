@@ -1,17 +1,22 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.*;
-
-import javax.transaction.Transactional;
-
+import com.google.gson.Gson;
+import com.vn.ctu.qlt.dao.PriceHistoryDao;
+import com.vn.ctu.qlt.dao.ProductOfBranchDao;
 import com.vn.ctu.qlt.dto.*;
+import com.vn.ctu.qlt.dto.direction.DirectionSearch;
+import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.exception.DivRemainderException;
+import com.vn.ctu.qlt.exception.ProductException;
+import com.vn.ctu.qlt.exception.SpecOfProductException;
 import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.repository.ProductRepository;
 import com.vn.ctu.qlt.service.*;
+import com.vn.ctu.qlt.sevice.mapper.PriceHistoryMapper;
+import com.vn.ctu.qlt.sevice.mapper.ProductMapper;
+import com.vn.ctu.qlt.sevice.mapper.ProductOfBranchMapper;
+import liquibase.util.file.FilenameUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,19 +27,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.Gson;
-import com.vn.ctu.qlt.dao.PriceHistoryDao;
-import com.vn.ctu.qlt.dao.ProductOfBranchDao;
-import com.vn.ctu.qlt.exception.BadRequestException;
-import com.vn.ctu.qlt.exception.DivRemainderException;
-import com.vn.ctu.qlt.exception.ProductException;
-import com.vn.ctu.qlt.exception.SpecOfProductException;
-import com.vn.ctu.qlt.repository.ProductRepository;
-import com.vn.ctu.qlt.sevice.mapper.PriceHistoryMapper;
-import com.vn.ctu.qlt.sevice.mapper.ProductMapper;
-import com.vn.ctu.qlt.sevice.mapper.ProductOfBranchMapper;
-
-import liquibase.util.file.FilenameUtils;
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 // TODO: Auto-generated Javadoc
 
@@ -115,6 +114,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private DirectionsService directionsService;
 
     /*
      * (non-Javadoc)
@@ -574,5 +579,40 @@ public class ProductServiceImpl implements ProductService {
         productDtoForExport.setSpecUnits(specUnitsDto);
         productDtoForExport.setUnit(unit);
         return productDtoForExport;
+    }
+
+    @Override
+    public List<ProductSelectionDto> searchProductByKeyWord(String keyWord) {
+        List<Product> products = productRepository.searchKeyWord(keyWord);
+        List<ProductSelectionDto> response = new ArrayList<>();
+        products.forEach(product -> {
+            ProductSelectionDto productSelectionDto = new ProductSelectionDto();
+            String productName = product.getProductName() + " [" + product.getProducer().getProducerName() + "]";
+            productSelectionDto.setLabel(productName);
+            productSelectionDto.setValue(product.getId());
+            response.add(productSelectionDto);
+        });
+        return response;
+    }
+
+    @Override
+    public List<BranchDto> searchBranchHasProduct(ProductAndLocationDto productAndLocationDto) {
+        Product products = getProductById(productAndLocationDto.getProduct().getValue());
+        List<ProductOfBranch> productOfBranches = products.getProductsOfBranch();
+        List<BranchDto> branchesDto = new ArrayList<>();
+        productOfBranches.forEach(productOfBranch -> {
+            if (productOfBranch.getAmount() > 0) {
+                Branch branch = productOfBranch.getBranch();
+                CoordinateDto coordinateDto = new CoordinateDto();
+                coordinateDto.setLatitude(branch.getLatitude());
+                coordinateDto.setLongitude(branch.getLongitude());
+                DirectionSearch directionSearch = directionsService.searchDirection(productAndLocationDto.getCoordinate(), coordinateDto);
+                BranchDto branchDto = modelMapper.map(branch, BranchDto.class);
+                branchDto.setDistance(directionSearch.getRoutes().get(0).getDistance() / 1000.0);
+                branchesDto.add(branchDto);
+            }
+        });
+        branchesDto.sort(Comparator.comparing(BranchDto::getDistance));
+        return branchesDto;
     }
 }

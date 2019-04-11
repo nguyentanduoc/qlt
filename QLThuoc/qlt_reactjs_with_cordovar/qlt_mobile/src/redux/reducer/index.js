@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
-import defaultReducer from './default';
 import searchProductNameReducer from './searchProductNameReducer';
+import mapReducer from './mapReducer'
 
 export default combineReducers({
-  defaultReducer,
+  mapReducer,
   searchProductNameReducer
 });

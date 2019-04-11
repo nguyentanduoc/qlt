@@ -45,7 +45,7 @@ class FormBranch extends Component {
     this.getLocation();
   }
   getLocation() {
-    const location = window.navigator && window.navigator.geolocation
+    const location = window.navigator && window.navigator.geolocation;
     if (location) {
       location.getCurrentPosition((position) => {
         this.setState({

@@ -42,6 +42,7 @@ app:
   jwtExpirationInMs: 86400000
   passwordDefault: 12345678x@X
   domain.email: '@gmail.com'
+  mapbox_access_token: 'pk.eyJ1IjoibnRkdW9jIiwiYSI6ImNqdWNpZnh5dzBmcjE0NHBkc3YxejhvM3IifQ.OZq4smDBLCr6XJD7hS0mGg'
 server:
   port: 8090
 file:

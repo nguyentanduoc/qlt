@@ -75,4 +75,7 @@ public class Product {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PriceHistory> priceHistorys = new ArrayList<PriceHistory>();
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<ProductOfBranch> productsOfBranch = new ArrayList<>();
+
 }

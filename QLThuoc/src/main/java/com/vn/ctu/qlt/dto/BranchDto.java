@@ -24,4 +24,6 @@ public class BranchDto {
     private SpecLevelBranchDtoSelection specLevelBranch;
 
     private ShopDto shop;
+
+    private Double distance;
 }

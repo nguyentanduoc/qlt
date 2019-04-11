@@ -1,3 +1,6 @@
-export default {
-  headers: {header: {'Content-Type': 'application/json'}}
-}
+export const config = {
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json'
+  }
+};

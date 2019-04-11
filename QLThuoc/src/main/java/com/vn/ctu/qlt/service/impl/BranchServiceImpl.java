@@ -14,6 +14,7 @@ import com.vn.ctu.qlt.dto.BranchesSelectionDto;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -89,6 +90,9 @@ public class BranchServiceImpl implements BranchService {
 
     @Autowired
     private SpecLevelBranchService specLevelBranchService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /*
      * (non-Javadoc)

@@ -145,7 +145,7 @@ public class ProductController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PostMapping(path = "get-all-product-by-branch")
+    @PostMapping(path = "/get-all-product-by-branch")
     public ResponseEntity<List<ProductOfBranchDto>> getAllProductByBranch(@RequestBody BranchDto branchDto) {
         List<ProductOfBranchDto> response = productService.getAllProductByBranch(branchDto);
         return ResponseEntity.ok().body(response);

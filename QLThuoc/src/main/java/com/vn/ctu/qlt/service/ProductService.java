@@ -121,4 +121,8 @@ public interface ProductService {
 	public Double getInventory(ProductAndSpecUnit productAndSpecUnit);
 
 	public ProductDtoForExport getProductForExport(Long id);
+
+	public List<ProductSelectionDto> searchProductByKeyWord(String keyWord);
+
+	public List<BranchDto> searchBranchHasProduct(ProductAndLocationDto productAndLocationDto);
 }

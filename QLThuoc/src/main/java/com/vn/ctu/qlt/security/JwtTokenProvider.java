@@ -37,13 +37,13 @@ public class JwtTokenProvider {
 				.setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
 
-	public Long getUserIdFromJWT(String token) {
+	Long getUserIdFromJWT(String token) {
 		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
 		return Long.parseLong(claims.getSubject());
 	}
 
-	public boolean validateToken(String authToken) {
+	boolean validateToken(String authToken) {
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
 			return true;
