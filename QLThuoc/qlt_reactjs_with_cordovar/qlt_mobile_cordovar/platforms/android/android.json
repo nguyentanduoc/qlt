@@ -19,7 +19,7 @@
   },
   "installed_plugins": {
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.vn.ctu"
+      "PACKAGE_NAME": "com.example.sample"
     }
   },
   "dependent_plugins": {},

@@ -1,0 +1,31 @@
+{
+  "name": "react-with-cordova",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "@mapbox/mapbox-gl-directions": "^4.0.0",
+    "mapbox-gl": "0.51.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-mapbox-gl": "^4.2.1",
+    "react-scripts": "2.1.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "npm run remove:www && react-scripts build",
+    "build:cordova": "npm run remove:www && react-scripts build && node __script.js && move build www && cp -rf www/. ../qlt_mobile_cordovar/www",
+    "test": "react-scripts test",
+    "eject": "npm run remove:www && react-scripts eject",
+    "remove:www": "rm -rf www"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
