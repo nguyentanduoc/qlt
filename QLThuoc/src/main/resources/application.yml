@@ -3,9 +3,9 @@ spring:
     change-log: classpath:/db/liquibase-changelog.xml
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/qlthuoc
-    username: postgres
-    password: 12345678x@X
+#    url: jdbc:postgresql://localhost:5432/qlthuoc
+#    username: postgres
+#    password: 12345678x@X
     hikari:
       minimum-idle: "10"
       maximum-pool-size: "10"
