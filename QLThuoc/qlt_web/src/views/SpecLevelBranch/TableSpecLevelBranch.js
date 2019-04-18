@@ -48,7 +48,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onGetAll: () => (dispatch(getAll())),
   onResetAlert: () => (dispatch(resetAlert()))
-})
+});
 
 export default connect(
   mapStateToProps, mapDispatchToProps

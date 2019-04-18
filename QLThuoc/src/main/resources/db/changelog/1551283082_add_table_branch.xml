@@ -19,11 +19,11 @@
 			<column name="ten_chi_nhanh" type="varchar(254)">
 				<constraints nullable="false"/>
 			</column>
-			<column name="kinh_do" type="DECIMAL(12,8)">
-				<constraints nullable="false" unique="true" />
+			<column name="kinh_do" type="DOUBLE">
+				<constraints nullable="false"/>
 			</column>
-			<column name="vi_do" type="DECIMAL(12,8)">
-				<constraints nullable="false" unique="true" />
+			<column name="vi_do" type="DOUBLE">
+				<constraints nullable="false"/>
 			</column>
 			<column name="hoat_dong" type="boolean">
 				<constraints nullable="false" />

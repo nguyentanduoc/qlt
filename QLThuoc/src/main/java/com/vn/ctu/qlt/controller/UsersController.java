@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vn.ctu.qlt.dto.UpdateUserRoleDto;
 import com.vn.ctu.qlt.model.User;
-import com.vn.ctu.qlt.service.UserSerivce;
+import com.vn.ctu.qlt.service.UserService;
 
 @RestController
 @RequestMapping("/api/admin/users")
 public class UsersController {
 
 	@Autowired
-	private UserSerivce userSerivce;
+	private UserService userSerivce;
 
 	@Value("${app.passwordDefault}")
 	private String passwordDefault;

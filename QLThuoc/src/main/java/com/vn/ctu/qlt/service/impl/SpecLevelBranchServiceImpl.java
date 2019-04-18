@@ -9,6 +9,8 @@ import com.vn.ctu.qlt.repository.SpecLevelBranchRepository;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.ShopService;
 import com.vn.ctu.qlt.service.SpecLevelBranchService;
+import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -53,24 +55,25 @@ public class SpecLevelBranchServiceImpl implements SpecLevelBranchService {
 
     @Override
     public List<SpecLevelBranchDto> getAll() {
-        Iterable<SpecLevelBranch> specLevelBranches = specLevelBranchRepository.findAll();
-        List<SpecLevelBranchDto> specLevelBranchesDto = new ArrayList<>();
-        specLevelBranches.forEach(action -> {
-            SpecLevelBranchDto specLevelBranchDto = new SpecLevelBranchDto();
-            BeanUtils.copyProperties(action, specLevelBranchDto);
-            specLevelBranchesDto.add(specLevelBranchDto);
-        });
-        return specLevelBranchesDto;
+        Employee employee = iAuthenticationFacade.getEmployee();
+        Optional<Shop> shop = shopService.findShopByDirector(employee);
+        if(!shop.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+        Iterable<SpecLevelBranch> specLevelBranches = specLevelBranchRepository.findAllByShop(shop.get());
+        return convertToDto(IterableUtils.toList(specLevelBranches));
     }
 
     @Override
     public List<SpecLevelBranchDto> getAllByShop() {
-        List<SpecLevelBranchDto> response = new ArrayList<>();
         Employee employee = iAuthenticationFacade.getEmployee();
         Optional<Shop> shopOptional = shopService.findShopByDirector(employee);
         if (!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy Cửa hàng");
         Shop shop = shopOptional.get();
         List<SpecLevelBranch> specLevelBranches = shop.getSpecLevelBranches();
+        return convertToDto(specLevelBranches);
+    }
+
+    private List<SpecLevelBranchDto> convertToDto(List<SpecLevelBranch> specLevelBranches) {
+        List<SpecLevelBranchDto> response = new ArrayList<>();
         specLevelBranches.forEach(action -> {
             SpecLevelBranchDto specLevelBranchDto = new SpecLevelBranchDto();
             BeanUtils.copyProperties(action, specLevelBranchDto);

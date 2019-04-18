@@ -9,7 +9,6 @@ import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
-import jdk.nashorn.internal.runtime.options.Option;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private UserSerivce userSerivce;
+    private UserService userSerivce;
 
     /**
      * The branch service.
@@ -70,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * The user service.
      */
     @Autowired
-    private UserSerivce userService;
+    private UserService userService;
 
     @Autowired
     private IAuthenticationFacade iAuthenticationFacade;

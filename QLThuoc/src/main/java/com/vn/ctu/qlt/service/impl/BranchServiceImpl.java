@@ -83,16 +83,13 @@ public class BranchServiceImpl implements BranchService {
      * The user service.
      */
     @Autowired
-    private UserSerivce userService;
+    private UserService userService;
 
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
     @Autowired
     private SpecLevelBranchService specLevelBranchService;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     /*
      * (non-Javadoc)
@@ -102,8 +99,10 @@ public class BranchServiceImpl implements BranchService {
     public void save(BranchDto branchDto) {
         Branch branch;
         if (branchDto.getId() != null) {
-           branch = getBranchById(branchDto.getId());
+            branch = getBranchById(branchDto.getId());
         } else {
+            List<Branch> checkBranch = branchRepository.findAllByLatitudeAndLongitude(branchDto.getLatitude(), branchDto.getLongitude());
+            if (checkBranch.size() > 0) throw new BadRequestException("Tọa độ đã tồn tại");
             branch = new Branch();
         }
         Employee employee = authenticationFacade.getEmployee();

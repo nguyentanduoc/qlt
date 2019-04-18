@@ -34,9 +34,6 @@ public class SpecLevelBranchController {
     @Autowired
     private IAuthenticationFacade iAuthenticationFacade;
 
-    @Autowired
-    private ShopService shopService;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @PostMapping(path = "/save")
@@ -47,7 +44,7 @@ public class SpecLevelBranchController {
     }
 
     @PostMapping(path = "/get-all")
-    public ResponseEntity<List<SpecLevelBranchDto>> getAll(){
+    public ResponseEntity<List<SpecLevelBranchDto>> getAll() {
         List<SpecLevelBranchDto> response = specLevelBranchService.getAllByShop();
         return ResponseEntity.ok().body(response);
     }
@@ -58,7 +55,7 @@ public class SpecLevelBranchController {
         List<SpecLevelBranchDto> specLevelBranchesDto = specLevelBranchService.getAllByShop();
         specLevelBranchesDto.forEach(action -> {
             SpecLevelBranchDtoSelection specLevelBranchDtoSelection = new SpecLevelBranchDtoSelection();
-            specLevelBranchDtoSelection.setLabel(action.getLevelName() + " [" + action.getPercentProfit().toString() +"]");
+            specLevelBranchDtoSelection.setLabel(action.getLevelName() + " [" + action.getPercentProfit().toString() + "]");
             specLevelBranchDtoSelection.setValue(action.getId());
             body.add(specLevelBranchDtoSelection);
         });

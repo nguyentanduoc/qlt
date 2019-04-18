@@ -9,4 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BranchRepository extends PagingAndSortingRepository<Branch, Long> {
+
+    List<Branch> findAllByLatitudeAndLongitude(Double latitude, Double longitude);
 }

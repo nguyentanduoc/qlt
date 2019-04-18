@@ -22,11 +22,11 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'nmminh',
-      password:'12345678x@X'
+      usernameOrEmail: 'ntduoc',
+      password:'12345678x@X',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
-
+      isLoading: false
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -58,14 +58,6 @@ class Login extends Component {
     if (event.key === 'Enter') {
       this.handleSubmit(event);
     }
-  }
-
-  componentWillMount() {
-    const auth = {
-      usernameOrEmail: this.state.usernameOrEmail,
-      password: this.state.password
-    };
-    this.props.onLogin(auth);
   }
 
   componentWillUnmount() {
@@ -132,7 +124,6 @@ class Login extends Component {
                         <Col xs="6">
                           <Button
                             htmlType={'submit'}
-                            loading={this.props.auth.isLoading}
                             type="primary"
                             onClick={this.handleSubmit}>Đăng nhập
                           </Button>

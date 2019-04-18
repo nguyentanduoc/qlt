@@ -11,13 +11,13 @@ import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.Employee;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.service.EmployeeService;
-import com.vn.ctu.qlt.service.UserSerivce;
+import com.vn.ctu.qlt.service.UserService;
 
 @Component
 public class AuthenticationFacade implements IAuthenticationFacade {
 
     @Autowired
-    private UserSerivce userSerivce;
+    private UserService userSerivce;
 
     @Autowired
     private EmployeeService employeeService;
