@@ -13,7 +13,7 @@ let store = createStore(
     applyMiddleware(
       thunk,
       logger
-    ))
+    ));
 
 // if (window.navigator.userAgent.includes("Chrome") && ReactReduxDevTools) {
 //     store = createStore(
