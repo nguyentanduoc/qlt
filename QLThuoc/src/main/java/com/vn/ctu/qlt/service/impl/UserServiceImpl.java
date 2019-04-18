@@ -28,7 +28,7 @@ import com.vn.ctu.qlt.model.RoleName;
 import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.UserRepository;
 import com.vn.ctu.qlt.service.RoleService;
-import com.vn.ctu.qlt.service.UserSerivce;
+import com.vn.ctu.qlt.service.UserService;
 import com.vn.ctu.qlt.sevice.mapper.UserMapper;
 
 /**
@@ -39,7 +39,7 @@ import com.vn.ctu.qlt.sevice.mapper.UserMapper;
  */
 @Service
 @Transactional
-public class UserServiceImpl implements UserSerivce {
+public class UserServiceImpl implements UserService {
 
     /**
      * The from table.
@@ -197,7 +197,7 @@ public class UserServiceImpl implements UserSerivce {
      * @see com.vn.ctu.qlt.service.UserSerivce#createUserDireactor(com.vn.ctu.qlt.model.User)
      */
     @Override
-    public User createUserDireactor(User user) {
+    public User createUserDirector(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Optional<Role> role = roleService.getRoleByRoleName(RoleName.ROLE_DIRECTOR);
         Set<Role> roles = new HashSet<>();

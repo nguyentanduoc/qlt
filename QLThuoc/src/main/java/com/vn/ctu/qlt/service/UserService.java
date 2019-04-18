@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.vn.ctu.qlt.model.User;
 
-public interface UserSerivce {
+public interface UserService {
 
 	public PageImpl<User> searchUser(String condition, Pageable page);
 
@@ -25,7 +25,7 @@ public interface UserSerivce {
 	
 	public void delete(Long[] ids);
 	
-	public User createUserDireactor(User user);
+	public User createUserDirector(User user);
 
 	public Optional<User> findByUserName(String userName);
 }

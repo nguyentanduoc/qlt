@@ -31,7 +31,7 @@ import com.vn.ctu.qlt.model.User;
 import com.vn.ctu.qlt.repository.ShopRepository;
 import com.vn.ctu.qlt.service.EmployeeService;
 import com.vn.ctu.qlt.service.ShopService;
-import com.vn.ctu.qlt.service.UserSerivce;
+import com.vn.ctu.qlt.service.UserService;
 import com.vn.ctu.qlt.sevice.mapper.ShopMapper;
 
 /**
@@ -64,7 +64,7 @@ public class ShopServiceImpl implements ShopService {
 	
 	/** The user serivce. */
 	@Autowired
-	private UserSerivce userSerivce;
+	private UserService userSerivce;
 	
 	/** The domain email. */
 	@Value("${app.domain.email}")
@@ -95,7 +95,7 @@ public class ShopServiceImpl implements ShopService {
 		user.setPassword(passWord);
 		user.setIsEnabled(true);
 		user.setIsAdmin(false);
-		userSerivce.createUserDireactor(user);
+		userSerivce.createUserDirector(user);
 		
 		Employee employee = new Employee();
 		employee.setNameEmployee(shopDto.getFullName());

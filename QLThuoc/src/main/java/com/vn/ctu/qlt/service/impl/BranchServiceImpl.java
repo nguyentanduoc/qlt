@@ -14,6 +14,7 @@ import com.vn.ctu.qlt.dto.BranchesSelectionDto;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -82,7 +83,7 @@ public class BranchServiceImpl implements BranchService {
      * The user service.
      */
     @Autowired
-    private UserSerivce userService;
+    private UserService userService;
 
     @Autowired
     private IAuthenticationFacade authenticationFacade;
@@ -98,8 +99,10 @@ public class BranchServiceImpl implements BranchService {
     public void save(BranchDto branchDto) {
         Branch branch;
         if (branchDto.getId() != null) {
-           branch = getBranchById(branchDto.getId());
+            branch = getBranchById(branchDto.getId());
         } else {
+            List<Branch> checkBranch = branchRepository.findAllByLatitudeAndLongitude(branchDto.getLatitude(), branchDto.getLongitude());
+            if (checkBranch.size() > 0) throw new BadRequestException("Tọa độ đã tồn tại");
             branch = new Branch();
         }
         Employee employee = authenticationFacade.getEmployee();
