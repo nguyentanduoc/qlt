@@ -47,17 +47,18 @@ public class ExportController {
         PriceHistory priceHistory = productService.getPriceByBranch(productAndBranchId.getProductId());
         if (branch.getSpecLevelBranch() != null) {
             Double price = priceHistory.getPrice() + (priceHistory.getPrice() * branch.getSpecLevelBranch().getPercentProfit());
+            Double priceShare = priceHistory.getPrice() + (priceHistory.getPrice() * branch.getSpecLevelBranch().getPercentProfitShare());
             if (productOfBranchAmount == null)
                 throw new AssertionError("getSpecAndPriceAndQuality: productOfBranchAmount is null");
             response.put("inventory", productOfBranchAmount.getAmount());
             response.put("price", price);
+            response.put("priceShare", priceShare);
             response.put("priceHistory", priceHistory.getId());
             response.put("productDto", productService.getProductForExport(productOfBranchAmount.getProduct().getId()));
             return ResponseEntity.ok().body(response);
         } else {
             throw new BadRequestException("Chi nhánh chưa được xếp cấp độ");
         }
-
     }
 
     @PostMapping(path = "/save")

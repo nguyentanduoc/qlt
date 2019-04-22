@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table
 @EqualsAndHashCode
 @AllArgsConstructor
-public class PriceHistory implements Serializable {
+public class PriceHistory implements Serializable, Comparable<PriceHistory> {
 
 	private static final long serialVersionUID = 1899221885017462334L;
 
@@ -40,4 +40,9 @@ public class PriceHistory implements Serializable {
 
 	@Column(name = "don_gia")
 	private Double price;
+
+	@Override
+	public int compareTo(PriceHistory o) {
+		return getDate().compareTo(o.getDate());
+	}
 }

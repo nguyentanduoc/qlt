@@ -96,18 +96,19 @@ export class TableBuy extends Component {
     let data = this.state.data;
     let dataView = this.state.dataView;
     const compare = _.find(data, (o) => o.product.value === this.state.product.value);
+    let price =  this.state.price.replace(new RegExp(',', 'g'), '');
     if (typeof (compare) === 'undefined') {
       data.push({
         product: this.state.product,
         specUnit: this.state.specUnit,
         amount: this.state.amount,
-        price: parseFloat(this.state.price)
+        price: parseFloat(price)
       });
       dataView.push({
         product: this.state.product.label,
         specUnit: this.state.specUnit.label,
         amount: this.state.amount,
-        price: parseFloat(this.state.price)
+        price: parseFloat(price)
       });
       this.setState({data: data, dataView: dataView, isError: false});
     } else {
@@ -193,8 +194,13 @@ export class TableBuy extends Component {
             <FormGroup>
               <Label htmlFor='price'>Đơn Giá</Label>
               <InputGroup>
-                <NumberFormat value={this.state.price} className={'form-control'} thousandSeparator={true} name="price"
-                              onChange={this.changeHandler.bind(this)}/>
+                <NumberFormat
+                  value={this.state.price}
+                  className={'form-control'}
+                  thousandSeparator={true}
+                  name="price"
+                  onChange={this.changeHandler.bind(this)}
+                  fixedDecimalScale={true}/>
                 <InputGroupAddon addonType="append">
                   <InputGroupText>VN Đồng</InputGroupText>
                 </InputGroupAddon>

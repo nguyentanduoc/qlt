@@ -17,7 +17,7 @@ export default (state = initialState, {type, payload}) => {
       return {...state, unit: payload}
 
     case ACTION_TYPES.REQUEST.GET_AMOUNT_PRODUCT_SUCCESS:
-      return {...state, amount: payload}
+      return {...state, amount: payload.amount, priceHistory: payload.priceHistory}
 
     case ACTION_TYPES.REQUEST.SAVE_SUCCESS:
       return {...state, flgSaveSuccess: true}

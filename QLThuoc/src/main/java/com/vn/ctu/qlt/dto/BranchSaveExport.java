@@ -8,4 +8,5 @@ import java.util.List;
 public class BranchSaveExport {
     private BranchDto branch;
     private List<SaveExportDto> dataSubmits;
+    private Boolean isShare;
 }

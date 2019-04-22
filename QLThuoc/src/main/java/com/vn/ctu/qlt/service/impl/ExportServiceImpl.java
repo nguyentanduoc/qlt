@@ -46,6 +46,7 @@ public class ExportServiceImpl implements ExportService {
         billExport.setEmployee(employee);
         billExport.setDateCreated(new Date());
         billExport.setBranch(branch);
+        billExport.setIsShare(branchSaveExport.getIsShare());
         branchSaveExport.getDataSubmits().forEach(action -> {
             Product product = productService.getProductById(action.getProduct().getValue());
             SpecUnit specUnit = specUnitService.getById(action.getSpecUnit().getValue());

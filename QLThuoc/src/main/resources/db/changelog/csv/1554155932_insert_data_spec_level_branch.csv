@@ -1,2 +1,2 @@
-ma,ma_cua_hang,ten_cap_do,quy_dinh_phan_tram_loi
-1,1,Cấp 1,0.02
+ma,ma_cua_hang,ten_cap_do,phan_tram_le,phan_tram_chuyen,phan_tram_si
+1,1,Cấp 1,0.025,0.015,0.02
