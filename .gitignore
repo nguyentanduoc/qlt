@@ -58,3 +58,5 @@ yarn-error.log*
 /QLThuoc/build/
 /QLThuoc/out/
 QLThuoc/qlt_web/node_modules/
+
+QLThuoc/qlt_web/\.vscode/
