@@ -22,6 +22,9 @@
             <column name="ngay_lap" type="datetime">
                 <constraints nullable="false"/>
             </column>
+            <column name="ban_si" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint
                 baseColumnNames="ma_nhan_vien" baseTableName="hoa_don_ban_hang"

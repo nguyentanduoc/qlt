@@ -3,38 +3,42 @@ import {ACTION_TYPES} from "../constants";
 
 const initState = {
   productSelection: [],
-  product:[],
+  product: [],
   specUnits: [],
   price: 0,
+  priceShare: 0,
   dataViews: [],
   dataSubmits: [],
-  priceHistory:{},
+  priceHistory: {},
   inventory: 0,
-  productDto:{},
-  total:0,
-  isPrint: false
+  productDto: {},
+  total: 0,
+  isPrint: false,
+  isShare: false,
 };
 export default (state = initState, {type, payload}) => {
   switch (type) {
 
     case ACTION_TYPES.EXPORT.GET_PRODUCT_SUCCESS:
       let productSelection = [];
-      payload.forEach(function(e){
+      payload.forEach(function (e) {
         productSelection.push(e.product);
       });
       return {...state, product: payload, productSelection: productSelection};
 
     case ACTION_TYPES.EXPORT.GET_SPEC_UNIT_SUCCESS:
-      return {...state,
+      return {
+        ...state,
         specUnits: payload.specUnits,
         inventory: payload.inventory,
         price: payload.price,
+        priceShare: payload.priceShare,
         priceHistory: payload.priceHistory,
         productDto: payload.productDto
       };
 
     case ACTION_TYPES.EXPORT.SET_DETAIL_BILL:
-      const price = unitPrice(state.productDto, state.specUnitsDto, payload.specUnit,state.price );
+      const price = unitPrice(state.productDto, state.specUnitsDto, payload.specUnit, payload.price);
       const dataView = {
         productName: payload.product.label,
         amount: payload.amount,
@@ -47,7 +51,7 @@ export default (state = initState, {type, payload}) => {
       dataSubmits.push(payload);
       dataViews.push(dataView);
       const total = state.total + (price * payload.amount);
-      return  {...state, dataSubmits:dataSubmits , dataViews: dataViews, total: total};
+      return {...state, dataSubmits: dataSubmits, dataViews: dataViews, total: total};
 
     case ACTION_TYPES.EXPORT.GET_INVENTORY:
       return {...state, inventory: payload};
@@ -64,6 +68,9 @@ export default (state = initState, {type, payload}) => {
 
     case ACTION_TYPES.EXPORT.SET_IS_PRINT:
       return {...state, isPrint: !state.isPrint};
+
+    case ACTION_TYPES.EXPORT.CLEAR_DETAIL:
+      return {...state, dataViews:[], dataSubmits:[]}
     default:
       return state;
   }
@@ -71,13 +78,13 @@ export default (state = initState, {type, payload}) => {
 
 const unitPrice = (productDto, specUnitsDto, specUnitChoose, price) => {
   const {specUnits} = productDto;
-  const specUnit = _.find(specUnits, function(o){
+  const specUnit = _.find(specUnits, function (o) {
     return o.id === specUnitChoose.value;
   });
-  if(specUnit.unitIn.id === productDto.unit.id){
+  if (specUnit.unitIn.id === productDto.unit.id) {
     return price;
   } else {
-    if(productDto.unit.id === specUnit.unitOut.id){
+    if (productDto.unit.id === specUnit.unitOut.id) {
       return price * specUnit.amount;
     } else {
       return price / specUnit.amount;

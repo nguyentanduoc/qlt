@@ -1,12 +1,13 @@
 package com.vn.ctu.qlt.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.vn.ctu.qlt.dto.*;
+import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.service.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonSyntaxException;
 import com.vn.ctu.qlt.exception.FileEmpty;
 import com.vn.ctu.qlt.exception.FileStorageException;
-import com.vn.ctu.qlt.model.Product;
-import com.vn.ctu.qlt.model.Unit;
-import com.vn.ctu.qlt.service.ProducerService;
-import com.vn.ctu.qlt.service.ProductService;
-import com.vn.ctu.qlt.service.SpecUnitService;
-import com.vn.ctu.qlt.service.UnitService;
 
 // TODO: Auto-generated Javadoc
 
@@ -63,6 +58,12 @@ public class ProductController {
      */
     @Autowired
     private ProducerService producerService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private BranchService branchService;
 
     /**
      * Inits the.
@@ -129,10 +130,23 @@ public class ProductController {
     }
 
     @PostMapping(path = "/get-amount-product")
-    public ResponseEntity<Double> getAmountProduct(@RequestBody Map<String, Long> request) {
+    public ResponseEntity<Map<String, Object>> getAmountProduct(@RequestBody Map<String, Long> request) {
         Long productId = request.get("id");
         Long branchId = request.get("branchId");
-        Double result = productService.getAmountOfProduct(productId, branchId);
+        Double amount = productService.getAmountOfProduct(productId, branchId);
+        Product product = productService.getProductById(productId);
+        List<PriceHistory> priceHistories = product.getPriceHistorys();
+        Collections.sort(priceHistories);
+        PriceHistory priceHistory = priceHistories.get(priceHistories.size() - 1);
+        PriceHistoryDto priceHistoryDto = modelMapper.map(priceHistory, PriceHistoryDto.class);
+        Map<String, Object> result = new HashMap();
+
+        Branch branch = branchService.getMainBranchByBranch(branchId);
+        SpecLevelBranch specLevelBranch = branch.getSpecLevelBranch();
+        if(specLevelBranch == null) throw new BadRequestException("Chi nhánh chưa định nghĩa cấp độ");
+        priceHistoryDto.setPrice(priceHistoryDto.getPrice() * specLevelBranch.getPercentProfitChange() + priceHistoryDto.getPrice());
+        result.put("amount", amount);
+        result.put("priceHistory", priceHistoryDto);
         return ResponseEntity.ok().body(result);
     }
 

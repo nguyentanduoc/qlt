@@ -11,4 +11,8 @@ public class SpecLevelBranchDto {
 
     private Double percentProfit;
 
+    private Double percentProfitChange;
+
+    private Double percentProfitShare;
+
 }

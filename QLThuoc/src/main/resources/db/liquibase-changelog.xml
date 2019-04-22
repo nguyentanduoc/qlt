@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <databaseChangeLog
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<include file="changelog/1548987025_created_table_roles.xml" relativeToChangelogFile="true"/>
@@ -36,7 +36,6 @@
 	<include file="changelog/1553971738_created_spec_level_and_price_of_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1553972077_edited_table_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1554006384_add_nav_spec_level_branch.xml" relativeToChangelogFile="true"/>
-	<include file="changelog/1554155932_insert_data_spec_level_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1554625587_insert_data_nav_employee_of_branch.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

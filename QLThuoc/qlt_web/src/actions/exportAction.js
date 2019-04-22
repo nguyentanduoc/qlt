@@ -50,6 +50,7 @@ export const save = (data) => {
     try {
       const response = await Axios.post(API.EXPORT.SAVE, data, headerHelper);
       if (response.status === 200) {
+        dispatch(clearDetail());
         return dispatch(showAlertAndReset());
       } else {
         return dispatch(showAlertFail("Lưu thất bại"));
@@ -80,4 +81,6 @@ export const deleteExport = (record) => ({
 export const setIsPrint = () => ({
   type: ACTION_TYPES.EXPORT.SET_IS_PRINT
 });
-
+export const clearDetail = () => ({
+  type: ACTION_TYPES.EXPORT.CLEAR_DETAIL
+});

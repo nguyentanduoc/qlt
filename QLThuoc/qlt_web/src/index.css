@@ -1,5 +1,5 @@
 .table-hover tbody tr:hover > td {
-    cursor: pointer;
+  cursor: pointer;
 }
 .react-datepicker-wrapper {
   width: 100%;
@@ -9,4 +9,7 @@
 }
 .ant-calendar-picker {
   width: 100%
+}
+.ant-form-item-label {
+  margin-bottom: 0px;
 }

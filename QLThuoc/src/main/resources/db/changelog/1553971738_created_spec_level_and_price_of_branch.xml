@@ -20,7 +20,13 @@
             <column name="ten_cap_do" type="varchar(254)">
                 <constraints nullable="false"/>
             </column>
-            <column name="quy_dinh_phan_tram_loi" type="double">
+            <column name="phan_tram_le" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phan_tram_chuyen" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phan_tram_si" type="double">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -29,5 +35,16 @@
                 constraintName="fk_ma_cua_hang_cap_do_chi_nhanh" deferrable="true"
                 initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
                 referencedColumnNames="ma" referencedTableName="cua_hang"/>
+    </changeSet>
+    <changeSet id="02" author="ntduoc">
+        <loadData catalogName="cat" encoding="UTF-8" file="db/changelog/csv/1554155932_insert_data_spec_level_branch.csv"
+                  schemaName="public" tableName="cap_do_chi_nhanh   ">
+            <column name="ma" type="numeric" />
+            <column name="ma_cua_hang" type="numeric" />
+            <column name="ten_cap_do" type="string" />
+            <column name="phan_tram_le" type="numeric" />
+            <column name="phan_tram_chuyen" type="numeric" />
+            <column name="phan_tram_si" type="numeric" />
+        </loadData>
     </changeSet>
 </databaseChangeLog>

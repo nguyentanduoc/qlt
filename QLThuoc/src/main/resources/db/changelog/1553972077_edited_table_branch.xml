@@ -16,4 +16,18 @@
                 onDelete="CASCADE" onUpdate="RESTRICT"
                 referencedColumnNames="ma" referencedTableName="cap_do_chi_nhanh"/>
     </changeSet>
+    <changeSet id="03" author="ntduoc">
+        <loadUpdateData primaryKey="ma" encoding="UTF-8" file="db/changelog/csv/1555640898_upload_data_branch.csv" schemaName="public"
+                        tableName="chi_nhanh">
+            <column name="ma" type="numeric" />
+            <column name="ten_chi_nhanh" type="STRING" />
+            <column name="kinh_do" type="numeric" />
+            <column name="vi_do" type="numeric" />
+            <column name="hoat_dong" type="BOOLEAN" />
+            <column name="dia_chi" type="String"/>
+            <column name="ma_cua_hang" type="numeric"/>
+            <column name="chi_nhanh_chinh" type="BOOLEAN"/>
+            <column name="ma_cap_do_chi_nhanh" type="numeric"/>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>

@@ -1,8 +1,0 @@
-ma,ten_quyen,mo_ta,cap_do
-1,ROLE_ADMIN,Quản trị viên,1
-2,ROLE_DIRECTOR,Giám Đốc,2
-3,ROLE_LEADER,Trưởng Chi Nhánh,3
-4,ROLE_EMPLOYEE_IMPORT, Nhân Viên Quản Lý Kho,4
-5,ROLE_MARKETING, Nhân Viên Tiếp Thị,5
-6,ROLE_EMPLOYEE_EXPORT,Nhân Viên Bán Hàng,6
-7,ROLE_USER,Khách Hàng,7

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, CardHeader, Row, Col} from 'reactstrap';
+import {Card, CardBody, CardHeader, Row, Col, CustomInput} from 'reactstrap';
 import DetailBillExport from "./DetailBillExport";
 import {Form, Input, Button} from 'antd';
-import {getAllProduct, getSpecUnit, setListDetail, getInventory} from '../../../actions/exportAction';
+import {getAllProduct, getSpecUnit, setListDetail, getInventory, clearDetail} from '../../../actions/exportAction';
 import Select from 'react-select';
 import _ from 'lodash';
 import {showAlertErrorAndReset} from '../../../actions/alertAction';
@@ -19,7 +19,8 @@ class CreateBill extends Component {
       specUnit: {},
       dataView: [],
       dataSubmit: [],
-      priceHistory: {}
+      priceHistory: {},
+      isShare: false
     }
   }
 
@@ -60,9 +61,10 @@ class CreateBill extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values);
         const {priceHistory, dataSubmits} = this.props.exportReducer;
         const compare = _.find(dataSubmits, (o) => this.state.product.value === o.product.value)
-        if(typeof(compare) === 'undefined'){
+        if (typeof (compare) === 'undefined') {
           this.props.onSetListDetail({
             product: this.state.product,
             specUnit: this.state.specUnit,
@@ -76,14 +78,32 @@ class CreateBill extends Component {
       }
     });
   };
+  changeHandler = () => {
+    const {dataViews, dataSubmits} = this.props.exportReducer;
+    if (dataViews.length > 0 || dataSubmits.length > 0)
+      this.props.onClearDetail();
+    this.setState({isShare: !this.state.isShare});
+  }
 
   render() {
-    const {productSelection, specUnits, price, inventory} = this.props.exportReducer;
+    const {productSelection, specUnits, price, inventory, priceShare} = this.props.exportReducer;
     const {getFieldDecorator} = this.props.form;
     return (
       <Card>
         <CardHeader>
           Tạo Hóa Đơn Bán Hàng
+          <div className="card-header-actions">
+            {/*<i className="fa fa-check float-right"></i>*/}
+            <CustomInput
+              type="switch"
+              id='isMain'
+              label='Bán sĩ'
+              name='isMain'
+              checked={this.state.isShare}
+              onChange={this.changeHandler.bind(this)}
+              // value={this.state.isMain}
+            />
+          </div>
         </CardHeader>
         <CardBody>
           <Row>
@@ -101,7 +121,7 @@ class CreateBill extends Component {
                     </Col>
                     <Col md={6}>
                       <Form.Item label={"Giá sản phẩm"}>
-                        {getFieldDecorator('price', {initialValue: price})(
+                        {getFieldDecorator('price', {initialValue: this.state.isShare ? priceShare : price})(
                           <Input disabled={true} className={'text-right'}/>
                         )}
                       </Form.Item>
@@ -134,7 +154,8 @@ class CreateBill extends Component {
                           validator: this.validateAmount,
                         }],
                       })(
-                        <Input type="number" disabled={typeof(this.state.product.value) === 'undefined' || typeof(this.state.specUnit.value) === 'undefined'}/>
+                        <Input type="number"
+                               disabled={typeof (this.state.product.value) === 'undefined' || typeof (this.state.specUnit.value) === 'undefined'}/>
                       )}
                     </Form.Item>
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>Thêm Sản Phẩm</Button>
@@ -143,7 +164,7 @@ class CreateBill extends Component {
               </Card>
             </Col>
             <Col md={8}>
-              <DetailBillExport/>
+              <DetailBillExport isShare={this.state.isShare}/>
               <ExportBillToPdf/>
             </Col>
           </Row>
@@ -162,7 +183,8 @@ const mapDispatchToProps = (dispatch) => ({
   onGetSpecUnit: (productId, branchId) => dispatch(getSpecUnit(productId, branchId)),
   onSetListDetail: (data) => dispatch(setListDetail(data)),
   onGetInventory: (data) => dispatch(getInventory(data)),
-  onShowAlertErrorAndReset: (message) => dispatch(showAlertErrorAndReset(message))
+  onShowAlertErrorAndReset: (message) => dispatch(showAlertErrorAndReset(message)),
+  onClearDetail: () => dispatch(clearDetail())
 });
 const createBillForm = Form.create({name: 'register'})(CreateBill);
 export default connect(mapStateToProps, mapDispatchToProps)(createBillForm);

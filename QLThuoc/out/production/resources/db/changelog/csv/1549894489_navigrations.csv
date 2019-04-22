@@ -1,6 +1,0 @@
-ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha,la_chi_nhanh_chinh
-1,1,Dashboard,/dashboard,icon-speedometer,false,1,false,true,,0
-2,null,Quản trị viên,/admin,fas fa-users-cog,true,100,true,false,,0
-3,null,Cửa Hàng,/admin/shop,fas fa-store,false,101,false,true,2,0
-4,null,Tài Khoản,/admin/account,fas fa-user-alt,false,102,false,true,2,0
-5,null,Cài đặt Danh Mục,/admin/setting-menu,fas fa-tasks,false,103,false,true,2,0
