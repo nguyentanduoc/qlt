@@ -36,26 +36,26 @@ class index extends Component {
           render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
          }
       ],
-      seletedKeys: []
+      selectedKeys: []
     }
   }
   componentWillMount(){
     this.props.onSelect();
   }
-  onSelectedRowKeysChange = (seletedKeys) => {
+  onSelectedRowKeysChange = (selectedKeys) => {
     this.setState({
-      seletedKeys: seletedKeys
+      selectedKeys: selectedKeys
     })
-  }
+  };
   handleDeletedRow = async (e) => {
     e.preventDefault();
-    await this.props.onDeleteShop(this.state.seletedKeys);
-    this.setState({seletedKeys:[]});
-  }
+    await this.props.onDeleteShop(this.state.selectedKeys);
+    this.setState({selectedKeys:[]});
+  };
   render() {
-    const { seletedKeys } = this.state;
+    const { selectedKeys } = this.state;
     const rowSelection = {
-      seletedKeys,
+      selectedKeys,
       onChange: this.onSelectedRowKeysChange
     };
     const onRow = (record) => {
@@ -65,7 +65,7 @@ class index extends Component {
           this.props.onSetDetail(record);
         }
       };
-    }
+    };
     return (
       <div className="animated fadeIn">
         <Row>
@@ -82,7 +82,7 @@ class index extends Component {
                   <Button
                     color='warning'
                     className="btn-square"
-                    disabled={this.state.seletedKeys.length <= 0}
+                    disabled={this.state.selectedKeys.length <= 0}
                     onClick={this.handleDeletedRow.bind(this)}>
                       <i className="far fa-trash-alt"/>
                   </Button>
@@ -106,11 +106,11 @@ class index extends Component {
 
 const mapStateToProps = (state) => ({
   shopReducer: state.shopReducer
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  onSelect: (conditon) => {
-    return dispatch(select(conditon));
+  onSelect: (condition) => {
+    return dispatch(select(condition));
   },
   onSetDetail: (row) => {
     return dispatch(setDetail(row));
@@ -118,6 +118,6 @@ const mapDispatchToProps = (dispatch) => ({
   onDeleteShop: (keys) => {
     return dispatch(deleteShop(keys));
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)
