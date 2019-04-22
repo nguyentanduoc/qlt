@@ -57,3 +57,4 @@ yarn-error.log*
 /QLThuoc/bin/
 /QLThuoc/build/
 /QLThuoc/out/
+QLThuoc/qlt_web/node_modules/
