@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button } from "antd";
+import {Button} from "antd";
 import {
   Card,
   CardBody,
@@ -17,13 +17,14 @@ import {
 import {connect} from 'react-redux';
 import {login, setLoading} from '../../../actions/authenAction';
 import {resetError} from '../../../actions/errorAction';
+import {ROLES} from '../../../constants';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       usernameOrEmail: 'ntduoc',
-      password:'12345678x@X',
+      password: '12345678x@X',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
       isLoading: false
@@ -42,7 +43,7 @@ class Login extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,13 +53,13 @@ class Login extends Component {
       password: this.state.password
     };
     await this.props.onLogin(auth);
-  }
+  };
 
   handleKeUpEnter = (event) => {
     if (event.key === 'Enter') {
       this.handleSubmit(event);
     }
-  }
+  };
 
   componentWillUnmount() {
     this.props.onResetError();
@@ -66,12 +67,14 @@ class Login extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.auth.isLogin) {
-      if (this.props.auth.isChooseBranch) {
+    const {isLogin, authorities} = this.props.auth;
+    if (isLogin) {
+      if (authorities.findIndex(authority => authority === ROLES.ROLE_LEADER) !== -1)
+        this.props.history.push('/control-branch/report');
+      else if (this.props.auth.isChooseBranch)
         this.props.history.push('/choose-branch');
-      } else {
-        this.props.history.push('/dashboard');
-      }
+      else this.props.history.push('/dashboard');
+
     }
   }
 
