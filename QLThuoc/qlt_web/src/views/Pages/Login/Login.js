@@ -23,7 +23,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'ntduoc',
+      usernameOrEmail: 'tva',
       password: '12345678x@X',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
@@ -31,10 +31,11 @@ class Login extends Component {
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.keyEnterUp = this.handleKeUpEnter.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', this.handleKeUpEnter.bind(this));
+    window.addEventListener('keyup', this.keyEnterUp);
   }
 
   changeHandler = event => {
@@ -57,13 +58,12 @@ class Login extends Component {
 
   handleKeUpEnter = (event) => {
     if (event.key === 'Enter') {
-      this.handleSubmit(event);
+      return this.handleSubmit(event);
     }
   };
 
   componentWillUnmount() {
-    this.props.onResetError();
-    document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
+    window.removeEventListener('keyup', this.keyEnterUp);
   }
 
   componentDidUpdate() {
@@ -149,7 +149,7 @@ const mapStateToProps = state => {
     auth: state.auth,
     error: state.error
   }
-}
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: async (auth) => {
@@ -162,5 +162,5 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(setLoading());
     }
   }
-}
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

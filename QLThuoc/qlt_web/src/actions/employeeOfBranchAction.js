@@ -52,7 +52,6 @@ export const getAllEmployee = (branch) => (
   async (dispatch) => {
     try {
       const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.GET_ALL_EMPLOYEES, branch, headerHelper);
-      console.log(response);
       return dispatch(getEmployeesSuccess(response.data));
     } catch (e) {
       return dispatch(showAlertFail(e));

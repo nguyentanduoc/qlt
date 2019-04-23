@@ -48,7 +48,7 @@ const columns = [
     dataIndex: 'price',
     key: 'price',
   }
-]
+];
 
 export class TableRequest extends Component {
   constructor(props) {
@@ -71,12 +71,12 @@ export class TableRequest extends Component {
   onAddProduct = (e) => {
     e.preventDefault();
     this.toggle();
-  }
+  };
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
     });
-  }
+  };
   handleSelections = (e, selection) => {
     switch (selection.name) {
 
@@ -89,16 +89,15 @@ export class TableRequest extends Component {
       default:
         break;
     }
-  }
+  };
 
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name , '-', value);
     this.setState({
       [name]: value
     });
-  }
+  };
 
   addImport = async (e) => {
     const {priceHistory} = this.props.requestReducer;
@@ -127,13 +126,13 @@ export class TableRequest extends Component {
         total: this.state.total + (priceHistory.price * this.state.amount)
       });
     }
-  }
+  };
 
   addImportAndExit = (e) => {
     this.addImport(e).then(() => {
       this.toggle();
     });
-  }
+  };
 
   onSave = (e) => {
     e.preventDefault();
@@ -157,7 +156,7 @@ export class TableRequest extends Component {
 
   checkEmpty = (str) => {
     return (!str || 0 === str.length);
-  }
+  };
 
   render() {
     const {products, unit, amount, priceHistory} = this.props.requestReducer;
@@ -268,7 +267,7 @@ const mapStateToProps = (state) => ({
   requestReducer: state.requestReducer,
   authenReducer: state.auth,
 
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onGetAllProduct: (branch) => {
@@ -289,6 +288,6 @@ const mapDispatchToProps = (dispatch) => ({
   onResetAlert: () => {
     return dispatch(resetAlert());
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableRequest)
