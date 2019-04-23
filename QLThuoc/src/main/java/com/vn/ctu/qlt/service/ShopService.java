@@ -13,21 +13,23 @@ import com.vn.ctu.qlt.model.Shop;
 
 public interface ShopService {
 
-	public Map<String, Object> save(ShopDto shop);
+	Map<String, Object> save(ShopDto shop);
 	
-	public Page<Shop> select(String condition, Pageable page);
+	Page<Shop> select(String condition, Pageable page);
 	
-	public Page<ShopDto> selectDto(String condition, Pageable page);
+	Page<ShopDto> selectDto(String condition, Pageable page);
 	
-	public void delete(Long[] keys);
+	void delete(Long[] keys);
 	
-	public Iterable<Shop> selectAll();
+	Iterable<Shop> selectAll();
 	
-	public List<ShopDto> selectAllDto();
+	List<ShopDto> selectAllDto();
 	
-	public Optional<Shop> findById(Long id);
+	Optional<Shop> findById(Long id);
 	
-	public Optional<Shop> findShopByDirector(Employee employee);
+	Optional<Shop> findShopByDirector(Employee employee);
 
-	public ShopDto save(Shop shop);
+	ShopDto save(Shop shop);
+
+	Map<String, Object> getReport();
 }

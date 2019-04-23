@@ -28,4 +28,6 @@ public interface EmployeeService {
 	void deleteEmployee(Long id);
 
 	Set<EmployeeDto> getAllEmployeeByBranch(BranchDto branchDto);
+
+	Integer countEmployeeJoinShopOnThisMonth(Set<Employee> employees);
 }
