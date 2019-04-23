@@ -42,6 +42,7 @@ export default {
     GET_AMOUNT_PRODUCT: `${BASE_URI}/api/product/get-amount-product`,
     GET_UNIT_OF_PRODUCT: `${BASE_URI}/api/product/get-unit-of-product`,
     GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
+    SEARCH: `${BASE_URI}/api/product/search`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
@@ -73,5 +74,8 @@ export default {
     GET_ROLES_BY_LEADER: `${BASE_URI}/api/admin/roles/get-roles-for-leader`,
     SAVE_EMPLOYEE: `${BASE_URI}/api/employee/leader-save-employee`,
     GET_ALL_EMPLOYEES: `${BASE_URI}/api/employee/leader-get-all-employees`,
+  },
+  PRODUCER: {
+    GET_ALL: `${BASE_URI}/api/producer/get-all`,
   }
 }

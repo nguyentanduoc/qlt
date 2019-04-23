@@ -143,7 +143,7 @@ public class ProductController {
 
         Branch branch = branchService.getMainBranchByBranch(branchId);
         SpecLevelBranch specLevelBranch = branch.getSpecLevelBranch();
-        if(specLevelBranch == null) throw new BadRequestException("Chi nhánh chưa định nghĩa cấp độ");
+        if (specLevelBranch == null) throw new BadRequestException("Chi nhánh chưa định nghĩa cấp độ");
         priceHistoryDto.setPrice(priceHistoryDto.getPrice() * specLevelBranch.getPercentProfitChange() + priceHistoryDto.getPrice());
         result.put("amount", amount);
         result.put("priceHistory", priceHistoryDto);
@@ -163,5 +163,21 @@ public class ProductController {
     public ResponseEntity<List<ProductOfBranchDto>> getAllProductByBranch(@RequestBody BranchDto branchDto) {
         List<ProductOfBranchDto> response = productService.getAllProductByBranch(branchDto);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(path = "/search")
+    public ResponseEntity<List<ProductDto>> search(@RequestBody ProductSearchDto condition) {
+        if (condition == null || (condition.getProductName() == null && condition.getProducerId() == null) || (condition.getProducerId() != null && condition.getProducerId() == 0))
+            return ResponseEntity.ok().body(productService.searchProduct());
+
+        if (condition.getProductName() != null && condition.getProducerId() != null && condition.getProducerId() != 0)
+            return ResponseEntity.ok().body(productService.searchProductByKeyWordAndProducer(condition));
+
+        if (condition.getProductName() != null && condition.getProducerId() == null)
+            return ResponseEntity.ok().body(productService.searchProductByKeyWordReturnListProductDto(condition.getProductName()));
+
+        if (condition.getProductName() == null && condition.getProducerId() != null && condition.getProducerId() != 0)
+            return ResponseEntity.ok().body(productService.searchProductByProducer(condition.getProducerId()));
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

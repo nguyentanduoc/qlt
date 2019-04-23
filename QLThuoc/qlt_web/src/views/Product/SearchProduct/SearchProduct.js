@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Card, CardBody, CardHeader} from "reactstrap";
 import {Button, Form, Input, Select, Table} from "antd";
+import {getAllReducer} from '../../../actions/producerAction';
+import {search} from '../../../actions/productAction'
 
-const { Option } = Select;
+const {Option} = Select;
 
 const columns = [
   {
@@ -32,18 +34,25 @@ const columns = [
 class SearchProduct extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onSearch(values)
+      }
+    });
   };
   hasErrors = (fieldsError) => {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
-  handleChange = (producerId) => {
-
+  componentWillMount() {
+    this.props.onGetAllProducer();
   };
 
   render() {
     const {
       getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
     } = this.props.form;
+    const {producers}  = this.props.producerReducer;
+
     return (
       <Card className={'border-info card'}>
         <CardHeader><i className={'fa fa-search'}/> Tra cứu Sản Phẩm</CardHeader>
@@ -58,32 +67,31 @@ class SearchProduct extends Component {
                     )}
                   </Form.Item>
                   <Form.Item>
-                    <Select
-                      showSearch
-                      style={{ width: 200 }}
-                      placeholder="Select a person"
-                      optionFilterProp="children"
-                      onChange={this.handleChange}
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    >
-                      <Option value="1">Option 1</Option>
-                      <Option value="2">Option 2</Option>
-                      <Option value="3">Option 3</Option>
-                    </Select>
+                    {getFieldDecorator('producerId')(
+                      <Select
+                        showSearch
+                        style={{width: 200}}
+                        placeholder="Chọn Nhà Sản Xuất"
+                        optionFilterProp="children"
+                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
+                        <Option value='0'>------</Option>
+                        {producers.length > 0 && producers.map((producer, idx) => (
+                          <Option key={idx} value={producer.value}>{producer.label}</Option>
+                        ))}
+                      </Select>
+                    )}
                   </Form.Item>
                   <Form.Item>
                     <Button
                       icon={'search'}
                       type="primary"
                       htmlType="submit"
-                      disabled={this.hasErrors(getFieldsError())}>
-                      Tìm
-                    </Button>
+                      disabled={this.hasErrors(getFieldsError())}>Tìm</Button>
                   </Form.Item>
                 </Form>
               </CardBody>
             </Card>
-            <Table bordered={true} dataSource={null} columns={columns}/>
+            <Table bordered={true} dataSource={this.props.productReducer.productSearch} columns={columns} rowKey={'id'}/>
           </div>
         </CardBody>
       </Card>
@@ -92,10 +100,18 @@ class SearchProduct extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    producerReducer: state.producerReducer,
+    productReducer: state.productReducer
+  };
 }
+
+const mapDispatchToPops = (dispatch) => ({
+  onGetAllProducer: () => dispatch(getAllReducer()),
+  onSearch: (condition) => dispatch(search(condition))
+})
 
 const FormSearchProduct = Form.create()(SearchProduct);
 export default connect(
-  mapStateToProps,
+  mapStateToProps, mapDispatchToPops
 )(FormSearchProduct);

@@ -159,7 +159,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImage(imgDir + fileName);
         product.setVirtue(productDto.getVirtue());
         product.setSpecUnits(specUnits);
-        product.setProducer(producerService.getByProducerSeletion(productDto.getProducer()));
+        product.setProducer(producerService.getByProducerSelection(productDto.getProducerSeletion()));
         product.setUnit(unitService.getByUnitSeletion(productDto.getUnit()));
         productRepository.save(product);
         return product;
@@ -615,4 +615,51 @@ public class ProductServiceImpl implements ProductService {
         branchesDto.sort(Comparator.comparing(BranchDto::getDistance));
         return branchesDto;
     }
+
+    @Override
+    public List<ProductDto> searchProductByKeyWordAndProducer(ProductSearchDto productSearchDto) {
+        List<Product> products = productRepository.searchKeyWord(productSearchDto.getProductName());
+        List<ProductDto> productsDto = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getProducer().getId().equals(productSearchDto.getProducerId())) {
+                ProductDto productDto = modelMapper.map(product, ProductDto.class);
+                productsDto.add(productDto);
+            }
+        }
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProductByProducer(Long producerId) {
+        Producer producer = producerService.getProducerById(producerId);
+        List<ProductDto> productsDto = new ArrayList<>();
+        List<Product> products = productRepository.findAllByProducer(producer);
+        for (Product product : products) {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            productsDto.add(productDto);
+        }
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProductByKeyWordReturnListProductDto(String keyWord) {
+        List<Product> products = productRepository.searchKeyWord(keyWord);
+        return covert(products);
+    }
+
+    private List<ProductDto> covert(List<Product> products){
+        List<ProductDto> productsDto = new ArrayList<>();
+        for (Product product : products) {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            productsDto.add(productDto);
+        }
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProduct(){
+        List<Product> products = productRepository.findAll();
+        return covert(products);
+    }
+
 }

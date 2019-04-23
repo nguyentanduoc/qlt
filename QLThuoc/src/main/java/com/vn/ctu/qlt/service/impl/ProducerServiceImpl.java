@@ -1,9 +1,6 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -34,7 +31,7 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
-    public Producer getByProducerSeletion(ProducerSeletion producerSelection) {
+    public Producer getByProducerSelection(ProducerSeletion producerSelection) {
         return producerRepository.getOne(producerSelection.getValue());
     }
 
@@ -43,6 +40,19 @@ public class ProducerServiceImpl implements ProducerService {
         Optional<Producer> producer = producerRepository.findById(id);
         if (!producer.isPresent()) throw new BadRequestException("Không tìm thấy Nhà Sản Xuất");
         return producer.get();
+    }
+
+    @Override
+    public List<ProducerSeletion> getAllProducer() {
+        List<Producer> producers = producerRepository.findAll();
+        List<ProducerSeletion> producerSelections = new ArrayList<>();
+        for (Producer producer : producers) {
+            ProducerSeletion producerSeletion = new ProducerSeletion();
+            producerSeletion.setLabel(producer.getProducerName());
+            producerSeletion.setValue(producer.getId());
+            producerSelections.add(producerSeletion);
+        }
+        return producerSelections;
     }
 
 }
