@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, CardFooter, CardHeader, Form} from "reactstrap";
-import {Button, Switch} from "antd";
+import {Card, CardBody, CardHeader, Form} from "reactstrap";
 import {Table} from "antd";
-import Moment from "../../Request/Accept";
 
 class SearchProduct extends Component {
   render() {
