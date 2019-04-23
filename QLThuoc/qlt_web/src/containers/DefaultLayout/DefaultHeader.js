@@ -36,7 +36,6 @@ class DefaultHeader extends Component {
               <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
             </DropdownToggle>
             <DropdownMenu right style={{right: 'auto'}}>
-              <DropdownItem><i className="fa fa-shield"/> Lock Account</DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"/> Logout</DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
