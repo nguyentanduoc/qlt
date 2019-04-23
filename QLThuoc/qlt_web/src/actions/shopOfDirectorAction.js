@@ -31,3 +31,17 @@ export const saveSuccess = (data) => ({
   type: ACTION_TYPES.SHOP_OF_DIRECTOR.UPDATE_SUCCESS,
   payload: data
 });
+export const getReportShop = () => (
+  async dispatch => {
+    try {
+      const response = await Axios.post(API.SHOP_OF_DIRECTOR.GET_REPORT, null, headerHelper);
+      dispatch(getReportSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+const getReportSuccess = (data) => ({
+  type: ACTION_TYPES.SHOP_OF_DIRECTOR.GET_REPORT_SUCCESS,
+  payload: data
+});
