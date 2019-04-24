@@ -16,4 +16,6 @@ public interface ProducerService {
 
     List<ProducerSeletion> getAllProducer();
 
+    void save(String producerName);
+
 }

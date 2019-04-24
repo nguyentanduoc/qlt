@@ -583,7 +583,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductSelectionDto> searchProductByKeyWord(String keyWord) {
-        List<Product> products = productRepository.searchKeyWord(keyWord);
+        List<Product> products;
+        if (keyWord == "") {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.searchKeyWord(keyWord);
+        }
         List<ProductSelectionDto> response = new ArrayList<>();
         products.forEach(product -> {
             ProductSelectionDto productSelectionDto = new ProductSelectionDto();
@@ -618,7 +623,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> searchProductByKeyWordAndProducer(ProductSearchDto productSearchDto) {
-        List<Product> products = productRepository.searchKeyWord(productSearchDto.getProductName());
+        List<Product> products;
+        if (productSearchDto.getProductName() == "") {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.searchKeyWord(productSearchDto.getProductName());
+        }
         List<ProductDto> productsDto = new ArrayList<>();
         for (Product product : products) {
             if (product.getProducer().getId().equals(productSearchDto.getProducerId())) {
@@ -643,11 +653,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> searchProductByKeyWordReturnListProductDto(String keyWord) {
-        List<Product> products = productRepository.searchKeyWord(keyWord);
+        List<Product> products;
+        if (keyWord == "") {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.searchKeyWord(keyWord);
+        }
         return covert(products);
     }
 
-    private List<ProductDto> covert(List<Product> products){
+    private List<ProductDto> covert(List<Product> products) {
         List<ProductDto> productsDto = new ArrayList<>();
         for (Product product : products) {
             ProductDto productDto = modelMapper.map(product, ProductDto.class);
@@ -657,7 +672,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> searchProduct(){
+    public List<ProductDto> searchProduct() {
         List<Product> products = productRepository.findAll();
         return covert(products);
     }

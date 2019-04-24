@@ -20,6 +20,7 @@ const columns = [
     title: 'Nhà Sản Xuất',
     dataIndex: 'producer',
     key: 'producer',
+    render: (producer) => (<div>{producer.producerName}</div>)
   }, {
     title: 'Cộng Dụng',
     dataIndex: 'virtue',
@@ -43,15 +44,16 @@ class SearchProduct extends Component {
   hasErrors = (fieldsError) => {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
+
   componentWillMount() {
     this.props.onGetAllProducer();
   };
 
   render() {
     const {
-      getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
+      getFieldDecorator, getFieldsError
     } = this.props.form;
-    const {producers}  = this.props.producerReducer;
+    const {producers} = this.props.producerReducer;
 
     return (
       <Card className={'border-info card'}>
@@ -62,7 +64,9 @@ class SearchProduct extends Component {
               <CardBody>
                 <Form layout="inline" onSubmit={this.handleSubmit}>
                   <Form.Item>
-                    {getFieldDecorator('productName')(
+                    {getFieldDecorator('productName',{
+                      initialValue: ''
+                    })(
                       <Input placeholder="Tên sản phẩm"/>
                     )}
                   </Form.Item>
@@ -74,7 +78,7 @@ class SearchProduct extends Component {
                         placeholder="Chọn Nhà Sản Xuất"
                         optionFilterProp="children"
                         filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
-                        <Option value='0'>------</Option>
+                        <Option value='0'>--Chọn Nhà Sản Xuất--</Option>
                         {producers.length > 0 && producers.map((producer, idx) => (
                           <Option key={idx} value={producer.value}>{producer.label}</Option>
                         ))}
@@ -91,7 +95,8 @@ class SearchProduct extends Component {
                 </Form>
               </CardBody>
             </Card>
-            <Table bordered={true} dataSource={this.props.productReducer.productSearch} columns={columns} rowKey={'id'}/>
+            <Table bordered={true} dataSource={this.props.productReducer.productSearch} columns={columns}
+                   rowKey={'id'}/>
           </div>
         </CardBody>
       </Card>

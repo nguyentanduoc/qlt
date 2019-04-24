@@ -14,7 +14,11 @@ export default (state = initialState, {type, payload}) => {
       return {...state, specUnits: payload.specUnits, producers: payload.producers, units: payload.units}
 
     case  ACTION_TYPES.PRODUCT.SEARCH_SUCCESS:
-      return {...state, productSearch: payload}
+      return {...state, productSearch: payload};
+
+    case ACTION_TYPES.PRODUCT.SET_PRODUCER:
+      return {...state, producers: payload};
+
     default:
       return state
   }

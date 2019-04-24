@@ -96,7 +96,7 @@ public class ProductController {
                 throw new FileEmpty("Failed to store empty file");
             } else {
                 productService.save(model, file);
-                return new ResponseEntity<Void>(HttpStatus.OK);
+                return new ResponseEntity(HttpStatus.OK);
             }
         } catch (IOException e) {
             String msg = String.format("Failed to store file", file.getName());
@@ -167,17 +167,19 @@ public class ProductController {
 
     @PostMapping(path = "/search")
     public ResponseEntity<List<ProductDto>> search(@RequestBody ProductSearchDto condition) {
-        if (condition == null || (condition.getProductName() == null && condition.getProducerId() == null) || (condition.getProducerId() != null && condition.getProducerId() == 0))
+        if ((condition.getProductName() == "" && condition.getProducerId() == null)
+                || (condition.getProductName() == null && condition.getProducerId() == 0))
             return ResponseEntity.ok().body(productService.searchProduct());
 
-        if (condition.getProductName() != null && condition.getProducerId() != null && condition.getProducerId() != 0)
+        if (condition.getProductName() != "" && condition.getProducerId() != null && condition.getProducerId() != 0)
             return ResponseEntity.ok().body(productService.searchProductByKeyWordAndProducer(condition));
 
-        if (condition.getProductName() != null && condition.getProducerId() == null)
+        if (condition.getProductName() != "" && (condition.getProducerId() == null || condition.getProducerId() == 0))
             return ResponseEntity.ok().body(productService.searchProductByKeyWordReturnListProductDto(condition.getProductName()));
 
-        if (condition.getProductName() == null && condition.getProducerId() != null && condition.getProducerId() != 0)
-            return ResponseEntity.ok().body(productService.searchProductByProducer(condition.getProducerId()));
+        if (condition.getProductName() == "" && condition.getProducerId() != null && condition.getProducerId() == 0)
+            return ResponseEntity.ok().body(productService.searchProduct());
+
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

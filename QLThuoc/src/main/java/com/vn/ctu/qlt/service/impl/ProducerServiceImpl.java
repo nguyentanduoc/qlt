@@ -24,9 +24,9 @@ public class ProducerServiceImpl implements ProducerService {
     public Set<ProducerSeletion> getAllForSelection() {
         List<Producer> producerList = producerRepository.findAll();
         Set<ProducerSeletion> producerSelections = new HashSet<ProducerSeletion>();
-        producerList.forEach(p -> {
-            producerSelections.add(new ProducerSeletion(p.getId(), p.getProducerName()));
-        });
+        producerList.forEach(p ->
+                producerSelections.add(new ProducerSeletion(p.getId(), p.getProducerName()))
+        );
         return producerSelections;
     }
 
@@ -53,6 +53,13 @@ public class ProducerServiceImpl implements ProducerService {
             producerSelections.add(producerSeletion);
         }
         return producerSelections;
+    }
+
+    @Override
+    public void save(String producerName) {
+        Producer producer = new Producer();
+        producer.setProducerName(producerName);
+        producerRepository.save(producer);
     }
 
 }
