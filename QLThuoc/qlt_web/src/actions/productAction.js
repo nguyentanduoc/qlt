@@ -43,3 +43,17 @@ const searchSuccess = (data) => ({
   type: ACTION_TYPES.PRODUCT.SEARCH_SUCCESS,
   payload: data
 })
+export const searchPrice = (data) => (
+  async dispatch => {
+    try {
+      const response = await Axios.post(API.PRODUCT.SEARCH_PRICE, data, header);
+      dispatch(searchPriceSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+const searchPriceSuccess = (data) => ({
+  type: ACTION_TYPES.PRODUCT.SEARCH_PRICE_PRODUCT_SUCCESS,
+  payload: data
+});

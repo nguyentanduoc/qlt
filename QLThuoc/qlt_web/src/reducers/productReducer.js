@@ -4,7 +4,8 @@ const initialState = {
   specUnits: [],
   units: [],
   producers: [],
-  productSearch: []
+  productSearch: [],
+  priceHistories: []
 }
 
 export default (state = initialState, {type, payload}) => {
@@ -18,6 +19,9 @@ export default (state = initialState, {type, payload}) => {
 
     case ACTION_TYPES.PRODUCT.SET_PRODUCER:
       return {...state, producers: payload};
+
+    case ACTION_TYPES.PRODUCT.SEARCH_PRICE_PRODUCT_SUCCESS:
+      return {...state, priceHistories: payload}
 
     default:
       return state

@@ -182,4 +182,17 @@ public class ProductController {
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping(path = "/search-price")
+    public ResponseEntity<List<PriceHistoryDto>> searchHistoryPrice(@RequestBody Long productId) {
+        Product product = productService.getProductById(productId);
+        List<PriceHistory> priceHistories = product.getPriceHistorys();
+        priceHistories.sort(Comparator.comparing(PriceHistory::getDate));
+        List<PriceHistoryDto> priceHistoriesDto = new ArrayList<>();
+        for (PriceHistory priceHistory : priceHistories) {
+            PriceHistoryDto priceHistoryDto = modelMapper.map(priceHistory, PriceHistoryDto.class);
+            priceHistoriesDto.add(priceHistoryDto);
+        }
+        return ResponseEntity.ok().body(priceHistoriesDto);
+    }
 }

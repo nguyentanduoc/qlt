@@ -43,6 +43,7 @@ export default {
     GET_UNIT_OF_PRODUCT: `${BASE_URI}/api/product/get-unit-of-product`,
     GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
     SEARCH: `${BASE_URI}/api/product/search`,
+    SEARCH_PRICE: `${BASE_URI}/api/product/search-price`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
