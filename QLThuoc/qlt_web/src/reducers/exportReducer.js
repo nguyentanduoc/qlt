@@ -15,6 +15,8 @@ const initState = {
   total: 0,
   isPrint: false,
   isShare: false,
+  billsExport: [],
+  detailExport: []
 };
 export default (state = initState, {type, payload}) => {
   switch (type) {
@@ -64,13 +66,20 @@ export default (state = initState, {type, payload}) => {
         return o.product.label !== payload.productName
       });
       const totalMinus = state.total - payload.amount * payload.price;
-      return {...state, dataViews: dataViewMinus, dataSubmits: dataSubmitMinus, total: totalMinus}
+      return {...state, dataViews: dataViewMinus, dataSubmits: dataSubmitMinus, total: totalMinus};
 
     case ACTION_TYPES.EXPORT.SET_IS_PRINT:
       return {...state, isPrint: !state.isPrint};
 
     case ACTION_TYPES.EXPORT.CLEAR_DETAIL:
-      return {...state, dataViews:[], dataSubmits:[]}
+      return {...state, dataViews: [], dataSubmits: []};
+
+    case ACTION_TYPES.EXPORT.SEARCH_SUCCESS:
+      return {...state, billsExport: payload};
+
+    case ACTION_TYPES.EXPORT.GET_DETAIL_SUCCESS:
+      return {...state, detailExport: payload}
+
     default:
       return state;
   }
