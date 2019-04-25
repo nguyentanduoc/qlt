@@ -24,11 +24,10 @@ class FormEmployeeOfBranch extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.onSaveEmployee(this.state);
-  }
+  };
   handleReset = (e) => {
     e.preventDefault();
-    console.log("reset");
-  }
+  };
 
   componentWillMount() {
     this.props.onGetRoleForLeader();

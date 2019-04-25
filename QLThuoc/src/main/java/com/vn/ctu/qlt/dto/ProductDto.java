@@ -29,6 +29,8 @@ public class ProductDto {
 	private UnitSelection unit;
 
 	/** The producer. */
-	private ProducerSeletion producer;
+	private ProducerDto producer;
+
+	private ProducerSeletion producerSeletion;
 
 }

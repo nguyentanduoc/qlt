@@ -26,7 +26,6 @@ export default (state = initState, {type, payload}) => {
 
     case SAVE_SUCCESS:
       const index = _.findIndex(employees, (e) => e.id === payload.id);
-      console.log(index);
       index < 0 ? employees.push(payload): employees.splice(index, 1, payload);
       return {...state, employees: employees};
 

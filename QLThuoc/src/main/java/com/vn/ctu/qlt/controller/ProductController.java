@@ -96,7 +96,7 @@ public class ProductController {
                 throw new FileEmpty("Failed to store empty file");
             } else {
                 productService.save(model, file);
-                return new ResponseEntity<Void>(HttpStatus.OK);
+                return new ResponseEntity(HttpStatus.OK);
             }
         } catch (IOException e) {
             String msg = String.format("Failed to store file", file.getName());
@@ -143,7 +143,7 @@ public class ProductController {
 
         Branch branch = branchService.getMainBranchByBranch(branchId);
         SpecLevelBranch specLevelBranch = branch.getSpecLevelBranch();
-        if(specLevelBranch == null) throw new BadRequestException("Chi nhánh chưa định nghĩa cấp độ");
+        if (specLevelBranch == null) throw new BadRequestException("Chi nhánh chưa định nghĩa cấp độ");
         priceHistoryDto.setPrice(priceHistoryDto.getPrice() * specLevelBranch.getPercentProfitChange() + priceHistoryDto.getPrice());
         result.put("amount", amount);
         result.put("priceHistory", priceHistoryDto);
@@ -163,5 +163,36 @@ public class ProductController {
     public ResponseEntity<List<ProductOfBranchDto>> getAllProductByBranch(@RequestBody BranchDto branchDto) {
         List<ProductOfBranchDto> response = productService.getAllProductByBranch(branchDto);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(path = "/search")
+    public ResponseEntity<List<ProductDto>> search(@RequestBody ProductSearchDto condition) {
+        if ((condition.getProductName() == "" && condition.getProducerId() == null)
+                || (condition.getProductName() == null && condition.getProducerId() == 0))
+            return ResponseEntity.ok().body(productService.searchProduct());
+
+        if (condition.getProductName() != "" && condition.getProducerId() != null && condition.getProducerId() != 0)
+            return ResponseEntity.ok().body(productService.searchProductByKeyWordAndProducer(condition));
+
+        if (condition.getProductName() != "" && (condition.getProducerId() == null || condition.getProducerId() == 0))
+            return ResponseEntity.ok().body(productService.searchProductByKeyWordReturnListProductDto(condition.getProductName()));
+
+        if (condition.getProductName() == "" && condition.getProducerId() != null && condition.getProducerId() == 0)
+            return ResponseEntity.ok().body(productService.searchProduct());
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(path = "/search-price")
+    public ResponseEntity<List<PriceHistoryDto>> searchHistoryPrice(@RequestBody Long productId) {
+        Product product = productService.getProductById(productId);
+        List<PriceHistory> priceHistories = product.getPriceHistorys();
+        priceHistories.sort(Comparator.comparing(PriceHistory::getDate));
+        List<PriceHistoryDto> priceHistoriesDto = new ArrayList<>();
+        for (PriceHistory priceHistory : priceHistories) {
+            PriceHistoryDto priceHistoryDto = modelMapper.map(priceHistory, PriceHistoryDto.class);
+            priceHistoriesDto.add(priceHistoryDto);
+        }
+        return ResponseEntity.ok().body(priceHistoriesDto);
     }
 }

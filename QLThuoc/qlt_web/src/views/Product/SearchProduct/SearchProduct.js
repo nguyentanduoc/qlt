@@ -1,84 +1,156 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, CardHeader, Form} from "reactstrap";
-import {Table} from "antd";
+import {Card, CardBody, CardHeader} from "reactstrap";
+import {Button, Form, Input, Select, Table} from "antd";
+import {getAllReducer} from '../../../actions/producerAction';
+import {search, searchPrice} from '../../../actions/productAction'
+import ModalInfoProduct from "./ModalInfoProduct";
+
+const {Option} = Select;
 
 class SearchProduct extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpenModal: false
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onSearch(values)
+      }
+    });
+  };
+  hasErrors = (fieldsError) => {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  };
+
+  componentWillMount() {
+    this.props.onGetAllProducer();
+  };
+
+  toggleModal = async (record) => {
+    if (!this.state.isOpenModal) {
+      await this.props.onSearchPrice(record.id);
+    }
+    await this.setState({
+      isOpenModal: !this.state.isOpenModal
+    });
+
+  }
+
   render() {
+    const {
+      getFieldDecorator, getFieldsError
+    } = this.props.form;
+    const {producers} = this.props.producerReducer;
+    const {isOpenModal} = this.state;
+
     return (
       <div>
-        <Card>
+        <Card className={'border-info card'}>
           <CardHeader><i className={'fa fa-search'}/> Tra cứu Sản Phẩm</CardHeader>
           <CardBody>
-            <Form layout={'inline'}>
-              <Form.Item label={'Đã xem'}>
-                {/*<Switch checked={isSeen} onChange={this.handleToggle('isSeen')}/>*/}
-              </Form.Item>
-              <Form.Item label={'Đã Xác Nhận'}>
-                {/*<Switch checked={isAccept} onChange={this.handleToggle('isAccept')}/>*/}
-              </Form.Item>
-              <Form.Item label={'Đã Nhận'}>
-                {/*<Switch checked={isReceive} onChange={this.handleToggle('isReceive')}/>*/}
-              </Form.Item>
-              <Form.Item label={'Đã Hoàn Tất'}>
-                {/*<Switch checked={isDone} onChange={this.handleToggle('isDone')}/>*/}
-              </Form.Item>
-              <Form.Item label={'Đã Hủy'}>
-                {/*<Switch checked={isCancel} onChange={this.handleToggle('isCancel')} type="danger"/>*/}
-              </Form.Item>
-              {/*<Button htmlType={'button'} onClick={this.handleSearch} type="primary" icon="search">Tìm</Button>*/}
-            </Form>
-            <Table
-              rowKey='id'
-              bordered={true}
-              // dataSource={billsRequest}
-            >
-              <Table.Column
-                title={'Mã Yêu Cầu'}
-                dataIndex={'id'}
-                key={'id'}/>
-              <Table.Column
-                title={'Chi Nhánh Yêu Cầu'}
-                dataIndex={'branch'}
-                key={'branch'}/>
-              {/*<Table.Column*/}
-                {/*title={'Ngày Yêu Cầu'}*/}
-                {/*dataIndex={'dateRequested'}*/}
-                {/*key={'dateRequested'}*/}
-                {/*render={(text) => (*/}
-                  {/*(<Moment format="DD/MM/YYYY">{text}</Moment>)*/}
-                {/*)}*/}
-              {/*/>*/}
-              <Table.Column
-                title={'Ghi Chú Yêu Cầu'}
-                dataIndex={'noteRequest'}
-                key={'noteRequest'}
-              />
-              {/*<Table.Column*/}
-                {/*title={'Hành Động'}*/}
-                {/*dataIndex={'operation'}*/}
-                {/*key={'operation'}*/}
-                {/*render={(text, record) => (*/}
-                  {/*billsRequest.length > 0 ? (*/}
-                    {/*<span>*/}
-                      {/*<Button htmlType='button' type="primary" icon={'info-circle'}*/}
-                              {/*onClick={() => this.showDetail(text, record)} loading={flgLoadingShowDetail}/>*/}
-                    {/*</span>*/}
-                  {/*) : null*/}
-                {/*)}*/}
-              {/*/>*/}
-            </Table>
+            <div>
+              <Card>
+                <CardBody>
+                  <Form layout="inline" onSubmit={this.handleSubmit}>
+                    <Form.Item>
+                      {getFieldDecorator('productName', {
+                        initialValue: ''
+                      })(
+                        <Input placeholder="Tên sản phẩm"/>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      {getFieldDecorator('producerId')(
+                        <Select
+                          showSearch
+                          style={{width: 200}}
+                          placeholder="Chọn Nhà Sản Xuất"
+                          optionFilterProp="children"
+                          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
+                          <Option value='0'>--Chọn Nhà Sản Xuất--</Option>
+                          {producers.length > 0 && producers.map((producer, idx) => (
+                            <Option key={idx} value={producer.value}>{producer.label}</Option>
+                          ))}
+                        </Select>
+                      )}
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        icon={'search'}
+                        type="primary"
+                        htmlType="submit"
+                        disabled={this.hasErrors(getFieldsError())}>Tìm</Button>
+                    </Form.Item>
+                  </Form>
+                </CardBody>
+              </Card>
+              <Table
+                bordered={true}
+                dataSource={this.props.productReducer.productSearch}
+                rowKey={'id'}>
+                <Table.Column
+                  title='#'
+                  dataIndex='id'
+                  key='id'/>
+                <Table.Column
+                  title='Tên Sản Phẩm'
+                  dataIndex='productName'
+                  key='productName'/>
+                <Table.Column
+                  title='Nhà Sản Xuất'
+                  dataIndex='producer'
+                  key='producer'
+                  render={
+                    (producer) => (
+                      <div>{producer.producerName}</div>
+                    )
+                  }
+                />
+                <Table.Column
+                  title='Cộng Dụng'
+                  dataIndex='virtue'
+                  key='virtue'/>
+                <Table.Column
+                  title='Mở rộng'
+                  dataIndex='extend'
+                  key='extend'
+                  render={(text, record) => (
+                    <span>
+                    <Button type={'button'} onClick={this.toggleModal.bind(this, record)} icon={'eye'}/>
+                  </span>
+                  )}
+                />
+              </Table>
+            </div>
           </CardBody>
         </Card>
+        <ModalInfoProduct isShow={isOpenModal} toggleOpen={this.toggleModal}/>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    producerReducer: state.producerReducer,
+    productReducer: state.productReducer
+  };
 }
 
+const mapDispatchToPops = (dispatch) => ({
+  onGetAllProducer: () => dispatch(getAllReducer()),
+  onSearch: (condition) => dispatch(search(condition)),
+  onSearchPrice: (data) => dispatch(searchPrice(data))
+})
+
+const FormSearchProduct = Form.create()(SearchProduct);
 export default connect(
-  mapStateToProps,
-)(SearchProduct);
+  mapStateToProps, mapDispatchToPops
+)(FormSearchProduct);

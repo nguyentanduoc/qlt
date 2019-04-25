@@ -61,7 +61,6 @@ class CreateBill extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         const {priceHistory, dataSubmits} = this.props.exportReducer;
         const compare = _.find(dataSubmits, (o) => this.state.product.value === o.product.value)
         if (typeof (compare) === 'undefined') {
