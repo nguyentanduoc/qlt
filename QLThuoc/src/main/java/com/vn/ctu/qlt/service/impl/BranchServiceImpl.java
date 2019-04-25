@@ -1,20 +1,14 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.transaction.Transactional;
-
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.BranchesSelectionDto;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.repository.BranchRepository;
+import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
+import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 import org.apache.commons.collections4.CollectionUtils;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,11 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.dto.BranchDto;
-import com.vn.ctu.qlt.exception.BadRequestException;
-import com.vn.ctu.qlt.repository.BranchRepository;
-import com.vn.ctu.qlt.security.IAuthenticationFacade;
-import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
+import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * The Class BranchSerivceImpl.
@@ -90,6 +83,8 @@ public class BranchServiceImpl implements BranchService {
 
     @Autowired
     private SpecLevelBranchService specLevelBranchService;
+
+    private static final DateFormat sdf = new SimpleDateFormat("yyyy/MM");
 
     /*
      * (non-Javadoc)

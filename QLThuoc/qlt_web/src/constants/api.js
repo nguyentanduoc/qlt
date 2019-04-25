@@ -7,7 +7,7 @@ export default {
   ROLE: {
     GET_ALL_ROLE: `${BASE_URI}/api/admin/roles/get-all`,
     GET_ROLE_FOR_ADMIN: `${BASE_URI}/api/admin/roles/get-role-for-admin`,
-    GET_ROLES_BY_ROLES:  `${BASE_URI}/api/admin/roles/get-roles-by-roles`,
+    GET_ROLES_BY_ROLES: `${BASE_URI}/api/admin/roles/get-roles-by-roles`,
   },
   USER: {
     SEARCH_USER: `${BASE_URI}/api/admin/users/search`,
@@ -15,11 +15,11 @@ export default {
     GET_USER_LIMIT: `${BASE_URI}/api/admin/users/get-user-limit`,
     DELETE_USER: `${BASE_URI}/api/admin/users/delete`,
   },
-  BRANCH:{
+  BRANCH: {
     SAVE: `${BASE_URI}/api/branch/save`,
     DELETE: `${BASE_URI}/api/branch/delete`,
     SELECT: `${BASE_URI}/api/branch/select`,
-    SELECT_BRANCH_OF_DIRECTOR:`${BASE_URI}/api/branch/select-branch-by-director`,
+    SELECT_BRANCH_OF_DIRECTOR: `${BASE_URI}/api/branch/select-branch-by-director`,
   },
   SHOP: {
     SAVE: `${BASE_URI}/api/shop/save`,
@@ -28,7 +28,7 @@ export default {
     SELECT_ALL: `${BASE_URI}/api/shop/select-all`,
   },
   EMPLOYEE: {
-    INIT:`${BASE_URI}/api/employee/init`,
+    INIT: `${BASE_URI}/api/employee/init`,
     SAVE: `${BASE_URI}/api/employee/save`,
     DELETE: `${BASE_URI}/api/employee/delete`,
     SELECT: `${BASE_URI}/api/employee/select`,
@@ -42,6 +42,8 @@ export default {
     GET_AMOUNT_PRODUCT: `${BASE_URI}/api/product/get-amount-product`,
     GET_UNIT_OF_PRODUCT: `${BASE_URI}/api/product/get-unit-of-product`,
     GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
+    SEARCH: `${BASE_URI}/api/product/search`,
+    SEARCH_PRICE: `${BASE_URI}/api/product/search-price`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
@@ -56,7 +58,7 @@ export default {
   },
   EXPORT: {
     GET_SPEC_UNIT_AND_PRICE_AND_QUANLITY_IN_STORE: `${BASE_URI}/api/export/get-spec-and-unit-and-price-and-quantity-in-store`,
-    SAVE:`${BASE_URI}/api/export/save`,
+    SAVE: `${BASE_URI}/api/export/save`,
     GET_INVENTORY: `${BASE_URI}/api/export/get-inventory`,
   },
   SPEC_LEVEL_BRANCH: {
@@ -67,10 +69,15 @@ export default {
   SHOP_OF_DIRECTOR: {
     GET_SHOP_OF_DIRECTOR: `${BASE_URI}/api/shop/get-shop-of-director`,
     UPDATE_SHOP: `${BASE_URI}/api/shop/save-shop-director`,
+    GET_REPORT: `${BASE_URI}/api/shop/get-report-director`,
   },
   EMPLOYEE_OF_BRANCH: {
     GET_ROLES_BY_LEADER: `${BASE_URI}/api/admin/roles/get-roles-for-leader`,
     SAVE_EMPLOYEE: `${BASE_URI}/api/employee/leader-save-employee`,
     GET_ALL_EMPLOYEES: `${BASE_URI}/api/employee/leader-get-all-employees`,
+  },
+  PRODUCER: {
+    GET_ALL: `${BASE_URI}/api/producer/get-all`,
+    SAVE: `${BASE_URI}/api/producer/save`,
   }
 }

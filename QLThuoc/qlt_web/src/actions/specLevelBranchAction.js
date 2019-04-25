@@ -7,7 +7,6 @@ export const save = (data) => {
   return async (dispatch) => {
     try{
       const response = await Axios.post(API.SPEC_LEVEL_BRANCH.SAVE, data, headerHelper);
-      console.log(response);
       return dispatch(saveSuccess(response.data));
     }catch (e) {
     return dispatch(showAlertFail(e));
@@ -19,7 +18,7 @@ export const saveSuccess = (data) => {
     type: ACTION_TYPES.SPEC_LEVEL_BRANCH.SAVE_SUCCESS,
     payload: data
   }
-}
+};
 export const getAll = () => {
   return async (dispatch) => {
     try {
@@ -29,10 +28,10 @@ export const getAll = () => {
       return dispatch(showAlertFail(e));
     }
   }
-}
+};
 export const getAllSuccess = (data) => {
   return {
     type: ACTION_TYPES.SPEC_LEVEL_BRANCH.GET_ALL_SUCCESS,
     payload: data
   }
-}
+};
