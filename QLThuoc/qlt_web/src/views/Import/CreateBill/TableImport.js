@@ -96,7 +96,7 @@ export class TableBuy extends Component {
     let data = this.state.data;
     let dataView = this.state.dataView;
     const compare = _.find(data, (o) => o.product.value === this.state.product.value);
-    let price =  this.state.price.replace(new RegExp(',', 'g'), '');
+    let price = this.state.price.replace(new RegExp(',', 'g'), '');
     if (typeof (compare) === 'undefined') {
       data.push({
         product: this.state.product,
@@ -139,29 +139,29 @@ export class TableBuy extends Component {
     return (
       <div>
         <Row>
-          <Col xs="4" md="4">
-            <FormGroup>
-              <Label htmlFor='dateCreated' className='pr-1'>Ngày Nhập</Label>
-              <DatePicker
-                dropdownMode={'scroll'}
-                className="form-control text-right"
-                selected={this.state.createBillDate}
-                dateFormat="dd/MM/yyyy"
-                onChange={() => {
-                }}
-                name='dateCreated' disabled={true}/>
+          <Col xs="6" md="6">
+            <FormGroup row>
+              <Label htmlFor='dateCreated' className='pr-1' md={3}>Ngày Nhập:</Label>
+              <Col md={6}>
+                <DatePicker
+                  dropdownMode={'scroll'}
+                  className="form-control text-right"
+                  selected={this.state.createBillDate}
+                  dateFormat="dd/MM/yyyy"
+                  name='dateCreated' disabled={true}/>
+              </Col>
             </FormGroup>
           </Col>
-          <Col xs="4" md="4" className="text-right">
-            <AlertCommon/>
-          </Col>
-          <Col xs="4" md="4" className="text-right">
+          <Col xs="6" md="6" className="text-right">
             <Button onClick={this.onAddProduct.bind(this)} size="sm" color="primary" className="btn-brand">
               <i className="fas fa-plus"/><span>Thêm Sản Phẩm</span></Button>{' '}
             <Button size="sm" color="success" onClick={this.onSave.bind(this)} disabled={this.state.data.length <= 0}>
               <i className="fa fa-dot-circle-o"/>{' '}Lưu</Button>
           </Col>
         </Row>
+        <div className={'text-center'}>
+          <AlertCommon/>
+        </div>
         <Table dataSource={this.state.dataView} columns={columns} rowKey='product' bordered={true}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)}>
           <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>

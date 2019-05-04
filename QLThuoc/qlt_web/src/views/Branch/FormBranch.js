@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {save, resetBranch, selectAllShop, getSpecLevelBranch} from '../../actions/branchAction';
+import {save, resetBranch, selectAllShop, getSpecLevelBranch, getAddress} from '../../actions/branchAction';
 import AlertCommon from '../Common/AlertCommon';
 import {resetAlert} from '../../actions/alertAction';
 import _ from 'lodash';
@@ -23,7 +23,7 @@ import {
 class FormBranch extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       id: '',
       latitude: '',
@@ -51,7 +51,8 @@ class FormBranch extends Component {
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-        })
+        });
+        this.props.onGetAddress([position.coords.longitude,position.coords.latitude])
       }, () => {
         this.setState({latitude: 'err-latitude', longitude: 'err-longitude'})
       })
@@ -76,11 +77,11 @@ class FormBranch extends Component {
         [name]: value
       });
     }
-  }
+  };
   handleSubmit = async (e) => {
     e.preventDefault();
     this.props.onSave(this.state);
-  }
+  };
   handleReset = (e) => {
     e.preventDefault();
     this.setState({
@@ -93,11 +94,11 @@ class FormBranch extends Component {
       isMain: false
     });
     this.getLocation();
-  }
+  };
   componentWillUnmount() {
     this.props.onResetAlert();
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.branchReducer.flgSet) {
       let branch = this.props.branchReducer.branch;
       this.setState({
@@ -114,19 +115,19 @@ class FormBranch extends Component {
   checkEmpty = (str) => {
     return (!str || 0 === str.length);
   };
-  handleSelections(option, event) {
+  handleSelections(option) {
     this.setState({
       specLevelBranch: option
     });
   }
   render() {
-    const {specLevelBranchReducer, branches} = this.props.branchReducer;
+    const {specLevelBranchReducer, branches, address} = this.props.branchReducer;
     const enabledSwitchMainBranch = () => {
       const result = _.find(branches, function (o) {
         return o.isMain === true
       });
-      return result ? true : false;
-    }
+      return !result;
+    };
 
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
@@ -176,7 +177,7 @@ class FormBranch extends Component {
                     placeholder="Địa chỉ"
                     required
                     onChange={this.changeHandler.bind(this)}
-                    value={this.checkEmpty(this.state.address) === true ? "" : this.state.address}/>
+                    value={this.checkEmpty(this.state.address) === true ? address : this.state.address}/>
                 </FormGroup>
               </Col>
             </Row>
@@ -225,8 +226,8 @@ class FormBranch extends Component {
             </FormGroup>
           </CardBody>
           <CardFooter className='text-right'>
-            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Lưu</Button> {' '}
-            <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Làm Rỗng</Button>
+            <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"/> Lưu</Button> {' '}
+            <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"/> Làm Rỗng</Button>
           </CardFooter>
         </Card>
       </Form>
@@ -238,7 +239,7 @@ const mapStateToProps = (state) => ({
   alertReducer: state.alertReducer,
   branchReducer: state.branchReducer,
   authReducer: state.auth
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onSave: (branch) => {
@@ -255,7 +256,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onGetSpecLevelBranch: () => {
     return dispatch(getSpecLevelBranch());
+  },
+  onGetAddress: (coordinate) =>{
+    return dispatch(getAddress(coordinate))
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormBranch)

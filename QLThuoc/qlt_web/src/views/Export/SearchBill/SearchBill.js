@@ -85,7 +85,7 @@ export class SearchBill extends Component {
                 title='Ngày tạo'
                 dataIndex='dateCreated'
                 key='dateCreated'
-                render={(text) => (<Moment format="HH:SS DD/MM/YYYY">{text}</Moment>)}
+                render={(text) => (<Moment format="HH:mm DD/MM/YYYY">{text}</Moment>)}
               />
               <Table.Column
                 title='Nhân Viên'

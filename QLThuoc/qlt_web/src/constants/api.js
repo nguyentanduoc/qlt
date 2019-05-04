@@ -20,6 +20,7 @@ export default {
     DELETE: `${BASE_URI}/api/branch/delete`,
     SELECT: `${BASE_URI}/api/branch/select`,
     SELECT_BRANCH_OF_DIRECTOR: `${BASE_URI}/api/branch/select-branch-by-director`,
+    COUNT_MEMBER_OF_BRANCH: `${BASE_URI}/api/branch/count-member-of-branch`
   },
   SHOP: {
     SAVE: `${BASE_URI}/api/shop/save`,
@@ -44,10 +45,13 @@ export default {
     GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
     SEARCH: `${BASE_URI}/api/product/search`,
     SEARCH_PRICE: `${BASE_URI}/api/product/search-price`,
+    SEARCH_PRODUCT_ON_STORE:`${BASE_URI}/api/product/search-product-on-store`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
     SAVE: `${BASE_URI}/api/import-product/save`,
+    SEARCH: `${BASE_URI}/api/import-product/search`,
+    GET_DETAIL: `${BASE_URI}/api/import-product/get-detail`
   },
   REQUEST: {
     SAVE: `${BASE_URI}/api/request/save`,
@@ -55,6 +59,7 @@ export default {
     GET_DETAIL: `${BASE_URI}/api/request/get-detail`,
     ACCEPT: `${BASE_URI}/api/request/accept`,
     CANCEL: `${BASE_URI}/api/request/cancel`,
+    SEARCH: `${BASE_URI}/api/request/search`,
   },
   EXPORT: {
     GET_SPEC_UNIT_AND_PRICE_AND_QUANLITY_IN_STORE: `${BASE_URI}/api/export/get-spec-and-unit-and-price-and-quantity-in-store`,

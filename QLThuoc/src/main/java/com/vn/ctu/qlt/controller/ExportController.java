@@ -76,10 +76,14 @@ public class ExportController {
 
     @PostMapping(path = "/search")
     public ResponseEntity<List<BillExportDto>> search(@RequestBody ExportConditionDto exportConditionDto){
-        List<BillExportDto> billsExportDto = new ArrayList<>();
+        List<BillExport> billsExport = new ArrayList<>();
         if(exportConditionDto.getId() == 0 && exportConditionDto.getDateCreated() == null)
-            billsExportDto = exportService.convert(exportService.findAll());
-        return ResponseEntity.ok().body(billsExportDto);
+            billsExport = exportService.findAll();
+        if(exportConditionDto.getId() == 0 && exportConditionDto.getDateCreated() != null)
+            billsExport = exportService.findAllByDate(exportConditionDto.getDateCreated());
+        if(exportConditionDto.getId() != 0 && exportConditionDto.getDateCreated() == null)
+            billsExport.add(exportService.findById(exportConditionDto.getId()).get());
+        return ResponseEntity.ok().body(exportService.convert(billsExport));
     }
 
     @PostMapping(path = "/get-detail")

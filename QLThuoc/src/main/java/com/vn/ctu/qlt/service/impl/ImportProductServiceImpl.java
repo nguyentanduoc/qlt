@@ -2,6 +2,9 @@ package com.vn.ctu.qlt.service.impl;
 
 import javax.transaction.Transactional;
 
+import com.vn.ctu.qlt.dto.BillImportDto;
+import com.vn.ctu.qlt.dto.ImportConditionDto;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,11 @@ import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ImportProductService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,6 +49,9 @@ public class ImportProductServiceImpl implements ImportProductService {
 
     @Autowired
     private BranchService branchService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public void save(ImportProductDto importProductDto) {
@@ -65,6 +76,40 @@ public class ImportProductServiceImpl implements ImportProductService {
             throw e;
         }
 
+    }
+
+    @Override
+    public Optional<BillImport> findById(Long id) {
+        return billImportRepository.findById(id);
+    }
+
+    @Override
+    public List<BillImport> findByDate(Date date) {
+        return billImportRepository.findAllByImportDate(date);
+    }
+
+    @Override
+    public List<BillImport> findByDateAndId(ImportConditionDto importConditionDto) {
+        return billImportRepository.findAllByIdAndImportDate(importConditionDto.getId(), importConditionDto.getDateCreated());
+    }
+
+    @Override
+    public List<BillImport> findAll(){
+        return billImportRepository.findAll();
+    }
+
+    @Override
+    public BillImportDto convertObject(BillImport billImport){
+        return modelMapper.map(billImport, BillImportDto.class);
+    }
+
+    @Override
+    public List<BillImportDto> convertList(List<BillImport> billImports){
+        List<BillImportDto> billImportsDto = new ArrayList<>();
+        for(BillImport billImport : billImports){
+            billImportsDto.add(convertObject(billImport));
+        }
+        return billImportsDto;
     }
 
 }

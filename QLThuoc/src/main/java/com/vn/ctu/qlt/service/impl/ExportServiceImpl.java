@@ -83,15 +83,15 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public List<BillExport> findAll() {
-        Sort sort = new Sort(Sort.Direction.ASC, "dateCreated");
-        List<BillExport> billExports =  billExportRepository.findAll(sort);
+        Sort sort = new Sort(Sort.Direction.DESC, "dateCreated");
+        List<BillExport> billExports = billExportRepository.findAll(sort);
         return billExports;
     }
 
     @Override
     public List<BillExportDto> convert(List<BillExport> billExports) {
         List<BillExportDto> billsExportDto = new ArrayList<>();
-        for(BillExport billExport : billExports){
+        for (BillExport billExport : billExports) {
             billsExportDto.add(modelMapper.map(billExport, BillExportDto.class));
         }
         return billsExportDto;
@@ -100,6 +100,11 @@ public class ExportServiceImpl implements ExportService {
     @Override
     public Optional<BillExport> findById(Long id) {
         return billExportRepository.findById(id);
+    }
+
+    @Override
+    public List<BillExport> findAllByDate(Date date) {
+        return billExportRepository.findAllByDateCreated(date);
     }
 
 }

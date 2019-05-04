@@ -16,5 +16,4 @@ public interface ProductRepository extends JpaRepository<Product, Long>  {
     List<Product> searchKeyWord(@Param("keyWord") String keyWord);
 
     List<Product> findAllByProducer(Producer producer);
-
 }

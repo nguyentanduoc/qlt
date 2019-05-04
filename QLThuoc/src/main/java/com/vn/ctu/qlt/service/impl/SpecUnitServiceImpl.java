@@ -34,13 +34,13 @@ public class SpecUnitServiceImpl implements SpecUnitService {
 	 */
 	@Override
 	public Set<SpecUnitSelectionDto> getAllForSelection() {
-		Iterable<SpecUnit> spectUnitsResult = specUnitRepository.findAll();
-		Set<SpecUnitSelectionDto> spectUnitSelectionDto = new HashSet<>();
-		for (SpecUnit su : spectUnitsResult) {
+		Iterable<SpecUnit> specUnitsResult = specUnitRepository.findAll();
+		Set<SpecUnitSelectionDto> specUnitSelectionDto = new HashSet<>();
+		for (SpecUnit su : specUnitsResult) {
 			
-			spectUnitSelectionDto.add(new SpecUnitSelectionDto(su));
+			specUnitSelectionDto.add(new SpecUnitSelectionDto(su));
 		}
-		return spectUnitSelectionDto;
+		return specUnitSelectionDto;
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +56,7 @@ public class SpecUnitServiceImpl implements SpecUnitService {
 	 */
 	@Override
 	public List<SpecUnit> getAllBySelection(Set<SpecUnitSelectionDto> selection){
-		List<SpecUnit> result = new ArrayList<SpecUnit>();
+		List<SpecUnit> result = new ArrayList<>();
 		for(SpecUnitSelectionDto susd: selection) {
 			result.add(getById(susd.getValue()));
 		}

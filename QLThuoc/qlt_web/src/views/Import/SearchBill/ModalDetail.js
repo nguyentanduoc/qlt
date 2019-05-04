@@ -1,26 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from "prop-types";
 import {Modal, Table} from "antd";
 import NumberFormat from "react-number-format";
+import PropTypes from "prop-types";
 
-class ModalBill extends Component {
+class ModalDetail extends Component {
+
   static propTypes = {
     isShow: PropTypes.bool,
     toggleOpen: PropTypes.func
-  }
+  };
 
   render() {
-    const {detailExport} = this.props.exportReducer;
+    const {detail} = this.props.importProductReducer;
     return (
       <Modal
         title="Chi tiết hóa đơn"
         visible={this.props.isShow}
-        onOk={this.handleOk}
         onCancel={this.props.toggleOpen}>
         <Table
           bordered={true}
-          dataSource={detailExport}
+          dataSource={detail}
           rowKey={'product'}>
           <Table.Column
             title='Sản Phẩm'
@@ -35,13 +35,13 @@ class ModalBill extends Component {
           />
           <Table.Column
             title='Đơn giá'
-            dataIndex='priceHistory'
-            key='priceHistory'
-            render={(priceHistory) => (
+            dataIndex='price'
+            key='price'
+            render={(price) => (
               <NumberFormat
                 displayType={'text'}
-                thousandSeparator={true} value={priceHistory.price}
-                disabled={true}/>)}
+                thousandSeparator={true} value={price}
+                className={'form-control text-right'} disabled={true}/>)}
           />
           <Table.Column
             title='Đơn vị'
@@ -56,12 +56,10 @@ class ModalBill extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    exportReducer: state.exportReducer
-  };
-}
+const mapStateToProps = (state) =>({
+  importProductReducer: state.importProductReducer
+})
 
 export default connect(
   mapStateToProps,
-)(ModalBill);
+)(ModalDetail);

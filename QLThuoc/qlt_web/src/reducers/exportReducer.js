@@ -16,7 +16,8 @@ const initState = {
   isPrint: false,
   isShare: false,
   billsExport: [],
-  detailExport: []
+  detailExport: [],
+  printDataView: []
 };
 export default (state = initState, {type, payload}) => {
   switch (type) {
@@ -72,7 +73,7 @@ export default (state = initState, {type, payload}) => {
       return {...state, isPrint: !state.isPrint};
 
     case ACTION_TYPES.EXPORT.CLEAR_DETAIL:
-      return {...state, dataViews: [], dataSubmits: []};
+      return {...state, printDataView: state.dataViews, dataViews: [], dataSubmits: []};
 
     case ACTION_TYPES.EXPORT.SEARCH_SUCCESS:
       return {...state, billsExport: payload};

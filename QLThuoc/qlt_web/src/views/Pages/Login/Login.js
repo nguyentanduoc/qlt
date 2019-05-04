@@ -23,7 +23,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'tva',
+      usernameOrEmail: 'ntxuan',
       password: '12345678x@X',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
@@ -48,7 +48,6 @@ class Login extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.onSetLoading();
     const auth = {
       usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
@@ -66,15 +65,16 @@ class Login extends Component {
     window.removeEventListener('keyup', this.keyEnterUp);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const {isLogin, authorities} = this.props.auth;
     if (isLogin) {
       if (authorities.findIndex(authority => authority === ROLES.ROLE_LEADER) !== -1)
         this.props.history.push('/control-branch/report');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_ADMIN) !== -1)
+        this.props.history.push('/admin/shop');
       else if (this.props.auth.isChooseBranch)
         this.props.history.push('/choose-branch');
       else this.props.history.push('/dashboard');
-
     }
   }
 
@@ -126,6 +126,7 @@ class Login extends Component {
                       <Row>
                         <Col xs="6">
                           <Button
+                            loading={this.state.isLoading}
                             htmlType={'submit'}
                             type="primary"
                             onClick={this.handleSubmit}>Đăng nhập

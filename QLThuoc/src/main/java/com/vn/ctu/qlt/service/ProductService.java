@@ -135,4 +135,8 @@ public interface ProductService {
 
     List<ProductDto> searchProduct();
 
+    List<Product> findAllByProductOfBranch_Amount(SearchProductOnStoreDto searchProductOnStoreDto);
+
+    List<ProductDto> covert(List<Product> products);
+
 }

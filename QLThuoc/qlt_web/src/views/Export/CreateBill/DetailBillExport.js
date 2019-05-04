@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, Col, FormGroup, Label, Row, CustomInput} from "reactstrap";
-import {Table, Button} from "antd";
-import {save, deleteExport, setIsPrint} from '../../../actions/exportAction';
+import {Card, CardBody, Col, CustomInput, FormGroup, Row} from "reactstrap";
+import {Button, Table} from "antd";
+import {deleteExport, save, setIsPrint} from '../../../actions/exportAction';
 import NumberFormat from 'react-number-format';
 import mathRound from '../../../helpers/decimalAdjustment';
 import PropTypes from 'prop-types'
 
 class DetailBillExport extends Component {
   static propTypes = {
-    isShare: PropTypes.boolean
+    isShare: PropTypes.bool
   }
 
   constructor(props) {
@@ -44,16 +44,29 @@ class DetailBillExport extends Component {
         <CardBody>
           <Row>
             <Col md={6}>
-              <CustomInput type="checkbox" id="isPrint" label="In Hóa Đơn" defaultChecked={isPrint}
-                           onClick={this.setIsPrint} inline/>
-              <Button htmlType={'button'} disabled={dataViews.length <= 0} onClick={this.submit} type={"primary"}>Hoàn Tất</Button>
+              <CustomInput
+                type="checkbox"
+                id="isPrint"
+                label="In Hóa Đơn"
+                defaultChecked={isPrint}
+                onClick={this.setIsPrint} inline/>
+              <Button
+                htmlType={'button'}
+                disabled={dataViews.length <= 0}
+                onClick={this.submit}
+                type={"primary"}>
+                Hoàn Tất
+              </Button>
             </Col>
             <Col md={6}>
               <FormGroup inline={true} row>
-                <Label md={5}>Thành tiền</Label>
+                <div className={'col-md-5'}>Thành tiền</div>
                 <Col md={7}>
-                  <NumberFormat displayType={'input'} thousandSeparator={true} value={mathRound(total, -3)}
-                                className={'form-control text-right'}/>
+                  <NumberFormat
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    value={mathRound(total, -3)}
+                    className={'text-right'}/>
                 </Col>
               </FormGroup>
             </Col>
@@ -76,8 +89,12 @@ class DetailBillExport extends Component {
               dataIndex={'price'}
               key={'price'}
               render={(text) => (
-                <NumberFormat displayType={'text'} thousandSeparator={true} value={text} disabled={true}
-                              className={'form-control text-right'}/>
+                <NumberFormat
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  value={text}
+                  disabled={true}
+                  className={'form-control text-right'}/>
               )}
             />
             <Table.Column

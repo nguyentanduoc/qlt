@@ -8,10 +8,10 @@ class ShopOfDirector extends Component {
   render() {
     return (
       <Row>
-        <Col md={4}>
+        <Col md={5}>
           <InfoShop/>
         </Col>
-        <Col md={8}>
+        <Col md={7}>
           <ReportShop/>
         </Col>
       </Row>

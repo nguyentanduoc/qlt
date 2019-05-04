@@ -195,4 +195,11 @@ public class ProductController {
         }
         return ResponseEntity.ok().body(priceHistoriesDto);
     }
+
+    @PostMapping(path = "/search-product-on-store")
+    public ResponseEntity<List<ProductDto>> searchProductOnStore(@RequestBody SearchProductOnStoreDto searchProductOnStoreDto) {
+        List<Product> products = productService.findAllByProductOfBranch_Amount(searchProductOnStoreDto);
+        List<ProductDto> productsDto = productService.covert(products);
+        return ResponseEntity.ok().body(productsDto);
+    }
 }

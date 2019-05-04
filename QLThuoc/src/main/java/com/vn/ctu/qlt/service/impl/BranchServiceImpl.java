@@ -86,6 +86,9 @@ public class BranchServiceImpl implements BranchService {
 
     private static final DateFormat sdf = new SimpleDateFormat("yyyy/MM");
 
+    @Autowired
+    private IAuthenticationFacade iAuthenticationFacade;
+
     /*
      * (non-Javadoc)
      *
@@ -270,24 +273,24 @@ public class BranchServiceImpl implements BranchService {
         branchRepository.save(branch);
     }
 
-    private List<BranchDto> modelToDto(List<Branch> branchs) {
-        List<BranchDto> branchsDto = new ArrayList<BranchDto>();
-        branchs.forEach(action -> {
+    private List<BranchDto> modelToDto(List<Branch> branches) {
+        List<BranchDto> branchesDto = new ArrayList<BranchDto>();
+        branches.forEach(action -> {
             BranchDto branchDto = new BranchDto();
             BeanUtils.copyProperties(action, branchDto);
-            branchsDto.add(branchDto);
+            branchesDto.add(branchDto);
         });
-        return branchsDto;
+        return branchesDto;
     }
 
-    private Set<BranchDto> modelToDto(Set<Branch> branchs) {
-        Set<BranchDto> branchsDto = new HashSet<BranchDto>();
-        branchs.forEach(action -> {
+    private Set<BranchDto> modelToDto(Set<Branch> branches) {
+        Set<BranchDto> branchesDto = new HashSet<BranchDto>();
+        branches.forEach(action -> {
             BranchDto branchDto = new BranchDto();
             BeanUtils.copyProperties(action, branchDto);
-            branchsDto.add(branchDto);
+            branchesDto.add(branchDto);
         });
-        return branchsDto;
+        return branchesDto;
     }
 
     @Override
@@ -310,13 +313,20 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Set<BranchesSelectionDto> covertBranchedToBranchesSelection(Set<Branch> branches) {
-        Set<BranchesSelectionDto> branchesSelectionDtos = new HashSet<>();
+        Set<BranchesSelectionDto> branchesSelectionsDto = new HashSet<>();
         branches.forEach(branch -> {
             BranchesSelectionDto branchesSelectionDto = new BranchesSelectionDto();
             branchesSelectionDto.setValue(branch.getId());
             branchesSelectionDto.setLabel(branch.getName());
-            branchesSelectionDtos.add(branchesSelectionDto);
+            branchesSelectionsDto.add(branchesSelectionDto);
         });
-        return branchesSelectionDtos;
+        return branchesSelectionsDto;
+    }
+
+    @Override
+    public int countMemberOfBranch(BranchDto branchDto) {
+        Branch branch = getBranchById(branchDto.getId());
+        List<Employee> employees = branch.getEmployees();
+        return employees.size();
     }
 }

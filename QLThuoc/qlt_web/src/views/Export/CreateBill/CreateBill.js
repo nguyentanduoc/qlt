@@ -92,7 +92,6 @@ class CreateBill extends Component {
         <CardHeader>
           Tạo Hóa Đơn Bán Hàng
           <div className="card-header-actions">
-            {/*<i className="fa fa-check float-right"></i>*/}
             <CustomInput
               type="switch"
               id='isMain'
@@ -100,7 +99,6 @@ class CreateBill extends Component {
               name='isMain'
               checked={this.state.isShare}
               onChange={this.changeHandler.bind(this)}
-              // value={this.state.isMain}
             />
           </div>
         </CardHeader>

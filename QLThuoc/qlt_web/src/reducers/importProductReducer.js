@@ -3,7 +3,9 @@ import { ACTION_TYPES } from "../constants";
 const initialState = {
   products: [],
   specUnitSelection: [], 
-  saveSuccess: false
+  saveSuccess: false,
+  billsImport: [],
+  detail:[]
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -17,8 +19,16 @@ export default (state = initialState, { type, payload }) => {
   
   case ACTION_TYPES.IMPORT.SAVE_SUCCESS:
     return { ...state, saveSuccess: true }
+
   case ACTION_TYPES.IMPORT.RESET_SAVE_SUCCESS:
     return { ...state, saveSuccess: false }
+
+    case ACTION_TYPES.IMPORT.SEARCH_SUCCESS:
+      return {...state, billsImport: payload}
+
+    case ACTION_TYPES.IMPORT.GET_DETAIL_SUCCESS:
+      return {...state, detail: payload};
+
     default:
       return state
   }
