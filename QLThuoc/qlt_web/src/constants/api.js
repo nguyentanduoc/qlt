@@ -86,5 +86,9 @@ export default {
   PRODUCER: {
     GET_ALL: `${BASE_URI}/api/producer/get-all`,
     SAVE: `${BASE_URI}/api/producer/save`,
+  },
+  SPEC_UNIT_PRODUCT: {
+    SAVE: `${BASE_URI}/api/spec-unit/save`,
+    INIT: `${BASE_URI}/api/spec-unit/init`,
   }
 }

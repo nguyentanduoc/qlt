@@ -9,6 +9,7 @@ import _ from 'lodash';
 import {showAlertErrorAndReset} from '../../../actions/alertAction';
 import AlertCommon from '../../Common/AlertCommon'
 import ExportBillToPdf from './ExportBillToPDF';
+import NumberFormat from "react-number-format";
 
 class CreateBill extends Component {
   constructor(props) {
@@ -119,7 +120,8 @@ class CreateBill extends Component {
                     <Col md={6}>
                       <Form.Item label={"Giá sản phẩm"}>
                         {getFieldDecorator('price', {initialValue: this.state.isShare ? priceShare : price})(
-                          <Input disabled={true} className={'text-right'}/>
+                          <NumberFormat displayType={'input'} thousandSeparator={true} value={price}
+                          className={'form-control text-right'} disabled={true}/>
                         )}
                       </Form.Item>
                     </Col>

@@ -16,8 +16,8 @@ class ModalBill extends Component {
       <Modal
         title="Chi tiết hóa đơn"
         visible={this.props.isShow}
-        onOk={this.handleOk}
-        onCancel={this.props.toggleOpen}>
+        onCancel={this.props.toggleOpen}
+      footer={null}>
         <Table
           bordered={true}
           dataSource={detailExport}

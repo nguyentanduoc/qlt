@@ -38,6 +38,8 @@ public interface ProductService {
      */
     Product save(String model, MultipartFile file) throws IOException;
 
+    Product save(Product product);
+
 
     /**
      * Gets the spec unit.

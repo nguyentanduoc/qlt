@@ -150,6 +150,7 @@ export class index extends Component {
                   </Button>
                 </Form>
                 <Table
+                  scroll={{ x: 674 }}
                   bordered={true}
                   rowKey='id'
                   columns={this.state.columns}

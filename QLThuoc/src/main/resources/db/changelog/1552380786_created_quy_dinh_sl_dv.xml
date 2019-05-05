@@ -22,7 +22,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<addUniqueConstraint columnNames="ma_don_vi_dau, ma_don_vi_cuoi"
+		<addUniqueConstraint columnNames="ma_don_vi_dau, ma_don_vi_cuoi, so_luong"
 			constraintName="constraint_don_vi_dau_cuoi" deferrable="true" disabled="true" initiallyDeferred="true"
 			schemaName="public" tableName="quy_dinh_don_vi" />
 		<addForeignKeyConstraint baseColumnNames="ma_don_vi_dau" baseTableName="quy_dinh_don_vi"

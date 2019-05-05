@@ -94,7 +94,7 @@ class DetailBillExport extends Component {
                   thousandSeparator={true}
                   value={text}
                   disabled={true}
-                  className={'form-control text-right'}/>
+                  className={'text-right'}/>
               )}
             />
             <Table.Column

@@ -20,7 +20,7 @@ class ExportBillToPdf extends Component {
     const {printDataView, total} = this.props.exportReducer;
     return (
       <div style={{"display": "none"}}>
-        <div id="divToPrint" className="mt4" style={{"fontFamily": 'Times New Roman'}}>
+        <div id="divToPrint" className="mt-4" style={{"fontFamily": 'Times New Roman'}}>
           <Card>
             <CardBody>
               <Row>

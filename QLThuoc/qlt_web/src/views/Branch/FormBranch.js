@@ -126,7 +126,7 @@ class FormBranch extends Component {
       const result = _.find(branches, function (o) {
         return o.isMain === true
       });
-      return !result;
+      return result ? true :  false;
     };
 
     return (

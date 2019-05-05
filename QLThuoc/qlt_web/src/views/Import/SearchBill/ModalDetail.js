@@ -17,7 +17,8 @@ class ModalDetail extends Component {
       <Modal
         title="Chi tiết hóa đơn"
         visible={this.props.isShow}
-        onCancel={this.props.toggleOpen}>
+        onCancel={this.props.toggleOpen}
+        footer={null}>
         <Table
           bordered={true}
           dataSource={detail}
@@ -41,7 +42,7 @@ class ModalDetail extends Component {
               <NumberFormat
                 displayType={'text'}
                 thousandSeparator={true} value={price}
-                className={'form-control text-right'} disabled={true}/>)}
+                className={'text-right'} disabled={true}/>)}
           />
           <Table.Column
             title='Đơn vị'
@@ -56,7 +57,7 @@ class ModalDetail extends Component {
   }
 }
 
-const mapStateToProps = (state) =>({
+const mapStateToProps = (state) => ({
   importProductReducer: state.importProductReducer
 })
 

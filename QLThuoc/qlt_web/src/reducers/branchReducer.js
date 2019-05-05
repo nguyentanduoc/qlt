@@ -6,7 +6,8 @@ const initialState = {
   shops: [],
   branchSelection:[],
   specLevelBranchReducer: [],
-  address:''
+  address:'',
+  memberOfBranch:0
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -34,6 +35,9 @@ export default (state = initialState, { type, payload }) => {
 
     case ACTION_TYPES.BRANCH.GET_ADDRESS_SUCCESS:
       return {...state, address: payload};
+
+    case ACTION_TYPES.BRANCH.COUNT_MEMBER_SUCCESS:
+      return {...state, memberOfBranch: payload}
 
   default:
     return state

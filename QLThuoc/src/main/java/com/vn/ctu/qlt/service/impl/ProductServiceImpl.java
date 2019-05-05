@@ -695,5 +695,9 @@ public class ProductServiceImpl implements ProductService {
             throw e;
         }
     }
-
+    @Override
+    public Product save(Product product){
+        productRepository.save(product);
+        return product;
+    }
 }

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.vn.ctu.qlt.dto.ImportProductDto;
@@ -95,7 +96,8 @@ public class ImportProductServiceImpl implements ImportProductService {
 
     @Override
     public List<BillImport> findAll(){
-        return billImportRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC, "importDate");
+        return billImportRepository.findAll(sort);
     }
 
     @Override

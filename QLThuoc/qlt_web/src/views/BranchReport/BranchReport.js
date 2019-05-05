@@ -5,6 +5,7 @@ import Widget04 from "../Widgets/Widget04";
 import {Form, Input, Button, Table} from 'antd';
 import {searchProductOnStore} from '../../actions/productAction';
 import {countMemberOfBranch} from '../../actions/branchAction';
+import Widget02 from "../Widgets/Widget02";
 
 const columns = [
   {
@@ -39,6 +40,7 @@ class BranchReport extends Component {
       }
     });
   };
+
   componentWillMount() {
     this.props.onCountMemberOfBranch();
   };
@@ -46,6 +48,7 @@ class BranchReport extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     const {productOnBranch} = this.props.productReducer;
+    const {memberOfBranch} = this.props.branchReducer;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -76,10 +79,11 @@ class BranchReport extends Component {
               <CardHeader>Nhân Sự</CardHeader>
               <CardBody>
                 <Row>
-                  <Col md={4}>
-                      <Widget04 icon="icon-people" color="info" header="87.500" value="25" invert>
-                      Tổng Nhân Viên
-                    </Widget04>
+                  <Col md={6}>
+                    <Widget02 header={memberOfBranch.toString()} mainText="Tổng Nhân Viên" icon="icon-people" color="primary" />
+                    {/*<Widget04 icon="icon-people" color="info" header={memberOfBranch.toString()} value="25" invert>*/}
+                    {/*  Tổng Nhân Viên*/}
+                    {/*</Widget04>*/}
                   </Col>
                 </Row>
               </CardBody>
@@ -92,11 +96,12 @@ class BranchReport extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  productReducer: state.productReducer
+  productReducer: state.productReducer,
+  branchReducer: state.branchReducer
 });
 const mapDispatchToProps = (dispatch) => ({
   onSearch: (data) => dispatch(searchProductOnStore(data)),
-  onCountMemberOfBranch: () =>  dispatch(countMemberOfBranch())
+  onCountMemberOfBranch: () => dispatch(countMemberOfBranch())
 });
 const FormBranchReport = Form.create()(BranchReport);
 export default connect(

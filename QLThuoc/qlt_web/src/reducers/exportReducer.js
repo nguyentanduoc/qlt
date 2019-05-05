@@ -79,7 +79,7 @@ export default (state = initState, {type, payload}) => {
       return {...state, billsExport: payload};
 
     case ACTION_TYPES.EXPORT.GET_DETAIL_SUCCESS:
-      return {...state, detailExport: payload}
+      return {...state, detailExport: payload};
 
     default:
       return state;
