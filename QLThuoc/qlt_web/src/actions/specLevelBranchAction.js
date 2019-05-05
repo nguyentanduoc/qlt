@@ -1,15 +1,16 @@
 import Axios from "axios";
 import {ACTION_TYPES, API} from "../constants";
 import headerHelper from "../helpers/headerHelper";
-import {showAlertFail} from "./alertAction";
+import {showAlertFail, showAlertSuccess} from "./alertAction";
 
 export const save = (data) => {
   return async (dispatch) => {
-    try{
+    try {
       const response = await Axios.post(API.SPEC_LEVEL_BRANCH.SAVE, data, headerHelper);
+      dispatch(showAlertSuccess());
       return dispatch(saveSuccess(response.data));
-    }catch (e) {
-    return dispatch(showAlertFail(e));
+    } catch (e) {
+      return dispatch(showAlertFail(e));
     }
   }
 };

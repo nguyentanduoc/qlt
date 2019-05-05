@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink} from 'reactstrap';
+import {DropdownItem, DropdownMenu, DropdownToggle, Nav} from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import {AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
+import {AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler} from '@coreui/react';
 import logo from '../../assets/img/brand/medicine-box-icon.png'
 import sygnet from '../../assets/img/brand/sygnet.svg'
 
@@ -27,19 +27,19 @@ class DefaultHeader extends Component {
         />
         <AppSidebarToggler className="d-md-down-none" display="lg"/>
         <Nav className="ml-auto" navbar>
-          <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-bell"/><Badge pill color="danger">5</Badge></NavLink>
-          </NavItem>
+          {/*<NavItem className="d-md-down-none">*/}
+          {/*  <NavLink href="#"><i className="icon-bell"/><Badge pill color="danger">5</Badge></NavLink>*/}
+          {/*</NavItem>*/}
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
-              <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
+              <img src={'../../assets/img/avatars/ntd-avatar.jpg'} className="img-avatar" alt="ntduoc@gmail.com"/>
             </DropdownToggle>
             <DropdownMenu right style={{right: 'auto'}}>
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"/> Logout</DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>
-        <AppAsideToggler className="d-md-down-none"/>
+        {/*<AppAsideToggler className="d-md-down-none"/>*/}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}
       </React.Fragment>
     );

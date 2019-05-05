@@ -7,7 +7,6 @@ import {resetAlert} from '../../actions/alertAction'
 import _ from 'lodash';
 import {
   AppAside,
-  AppBreadcrumb,
   AppFooter,
   AppHeader,
   AppSidebar,
@@ -62,8 +61,8 @@ class DefaultLayout extends Component {
             <AppSidebarMinimizer/>
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes}/>
-            <Container fluid>
+            {/*<AppBreadcrumb appRoutes={routes}/>*/}
+            <Container fluid className={'pt-3'}>
               <Suspense fallback={this.loading()}>
                 <Switch>
                   {

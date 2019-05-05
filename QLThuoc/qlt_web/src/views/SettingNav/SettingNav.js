@@ -1,9 +1,22 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Row, Table, Card, Col, CardHeader, CardBody, Form, FormGroup, Label, CustomInput, CardFooter, Button } from 'reactstrap';
-import { getAllNav, getAllSubNav, setRoleForNav, setNav, updateNav } from '../../actions/NavAction';
-import { getAllRole } from '../../actions/roleAction';
-import { resetAlert } from '../../actions/alertAction';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {
+  Row,
+  Table,
+  Card,
+  Col,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  CustomInput,
+  CardFooter,
+  Button
+} from 'reactstrap';
+import {getAllNav, getAllSubNav, setRoleForNav, setNav, updateNav} from '../../actions/NavAction';
+import {getAllRole} from '../../actions/roleAction';
+import {resetAlert} from '../../actions/alertAction';
 import AlertCommon from '../Common/AlertCommon';
 
 export class SettingNav extends Component {
@@ -13,21 +26,25 @@ export class SettingNav extends Component {
       name: ""
     }
   }
+
   componentDidMount() {
     this.props.onGetAllNav();
     this.props.onGetAllRole();
   }
+
   async handleClick(title) {
     this.props.onGetAllSubNav(title.id);
     this.props.onSetRoleForNav(title.roles);
-    this.setState({ name: title.name });
+    this.setState({name: title.name});
     this.props.onSetNav(title);
   }
+
   handleClickSub(sub) {
     this.props.onSetRoleForNav(sub.roles);
-    this.setState({ name: sub.name });
+    this.setState({name: sub.name});
     this.props.onSetNav(sub);
   }
+
   changeHandler(event) {
     const roleId = event.target.name;
     if (event.target.type === 'checkbox') {
@@ -36,9 +53,8 @@ export class SettingNav extends Component {
         roleNav = this.props.navReducer.roleNav.filter(role => {
           return role.id !== parseInt(roleId)
         });
-      }
-      else {
-        var addRoles = this.props.roleReducer.roles.filter(role => {
+      } else {
+        let addRoles = this.props.roleReducer.roles.filter(role => {
           return role.id === parseInt(roleId)
         });
         roleNav.push(addRoles[0]);
@@ -46,6 +62,7 @@ export class SettingNav extends Component {
       this.props.onSetRoleForNav(roleNav);
     }
   }
+
   async handleSubmit(event) {
     event.preventDefault();
     let nav = this.props.navReducer.nav;
@@ -59,32 +76,32 @@ export class SettingNav extends Component {
       1500
     );
   }
-  
+
   render() {
     const checked = roleId => {
-        let roles = this.props.navReducer.roleNav.filter(role => {
-          return role.id === roleId
-        });
-        return roles[0] ? true : false;
-      }
+      let roles = this.props.navReducer.roleNav.filter(role => {
+        return role.id === roleId
+      });
+      return !!roles[0];
+    };
     return (
       <div className="animated fadeIn">
         <Row>
           <Col lg="3">
             <Card>
               <CardHeader>
-                <i className="fas fa-list"></i><strong>Danh Mục Tiêu Đề</strong>
+                <i className="fas fa-list"/><strong>Danh Mục Tiêu Đề</strong>
               </CardHeader>
               <CardBody>
                 <Table responsive className="table-hover">
                   <tbody>
-                    {this.props.navReducer.navTitles.map((title) => {
-                      return (
-                        <tr className="column-select" key={title.id} onClick={this.handleClick.bind(this, title)}>
-                          <td>{title.name}</td>
-                        </tr>
-                      )
-                    })}
+                  {this.props.navReducer.navTitles.map((title) => {
+                    return (
+                      <tr className="column-select" key={title.id} onClick={this.handleClick.bind(this, title)}>
+                        <td>{title.name}</td>
+                      </tr>
+                    )
+                  })}
                   </tbody>
                 </Table>
               </CardBody>
@@ -93,25 +110,25 @@ export class SettingNav extends Component {
           <Col lg="6">
             <Card>
               <CardHeader>
-                <i className="fas fa-bars"></i>Danh sách <strong>Danh Mục Con</strong>
+                <i className="fas fa-bars"/>Danh sách <strong>Danh Mục Con</strong>
               </CardHeader>
               <CardBody>
                 <Table responsive className="table-hover">
                   <thead>
-                    <tr>
-                      <th>Tên Danh Mục</th>
-                      <th>Địa chỉ</th>
-                    </tr>
+                  <tr>
+                    <th>Tên Danh Mục</th>
+                    <th>Địa chỉ</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {this.props.navReducer.subNav.map((sub) => {
-                      return (
-                        <tr className="column-select" key={sub.id} onClick={this.handleClickSub.bind(this, sub)}>
-                          <td>{sub.name}</td>
-                          <td>{sub.url}</td>
-                        </tr>
-                      )
-                    })}
+                  {this.props.navReducer.subNav.map((sub) => {
+                    return (
+                      <tr className="column-select" key={sub.id} onClick={this.handleClickSub.bind(this, sub)}>
+                        <td>{sub.name}</td>
+                        <td>{sub.url}</td>
+                      </tr>
+                    )
+                  })}
                   </tbody>
                 </Table>
               </CardBody>
@@ -121,10 +138,10 @@ export class SettingNav extends Component {
             <Form onSubmit={this.handleSubmit.bind(this)}>
               <Card>
                 <CardHeader>
-                  <i className="fas fa-users-cog"></i>Chi tiết <strong>Quyền</strong>
+                  <i className="fas fa-users-cog"/>Chi tiết <strong>Quyền</strong>
                 </CardHeader>
                 <CardBody>
-                  <AlertCommon />
+                  <AlertCommon/>
                   <FormGroup row>
                     <Col md="3">
                       <Label>Tên:</Label>
@@ -142,13 +159,13 @@ export class SettingNav extends Component {
                           label={role.detail}
                           name={role.id}
                           checked={checked(role.id)}
-                          onChange={this.changeHandler.bind(this)} />
+                          onChange={this.changeHandler.bind(this)}/>
                       ))}
                     </Col>
                   </FormGroup>
                 </CardBody>
                 <CardFooter className="text-right">
-                  <Button type="submit" size="sm" color="success"><i className="fa fa-dot-circle-o"></i> Lưu</Button>
+                  <Button type="submit" size="sm" color="success"><i className="fa fa-dot-circle-o"/> Lưu</Button>
                 </CardFooter>
               </Card>
             </Form>
@@ -162,9 +179,9 @@ export class SettingNav extends Component {
 const mapStateToProps = (state) => ({
   navReducer: state.navReducer,
   roleReducer: state.role
-})
+});
 
-const mapDispathToProps = (dispatch, props) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onGetAllNav: async () => {
       return await dispatch(getAllNav());
@@ -188,6 +205,6 @@ const mapDispathToProps = (dispatch, props) => {
       return dispatch(resetAlert());
     }
   }
-}
+};
 
-export default connect(mapStateToProps, mapDispathToProps)(SettingNav)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingNav)

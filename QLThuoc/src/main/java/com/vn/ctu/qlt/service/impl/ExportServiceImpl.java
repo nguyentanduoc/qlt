@@ -1,15 +1,21 @@
 package com.vn.ctu.qlt.service.impl;
 
+import com.vn.ctu.qlt.dto.BillExportDto;
 import com.vn.ctu.qlt.dto.BranchSaveExport;
+import com.vn.ctu.qlt.dto.SaveExportDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.repository.BillExportRepository;
 import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +41,9 @@ public class ExportServiceImpl implements ExportService {
 
     @Autowired
     private IAuthenticationFacade iAuthenticationFacade;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @Override
@@ -71,4 +80,31 @@ public class ExportServiceImpl implements ExportService {
         });
         billExportRepository.save(billExport);
     }
+
+    @Override
+    public List<BillExport> findAll() {
+        Sort sort = new Sort(Sort.Direction.DESC, "dateCreated");
+        List<BillExport> billExports = billExportRepository.findAll(sort);
+        return billExports;
+    }
+
+    @Override
+    public List<BillExportDto> convert(List<BillExport> billExports) {
+        List<BillExportDto> billsExportDto = new ArrayList<>();
+        for (BillExport billExport : billExports) {
+            billsExportDto.add(modelMapper.map(billExport, BillExportDto.class));
+        }
+        return billsExportDto;
+    }
+
+    @Override
+    public Optional<BillExport> findById(Long id) {
+        return billExportRepository.findById(id);
+    }
+
+    @Override
+    public List<BillExport> findAllByDate(Date date) {
+        return billExportRepository.findAllByDateCreated(date);
+    }
+
 }
