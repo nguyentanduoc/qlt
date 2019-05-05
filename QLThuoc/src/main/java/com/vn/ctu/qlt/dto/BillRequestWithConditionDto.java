@@ -7,5 +7,5 @@ public class BillRequestWithConditionDto {
 
 	private BranchDto branch;
 	
-	private BillReuqestConditionDto condition;
+	private BillRequestConditionDto condition;
 }
