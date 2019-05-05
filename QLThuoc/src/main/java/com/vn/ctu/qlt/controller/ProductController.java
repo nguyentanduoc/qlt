@@ -113,11 +113,8 @@ public class ProductController {
      * @return the spec unit
      */
     @PostMapping(path = "/get-spec-unit")
-    public ResponseEntity<Map<String, Object>> getSpecUnit(@RequestBody Long id) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("specUnit", productService.getSpecUnit(id));
-        response.put("product", modelMapper.map(productService.getProductById(id), ProductDtoImport.class));
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<Set<SpecUnitSelectionDto>> getSpecUnit(@RequestBody Long id) {
+        return ResponseEntity.ok().body(productService.getSpecUnit(id));
     }
 
     /**
@@ -197,12 +194,5 @@ public class ProductController {
             priceHistoriesDto.add(priceHistoryDto);
         }
         return ResponseEntity.ok().body(priceHistoriesDto);
-    }
-
-    @PostMapping(path = "/search-product-on-store")
-    public ResponseEntity<List<ProductDto>> searchProductOnStore(@RequestBody SearchProductOnStoreDto searchProductOnStoreDto) {
-        List<Product> products = productService.findAllByProductOfBranch_Amount(searchProductOnStoreDto);
-        List<ProductDto> productsDto = productService.covert(products);
-        return ResponseEntity.ok().body(productsDto);
     }
 }

@@ -9,7 +9,6 @@ import _ from 'lodash';
 import {showAlertErrorAndReset} from '../../../actions/alertAction';
 import AlertCommon from '../../Common/AlertCommon'
 import ExportBillToPdf from './ExportBillToPDF';
-import NumberFormat from "react-number-format";
 
 class CreateBill extends Component {
   constructor(props) {
@@ -93,6 +92,7 @@ class CreateBill extends Component {
         <CardHeader>
           Tạo Hóa Đơn Bán Hàng
           <div className="card-header-actions">
+            {/*<i className="fa fa-check float-right"></i>*/}
             <CustomInput
               type="switch"
               id='isMain'
@@ -100,6 +100,7 @@ class CreateBill extends Component {
               name='isMain'
               checked={this.state.isShare}
               onChange={this.changeHandler.bind(this)}
+              // value={this.state.isMain}
             />
           </div>
         </CardHeader>
@@ -120,8 +121,7 @@ class CreateBill extends Component {
                     <Col md={6}>
                       <Form.Item label={"Giá sản phẩm"}>
                         {getFieldDecorator('price', {initialValue: this.state.isShare ? priceShare : price})(
-                          <NumberFormat displayType={'input'} thousandSeparator={true} value={price}
-                          className={'form-control text-right'} disabled={true}/>
+                          <Input disabled={true} className={'text-right'}/>
                         )}
                       </Form.Item>
                     </Col>

@@ -94,7 +94,6 @@ class index extends Component {
                     pagination = {false}
                     rowSelection={rowSelection}
                     onRow={onRow}
-                    bordered={true}
                     />
               </CardBody>
             </Card>

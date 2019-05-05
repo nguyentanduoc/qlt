@@ -38,8 +38,6 @@ public interface ProductService {
      */
     Product save(String model, MultipartFile file) throws IOException;
 
-    Product save(Product product);
-
 
     /**
      * Gets the spec unit.
@@ -136,9 +134,5 @@ public interface ProductService {
     List<ProductDto> searchProductByProducer(Long producerId);
 
     List<ProductDto> searchProduct();
-
-    List<Product> findAllByProductOfBranch_Amount(SearchProductOnStoreDto searchProductOnStoreDto);
-
-    List<ProductDto> covert(List<Product> products);
 
 }

@@ -291,12 +291,12 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Save product of branch.
      *
-     * @param productId  the product id
-     * @param branchId   the branch id
-     * @param amount     the amount
-     * @param specUnitId the spec unit id
+     * @param productId the product id
+     * @param branchId  the branch id
+     * @param amount    the amount
+     * @param spectUnit the spect unit
      */
-    private void saveProductOfBranch(Long productId, Long branchId, Double amount, Long specUnitId) {
+    private void saveProductOfBranch(Long productId, Long branchId, Double amount, Long spectUnit) {
         Product product;
         SpecUnit specUnit;
         try {
@@ -304,7 +304,7 @@ public class ProductServiceImpl implements ProductService {
             Optional<Product> productOptional = productRepository.findById(productId);
             if (!productOptional.isPresent()) throw new ProductException("Sản phẩm không tồn tại");
             product = productOptional.get();
-            specUnit = specUnitService.getById(specUnitId);
+            specUnit = specUnitService.getById(spectUnit);
             if (productOfBranch != null) {
                 updateProductOfBranch(productId, branchId,
                         pushAmount(specUnit, productOfBranch, amount, product));
@@ -662,8 +662,7 @@ public class ProductServiceImpl implements ProductService {
         return covert(products);
     }
 
-    @Override
-    public List<ProductDto> covert(List<Product> products) {
+    private List<ProductDto> covert(List<Product> products) {
         List<ProductDto> productsDto = new ArrayList<>();
         for (Product product : products) {
             ProductDto productDto = modelMapper.map(product, ProductDto.class);
@@ -678,26 +677,4 @@ public class ProductServiceImpl implements ProductService {
         return covert(products);
     }
 
-    @Override
-    public List<Product> findAllByProductOfBranch_Amount(SearchProductOnStoreDto searchProductOnStoreDto) {
-        try {
-            StringBuilder sql = new StringBuilder();
-            List<Product> productResult = new ArrayList<>();
-            sql.append("select sp.ma, sp.cong_dung, sp.cong_dung, sp.don_vi_chuan, sp.hinh_anh, sp.ma_nha_san_xuat, sp.ten_san_pham ");
-            sql.append("from san_pham sp inner join san_pham_chi_nhanh spccn on sp.ma = spccn.ma_san_pham ");
-            sql.append("where spccn.so_luong <= ? and spccn.ma_chi_nhanh = ?");
-            List<Product> products = jdbcTemplate.query(sql.toString(), new Object[]{searchProductOnStoreDto.getAmount(), searchProductOnStoreDto.getBranch().getId()}, productMapper);
-            for (Product product : products) {
-                productResult.add(productRepository.findById(product.getId()).get());
-            }
-            return productResult;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-    @Override
-    public Product save(Product product){
-        productRepository.save(product);
-        return product;
-    }
 }

@@ -1,9 +1,8 @@
 package com.vn.ctu.qlt.dto;
 
-import lombok.Data;
-
-import java.util.List;
 import java.util.Set;
+
+import lombok.Data;
 
 /**
  * The Class ProductDto.
@@ -33,7 +32,5 @@ public class ProductDto {
 	private ProducerDto producer;
 
 	private ProducerSeletion producerSeletion;
-
-	private List<ProductOfBranchDto> productsOfBranch;
 
 }

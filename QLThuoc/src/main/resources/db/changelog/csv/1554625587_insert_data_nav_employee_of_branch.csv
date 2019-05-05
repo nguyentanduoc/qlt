@@ -1,4 +1,3 @@
 ma,ma_huy_hieu,ten,url,icon,tieu_de,so_thu_tu,co_danh_muc_con,la_danh_muc_cha,ma_danh_muc_cha,la_chi_nhanh_chinh
 25,null,Quản Lý Chi Nhánh,/control-branch,fas fa-code-branch,false,800,true,false,,0
 26,null,Nhân Viên,/control-branch/employee,fas fa-users,false,801,false,true,25,0
-27,null,Thống Kê,/control-branch/report,fas fa-tachometer-alt,false,802,false,true,25,0

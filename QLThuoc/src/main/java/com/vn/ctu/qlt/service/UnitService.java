@@ -7,11 +7,11 @@ import com.vn.ctu.qlt.model.Unit;
 
 public interface UnitService {
 
-    public Iterable<Unit> getAll();
-
-    public Set<UnitSelection> getAllForSelection();
-
-    public Unit getByUnitSeletion(UnitSelection unit);
-
-    public Unit getUnitById(Long id);
+	public Iterable<Unit> getAll();
+	
+	public Set<UnitSelection> getAllForSelection();
+	
+	public Unit getByUnitSeletion(UnitSelection unit);
+	
+	public Unit getUnitById(Long id);
 }

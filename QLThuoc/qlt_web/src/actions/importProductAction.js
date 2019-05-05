@@ -1,12 +1,12 @@
 import Axios from "axios"
 import headerConfig from '../helpers/headerHelper'
-import {API, ACTION_TYPES} from "../constants"
-import {showAlertFail, showAlertAndReset} from "./alertAction";
+import { API, ACTION_TYPES } from "../constants"
+import { showAlertFail, showAlertAndReset } from "./alertAction";
 
 export const init = () => {
   return async (dispatch) => {
     try {
-      const response = await Axios.post(API.IMPORT.INIT, null, headerConfig);
+      const response = await Axios.post(API.IMPORT.INIT,null ,headerConfig);
       dispatch(initSuccess(response.data));
     } catch (err) {
       dispatch(showAlertFail(err));
@@ -25,7 +25,7 @@ export const getSpecUnit = (productId) => {
     try {
       const response = await Axios.post(API.PRODUCT.GET_SPEC_UNIT, productId, headerConfig);
       dispatch(setSpecUnitSelection(response.data));
-    } catch (err) {
+    } catch(err) {
       dispatch(showAlertFail(err));
     }
   }
@@ -40,7 +40,7 @@ export const save = (data, branch) => {
   return async (dispatch) => {
     try {
       const response = await Axios.post(API.IMPORT.SAVE, {data, branch}, headerConfig);
-      if (response.status === 200) {
+      if(response.status === 200) {
         dispatch(saveSuccess());
         dispatch(showAlertAndReset());
       } else {
@@ -61,31 +61,3 @@ export const resetSaveSuccess = () => {
     type: ACTION_TYPES.IMPORT.RESET_SAVE_SUCCESS
   }
 };
-export const search = (condition) => (
-  async dispatch => {
-    try {
-      const response = await Axios.post(API.IMPORT.SEARCH, condition, headerConfig);
-      dispatch(searchSuccess(response.data));
-    } catch (e) {
-      dispatch(showAlertFail(e));
-    }
-  }
-);
-const searchSuccess = (data) => ({
-  type: ACTION_TYPES.IMPORT.SEARCH_SUCCESS,
-  payload: data
-});
-export const getDetail = (id) => (
-  async dispatch => {
-    try {
-      const response = await Axios.post(API.IMPORT.GET_DETAIL, id, headerConfig);
-      dispatch(getDetailSuccess(response.data));
-    } catch (e) {
-      dispatch(showAlertFail(e));
-    }
-  }
-);
-const getDetailSuccess = (data) => ({
-  type: ACTION_TYPES.IMPORT.GET_DETAIL_SUCCESS,
-  payload: data
-});

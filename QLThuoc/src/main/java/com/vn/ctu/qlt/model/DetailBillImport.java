@@ -33,7 +33,7 @@ public class DetailBillImport implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ma_quy_dinh_don_vi", referencedColumnName = "ma")
-	private SpecUnit specUnit;
+	private SpecUnit spectUnit;
 
 	@Column(name = "so_luong")
 	private Double amount;
@@ -41,13 +41,13 @@ public class DetailBillImport implements Serializable {
 	@Column(name = "don_gia")
 	private Double price;
 
-	public DetailBillImport(BillImport billImport, Product product, SpecUnit specUnit, Double amount, Double price) {
+	public DetailBillImport(BillImport billImport, Product product, SpecUnit spectUnit, Double amount, Double price) {
 		super();
 		this.billImport = billImport;
 		this.product = product;
 		this.amount = amount;
 		this.price = price;
-		this.specUnit = specUnit;
+		this.spectUnit = spectUnit;
 	}
 
 	public DetailBillImport() {
@@ -83,10 +83,10 @@ public class DetailBillImport implements Serializable {
 				return false;
 		} else if (!product.equals(other.product))
 			return false;
-		if (specUnit == null) {
-			if (other.specUnit != null)
+		if (spectUnit == null) {
+			if (other.spectUnit != null)
 				return false;
-		} else if (!specUnit.equals(other.specUnit))
+		} else if (!spectUnit.equals(other.spectUnit))
 			return false;
 		return true;
 	}
@@ -98,7 +98,7 @@ public class DetailBillImport implements Serializable {
 		hcb.append(billImport);
 		hcb.append(price);
 		hcb.append(product);
-		hcb.append(specUnit);
+		hcb.append(spectUnit);
 		return hcb.hashCode();
 	}
 

@@ -5,14 +5,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.vn.ctu.qlt.dto.*;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vn.ctu.qlt.dto.BillRequestDto;
+import com.vn.ctu.qlt.dto.BillRequestWithConditionDto;
+import com.vn.ctu.qlt.dto.BillReuqestConditionDto;
+import com.vn.ctu.qlt.dto.DetailRequestDto;
+import com.vn.ctu.qlt.dto.ImportProductDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.exception.NullRequestException;
 import com.vn.ctu.qlt.model.BillRequest;
@@ -42,9 +45,6 @@ public class BillRequestServiceImpl implements BillRequestService {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     public void save(ImportProductDto data) {
@@ -86,7 +86,7 @@ public class BillRequestServiceImpl implements BillRequestService {
         try {
 
             Branch branch = branchService.getBranchById(dto.getBranch().getId());
-            BillRequestConditionDto conditionDto = dto.getCondition();
+            BillReuqestConditionDto conditionDto = dto.getCondition();
             List<BillRequest> billsRequest = billRequestRepository
                     .findByIsSeenAndIsReceiveAndIsAcceptAndIsDoneAndIsCancelAndBranchMain(conditionDto.getIsSeen(),
                             conditionDto.getIsReceive(), conditionDto.getIsAccept(), conditionDto.getIsDone(),
@@ -178,35 +178,6 @@ public class BillRequestServiceImpl implements BillRequestService {
             throw e;
         }
 
-    }
-
-    @Override
-    public List<BillRequest> findAll() {
-        return billRequestRepository.findAll();
-    }
-
-    @Override
-    public Optional<BillRequest> findById(Long id) {
-        return billRequestRepository.findById(id);
-    }
-
-    @Override
-    public List<BillRequest> findByDateCreated(Date date) {
-        return billRequestRepository.findAllByDateRequested(date);
-    }
-
-    @Override
-    public List<BillRequestDto> convertList(List<BillRequest> billRequests) {
-        List<BillRequestDto> billRequestsDto = new ArrayList<>();
-        for (BillRequest billRequest: billRequests){
-            billRequestsDto.add(modelMapper.map(billRequest,BillRequestDto.class));
-        }
-        return billRequestsDto;
-    }
-
-    @Override
-    public BillRequestDto convertObject(BillRequest billRequest) {
-        return modelMapper.map(billRequest, BillRequestDto.class);
     }
 
 }

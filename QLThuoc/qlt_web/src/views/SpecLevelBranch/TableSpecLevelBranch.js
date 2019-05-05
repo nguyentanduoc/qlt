@@ -41,7 +41,7 @@ class TableSpecLevelBranch extends Component {
               title={'Bán sĩ'}
             />
             <Table.Column
-              key={'percentProfitChange'}
+              key={'percentProfit'}
               dataIndex={'percentProfitChange'}
               title={'Chuyển'}
             />

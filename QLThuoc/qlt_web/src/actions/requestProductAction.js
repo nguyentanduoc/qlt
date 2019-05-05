@@ -81,17 +81,3 @@ export const resetSaveSuccess = () => {
   }
 }
 
-export const search = (condition)=>(
-  async dispatch => {
-    try {
-      const response = await Axios.post(API.REQUEST.SEARCH, condition, headerConfig);
-      dispatch(searchSuccess(response.data));
-    }  catch (e) {
-      dispatch(showAlertFail(e));
-    }
-  }
-)
-const searchSuccess = (data) =>({
-  type:  ACTION_TYPES.REQUEST.SEARCH_SUCCESS,
-  payload: data
-})
