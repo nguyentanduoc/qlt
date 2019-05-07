@@ -1,8 +1,10 @@
 package com.vn.ctu.qlt.controller;
 
 import com.vn.ctu.qlt.dto.SpecUnitSaveDto;
-import com.vn.ctu.qlt.dto.UnitDto;
+import com.vn.ctu.qlt.dto.UnitSaveDto;
+import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.dto.UnitSelection;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.SpecUnit;
 import com.vn.ctu.qlt.model.Unit;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The Class SpecUnitController.
@@ -39,7 +43,13 @@ public class SpecUnitController {
     private ProductService productService;
 
     @PostMapping(path = "/init")
-    public ResponseEntity<List<UnitSelection>> init() {
+    public ResponseEntity<Set<SpecUnitSelectionDto>> init() {
+        Set<SpecUnitSelectionDto> specUnitSelectionsDto = specUnitService.getAllForSelection();
+        return ResponseEntity.ok().body(specUnitSelectionsDto);
+    }
+
+    @PostMapping(path = "/get-all-unit")
+    public ResponseEntity<List<UnitSelection>> getAllUnit() {
         Iterable<Unit> unitsIterable = unitService.getAll();
         List<UnitSelection> unitSelections = new ArrayList<>();
         for (Unit unit : unitsIterable) {
@@ -50,20 +60,36 @@ public class SpecUnitController {
     }
 
     @PostMapping(path = "/save")
-    public ResponseEntity<String> save(@RequestBody SpecUnitSaveDto specUnitSaveDto) {
-        Unit unitIn = unitService.getUnitById(specUnitSaveDto.getUnitIn());
-        Unit unitOut = unitService.getUnitById(specUnitSaveDto.getUnitOut());
+    public ResponseEntity save(@RequestBody SpecUnitSaveDto specUnitSaveDto) {
+        try {
+            Product product = productService.getProductById(specUnitSaveDto.getProductId());
+            List<SpecUnit> specUnits = specUnitService.getAllByListId(specUnitSaveDto.getSpecUnits());
+            product.getSpecUnits().addAll(specUnits);
+            product.setSpecUnits(product.getSpecUnits());
+            productService.save(product);
+            List<SpecUnit> specUnitsProduct = product.getSpecUnits();
+            Set<SpecUnitSelectionDto> specUnitsSelection = new HashSet<>();
+            specUnitsProduct.forEach(action -> specUnitsSelection.add(new SpecUnitSelectionDto(action)));
+            return ResponseEntity.ok().body(specUnitsSelection);
+        } catch (Exception e) {
+            throw new BadRequestException("Quy định đơn vị đã tồn tại");
+        }
+    }
+
+    @PostMapping(path = "save-unit")
+    public ResponseEntity saveUnit(@RequestBody UnitSaveDto unitSaveDto) {
+        Unit unitIn = unitService.getUnitById(unitSaveDto.getUnitIn());
+        Unit unitOut = unitService.getUnitById(unitSaveDto.getUnitOut());
         SpecUnit specUnit = new SpecUnit();
         specUnit.setUnitIn(unitIn);
         specUnit.setUnitOut(unitOut);
-        specUnit.setAmount(specUnitSaveDto.getAmount());
-        SpecUnit specUnitSave = specUnitService.save(specUnit);
-
-        Product product = productService.getProductById(specUnitSaveDto.getProductId());
-        List<SpecUnit> specUnits = product.getSpecUnits();
-        specUnits.add(specUnitSave);
-        product.setSpecUnits(specUnits);
-        productService.save(product);
-        return null;
+        specUnit.setAmount(unitSaveDto.getAmount());
+        try {
+            specUnitService.save(specUnit);
+            Set<SpecUnitSelectionDto> specUnitSelectionsDto = specUnitService.getAllForSelection();
+            return ResponseEntity.ok().body(specUnitSelectionsDto);
+        } catch (Exception e) {
+            throw new BadRequestException("Quy định đơn vị đã tồn tại");
+        }
     }
 }

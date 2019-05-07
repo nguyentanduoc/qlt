@@ -4,6 +4,8 @@ import {Form, Select, Button, InputNumber} from "antd";
 import {Modal, ModalBody, ModalHeader, ModalFooter} from "reactstrap";
 import PropTypes from 'prop-types';
 import {init, save} from '../../../actions/specUnit';
+import CreateNewSpec from "./CreateNewSpec";
+import AlertCommon from "../../Common/AlertCommon";
 
 class ModalCreateSpec extends Component {
   static propTypes = {
@@ -16,49 +18,40 @@ class ModalCreateSpec extends Component {
     this.props.onInit();
   }
 
-  validateUnitOut = (rule, value, callback) => {
-    const form = this.props.form;
-    if (form.getFieldValue('unitIn') === value) {
-      callback("Không được trùng");
-    }
-    callback();
-  };
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.productId = this.props.productId;
         this.props.onSave(values);
-        console.log('Received values of form: ', values);
       }
     });
   };
 
   render() {
-    const {units} = this.props.specUnitReducer;
+    const {specUnits} = this.props.specUnitReducer;
     const {getFieldDecorator} = this.props.form;
     return (
       <div>
-        <Form onSubmit={this.handleSubmit.bind(this)}>
+        <Form onSubmit={this.handleSubmit.bind(this)} layout="inline">
           <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
             <ModalHeader>
               Tạo Quy định
             </ModalHeader>
             <ModalBody>
+              <AlertCommon/>
               <Form.Item
-                label="Đơn vị đầu">
-                {getFieldDecorator('unitIn', {
+                label="Chọn Quy Định Đơn vị">
+                {getFieldDecorator('specUnits', {
                   rules: [{
-                    required: true, message: 'Hãy chọn Đơn vị',
+                    required: true, message: 'Hãy chọn quy định đơn vị',
                   }],
                 })(
                   <Select
-                    mode="default"
-                    placeholder="Chọn đơn vị"
-                    style={{width: '100%'}}
-                  >
-                    {units.map(item => (
+                    mode="multiple"
+                    placeholder="Hãy chọn quy định đơn vị"
+                    style={{width: '100%'}}>
+                    {specUnits.map(item => (
                       <Select.Option key={item.value} value={item.value}>
                         {item.label}
                       </Select.Option>
@@ -66,46 +59,7 @@ class ModalCreateSpec extends Component {
                   </Select>
                 )}
               </Form.Item>
-              <Form.Item
-                label="Đơn vị cuối">
-                {getFieldDecorator('unitOut', {
-                  rules: [{
-                    required: true, message: 'Hãy chọn Đơn vị',
-                  }, {
-                    validator: this.validateUnitOut,
-                  }],
-                })(
-                  <Select
-                    mode="default"
-                    placeholder="Chọn đơn vị"
-                    style={{width: '100%'}}
-                  >
-                    {units.map(item => (
-                      <Select.Option key={item.value} value={item.value}>
-                        {item.label}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              </Form.Item>
-              <Form.Item
-                label="Số lượng">
-                {getFieldDecorator('amount', {
-                  rules: [{
-                    required: true, message: 'Hãy nhập số lượng',
-                  }, {
-                    validator: (rule, value, callback) => {
-                      if (value <= 0) {
-                        callback("Số lượng lớn hơn không!");
-                      } else {
-                        callback();
-                      }
-                    },
-                  }],
-                })(
-                  <InputNumber />
-                )}
-              </Form.Item>
+              <CreateNewSpec/>
             </ModalBody>
             <ModalFooter>
               <Button htmlType="submit" type="primary" onClick={this.handleSubmit}>Lưu</Button>{' '}

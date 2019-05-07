@@ -1,10 +1,10 @@
 package com.vn.ctu.qlt.controller;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.google.gson.JsonSyntaxException;
 import com.vn.ctu.qlt.dto.*;
 import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.exception.FileEmpty;
+import com.vn.ctu.qlt.exception.FileStorageException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.*;
 import org.modelmapper.ModelMapper;
@@ -12,16 +12,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonSyntaxException;
-import com.vn.ctu.qlt.exception.FileEmpty;
-import com.vn.ctu.qlt.exception.FileStorageException;
+import java.io.IOException;
+import java.util.*;
 
 // TODO: Auto-generated Javadoc
 
@@ -204,5 +199,30 @@ public class ProductController {
         List<Product> products = productService.findAllByProductOfBranch_Amount(searchProductOnStoreDto);
         List<ProductDto> productsDto = productService.covert(products);
         return ResponseEntity.ok().body(productsDto);
+    }
+
+    @PostMapping(path = "/get-product-by-id")
+    public ResponseEntity getProductById(@RequestBody Long id) {
+        Map<String, Object> response = new HashMap<>();
+        ProductEditDto productDto = modelMapper.map(productService.getProductById(id), ProductEditDto.class);
+        response.put("product", productDto);
+        response.put("units", unitService.getUnitDtoAll());
+        response.put("specUnits", specUnitService.getAllSpecUnitDto());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(path = "/save-edit")
+    public ResponseEntity saveEdit(@RequestBody ProductEditRequestDto productEditRequestDto) {
+        try {
+            Product product = productService.getProductById(productEditRequestDto.getId());
+            product.setProductName(productEditRequestDto.getProductName());
+            product.setVirtue(productEditRequestDto.getVirtue());
+            product.setUnit(unitService.getUnitById(productEditRequestDto.getUnit()));
+            product.setSpecUnits(specUnitService.getAllByListId(productEditRequestDto.getSpecUnits()));
+            productService.save(product);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+         throw new  BadRequestException("Có lỗi lưu");
+        }
     }
 }

@@ -65,9 +65,8 @@ export const searchProductOnStore = (data) => (
       const requestData = {
         amount: data.amount,
         branch
-      }
+      };
       const response = await Axios.post(API.PRODUCT.SEARCH_PRODUCT_ON_STORE, requestData, header);
-      console.log(response.data);
       dispatch(searchProductOnStoreSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));
@@ -77,4 +76,29 @@ export const searchProductOnStore = (data) => (
 const searchProductOnStoreSuccess = (data) => ({
   type: ACTION_TYPES.PRODUCT.SEARCH_PRODUCT_ON_STORE_SUCCESS,
   payload: data
-})
+});
+export const getProductById = (id) => (
+  async dispatch => {
+    try {
+      const response = await Axios.post(API.PRODUCT.GET_PRODUCT_BY_ID, id, header);
+      dispatch(getProductByIdSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+const getProductByIdSuccess = (data) =>({
+  type: ACTION_TYPES.PRODUCT.GET_PRODUCT_BY_ID_SUCCESS,
+  payload: data
+});
+export const saveEdit = (data) => (
+  async dispatch => {
+    try {
+      await Axios.post(API.PRODUCT.SAVE_EDIT, data, header);
+      dispatch(showAlertAndReset());
+    }catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+

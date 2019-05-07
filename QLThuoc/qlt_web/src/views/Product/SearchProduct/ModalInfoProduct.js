@@ -10,19 +10,16 @@ class ModalInfoProduct extends Component {
   static propTypes = {
     isShow: PropTypes.bool,
     toggleOpen: PropTypes.func
-  }
-  state = { visible: false }
-  handleOk = () => {
-
-  }
+  };
+  state = { visible: false };
   render() {
     return (
       <div>
         <Modal
           title="Lịch sử giá Sản Phẩm"
           visible={this.props.isShow}
-          onOk={this.handleOk}
           onCancel={this.props.toggleOpen}
+          footer={null}
         >
           <Table
             bordered={true}

@@ -9,9 +9,17 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpecUnitSaveDto {
+public class ProductEditRequestDto {
 
-    private Long productId;
+    private Long id;
+
+    private String productName;
+
+    private String virtue;
 
     private List<Long> specUnits;
+
+    private Long unit;
+
+    private ProducerDto producer;
 }

@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import {Card, CardBody, CardHeader} from "reactstrap";
 import {Button, Form, Input, Select, Table} from "antd";
 import {getAllReducer} from '../../../actions/producerAction';
-import {search, searchPrice} from '../../../actions/productAction'
+import {search, searchPrice, getProductById} from '../../../actions/productAction'
 import ModalInfoProduct from "./ModalInfoProduct";
+import ModalEditProduct from "./ModalEditProduct";
 
 const {Option} = Select;
 
@@ -13,7 +14,8 @@ class SearchProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpenModal: false
+      isOpenModal: false,
+      isOpenModalEdit: false
     }
   }
 
@@ -37,18 +39,26 @@ class SearchProduct extends Component {
     if (!this.state.isOpenModal) {
       await this.props.onSearchPrice(record.id);
     }
-    await this.setState({
+    this.setState({
       isOpenModal: !this.state.isOpenModal
     });
+  };
 
-  }
+  toggleModalEdit = async (record) => {
+    if (!this.state.isOpenModalEdit) {
+      await this.props.onGetProductByID(record.id);
+    }
+    this.setState({
+      isOpenModalEdit: !this.state.isOpenModalEdit
+    });
+  };
 
   render() {
     const {
       getFieldDecorator, getFieldsError
     } = this.props.form;
     const {producers} = this.props.producerReducer;
-    const {isOpenModal} = this.state;
+    const {isOpenModal, isOpenModalEdit} = this.state;
 
     return (
       <div>
@@ -123,8 +133,9 @@ class SearchProduct extends Component {
                   key='extend'
                   render={(text, record) => (
                     <span>
-                    <Button type={'button'} onClick={this.toggleModal.bind(this, record)} icon={'eye'}/>
-                  </span>
+                      <Button type={'button'} onClick={this.toggleModalEdit.bind(this, record)} icon={'edit'}/>{' '}
+                      <Button type={'button'} onClick={this.toggleModal.bind(this, record)} icon={'eye'}/>
+                    </span>
                   )}
                 />
               </Table>
@@ -132,6 +143,7 @@ class SearchProduct extends Component {
           </CardBody>
         </Card>
         <ModalInfoProduct isShow={isOpenModal} toggleOpen={this.toggleModal}/>
+        <ModalEditProduct isShow={isOpenModalEdit} toggleOpen={this.toggleModalEdit}/>
       </div>
     );
   }
@@ -147,7 +159,8 @@ function mapStateToProps(state) {
 const mapDispatchToPops = (dispatch) => ({
   onGetAllProducer: () => dispatch(getAllReducer()),
   onSearch: (condition) => dispatch(search(condition)),
-  onSearchPrice: (data) => dispatch(searchPrice(data))
+  onSearchPrice: (data) => dispatch(searchPrice(data)),
+  onGetProductByID: (id) => dispatch(getProductById(id))
 })
 
 const FormSearchProduct = Form.create()(SearchProduct);
