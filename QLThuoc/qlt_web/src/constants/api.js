@@ -44,6 +44,9 @@ export default {
     GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
     SEARCH: `${BASE_URI}/api/product/search`,
     SEARCH_PRICE: `${BASE_URI}/api/product/search-price`,
+    SEARCH_PRODUCT_ON_STORE: `${BASE_URI}/api/product/search-product-on-store`,
+    GET_PRODUCT_BY_ID: `${BASE_URI}/api/product/get-product-by-id`,
+    SAVE_EDIT: `${BASE_URI}/api/product/save-edit`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
@@ -79,5 +82,11 @@ export default {
   PRODUCER: {
     GET_ALL: `${BASE_URI}/api/producer/get-all`,
     SAVE: `${BASE_URI}/api/producer/save`,
+  },
+  SPEC_UNIT_PRODUCT: {
+    SAVE: `${BASE_URI}/api/spec-unit/save`,
+    INIT: `${BASE_URI}/api/spec-unit/init`,
+    GET_ALL_UNIT: `${BASE_URI}/api/spec-unit/get-all-unit`,
+    SAVE_UNIT: `${BASE_URI}/api/spec-unit/save-unit`,
   }
 }

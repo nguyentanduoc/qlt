@@ -5,8 +5,10 @@ const initialState = {
   units: [],
   producers: [],
   productSearch: [],
-  priceHistories: []
-}
+  priceHistories: [],
+  productOnBranch: [],
+  product: {},
+};
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {
@@ -22,6 +24,17 @@ export default (state = initialState, {type, payload}) => {
 
     case ACTION_TYPES.PRODUCT.SEARCH_PRICE_PRODUCT_SUCCESS:
       return {...state, priceHistories: payload}
+
+    case ACTION_TYPES.PRODUCT.SEARCH_PRODUCT_ON_STORE_SUCCESS:
+      return {...state, productOnBranch: payload};
+
+    case ACTION_TYPES.PRODUCT.GET_PRODUCT_BY_ID_SUCCESS:
+      return {
+        ...state,
+        product: payload.product,
+        units: payload.units,
+        specUnits: payload.specUnits
+      };
 
     default:
       return state

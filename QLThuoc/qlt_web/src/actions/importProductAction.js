@@ -36,6 +36,12 @@ export const setSpecUnitSelection = (data) => {
     payload: data
   }
 };
+export const setSpecUnitSelectionWithoutProduct = (data) => {
+  return {
+    type: ACTION_TYPES.IMPORT.SET_SPEC_SELECTION_WITHOUT_PRODUCT,
+    payload: data
+  }
+};
 export const save = (data, branch) => {
   return async (dispatch) => {
     try {
