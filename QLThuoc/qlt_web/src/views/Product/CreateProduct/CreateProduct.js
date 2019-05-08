@@ -12,6 +12,9 @@ import {resetAlert} from '../../../actions/alertAction'
 import Select from 'react-select'
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap'
 import ModalProducer from "./ModalProducer";
+import ModalCreateSpecUnit from "./ModalCreateSpecUnit";
+import PropTypes from "prop-types";
+import ModalCreateUnit from "./ModalCreateUnit";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -27,7 +30,9 @@ class CreateProduct extends Component {
       specUnits: [],
       unit: {},
       producerSeletion: {},
-      flgOpenModal: false
+      flgOpenModal: false,
+      flgOpenModalSpec: false,
+      flgOpenModalUnit: false
     }
   }
 
@@ -37,7 +42,7 @@ class CreateProduct extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
   onSubmit = (e) => {
     e.preventDefault();
     const model = {
@@ -46,32 +51,24 @@ class CreateProduct extends Component {
       specUnits: this.state.specUnits,
       unit: this.state.unit,
       producerSeletion: this.state.producerSeletion
-    }
+    };
     const data = new FormData();
     data.append('file', this.state.files[0]);
     data.append('model', JSON.stringify(model));
     this.props.onSave(data);
-  }
+  };
   onReset = (e) => {
     e.preventDefault();
-  }
-
-  onDrop(picture) {
-    this.setState({
-      pictures: this.state.pictures.concat(picture),
-    });
-  }
-
+  };
   componentWillMount() {
     this.props.onInit();
   }
-
   handleSeletion = (e, selection) => {
     switch (selection.name) {
       case "specUnits":
         this.setState({
           specUnits: e
-        })
+        });
         break;
       case "unit":
         this.setState({
@@ -97,14 +94,23 @@ class CreateProduct extends Component {
     this.setState({
       flgOpenModal: !this.state.flgOpenModal
     })
-  }
+  };
+  toggleModalCreateSpec = () => {
+    this.setState({
+      flgOpenModalSpec: !this.state.flgOpenModalSpec
+    })
+  };
+  toggleModalUnit=()=>{
+    this.setState({
+      flgOpenModalUnit: !this.state.flgOpenModalUnit
+    })
+  };
   render() {
-    console.log("render");
     return (
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            <i className="fas fa-plus"></i> Tạo <strong>Sản Phẩm</strong>
+            <i className="fas fa-plus"/> Tạo <strong>Sản Phẩm</strong>
           </CardHeader>
           <CardBody>
             <Row>
@@ -142,7 +148,7 @@ class CreateProduct extends Component {
                       </FormGroup>
                       <FormGroup row>
                         <Col md={3}><Label htmlFor="unit">Đơn vị chuẩn</Label></Col>
-                        <Col md={9}>
+                        <Col md={7}>
                           <Select
                             options={this.props.productReducer.units}
                             onChange={this.handleSeletion.bind(this)}
@@ -150,16 +156,25 @@ class CreateProduct extends Component {
                             name="unit"
                           />
                         </Col>
+                        <Col md={2}>
+                          <Button onClick={this.toggleModalUnit} color={'success'}>
+                            <i className="fas fa-plus-circle"/>
+                          </Button>
+                        </Col>
                       </FormGroup>
                       <FormGroup row>
                         <Col md={3}><Label htmlFor="specUnits">QĐ Đơn Vị</Label></Col>
-                        <Col md={9}>
+                        <Col md={7}>
                           <Select
                             options={this.props.productReducer.specUnits}
                             onChange={this.handleSeletion.bind(this)}
                             isMulti={true}
-                            name="specUnits"
-                          />
+                            name="specUnits"/>
+                        </Col>
+                        <Col md={2}>
+                          <Button onClick={this.toggleModalCreateSpec} color={'success'}>
+                            <i className="fas fa-plus-circle"/>
+                          </Button>
                         </Col>
                       </FormGroup>
                       <FormGroup row>
@@ -190,14 +205,14 @@ class CreateProduct extends Component {
                                 files: fileItems.map(fileItem => fileItem.file)
                               });
                             }}
-                            labelIdle={'Kéo thả hoặc nhấp chọn <span class="filepond--label-action"> Mở </span>'}
+                            labelIdle={'Kéo thả hoặc nhấp chọn <span class="filepond--label-action">Mở</span>'}
                           />
                         </Col>
                       </FormGroup>
                       <CardFooter className={'text-right'}>
                         <Button type="submit" size="sm" color="primary">
-                          <i className="fa fa-dot-circle-o"></i> Lưu</Button> {' '}
-                        <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Làm Rỗng</Button>
+                          <i className="fa fa-dot-circle-o"/> Lưu</Button> {' '}
+                        <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"/> Làm Rỗng</Button>
                       </CardFooter>
                     </Form>
                   </CardBody>
@@ -207,6 +222,8 @@ class CreateProduct extends Component {
           </CardBody>
         </Card>
         <ModalProducer flgOpenModal={this.state.flgOpenModal} toggleModal={this.toggleModal}/>
+        <ModalCreateSpecUnit  isOpen={this.state.flgOpenModalSpec} toggle={this.toggleModalCreateSpec}/>
+        <ModalCreateUnit flgOpenModal={this.state.flgOpenModalUnit} toggleModal={this.toggleModalUnit}/>>
       </div>
     )
   }
@@ -214,7 +231,7 @@ class CreateProduct extends Component {
 
 const mapStateToProps = (state) => ({
   productReducer: state.productReducer,
-})
+});
 
 const mapDispatchToProps = (dispath) => ({
   onSave: (form) => {
@@ -226,6 +243,6 @@ const mapDispatchToProps = (dispath) => ({
   onResetAlert: () => {
     return dispath(resetAlert());
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct)

@@ -21,9 +21,11 @@ export const select = (condition) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(API.BRANCH.SELECT, condition, headerConfig);
+      console.log(res);
       dispatch(setPagination(res.data));
       dispatch(selectSuccess(res.data.content));
     } catch (err) {
+      console.log(err);
       dispatch(showAlertFail(err));
     }
   }
@@ -61,17 +63,17 @@ export const deleteBranch = (keys) => {
     }
   }
 };
-export const selectAllShop = () => {
-  return async (dispatch) => {
-    try {
-      const header = await headerForGet();
-      const res = await axios.get(API.SHOP.SELECT_ALL, header);
-      dispatch(getAllShopSuccess(res.data));
-    } catch (err) {
-      dispatch(showAlertFail(err));
-    }
-  }
-};
+// export const selectAllShop = () => {
+//   return async (dispatch) => {
+//     try {
+//       const header = await headerForGet();
+//       const res = await axios.get(API.SHOP.SELECT_ALL, header);
+//       dispatch(getAllShopSuccess(res.data));
+//     } catch (err) {
+//       dispatch(showAlertFail(err));
+//     }
+//   }
+// };
 export const getAllShopSuccess = (data) => ({
   type: ACTION_TYPES.BRANCH.GET_ALL_SHOP,
   payload: data
@@ -151,4 +153,14 @@ export const countMemberOfBranch = () => (
       dispatch(showAlertFail(e));
     }
   }
-)
+);
+export const search = (data) => (
+  async dispatch => {
+    try {
+      const response = await axios.post(API.BRANCH.SEARCH, data, headerConfig);
+      dispatch(getAllShopSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);

@@ -69,7 +69,7 @@ export class TableBuy extends Component {
               product: this.state.product,
               specUnit: this.state.specUnit,
               amount: values.amount,
-              price: this.unitPrice(this.state.specUnit, values.price)
+              price: values.price
             });
             dataView.push({
               product: this.state.product.label,
@@ -122,7 +122,7 @@ export class TableBuy extends Component {
     if (specUnit.unitIn.id === product.unit.id) {
       return price;
     } else {
-      if (specUnitChoose.value == specUnit.unitIn.id) {
+      if (specUnitChoose.value === specUnit.unitIn.id) {
         return price / specUnit.amount
       } else {
         return price * specUnit.amount
@@ -132,12 +132,12 @@ export class TableBuy extends Component {
   handleDelete = (record) => {
     let {dataView, data} = this.state;
     _.remove(dataView, function (data) {
-      if (data.product == record.product) {
+      if (data.product === record.product) {
         return data;
       }
     });
     _.remove(data, function (data) {
-      if (data.product.label == record.product) {
+      if (data.product.label === record.product) {
         return data;
       }
     });
@@ -145,7 +145,6 @@ export class TableBuy extends Component {
       dataView: dataView,
       data: data
     });
-    console.log(this.state);
   };
   createNewSpec = () => {
     this.setState({
@@ -154,9 +153,9 @@ export class TableBuy extends Component {
   };
 
   render() {
-    const {
-      getFieldDecorator
-    } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
+    const {product} = this.props.importProductReducer;
+    const unitOfProduct = (product && product.unit && product.unit.unitName) ? product.unit.unitName : "";
     return (
       <div>
         <Row>
@@ -260,7 +259,8 @@ export class TableBuy extends Component {
                   name="specUnit"
                 />
                 <div className={'text-right'}>
-                  <Button color="success" size={'sm'} onClick={this.createNewSpec} disabled={!this.state.product.value}><i className="fas fa-plus"/></Button>
+                  <Button color="success" size={'sm'} onClick={this.createNewSpec} disabled={!this.state.product.value}><i
+                    className="fas fa-plus"/></Button>
                 </div>
               </FormGroup>
               <FormGroup>
@@ -287,7 +287,7 @@ export class TableBuy extends Component {
                 </Form.Item>
               </FormGroup>
               <FormGroup>
-                <Form.Item label="Đơn Giá">
+                <Form.Item label={`Giá Đơn vị chuẩn - ${unitOfProduct} `}>
                   {getFieldDecorator('price', {
                     initialValue: 0,
                     rules: [{
@@ -319,7 +319,10 @@ export class TableBuy extends Component {
             </ModalFooter>
           </Form>
         </Modal>
-        <ModalCreateSpec isOpen={this.state.modalSpec} toggle={this.createNewSpec} productId={this.state.product.value}/>
+        <ModalCreateSpec
+          isOpen={this.state.modalSpec}
+          toggle={this.createNewSpec}
+          productId={this.state.product.value}/>
       </div>
     )
   }

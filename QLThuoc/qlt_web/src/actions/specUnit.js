@@ -3,6 +3,7 @@ import {ACTION_TYPES, API} from "../constants";
 import headerHelper from "../helpers/headerHelper";
 import {showAlertAndReset, showAlertFail, showAlertSuccess} from "./alertAction";
 import {setSpecUnitSelectionWithoutProduct} from "./importProductAction";
+import {setSpecUnit, setUnit} from './productAction';
 
 export const init = () => {
   return async (dispatch) => {
@@ -71,4 +72,26 @@ export const saveUnit = (data) => (
 const saveUnitSuccess = (data) => ({
   type: ACTION_TYPES.SPEC_UNIT.SAVE_UNIT_SUCCESS,
   payload: data
-})
+});
+export const saveUnitCreateProduct = (data) => (
+  async (dispatch) => {
+    try {
+      const response = await Axios.post(API.SPEC_UNIT_PRODUCT.SAVE_UNIT, data, headerHelper);
+      dispatch(setSpecUnit(response.data));
+      dispatch(showAlertAndReset());
+    } catch (e) {
+      dispatch(showAlertFail(e))
+    }
+  }
+);
+export const createUnit = (data) => (
+  async (dispatch) => {
+    try {
+      const response = await Axios.post(API.SPEC_UNIT_PRODUCT.SAVE_MODEL_UNIT, data, headerHelper);
+      dispatch(showAlertAndReset());
+      dispatch(setUnit(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);

@@ -38,7 +38,7 @@ class FormBranch extends Component {
   }
   componentWillMount() {
     this.props.onResetAlert();
-    this.props.onSelectAllShop();
+    // this.props.onSelectAllShop();
     this.props.onGetSpecLevelBranch();
   }
   componentDidMount() {
@@ -251,9 +251,9 @@ const mapDispatchToProps = (dispatch) => ({
   onResetBranch: () => {
     return dispatch(resetBranch());
   },
-  onSelectAllShop: () => {
-    return dispatch(selectAllShop());
-  },
+  // onSelectAllShop: () => {
+  //   return dispatch(selectAllShop());
+  // },
   onGetSpecLevelBranch: () => {
     return dispatch(getSpecLevelBranch());
   },

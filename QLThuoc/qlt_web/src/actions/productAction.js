@@ -87,7 +87,7 @@ export const getProductById = (id) => (
     }
   }
 );
-const getProductByIdSuccess = (data) =>({
+const getProductByIdSuccess = (data) => ({
   type: ACTION_TYPES.PRODUCT.GET_PRODUCT_BY_ID_SUCCESS,
   payload: data
 });
@@ -96,9 +96,17 @@ export const saveEdit = (data) => (
     try {
       await Axios.post(API.PRODUCT.SAVE_EDIT, data, header);
       dispatch(showAlertAndReset());
-    }catch (e) {
+    } catch (e) {
       dispatch(showAlertFail(e));
     }
   }
 );
+export const setSpecUnit = (data) => ({
+  type: ACTION_TYPES.PRODUCT.SET_SPEC_UNIT,
+  payload: data
+});
+export const setUnit = (data) => ({
+  type: ACTION_TYPES.PRODUCT.SET_UNIT,
+  payload: data
+});
 

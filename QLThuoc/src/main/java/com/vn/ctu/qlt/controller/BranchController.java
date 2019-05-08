@@ -2,6 +2,7 @@ package com.vn.ctu.qlt.controller;
 
 import java.util.Set;
 
+import com.vn.ctu.qlt.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +74,9 @@ public class BranchController {
     public ResponseEntity<Page<BranchDto>> select(@RequestBody QueryBranchDto query) {
         logger.debug("/api/branch/select");
         try {
+            Employee employee = authenticationFacade.getEmployee();
             PageRequest pageRequest = PageRequest.of(query.getPageable().getPage(), query.getPageable().getSize());
-            return ResponseEntity.ok().body(branchService.getBranhByDirector(query.getIdDirector(), pageRequest));
+            return ResponseEntity.ok().body(branchService.getBranhByDirector(employee.getId(), pageRequest));
         } catch (Exception e) {
             throw e;
         }
@@ -90,7 +92,7 @@ public class BranchController {
     public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
         logger.debug("/api/branch/delete");
         branchService.deleteAll(keys);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -108,5 +110,10 @@ public class BranchController {
     @PostMapping(path = "/api/branch/count-member-of-branch")
     public ResponseEntity<Integer> countMemberObBranch(@RequestBody BranchDto branchDto) {
         return ResponseEntity.ok().body(branchService.countMemberOfBranch(branchDto));
+    }
+    @PostMapping(path = "/api/branch/search")
+    public ResponseEntity search(@RequestBody String nameBranch){
+        PageRequest pageRequest = PageRequest.of(1, 5);
+        return ResponseEntity.ok().body(branchService.search(nameBranch, pageRequest));
     }
 }

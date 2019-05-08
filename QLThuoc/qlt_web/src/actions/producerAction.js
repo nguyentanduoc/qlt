@@ -1,7 +1,7 @@
 import {API, ACTION_TYPES} from '../constants';
 import Axios from "axios";
 import headerHelper from "../helpers/headerHelper";
-import {showAlertFail} from "./alertAction";
+import {showAlertAndReset, showAlertFail} from "./alertAction";
 
 export const getAllReducer = () => (
   async dispatch => {
@@ -21,6 +21,7 @@ export const save = (data) => (
   async dispatch => {
     try {
       const response = await Axios.post(API.PRODUCER.SAVE, data, headerHelper);
+      dispatch(showAlertAndReset());
       dispatch(saveSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));

@@ -23,13 +23,13 @@ class ReportShop extends Component {
                 value="25"
                 invert>Tổng Nhân Viên</Widget04>
             </Col>
-            <Col>
-              <Widget04
-                icon="icon-user-follow" color="success"
-                header={report.totalEmployeeJoinThisMonth ? report.totalEmployeeJoinThisMonth.toString() : '0'}
-                value="25"
-                invert>Nhân viên mới</Widget04>
-            </Col>
+            {/*<Col>*/}
+            {/*  <Widget04*/}
+            {/*    icon="icon-user-follow" color="success"*/}
+            {/*    header={report.totalEmployeeJoinThisMonth ? report.totalEmployeeJoinThisMonth.toString() : '0'}*/}
+            {/*    value="25"*/}
+            {/*    invert>Nhân viên mới</Widget04>*/}
+            {/*</Col>*/}
             <Col>
               <Widget04
                 icon="fas fa-code-branch"
