@@ -18,4 +18,6 @@ public interface UnitService {
     public Unit getUnitById(Long id);
 
     public List<UnitDto> getUnitDtoAll();
+
+    void save(Unit unit);
 }

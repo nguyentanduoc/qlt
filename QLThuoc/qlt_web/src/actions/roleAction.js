@@ -3,22 +3,21 @@ import axios from 'axios';
 import headerConfig,{ header } from '../helpers/headerHelper';
 
 export const getAllRole = () => {
-  let config = {
-    headers: header()
-  };
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.ROLE.GET_ALL_ROLE, null ,config);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.ROLE.GET_ALL_ROLE, null ,{headers: header(jwt)});
       dispatch(getAllRoleSuccess(res.data));
     } catch (error) {
       dispatch(getAllRoleFail(error));
     }
   }
-}
+};
 export const getRoleForAdmin  = () => {
-  return async (dispatch) => {
+  return async (dispatch,getState) => {
     try {
-      const res = await axios.post(API.ROLE.GET_ROLE_FOR_ADMIN, null ,headerConfig);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.ROLE.GET_ROLE_FOR_ADMIN, null ,{headers: header(jwt)});
       dispatch(getAllRoleSuccess(res.data));
     } catch (error) {
       dispatch(getAllRoleFail(error));
@@ -34,9 +33,10 @@ export const getAllRoleSuccess = (data) => {
 }
 
 export const getRolesByRoles = (roles) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.ROLE.GET_ROLES_BY_ROLES, roles ,headerConfig);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.ROLE.GET_ROLES_BY_ROLES, roles ,{headers: header(jwt)});
       dispatch(getAllRoleSuccess(res.data));
     } catch (error) {
       dispatch(getAllRoleFail(error));

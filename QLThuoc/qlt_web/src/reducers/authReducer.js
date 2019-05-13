@@ -11,7 +11,8 @@ const initState = {
   isChooseBranch: false,
   branch: {},
   branches: [],
-  isLoading: false
+  isLoading: false,
+  jwt:""
 };
 export default (state = initState, action) => {
   switch (action.type) {
@@ -26,7 +27,8 @@ export default (state = initState, action) => {
           user: payload.user,
           authorities: payload.authorities,
           isChooseBranch: true,
-          branches: payload.branches
+          branches: payload.branches,
+          jwt: payload.jwtAuthenticationResponse.accessToken
         };
       } else {
         navBranch(payload.nav, payload.branches[0]);
@@ -38,7 +40,8 @@ export default (state = initState, action) => {
           user: payload.user,
           authorities: payload.authorities,
           isChooseBranch: false,
-          branch: payload.branches[0]
+          branch: payload.branches[0],
+          jwt: payload.jwtAuthenticationResponse.accessToken
         };
       }
 

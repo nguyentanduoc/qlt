@@ -75,7 +75,7 @@ public class SpecUnitController {
         }
     }
 
-    @PostMapping(path = "save-unit")
+    @PostMapping(path = "/save-unit")
     public ResponseEntity saveUnit(@RequestBody UnitSaveDto unitSaveDto) {
         Unit unitIn = unitService.getUnitById(unitSaveDto.getUnitIn());
         Unit unitOut = unitService.getUnitById(unitSaveDto.getUnitOut());
@@ -89,6 +89,18 @@ public class SpecUnitController {
             return ResponseEntity.ok().body(specUnitSelectionsDto);
         } catch (Exception e) {
             throw new BadRequestException("Quy định đơn vị đã tồn tại");
+        }
+    }
+
+    @PostMapping(path = "/save-model-unit")
+    public ResponseEntity saveModalUnit(@RequestBody String name) {
+        try {
+            Unit unit = new Unit();
+            unit.setUnitName(name);
+            unitService.save(unit);
+            return ResponseEntity.ok().body(unitService.getAllForSelection());
+        } catch (Exception e) {
+            throw new BadRequestException("Lỗi lưu đơn vị");
         }
     }
 }

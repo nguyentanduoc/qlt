@@ -1,6 +1,7 @@
 package com.vn.ctu.qlt.controller;
 
 import com.vn.ctu.qlt.dto.ProducerSeletion;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.service.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,11 @@ public class ProducerController {
 
     @PostMapping(path = "/save")
     public ResponseEntity<List<ProducerSeletion>> save(@RequestBody String producerName) {
-        producerService.save(producerName);
-        return ResponseEntity.ok().body(producerService.getAllProducer());
+        try {
+            producerService.save(producerName);
+            return ResponseEntity.ok().body(producerService.getAllProducer());
+        } catch (Exception e) {
+            throw new BadRequestException("Dữ liệu đã tồn tại");
+        }
     }
 }

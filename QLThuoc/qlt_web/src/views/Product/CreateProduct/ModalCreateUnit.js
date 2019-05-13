@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
-import {Form, Input} from 'antd';
-import {save} from '../../../actions/producerAction'
+import {Form, Input} from "antd";
 import AlertCommon from "../../Common/AlertCommon";
+import {createUnit} from '../../../actions/specUnit';
 
-
-class ModalProducer extends Component {
+class ModalCreateUnit extends Component {
   static propTypes = {
     flgOpenModal: PropTypes.bool,
     toggleModal: PropTypes.any
@@ -16,7 +15,7 @@ class ModalProducer extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.onSave(values.producerName);
+        this.props.onCreateUnit(values.unitName);
       }
     });
   };
@@ -26,14 +25,14 @@ class ModalProducer extends Component {
     return (
       <Modal isOpen={this.props.flgOpenModal} toggle={this.props.toggleModal}>
         <Form onSubmit={this.handleSubmit}>
-          <ModalHeader toggle={this.props.toggleModal}>Thêm Nhà Sản Xuất</ModalHeader>
+          <ModalHeader toggle={this.props.toggleModal}>Thêm Đơn Vị</ModalHeader>
           <ModalBody>
             <AlertCommon/>
             <Form.Item
-              label="Tên Nhà Sản Xuất">
-              {getFieldDecorator('producerName', {
+              label="Tên Đơn Vị">
+              {getFieldDecorator('unitName', {
                 rules: [{
-                  required: true, message: 'Hãy nhập Tên Nhà Sản Xuất',
+                  required: true, message: 'Hãy nhập Tên Đơn vị',
                 }],
               })(
                 <Input/>
@@ -48,19 +47,17 @@ class ModalProducer extends Component {
           </ModalFooter>
         </Form>
       </Modal>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
   return {};
 }
-
 const mapDispatchToProps = (dispatch) => ({
-  onSave: (data) => dispatch(save(data))
+  onCreateUnit: (data) => dispatch(createUnit(data))
 });
-
-const FormModalProducer = Form.create()(ModalProducer);
+const FormModalCreateUnit = Form.create()(ModalCreateUnit);
 export default connect(
-  mapStateToProps, mapDispatchToProps
-)(FormModalProducer);
+  mapStateToProps,mapDispatchToProps
+)(FormModalCreateUnit);

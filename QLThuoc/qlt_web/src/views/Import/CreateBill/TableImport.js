@@ -93,16 +93,37 @@ export class TableBuy extends Component {
   };
   addImport = (e) => {
     e.preventDefault();
-    let data = this.state.data;
-    let dataView = this.state.dataView;
-    const compare = _.find(data, (o) => o.product.value === this.state.product.value);
-    let price =  this.state.price.replace(new RegExp(',', 'g'), '');
-    if (typeof (compare) === 'undefined') {
-      data.push({
-        product: this.state.product,
-        specUnit: this.state.specUnit,
-        amount: this.state.amount,
-        price: parseFloat(price)
+    if (this.state.product && this.state.specUnit) {
+      let data = this.state.data;
+      let dataView = this.state.dataView;
+      const compare = _.find(data, (o) => o.product.value === this.state.product.value);
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+          if (typeof (compare) === 'undefined') {
+            data.push({
+              product: this.state.product,
+              specUnit: this.state.specUnit,
+              amount: values.amount,
+              price: values.price
+            });
+            dataView.push({
+              product: this.state.product.label,
+              specUnit: this.state.specUnit.label,
+              amount: values.amount,
+              price: values.price
+            });
+            const total = this.state.total;
+            this.setState({
+              data: data,
+              dataView: dataView,
+              isError: false,
+              total: total + values.amount * values.price
+            });
+          } else {
+            this.setState({isError: true, messageError: "Sẩn phẩm đã được nhập"})
+          }
+        }
       });
       dataView.push({
         product: this.state.product.label,
@@ -135,7 +156,49 @@ export class TableBuy extends Component {
     this.props.onResetAlert();
   };
 
+  unitPrice = (specUnitChoose, price) => {
+    const {product} = this.props.importProductReducer;
+    const {specUnits} = product;
+    const specUnit = _.find(specUnits, function (o) {
+      return o.id === specUnitChoose.value;
+    });
+    if (specUnit.unitIn.id === product.unit.id) {
+      return price;
+    } else {
+      if (specUnitChoose.value === specUnit.unitIn.id) {
+        return price / specUnit.amount
+      } else {
+        return price * specUnit.amount
+      }
+    }
+  };
+  handleDelete = (record) => {
+    let {dataView, data} = this.state;
+    _.remove(dataView, function (data) {
+      if (data.product === record.product) {
+        return data;
+      }
+    });
+    _.remove(data, function (data) {
+      if (data.product.label === record.product) {
+        return data;
+      }
+    });
+    this.setState({
+      dataView: dataView,
+      data: data
+    });
+  };
+  createNewSpec = () => {
+    this.setState({
+      modalSpec: !this.state.modalSpec
+    })
+  };
+
   render() {
+    const {getFieldDecorator} = this.props.form;
+    const {product} = this.props.importProductReducer;
+    const unitOfProduct = (product && product.unit && product.unit.unitName) ? product.unit.unitName : "";
     return (
       <div>
         <Row>
@@ -164,55 +227,94 @@ export class TableBuy extends Component {
         </Row>
         <Table dataSource={this.state.dataView} columns={columns} rowKey='product' bordered={true}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)}>
-          <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>
-          <ModalBody>
-            <Alert color="danger" isOpen={this.state.isError}>
-              Sẩn phẩm đã được nhập
-            </Alert>
-            <FormGroup>
-              <Label htmlFor=''>Sản Phẩm</Label>
-              <Select
-                options={this.props.importProductReducer.products}
-                onChange={this.handleSelection.bind(this)}
-                isMulti={false}
-                name="product"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor=''>Đơn Vị</Label>
-              <Select
-                options={this.props.importProductReducer.specUnitSelection}
-                onChange={this.handleSelection.bind(this)}
-                isMulti={false}
-                name="specUnit"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor=''>Số Lượng</Label>
-              <Input name='amount' onChange={this.changeHandler.bind(this)} value={this.state.amount} type="number"/>
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor='price'>Đơn Giá</Label>
-              <InputGroup>
-                <NumberFormat
-                  value={this.state.price}
-                  className={'form-control'}
-                  thousandSeparator={true}
-                  name="price"
-                  onChange={this.changeHandler.bind(this)}
-                  fixedDecimalScale={true}/>
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>VN Đồng</InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </FormGroup>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.addImport.bind(this)}>Lưu và Tiếp Tục</Button>{' '}
-            <Button color="warning" onClick={this.addImportAndExit.bind(this)}>Lưu và Thoát</Button>{' '}
-            <Button color="secondary" onClick={this.toggle.bind(this)}>Thoát</Button>
-          </ModalFooter>
+          <Form>
+            <ModalHeader toggle={this.toggle.bind(this)}>Thêm Sản Phẩm</ModalHeader>
+            <ModalBody>
+              <Alert color="danger" isOpen={this.state.isError}>
+                {this.state.messageError}
+              </Alert>
+              <FormGroup>
+                <Label htmlFor=''>Sản Phẩm</Label>
+                <Select
+                  options={this.props.importProductReducer.products}
+                  onChange={this.handleSelection.bind(this)}
+                  isMulti={false}
+                  name="product"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor='specUnit'>Đơn Vị</Label>
+                <Select
+                  options={this.props.importProductReducer.specUnitSelection}
+                  onChange={this.handleSelection.bind(this)}
+                  isMulti={false}
+                  name="specUnit"
+                />
+                <div className={'text-right'}>
+                  <Button color="success" size={'sm'} onClick={this.createNewSpec} disabled={!this.state.product.value}><i
+                    className="fas fa-plus"/></Button>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <Form.Item label="Số lượng">
+                  {getFieldDecorator('amount', {
+                    initialValue: 0,
+                    rules: [{
+                      required: true, message: 'Hãy nhập số lượng',
+                    }, {
+                      validator: (rule, value, callback) => {
+                        if (value <= 0) {
+                          callback("Số lượng lớn hơn 0");
+                        } else {
+                          callback();
+                        }
+                      },
+                    }],
+                  })(
+                    <InputNumber
+                      style={{width: '100%'}}
+                      className={'form-control'}
+                    />
+                  )}
+                </Form.Item>
+              </FormGroup>
+              <FormGroup>
+                <Form.Item label={`Giá Đơn vị chuẩn - ${unitOfProduct} `}>
+                  {getFieldDecorator('price', {
+                    initialValue: 0,
+                    rules: [{
+                      required: true, message: 'Hãy nhập đơn giá',
+                    }, {
+                      validator: (rule, value, callback) => {
+                        if (value <= 0) {
+                          callback("Đơn giá lớn hơn 0");
+                        } else {
+                          callback();
+                        }
+                      },
+                    }],
+                  })(
+                    <InputNumber
+                      style={{width: '100%'}}
+                      className={'form-control'}
+                      formatter={value => `₫ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      parser={value => value.replace(/\₫\s?|(,*)/g, '')}
+                    />
+                  )}
+                </Form.Item>
+              </FormGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.addImport.bind(this)}>Lưu và Tiếp Tục</Button>{' '}
+              <Button color="warning" onClick={this.addImportAndExit.bind(this)}>Lưu và Thoát</Button>{' '}
+              <Button color="secondary" onClick={this.toggle.bind(this)}>Thoát</Button>
+            </ModalFooter>
+          </Form>
         </Modal>
+        <ModalCreateSpec
+          isOpen={this.state.modalSpec}
+          toggle={this.createNewSpec}
+          productId={this.state.product.value}/>
       </div>
     )
   }

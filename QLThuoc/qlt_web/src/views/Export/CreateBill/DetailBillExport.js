@@ -9,8 +9,8 @@ import PropTypes from 'prop-types'
 
 class DetailBillExport extends Component {
   static propTypes = {
-    isShare: PropTypes.boolean
-  }
+    isShare: PropTypes.bool
+  };
 
   constructor(props) {
     super(props);
@@ -52,8 +52,12 @@ class DetailBillExport extends Component {
               <FormGroup inline={true} row>
                 <Label md={5}>Thành tiền</Label>
                 <Col md={7}>
-                  <NumberFormat displayType={'input'} thousandSeparator={true} value={mathRound(total, -3)}
-                                className={'form-control text-right'}/>
+                  <NumberFormat
+                    suffix={"  ₫"}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    value={mathRound(total, -3)}
+                    className={'text-right h5'}/>
                 </Col>
               </FormGroup>
             </Col>

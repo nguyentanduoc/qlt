@@ -36,6 +36,18 @@ export default (state = initialState, {type, payload}) => {
         specUnits: payload.specUnits
       };
 
+    case ACTION_TYPES.PRODUCT.SET_SPEC_UNIT:
+      return {
+        ...state,
+        specUnits: payload
+      };
+
+    case ACTION_TYPES.PRODUCT.SET_UNIT:
+      return {
+        ...state,
+        units: payload
+      };
+
     default:
       return state
   }

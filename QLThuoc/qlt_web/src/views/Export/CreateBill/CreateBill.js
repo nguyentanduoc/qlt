@@ -82,7 +82,7 @@ class CreateBill extends Component {
     if (dataViews.length > 0 || dataSubmits.length > 0)
       this.props.onClearDetail();
     this.setState({isShare: !this.state.isShare});
-  }
+  };
 
   render() {
     const {productSelection, specUnits, price, inventory, priceShare} = this.props.exportReducer;

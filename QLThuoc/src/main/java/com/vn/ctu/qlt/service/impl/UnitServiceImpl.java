@@ -63,4 +63,9 @@ public class UnitServiceImpl implements UnitService {
         }
         return unitsDto;
     }
+
+    @Override
+    public void save(Unit unit) {
+        unitRepository.save(unit);
+    }
 }

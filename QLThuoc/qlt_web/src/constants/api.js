@@ -20,6 +20,8 @@ export default {
     DELETE: `${BASE_URI}/api/branch/delete`,
     SELECT: `${BASE_URI}/api/branch/select`,
     SELECT_BRANCH_OF_DIRECTOR: `${BASE_URI}/api/branch/select-branch-by-director`,
+    COUNT_MEMBER_OF_BRANCH: `${BASE_URI}/api/branch/count-member-of-branch`,
+    SEARCH: `${BASE_URI}/api/branch/search`,
   },
   SHOP: {
     SAVE: `${BASE_URI}/api/shop/save`,
@@ -88,5 +90,6 @@ export default {
     INIT: `${BASE_URI}/api/spec-unit/init`,
     GET_ALL_UNIT: `${BASE_URI}/api/spec-unit/get-all-unit`,
     SAVE_UNIT: `${BASE_URI}/api/spec-unit/save-unit`,
+    SAVE_MODEL_UNIT: `${BASE_URI}/api/spec-unit/save-model-unit`,
   }
 }

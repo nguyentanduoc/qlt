@@ -2,6 +2,7 @@ package com.vn.ctu.qlt.controller;
 
 import java.util.Set;
 
+import com.vn.ctu.qlt.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,28 +77,56 @@ public class BranchController {
 		}
 	}
 
-	/**
-	 * Delete.
-	 *
-	 * @param keys the keys
-	 * @return the response entity
-	 */
-	@PostMapping(path = "/api/branch/delete")
-	public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
-		logger.debug("/api/branch/delete");
-		branchService.deleteAll(keys);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
+    /**
+     * Select.
+     *
+     * @param query the query
+     * @return the response entity
+     */
+    @PostMapping(path = "/api/branch/select")
+    public ResponseEntity<Page<BranchDto>> select(@RequestBody QueryBranchDto query) {
+        logger.debug("/api/branch/select");
+        try {
+            Employee employee = authenticationFacade.getEmployee();
+            PageRequest pageRequest = PageRequest.of(query.getPageable().getPage(), query.getPageable().getSize());
+            return ResponseEntity.ok().body(branchService.getBranhByDirector(employee.getId(), pageRequest));
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
-	/**
-	 * Select branch by director.
-	 *
-	 * @param idDirector the id director
-	 * @return the response entity
-	 */
-	@PostMapping(path = "/api/branch/select-branch-by-director")
-	public ResponseEntity<Set<BranchDto>> selectBranchByDirector(@RequestBody Long idDirector) {
-		logger.debug("/api/branch/select-branch-by-director");
-		return ResponseEntity.ok().body(branchService.selectBranchByDirectorDto(idDirector));
-	}
+    /**
+     * Delete.
+     *
+     * @param keys the keys
+     * @return the response entity
+     */
+    @PostMapping(path = "/api/branch/delete")
+    public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
+        logger.debug("/api/branch/delete");
+        branchService.deleteAll(keys);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * Select branch by director.
+     *
+     * @param idDirector the id director
+     * @return the response entity
+     */
+    @PostMapping(path = "/api/branch/select-branch-by-director")
+    public ResponseEntity<Set<BranchDto>> selectBranchByDirector(@RequestBody Long idDirector) {
+        logger.debug("/api/branch/select-branch-by-director");
+        return ResponseEntity.ok().body(branchService.selectBranchByDirectorDto(idDirector));
+    }
+
+    @PostMapping(path = "/api/branch/count-member-of-branch")
+    public ResponseEntity<Integer> countMemberObBranch(@RequestBody BranchDto branchDto) {
+        return ResponseEntity.ok().body(branchService.countMemberOfBranch(branchDto));
+    }
+    @PostMapping(path = "/api/branch/search")
+    public ResponseEntity search(@RequestBody String nameBranch){
+        PageRequest pageRequest = PageRequest.of(1, 5);
+        return ResponseEntity.ok().body(branchService.search(nameBranch, pageRequest));
+    }
 }

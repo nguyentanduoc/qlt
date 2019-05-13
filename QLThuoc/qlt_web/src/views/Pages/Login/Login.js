@@ -23,8 +23,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'tva',
-      password: '12345678x@X',
+      usernameOrEmail: '',
+      password: '',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
       isLoading: false
@@ -71,6 +71,10 @@ class Login extends Component {
     if (isLogin) {
       if (authorities.findIndex(authority => authority === ROLES.ROLE_LEADER) !== -1)
         this.props.history.push('/control-branch/report');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_ADMIN) !== -1)
+        this.props.history.push('/admin/shop');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_DIRECTOR) !== -1)
+        this.props.history.push('/director/shop');
       else if (this.props.auth.isChooseBranch)
         this.props.history.push('/choose-branch');
       else this.props.history.push('/dashboard');

@@ -1,25 +1,43 @@
-import {LOCAL_STORAGE } from '../constants';
+import {LOCAL_STORAGE} from '../constants';
+
 const token = sessionStorage.getItem(LOCAL_STORAGE.ACCESS_KEY);
-export const header = () => {
-    if (token) {
-        return { 
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-        };
-    } else {
-        return {
-            'Content-Type': 'application/json'
-        };
-    }
-};
-export const headerForGet = (params) => {
+export const header = (requestToken) => {
+  if (token) {
     return {
-        headers : {
-            'Access-Control-Allow-Origin': '*',
-            'Authorization': 'Bearer ' + token,
-        },
-        params: params
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    };
+  } else {
+    if (requestToken && requestToken !== '') {
+      return {
+        'Authorization': 'Bearer ' + requestToken,
+        'Content-Type': 'application/json'
+      };
+    } else {
+      return {
+        'Content-Type': 'application/json'
+      };
     }
+  }
+};
+export const headerForGet = (params, requestToken) => {
+  if (requestToken && requestToken !== "") {
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + requestToken,
+      },
+      params: params
+    }
+  } else {
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + token,
+      },
+      params: params
+    }
+  }
 };
 
 
