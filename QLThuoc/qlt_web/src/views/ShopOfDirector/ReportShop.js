@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row, Card, CardHeader, CardBody} from "reactstrap";
 import Widget04 from "../Widgets/Widget04";
+import Widget02 from "../Widgets/Widget02";
 import {getReportShop} from '../../actions/shopOfDirectorAction';
 
 class ReportShop extends Component {
@@ -17,11 +18,11 @@ class ReportShop extends Component {
         <CardBody>
           <Row>
             <Col>
-              <Widget04
+              <Widget02
+                mainText={"Tổng Nhân Viên"}
                 icon="icon-people" color="info"
                 header={report.totalEmployee ? report.totalEmployee.toString() : '0'}
-                value="25"
-                invert>Tổng Nhân Viên</Widget04>
+                value="25"/>
             </Col>
             {/*<Col>*/}
             {/*  <Widget04*/}
@@ -31,11 +32,11 @@ class ReportShop extends Component {
             {/*    invert>Nhân viên mới</Widget04>*/}
             {/*</Col>*/}
             <Col>
-              <Widget04
+              <Widget02
+                mainText={'Tổng Chi Nhánh'}
                 icon="fas fa-code-branch"
                 color="info"
-                header={report.totalBranch ? report.totalBranch.toString() : '0'}
-                value="25">Tổng Chi Nhánh</Widget04>
+                header={report.totalBranch ? report.totalBranch.toString() : '0'}/>
             </Col>
           </Row>
         </CardBody>

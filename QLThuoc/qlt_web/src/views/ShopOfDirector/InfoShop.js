@@ -56,7 +56,6 @@ class InfoShop extends Component {
     return (
       <Card className={'card-accent-primary card'}>
         <Form onSubmit={this.handleSubmit}>
-          <AlertCommon/>
           <CardHeader>
             <Row>
               <Col md={9}>
@@ -68,6 +67,7 @@ class InfoShop extends Component {
             </Row>
           </CardHeader>
           <CardBody>
+            <AlertCommon/>
             <Form.Item>
               {getFieldDecorator('id', {
                 initialValue: shop ? shop.id : '',

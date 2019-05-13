@@ -43,6 +43,11 @@ public class ShopController {
         return ResponseEntity.ok().body( shopService.selectDto( condition, page ) );
     }
 
+    @PostMapping(path = "/select")
+    public ResponseEntity<Page<ShopDto>> selectPost(@RequestBody String condition) {
+        return ResponseEntity.ok().body( shopService.selectDto( condition, null ));
+    }
+
     @PostMapping(path = "/delete")
     public ResponseEntity delete(@RequestBody Long[] keys) {
         shopService.delete( keys );

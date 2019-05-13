@@ -91,7 +91,7 @@ const unitPrice = (productDto, specUnitsDto, specUnitChoose, price) => {
   const specUnit = _.find(specUnits, function (o) {
     return o.id === specUnitChoose.value;
   });
-  if(specUnit &&  specUnit.unitIn && productDto && productDto.unit && specUnit.unitOut){
+  if (specUnit && specUnit.unitIn && productDto && productDto.unit && specUnit.unitOut) {
     if (specUnit.unitIn.id === productDto.unit.id) {
       return price;
     } else {
@@ -101,7 +101,7 @@ const unitPrice = (productDto, specUnitsDto, specUnitChoose, price) => {
         return price / specUnit.amount;
       }
     }
-  }else {
+  } else {
     console.log(specUnit);
   }
 };

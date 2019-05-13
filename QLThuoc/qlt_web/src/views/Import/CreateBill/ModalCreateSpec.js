@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Form, Select, Button, InputNumber} from "antd";
-import {Modal, ModalBody, ModalHeader, ModalFooter} from "reactstrap";
+import {Button, Form, Select} from "antd";
+import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from 'prop-types';
 import {init, save} from '../../../actions/specUnit';
 import CreateNewSpec from "./CreateNewSpec";

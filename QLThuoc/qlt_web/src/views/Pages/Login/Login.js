@@ -23,8 +23,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'tva',
-      password: '12345678x@X',
+      usernameOrEmail: '',
+      password: '',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
       isLoading: false

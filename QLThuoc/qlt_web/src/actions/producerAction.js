@@ -1,12 +1,13 @@
-import {API, ACTION_TYPES} from '../constants';
+import {ACTION_TYPES, API} from '../constants';
 import Axios from "axios";
-import headerHelper from "../helpers/headerHelper";
+import {header} from "../helpers/headerHelper";
 import {showAlertAndReset, showAlertFail} from "./alertAction";
 
 export const getAllReducer = () => (
-  async dispatch => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.PRODUCER.GET_ALL, null, headerHelper);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.PRODUCER.GET_ALL, null, {headers: header(jwt)});
       dispatch(getAllProducerSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));
@@ -18,9 +19,10 @@ const getAllProducerSuccess = (data) => ({
   payload: data
 });
 export const save = (data) => (
-  async dispatch => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.PRODUCER.SAVE, data, headerHelper);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.PRODUCER.SAVE, data, {headers: header(jwt)});
       dispatch(showAlertAndReset());
       dispatch(saveSuccess(response.data));
     } catch (e) {
@@ -31,5 +33,5 @@ export const save = (data) => (
 const saveSuccess = (data) => ({
   type: ACTION_TYPES.PRODUCT.SET_PRODUCER,
   payload: data
-})
+});
 

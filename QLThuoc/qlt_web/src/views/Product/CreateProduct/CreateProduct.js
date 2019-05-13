@@ -13,7 +13,6 @@ import Select from 'react-select'
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap'
 import ModalProducer from "./ModalProducer";
 import ModalCreateSpecUnit from "./ModalCreateSpecUnit";
-import PropTypes from "prop-types";
 import ModalCreateUnit from "./ModalCreateUnit";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Col, Row, Card, CardHeader, CardBody} from "reactstrap";
-import Widget04 from "../Widgets/Widget04";
-import {Form, Input, Button, Table} from 'antd';
+import {Card, CardBody, CardHeader, Col, Row} from "reactstrap";
+import {Button, Form, Input, Table} from 'antd';
 import {searchProductOnStore} from '../../actions/productAction';
 import {countMemberOfBranch} from '../../actions/branchAction';
 import Widget02 from "../Widgets/Widget02";

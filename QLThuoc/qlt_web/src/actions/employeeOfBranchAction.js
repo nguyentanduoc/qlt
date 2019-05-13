@@ -1,7 +1,7 @@
 import {ACTION_TYPES, API} from '../constants';
 import {showAlertAndReset, showAlertFail} from "./alertAction";
 import Axios from "axios";
-import headerHelper from "../helpers/headerHelper";
+import {header} from "../helpers/headerHelper";
 
 const {
   GET_ROLE_SUCCESS,
@@ -16,9 +16,10 @@ const {
 const {DELETE} = API.EMPLOYEE;
 
 export const getRolesByLeader = () => (
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.GET_ROLES_BY_LEADER, null, headerHelper);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.GET_ROLES_BY_LEADER, null, {headers:header(jwt)});
       return dispatch(getRolesSuccess(response.data));
     } catch (e) {
       return dispatch(showAlertFail(e));
@@ -32,9 +33,10 @@ const getRolesSuccess = (data) => ({
 });
 
 export const saveEmployee = (data) => (
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.SAVE_EMPLOYEE, data, headerHelper);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.SAVE_EMPLOYEE, data, {headers:header(jwt)});
       dispatch(showAlertAndReset());
       return dispatch(saveSuccess(response.data));
     } catch (e) {
@@ -49,9 +51,10 @@ const saveSuccess = (data) => ({
 });
 
 export const getAllEmployee = (branch) => (
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.GET_ALL_EMPLOYEES, branch, headerHelper);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.EMPLOYEE_OF_BRANCH.GET_ALL_EMPLOYEES, branch, {headers:header(jwt)});
       return dispatch(getEmployeesSuccess(response.data));
     } catch (e) {
       return dispatch(showAlertFail(e));
@@ -79,9 +82,10 @@ export const setRoleEmployee = (roles) => ({
 });
 
 export const deleteEmployee = (employeeId) => (
-  async dispatch => {
+  async (dispatch,getState) => {
     try {
-      await Axios.post(DELETE,employeeId, headerHelper);
+      const {jwt} = getState().auth;
+      await Axios.post(DELETE,employeeId, {headers:header(jwt)});
       return dispatch(deleteSuccess(employeeId));
     } catch (e) {
       return dispatch(showAlertFail(e));

@@ -1,24 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {select, setBranch, deleteBranch, search} from '../../actions/branchAction'
+import {deleteBranch, search, select, setBranch} from '../../actions/branchAction'
 import FormBranch from './FormBranch'
 import {Table} from 'antd'
 import PaginationCommon from '../Common/PaginationCommon'
 import {pageRequestDefault} from '../../helpers/pageable'
-import {
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Badge,
-  Form,
-  Input,
-  InputGroupAddon,
-  Button,
-  InputGroup
-} from 'reactstrap'
+import {Badge, Button, Card, CardBody, CardFooter, CardHeader, Col, Form, Row} from 'reactstrap'
 
 const columns = [
   {

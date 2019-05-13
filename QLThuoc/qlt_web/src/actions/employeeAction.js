@@ -1,12 +1,13 @@
-import {API, ACTION_TYPES} from '../constants';
+import {ACTION_TYPES, API} from '../constants';
 import Axios from 'axios';
-import header from '../helpers/headerHelper';
-import {showAlertFail, showAlertAndReset} from './alertAction';
+import {header} from '../helpers/headerHelper';
+import {showAlertAndReset, showAlertFail} from './alertAction';
 
 export const init = (idDirector) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const request = await Axios.post(API.EMPLOYEE.INIT, idDirector, header);
+      const {jwt} = getState().auth;
+      const request = await Axios.post(API.EMPLOYEE.INIT, idDirector, {headers: header(jwt)});
       dispatch(initSuccess(request.data));
     } catch (err) {
       dispatch(showAlertFail(err));
@@ -21,9 +22,10 @@ export const initSuccess = (data) => {
 };
 
 export const save = (employee) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const request = await Axios.post(API.EMPLOYEE.SAVE, employee, header);
+      const {jwt} = getState().auth;
+      const request = await Axios.post(API.EMPLOYEE.SAVE, employee, {headers: header(jwt)});
       if (request.status === 200) {
         dispatch(saveSuccess(request.data));
         dispatch(showAlertAndReset());
@@ -36,9 +38,10 @@ export const save = (employee) => {
   }
 };
 export const deleteEmployee = (id) => (
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.EMPLOYEE.DELETE, id, header);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.EMPLOYEE.DELETE, id, {headers: header(jwt)});
       if (response.status === 200) {
         return dispatch(deleteSuccess(id));
       } else {

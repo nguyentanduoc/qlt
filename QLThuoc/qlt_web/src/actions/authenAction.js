@@ -4,15 +4,12 @@ import axios from 'axios';
 import headerHelper from "../helpers/headerHelper";
 
 export const login = (auth) => {
-
   return async (dispatch) => {
-    dispatch(setLoading());
     try {
       const res = await axios.post(API.LOGIN, auth);
       dispatch(loginSuccess(res.data));
     }
     catch (err) {
-      dispatch(setLoading());
       if (err && err.response && err.response.data && err.response.data.message) {
         dispatch(loginFail(err.response.data.message));
       } else {

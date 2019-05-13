@@ -11,7 +11,8 @@ class ModalInfoProduct extends Component {
     isShow: PropTypes.bool,
     toggleOpen: PropTypes.func
   };
-  state = { visible: false };
+  state = {visible: false};
+
   render() {
     return (
       <div>
@@ -34,15 +35,18 @@ class ModalInfoProduct extends Component {
               dataIndex='price'
               key='price'
               render={(price) => (
-                <NumberFormat displayType={'text'} thousandSeparator={true} value={price}
-                              className={'form-control text-right'}/>
+                <NumberFormat
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  value={price}
+                  className={'text-right'}/>
               )}
             />
             <Table.Column
               title='Ngày thay đổi'
               dataIndex='date'
               key='date'
-              render={(text) => (<Moment format="HH:SS DD/MM/YYYY">{text}</Moment>)}
+              render={(text) => (<Moment format="HH:mm DD/MM/YYYY">{text}</Moment>)}
             />
           </Table>
         </Modal>

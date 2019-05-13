@@ -68,11 +68,11 @@ class FormSpecLevelBranch extends Component {
 
 const mapStateToProps = (state) => {
   return {};
-}
+};
 const mapDispatchToProps = (dispatch) => ({
   onSave: (data) => (dispatch(save(data))),
   onResetAlert: () => (() => dispatch(resetAlert()))
-})
+});
 
 const FormSpecLevelBranchCreate = Form.create()(FormSpecLevelBranch);
 
