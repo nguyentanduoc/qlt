@@ -49,12 +49,7 @@ class index extends Component {
   }
 
   componentWillMount() {
-    this.props.onSelect(
-      {
-        // idDirector: this.state.idDirector,
-        pageable: pageRequestDefault()
-      }
-    );
+    this.props.onSelect();
   }
 
   onSelectedRowKeysChange = (keys) => {
@@ -125,7 +120,6 @@ class index extends Component {
                   rowKey='id'
                   columns={columns}
                   dataSource={this.props.branchReducer.branchs}
-                  pagination={false}
                   rowSelection={rowSelection}
                   onRow={onRow}
                   bordered={true}
@@ -151,8 +145,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSelect: (condition) => {
-    return dispatch(select(condition))
+  onSelect: () => {
+    return dispatch(select())
   },
   onSetBranch: (branch) => {
     return dispatch(setBranch(branch));

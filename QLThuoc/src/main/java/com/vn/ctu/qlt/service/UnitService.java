@@ -20,4 +20,6 @@ public interface UnitService {
     public List<UnitDto> getUnitDtoAll();
 
     void save(Unit unit);
+
+    List<Unit> getByName(String name);
 }

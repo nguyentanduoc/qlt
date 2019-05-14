@@ -1,8 +1,16 @@
 package com.vn.ctu.qlt.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.model.Branch;
 import com.vn.ctu.qlt.model.Employee;
+import com.vn.ctu.qlt.model.Shop;
+import com.vn.ctu.qlt.service.ShopService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +52,13 @@ public class BranchController {
     @Autowired
     private AuthenticationFacade authenticationFacade;
 
+
+    @Autowired
+    private ShopService shopService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     /**
      * Save.
      *
@@ -71,12 +86,18 @@ public class BranchController {
      * @return the response entity
      */
     @PostMapping(path = "/api/branch/select")
-    public ResponseEntity<Page<BranchDto>> select(@RequestBody QueryBranchDto query) {
+    public ResponseEntity<List<BranchDto>> select() {
         logger.debug("/api/branch/select");
         try {
             Employee employee = authenticationFacade.getEmployee();
-            PageRequest pageRequest = PageRequest.of(query.getPageable().getPage(), query.getPageable().getSize());
-            return ResponseEntity.ok().body(branchService.getBranhByDirector(employee.getId(), pageRequest));
+            Optional<Shop> shopOptional = shopService.findShopByDirector(employee);
+            if(!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+            Set<Branch> branchs  = shopOptional.get().getBranchs();
+            List<BranchDto> branchDtos = new ArrayList<>();
+            for (Branch branch : branchs){
+                branchDtos.add(modelMapper.map(branch, BranchDto.class));
+            }
+            return ResponseEntity.ok().body(branchDtos);
         } catch (Exception e) {
             throw e;
         }
