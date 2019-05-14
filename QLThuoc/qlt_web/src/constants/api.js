@@ -49,6 +49,7 @@ export default {
     SEARCH_PRODUCT_ON_STORE: `${BASE_URI}/api/product/search-product-on-store`,
     GET_PRODUCT_BY_ID: `${BASE_URI}/api/product/get-product-by-id`,
     SAVE_EDIT: `${BASE_URI}/api/product/save-edit`,
+    SAVE_LIST_PRODUCT: `${BASE_URI}/api/product/save-list-product`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,

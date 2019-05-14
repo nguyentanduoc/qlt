@@ -219,7 +219,37 @@ public class ProductController {
             productService.save(product);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
-         throw new  BadRequestException("Có lỗi lưu");
+            throw new BadRequestException("Có lỗi lưu");
         }
+    }
+
+    @PostMapping(path = "/save-list-product")
+    public ResponseEntity saveListProduct(@RequestBody List<ProductDtoList> productDtoLists) {
+        productDtoLists.forEach((productDto) -> {
+            Product product = new Product();
+            product.setProductName(productDto.getProductName());
+            product.setVirtue(productDto.getVirtue());
+            List<Producer> producers = producerService.getByName(productDto.getProductName());
+            if (producers.size() > 0) {
+                product.setProducer(producers.get(0));
+            } else {
+                Producer producer = new Producer();
+                producer.setProducerName(productDto.getProductName());
+                producerService.save(producer);
+                product.setProducer(producer);
+            }
+            List<Unit> units = unitService.getByName(productDto.getUnit());
+            if (units.size() > 0) {
+                product.setUnit(units.get(0));
+            } else {
+                Unit unit = new Unit();
+                unit.setUnitName(productDto.getUnit());
+                unitService.save(unit);
+                product.setUnit(unit);
+            }
+            productService.save(product);
+        });
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

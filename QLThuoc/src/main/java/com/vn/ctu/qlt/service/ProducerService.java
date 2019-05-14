@@ -18,4 +18,8 @@ public interface ProducerService {
 
     void save(String producerName);
 
+    Producer save(Producer producer);
+
+    List<Producer> getByName(String name);
+
 }

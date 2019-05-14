@@ -14,6 +14,7 @@ import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, In
 import ModalProducer from "./ModalProducer";
 import ModalCreateSpecUnit from "./ModalCreateSpecUnit";
 import ModalCreateUnit from "./ModalCreateUnit";
+import ImportProduct from "./ImportProduct";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -59,9 +60,11 @@ class CreateProduct extends Component {
   onReset = (e) => {
     e.preventDefault();
   };
+
   componentWillMount() {
     this.props.onInit();
   }
+
   handleSeletion = (e, selection) => {
     switch (selection.name) {
       case "specUnits":
@@ -88,6 +91,7 @@ class CreateProduct extends Component {
   componentWillUnmount() {
     this.props.onResetAlert();
   }
+
   toggleModal = (e) => {
     e.preventDefault();
     this.setState({
@@ -99,11 +103,12 @@ class CreateProduct extends Component {
       flgOpenModalSpec: !this.state.flgOpenModalSpec
     })
   };
-  toggleModalUnit=()=>{
+  toggleModalUnit = () => {
     this.setState({
       flgOpenModalUnit: !this.state.flgOpenModalUnit
     })
   };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -113,7 +118,7 @@ class CreateProduct extends Component {
           </CardHeader>
           <CardBody>
             <Row>
-              <Col md='6'>
+              <Col md='5'>
                 <AlertCommon/>
                 <Card>
                   <CardBody>
@@ -217,11 +222,14 @@ class CreateProduct extends Component {
                   </CardBody>
                 </Card>
               </Col>
+              <Col md={7}>
+                <ImportProduct/>
+              </Col>
             </Row>
           </CardBody>
         </Card>
         <ModalProducer flgOpenModal={this.state.flgOpenModal} toggleModal={this.toggleModal}/>
-        <ModalCreateSpecUnit  isOpen={this.state.flgOpenModalSpec} toggle={this.toggleModalCreateSpec}/>
+        <ModalCreateSpecUnit isOpen={this.state.flgOpenModalSpec} toggle={this.toggleModalCreateSpec}/>
         <ModalCreateUnit flgOpenModal={this.state.flgOpenModalUnit} toggleModal={this.toggleModalUnit}/>>
       </div>
     )

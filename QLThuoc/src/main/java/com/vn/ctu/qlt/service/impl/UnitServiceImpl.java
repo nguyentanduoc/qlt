@@ -68,4 +68,9 @@ public class UnitServiceImpl implements UnitService {
     public void save(Unit unit) {
         unitRepository.save(unit);
     }
+
+    @Override
+    public List<Unit> getByName(String name){
+        return unitRepository.findAllByUnitName(name);
+    }
 }

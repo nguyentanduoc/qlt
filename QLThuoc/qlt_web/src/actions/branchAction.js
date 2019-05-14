@@ -23,12 +23,9 @@ export const select = (condition) => {
   return async (dispatch,getState) => {
     try {
       const {jwt} = getState().auth;
-      const res = await axios.post(API.BRANCH.SELECT, condition, {headers: header(jwt)});
-      console.log(res);
-      dispatch(setPagination(res.data));
-      dispatch(selectSuccess(res.data.content));
+      const res = await axios.post(API.BRANCH.SELECT, null, {headers: header(jwt)});
+      dispatch(selectSuccess(res.data));
     } catch (err) {
-      console.log(err);
       dispatch(showAlertFail(err));
     }
   }

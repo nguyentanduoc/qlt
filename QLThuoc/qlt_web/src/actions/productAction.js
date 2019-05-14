@@ -96,7 +96,7 @@ const getProductByIdSuccess = (data) => ({
   payload: data
 });
 export const saveEdit = (data) => (
-  async (dispatch,getState) => {
+  async (dispatch, getState) => {
     try {
       const {jwt} = getState().auth;
       await Axios.post(API.PRODUCT.SAVE_EDIT, data, {headers: header(jwt)});
@@ -114,4 +114,14 @@ export const setUnit = (data) => ({
   type: ACTION_TYPES.PRODUCT.SET_UNIT,
   payload: data
 });
-
+export const saveListProduct = (data) => (
+  async (dispatch, getState) => {
+    try {
+      const {jwt} = getState().auth;
+      await Axios.post(API.PRODUCT.SAVE_LIST_PRODUCT, data, {headers: header(jwt)});
+      dispatch(showAlertAndReset());
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+)
