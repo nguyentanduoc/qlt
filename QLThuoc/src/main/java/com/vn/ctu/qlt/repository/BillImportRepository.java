@@ -5,7 +5,14 @@ import org.springframework.stereotype.Repository;
 
 import com.vn.ctu.qlt.model.BillImport;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+import java.util.List;
+
 @Repository
 public interface BillImportRepository extends JpaRepository<BillImport, Long> {
+
+    List<BillImport> findAllByImportDate(Date importDate);
+    List<BillImport> findAllByIdAndImportDate(Long id, Date importDate);
 
 }

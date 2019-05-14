@@ -7,6 +7,7 @@ import com.vn.ctu.qlt.service.BranchService;
 import com.vn.ctu.qlt.service.ExportService;
 import com.vn.ctu.qlt.service.ProductService;
 import com.vn.ctu.qlt.service.SpecUnitService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/api/export")
@@ -34,6 +32,9 @@ public class ExportController {
     @Autowired
     private ExportService exportService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping(path = "/get-spec-and-unit-and-price-and-quantity-in-store")
     public ResponseEntity<Map<String, Object>> getSpecAndPriceAndQuality(@RequestBody ProductAndBranchId productAndBranchId) {
         Map<String, Object> response = new HashMap<>();
@@ -47,17 +48,18 @@ public class ExportController {
         PriceHistory priceHistory = productService.getPriceByBranch(productAndBranchId.getProductId());
         if (branch.getSpecLevelBranch() != null) {
             Double price = priceHistory.getPrice() + (priceHistory.getPrice() * branch.getSpecLevelBranch().getPercentProfit());
+            Double priceShare = priceHistory.getPrice() + (priceHistory.getPrice() * branch.getSpecLevelBranch().getPercentProfitShare());
             if (productOfBranchAmount == null)
                 throw new AssertionError("getSpecAndPriceAndQuality: productOfBranchAmount is null");
             response.put("inventory", productOfBranchAmount.getAmount());
             response.put("price", price);
+            response.put("priceShare", priceShare);
             response.put("priceHistory", priceHistory.getId());
             response.put("productDto", productService.getProductForExport(productOfBranchAmount.getProduct().getId()));
             return ResponseEntity.ok().body(response);
         } else {
             throw new BadRequestException("Chi nhánh chưa được xếp cấp độ");
         }
-
     }
 
     @PostMapping(path = "/save")
@@ -70,5 +72,29 @@ public class ExportController {
     public ResponseEntity<Double> getInventory(@Valid @RequestBody ProductAndSpecUnit productAndSpecUnit){
         Double inventory = productService.getInventory(productAndSpecUnit);
         return ResponseEntity.ok(inventory);
+    }
+
+    @PostMapping(path = "/search")
+    public ResponseEntity<List<BillExportDto>> search(@RequestBody ExportConditionDto exportConditionDto){
+        List<BillExport> billsExport = new ArrayList<>();
+        if(exportConditionDto.getId() == 0 && exportConditionDto.getDateCreated() == null)
+            billsExport = exportService.findAll();
+        if(exportConditionDto.getId() == 0 && exportConditionDto.getDateCreated() != null)
+            billsExport = exportService.findAllByDate(exportConditionDto.getDateCreated());
+        if(exportConditionDto.getId() != 0 && exportConditionDto.getDateCreated() == null)
+            billsExport.add(exportService.findById(exportConditionDto.getId()).get());
+        return ResponseEntity.ok().body(exportService.convert(billsExport));
+    }
+
+    @PostMapping(path = "/get-detail")
+    public ResponseEntity<List<DetailBillExportDto>> getDetail(@RequestBody Long id){
+        Optional<BillExport> billExport = exportService.findById(id);
+        if(!billExport.isPresent()) throw new BadRequestException("Không tìm thấy hóa đơn");
+        List<DetailBillExport> detailBillExports = billExport.get().getDetailBillExports();
+        List<DetailBillExportDto> detailBillExportsDto = new ArrayList<>();
+        for(DetailBillExport detailBillExport: detailBillExports){
+            detailBillExportsDto.add(modelMapper.map(detailBillExport, DetailBillExportDto.class));
+        }
+        return ResponseEntity.ok().body(detailBillExportsDto);
     }
 }

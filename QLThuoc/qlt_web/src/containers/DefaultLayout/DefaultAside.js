@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem } from 'reactstrap';
+import React, {Component} from 'react';
+import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem} from 'reactstrap';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TabSetting from './tabAside/TabSetting';
@@ -32,13 +32,13 @@ class DefaultAside extends Component {
   render() {
 
     // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+    const {children, ...attributes} = this.props;
 
     return (
       <React.Fragment>
         <Nav tabs>
           <NavItem>
-            <NavLink className={classNames({ active: this.state.activeTab === '1' })}
+            <NavLink className={classNames({active: this.state.activeTab === '1'})}
                      onClick={() => {
                        this.toggle('1');
                      }}>
@@ -46,7 +46,7 @@ class DefaultAside extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className={classNames({ active: this.state.activeTab === '2' })}
+            <NavLink className={classNames({active: this.state.activeTab === '2'})}
                      onClick={() => {
                        this.toggle('2');
                      }}>
@@ -54,7 +54,7 @@ class DefaultAside extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className={classNames({ active: this.state.activeTab === '3' })}
+            <NavLink className={classNames({active: this.state.activeTab === '3'})}
                      onClick={() => {
                        this.toggle('3');
                      }}>
@@ -65,12 +65,13 @@ class DefaultAside extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <ListGroup className="list-group-accent" tag={'div'}>
-              <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</ListGroupItem>
+              <ListGroupItem
+                className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</ListGroupItem>
               <ListGroupItem action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
                 <div className="avatar float-right">
                   <img className="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img>
                 </div>
-                <div>Meeting with <strong>Lucas</strong> </div>
+                <div>Meeting with <strong>Lucas</strong></div>
                 <small className="text-muted mr-3">
                   <i className="icon-calendar"></i>&nbsp; 1 - 3pm
                 </small>
@@ -90,26 +91,27 @@ class DefaultAside extends Component {
                   <i className="icon-social-skype"></i> On-line
                 </small>
               </ListGroupItem>
-              <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</ListGroupItem>
+              <ListGroupItem
+                className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</ListGroupItem>
               <ListGroupItem action tag="a" href="#" className="list-group-item-accent-danger list-group-item-divider">
                 <div>New UI Project - <strong>deadline</strong></div>
                 <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 10 - 11pm</small>
                 <small className="text-muted"><i className="icon-home"></i>&nbsp; creativeLabs HQ</small>
                 <div className="avatars-stack mt-2">
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                 </div>
               </ListGroupItem>
@@ -124,25 +126,25 @@ class DefaultAside extends Component {
                 <small className="text-muted"><i className="icon-home"></i>&nbsp; creativeLabs HQ</small>
                 <div className="avatars-stack mt-2">
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                   <div className="avatar avatar-xs">
-                    <img src={'assets/img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <img src={'assets/img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   </div>
                 </div>
               </ListGroupItem>
@@ -152,7 +154,7 @@ class DefaultAside extends Component {
             <div className="message">
               <div className="py-3 pb-5 mr-3 float-left">
                 <div className="avatar">
-                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   <span className="avatar-status badge-success"></span>
                 </div>
               </div>
@@ -165,11 +167,11 @@ class DefaultAside extends Component {
                 tempor incididunt...
               </small>
             </div>
-            <hr />
+            <hr/>
             <div className="message">
               <div className="py-3 pb-5 mr-3 float-left">
                 <div className="avatar">
-                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   <span className="avatar-status badge-success"></span>
                 </div>
               </div>
@@ -182,11 +184,11 @@ class DefaultAside extends Component {
                 tempor incididunt...
               </small>
             </div>
-            <hr />
+            <hr/>
             <div className="message">
               <div className="py-3 pb-5 mr-3 float-left">
                 <div className="avatar">
-                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   <span className="avatar-status badge-success"></span>
                 </div>
               </div>
@@ -199,11 +201,11 @@ class DefaultAside extends Component {
                 tempor incididunt...
               </small>
             </div>
-            <hr />
+            <hr/>
             <div className="message">
               <div className="py-3 pb-5 mr-3 float-left">
                 <div className="avatar">
-                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   <span className="avatar-status badge-success"></span>
                 </div>
               </div>
@@ -216,11 +218,11 @@ class DefaultAside extends Component {
                 tempor incididunt...
               </small>
             </div>
-            <hr />
+            <hr/>
             <div className="message">
               <div className="py-3 pb-5 mr-3 float-left">
                 <div className="avatar">
-                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+                  <img src={'assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
                   <span className="avatar-status badge-success"></span>
                 </div>
               </div>

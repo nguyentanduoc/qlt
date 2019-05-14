@@ -1,14 +1,15 @@
 import {ACTION_TYPES, API} from '../constants'
 import axios from 'axios'
-import config, {headerForGet} from '../helpers/headerHelper'
+import config, {headerForGet, header} from '../helpers/headerHelper'
 import {showAlertFail, showAlertAndReset} from './alertAction'
 import { setPagination } from '../actions/paginationAction'
 import { pageRequestDefault } from '../helpers/pageable'
 
 export const getAllUser = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.GET_ALL_USER, null ,config);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.GET_ALL_USER, null ,{headers: header(jwt)});
       dispatch(getAllUserSuccess(res.data));
     } catch (error) {
       dispatch(getAllUserFail(error.toString()));
@@ -16,9 +17,10 @@ export const getAllUser = () => {
   }
 }
 export const updateUserRole = (user) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.UPDATE_USER_ROLE, user, config);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.UPDATE_USER_ROLE, user, {headers: header(jwt)});
       dispatch(updateUserSuccess(res.data));
     } catch (error) {
       dispatch(updateUserFail(error.toString()));
@@ -27,9 +29,10 @@ export const updateUserRole = (user) => {
 }
 
 export const createAccount = (account) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      await axios.post(API.USER.CREATE_ACCOUNT, account ,config);
+      const {jwt} = getState().auth;
+      await axios.post(API.USER.CREATE_ACCOUNT, account ,{headers: header(jwt)});
       await dispatch(showAlertAndReset());
       await dispatch(getUserLimit());
     } catch (error) {
@@ -40,13 +43,14 @@ export const createAccount = (account) => {
 
 export const getUserLimit = (page) => {
 
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const {jwt} = getState().auth;
     try {
       let res;
       if(page){
-        res = await axios.get(API.USER.GET_USER_LIMIT, headerForGet(page));
+        res = await axios.get(API.USER.GET_USER_LIMIT, headerForGet(page, jwt));
       } else {
-        res = await axios.get(API.USER.GET_USER_LIMIT, headerForGet(pageRequestDefault()));
+        res = await axios.get(API.USER.GET_USER_LIMIT, headerForGet(pageRequestDefault(), jwt));
       }
       await dispatch(setPagination(res.data));
       await dispatch(getUsersSuccess(res.data.content));
@@ -57,9 +61,10 @@ export const getUserLimit = (page) => {
   }
 }
 export const searchUser = (codition) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.USER.SEARCH_USER, codition.txtCondition ,config);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.USER.SEARCH_USER, codition.txtCondition ,{headers: header(jwt)});
       dispatch(getUsersSuccess(res.data.content));
     } catch (error) {
       dispatch(getFail(error));
@@ -67,9 +72,10 @@ export const searchUser = (codition) => {
   }
 }
 export const deleteUser = (users) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      await axios.post(API.USER.DELETE_USER, users ,config);
+      const {jwt} = getState().auth;
+      await axios.post(API.USER.DELETE_USER, users ,{headers: header(jwt)});
       await dispatch(showAlertAndReset());
     } catch(error) {
       dispatch(getFail(error));

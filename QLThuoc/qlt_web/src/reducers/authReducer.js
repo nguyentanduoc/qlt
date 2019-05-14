@@ -11,12 +11,13 @@ const initState = {
   isChooseBranch: false,
   branch: {},
   branches: [],
-  isLoading: false
+  isLoading: false,
+  jwt:""
 };
 export default (state = initState, action) => {
+  const payload = action.payload;
   switch (action.type) {
     case ACTION_TYPES.AUTH.LOGIN_SUCCESS:
-      const payload = action.payload;
       if (payload.branchs && payload.branchs.length > 1) {
         return {
           ...state,
@@ -26,7 +27,8 @@ export default (state = initState, action) => {
           user: payload.user,
           authorities: payload.authorities,
           isChooseBranch: true,
-          branches: payload.branches
+          branches: payload.branches,
+          jwt: payload.jwtAuthenticationResponse.accessToken
         };
       } else {
         navBranch(payload.nav, payload.branches[0]);
@@ -38,13 +40,14 @@ export default (state = initState, action) => {
           user: payload.user,
           authorities: payload.authorities,
           isChooseBranch: false,
-          branch: payload.branches[0]
+          branch: payload.branches[0],
+          jwt: payload.jwtAuthenticationResponse.accessToken
         };
       }
 
     case ACTION_TYPES.AUTH.SET_BRANCH:
       const nav = navBranch(payload.nav, action.payload);
-      return {...state, branch: action.payload, nav: nav}
+      return {...state, branch: action.payload, nav: nav};
 
     case ACTION_TYPES.AUTH.LOGOUT:
       return initState;
@@ -58,6 +61,13 @@ export default (state = initState, action) => {
 }
 const navBranch = (navs, branch) => {
   if (branch) {
+    _.remove(navs, function (nav) {
+      if (nav.isMain === 1) {
+        if (!branch.isMain) {
+          return nav;
+        }
+      }
+    });
     navs.forEach(element => {
       _.remove(element.children, function (nav) {
         if (nav.isMain === 1) {
@@ -72,4 +82,4 @@ const navBranch = (navs, branch) => {
       });
     });
   }
-}
+};

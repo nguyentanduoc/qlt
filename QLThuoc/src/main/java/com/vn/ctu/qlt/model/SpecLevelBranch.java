@@ -30,6 +30,12 @@ public class SpecLevelBranch implements Serializable {
     @Column(name = "ten_cap_do")
     private String levelName;
 
-    @Column(name="quy_dinh_phan_tram_loi")
+    @Column(name="phan_tram_le")
     private Double percentProfit;
+
+    @Column(name="phan_tram_chuyen")
+    private Double percentProfitChange;
+
+    @Column(name="phan_tram_si")
+    private Double percentProfitShare;
 }

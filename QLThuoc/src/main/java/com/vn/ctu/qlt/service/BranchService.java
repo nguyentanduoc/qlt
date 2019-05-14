@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Interface BranchService.
  *
@@ -19,101 +20,103 @@ import java.util.Set;
  */
 public interface BranchService {
 
-	/**
-	 * Save.
-	 *
-	 * @param branch the branch
-	 */
-	public void save(BranchDto branch);
-	
-	/**
-	 * Save.
-	 *
-	 * @param branch the branch
-	 */
-	public void save(Branch branch);
+    /**
+     * Save.
+     *
+     * @param branch the branch
+     */
+    void save(BranchDto branch);
 
-	/**
-	 * Find all.
-	 *
-	 * @param pageable the pageable
-	 * @return the page
-	 */
-	public Page<BranchDto> findAll(Pageable pageable);
-	
-	/**
-	 * Delete all.
-	 *
-	 * @param keys the keys
-	 */
-	public void deleteAll(Long[] keys);
-	
-	/**
-	 * Search.
-	 *
-	 * @param condition the condition
-	 * @param pageable the pageable
-	 * @return the page
-	 */
-	public Page<BranchDto> search(String condition, Pageable pageable);
-	
-	/**
-	 * Gets the branh by director.
-	 *
-	 * @param idDirector the id director
-	 * @param pageable the pageable
-	 * @return the branh by director
-	 */
-	public PageImpl<BranchDto> getBranhByDirector(Long idDirector, Pageable pageable);
-	
-	/**
-	 * Select branch by director.
-	 *
-	 * @param idDirector the id director
-	 * @return the sets the
-	 */
-	public Set<Branch> selectBranchByDirector(Long idDirector);
-	
-	/**
-	 * Select branch by director dto.
-	 *
-	 * @param idDirector the id director
-	 * @return the sets the
-	 */
-	public Set<BranchDto> selectBranchByDirectorDto(Long idDirector);
-	
-	/**
-	 * Find by list.
-	 *
-	 * @param branches the branchs
-	 * @return the sets the
-	 */
-	public Set<Branch> findByList(Set<BranchesSelectionDto> branches);
-	
-	/**
-	 * Gets the branch by employee.
-	 *
-	 * @param employee the employee
-	 * @return the branch by employee
-	 */
-	public Branch getBranchByEmployee(Employee employee);
-	
-	/**
-	 * Gets the branch by id.
-	 *
-	 * @param id the id
-	 * @return the branch by id
-	 */
-	public Branch getBranchById(Long id);
-	
-	/**
-	 * Gets the main branch by branch.
-	 *
-	 * @param id the id
-	 * @return the main branch by branch
-	 */
-	public Branch getMainBranchByBranch(Long id);
+    /**
+     * Save.
+     *
+     * @param branch the branch
+     */
+    void save(Branch branch);
 
-	public Set<BranchesSelectionDto> covertBranchedToBranchesSelection(Set<Branch> branches);
+    /**
+     * Find all.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
+    Page<BranchDto> findAll(Pageable pageable);
+
+    /**
+     * Delete all.
+     *
+     * @param keys the keys
+     */
+    void deleteAll(Long[] keys);
+
+    /**
+     * Search.
+     *
+     * @param condition the condition
+     * @param pageable  the pageable
+     * @return the page
+     */
+    Page<BranchDto> search(String condition, Pageable pageable);
+
+    /**
+     * Gets the branh by director.
+     *
+     * @param idDirector the id director
+     * @param pageable   the pageable
+     * @return the branh by director
+     */
+    PageImpl<BranchDto> getBranhByDirector(Long idDirector, Pageable pageable);
+
+    /**
+     * Select branch by director.
+     *
+     * @param idDirector the id director
+     * @return the sets the
+     */
+    Set<Branch> selectBranchByDirector(Long idDirector);
+
+    /**
+     * Select branch by director dto.
+     *
+     * @param idDirector the id director
+     * @return the sets the
+     */
+    Set<BranchDto> selectBranchByDirectorDto(Long idDirector);
+
+    /**
+     * Find by list.
+     *
+     * @param branches the branches
+     * @return the sets the
+     */
+    Set<Branch> findByList(Set<BranchesSelectionDto> branches);
+
+    /**
+     * Gets the branch by employee.
+     *
+     * @param employee the employee
+     * @return the branch by employee
+     */
+    Branch getBranchByEmployee(Employee employee);
+
+    /**
+     * Gets the branch by id.
+     *
+     * @param id the id
+     * @return the branch by id
+     */
+    Branch getBranchById(Long id);
+
+    /**
+     * Gets the main branch by branch.
+     *
+     * @param id the id
+     * @return the main branch by branch
+     */
+    Branch getMainBranchByBranch(Long id);
+
+    Set<BranchesSelectionDto> covertBranchedToBranchesSelection(Set<Branch> branches);
+
+    int countMemberOfBranch(BranchDto branchDto);
 
 }

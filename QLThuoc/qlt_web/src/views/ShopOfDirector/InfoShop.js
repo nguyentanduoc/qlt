@@ -39,63 +39,73 @@ class InfoShop extends Component {
   };
 
   render() {
-    const {nameShop, updatedAt, createdAt, establishAt, id} = this.props.shopOfDirectorReducer.shop;
+    const {shop} = this.props.shopOfDirectorReducer;
     const {isEdit} = this.state;
     const dateFormat = 'DD/MM/YYYY';
     const {getFieldDecorator} = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
     return (
-      <Card>
+      <Card className={'card-accent-primary card'}>
         <Form onSubmit={this.handleSubmit}>
-          <AlertCommon/>
           <CardHeader>
             <Row>
-              <Col md={10}>
+              <Col md={9}>
                 Thông Tin Cửa Hàng
               </Col>
-              <Col md={2}>
-                <Button htmlType={'button'} color={'primary'} disabled={isEdit} onClick={this.onEdit}>
-                  <i className="cui-pencil icons d-block"/></Button>
+              <Col md={3} className={'text-right'}>
+                <Button htmlType={'button'} color={'primary'} disabled={isEdit} onClick={this.onEdit} icon={'edit'}/>
               </Col>
             </Row>
           </CardHeader>
           <CardBody>
+            <AlertCommon/>
             <Form.Item>
               {getFieldDecorator('id', {
-                initialValue: id,
+                initialValue: shop ? shop.id : '',
               })(
                 <Input disabled={true} type={'hidden'}/>
               )}
             </Form.Item>
-            <Form.Item label={'Tên Cửa hàng:'}>
+            <Form.Item label={'Tên Cửa hàng:'} {...formItemLayout}>
               {getFieldDecorator('nameShop', {
-                initialValue: nameShop,
+                initialValue: shop ? shop.nameShop : '',
               })(
                 <Input type={'textarea'} name={'nameShop'} disabled={!isEdit}/>
               )}
             </Form.Item>
-            <Form.Item label="Ngày Thành Lập:">
-              {getFieldDecorator('establishAt', {initialValue: moment(establishAt)})(
+            <Form.Item label="Ngày Thành Lập:" {...formItemLayout}>
+              {getFieldDecorator('establishAt', {initialValue: moment(shop ? shop.establishAt : null)})(
                 <DatePicker disabled={!isEdit} format={dateFormat}/>
               )}
             </Form.Item>
-            <Form.Item label="Ngày Đăng Ký:">
+            <Form.Item label="Ngày Đăng Ký:" {...formItemLayout}>
               {getFieldDecorator('createAt',
-                {initialValue: moment(createdAt)})(
+                {initialValue: moment(shop ? shop.createdAt : null)})(
                 <DatePicker disabled={true} format={dateFormat}/>
               )}
             </Form.Item>
-            <Form.Item label="Ngày Cập Nhật:">
+            <Form.Item label="Ngày Cập Nhật:" {...formItemLayout}>
               {getFieldDecorator('updatedAt', {
-                initialValue: moment(updatedAt)
+                initialValue: moment(shop ? shop.updatedAt : null)
               })(
                 <DatePicker disabled={true} format={dateFormat}/>
               )}
             </Form.Item>
           </CardBody>
           <CardFooter className={'text-right'}>
-            <Button htmlType="submit" size={"small"} color="success" disabled={!isEdit}><i
-              className="fa fa-dot-circle-o"/> Lưu</Button>{' '}
-            <Button htmlType="reset" size={"small"} color="danger" disabled={!isEdit} onClick={this.resetEdit}><i className="fa fa-ban"/> Khôi Phục</Button>
+            <Button htmlType="submit" size={"small"} type="primary" disabled={!isEdit}>
+              <i className="fa fa-dot-circle-o"/>Lưu</Button>{' '}
+            <Button htmlType="reset" size={"small"} type="danger" disabled={!isEdit} onClick={this.resetEdit}>
+              <i className="fa fa-ban"/>Khôi Phục</Button>
           </CardFooter>
         </Form>
       </Card>

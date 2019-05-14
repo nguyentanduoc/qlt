@@ -1,20 +1,14 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.transaction.Transactional;
-
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.BranchesSelectionDto;
+import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.repository.BranchRepository;
+import com.vn.ctu.qlt.security.IAuthenticationFacade;
 import com.vn.ctu.qlt.service.*;
+import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
 import org.apache.commons.collections4.CollectionUtils;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,11 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.vn.ctu.qlt.dto.BranchDto;
-import com.vn.ctu.qlt.exception.BadRequestException;
-import com.vn.ctu.qlt.repository.BranchRepository;
-import com.vn.ctu.qlt.security.IAuthenticationFacade;
-import com.vn.ctu.qlt.sevice.mapper.BranchMapper;
+import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * The Class BranchSerivceImpl.
@@ -90,6 +83,11 @@ public class BranchServiceImpl implements BranchService {
 
     @Autowired
     private SpecLevelBranchService specLevelBranchService;
+
+    private static final DateFormat sdf = new SimpleDateFormat("yyyy/MM");
+
+    @Autowired
+    private IAuthenticationFacade iAuthenticationFacade;
 
     /*
      * (non-Javadoc)
@@ -275,24 +273,24 @@ public class BranchServiceImpl implements BranchService {
         branchRepository.save(branch);
     }
 
-    private List<BranchDto> modelToDto(List<Branch> branchs) {
-        List<BranchDto> branchsDto = new ArrayList<BranchDto>();
-        branchs.forEach(action -> {
+    private List<BranchDto> modelToDto(List<Branch> branches) {
+        List<BranchDto> branchesDto = new ArrayList<BranchDto>();
+        branches.forEach(action -> {
             BranchDto branchDto = new BranchDto();
             BeanUtils.copyProperties(action, branchDto);
-            branchsDto.add(branchDto);
+            branchesDto.add(branchDto);
         });
-        return branchsDto;
+        return branchesDto;
     }
 
-    private Set<BranchDto> modelToDto(Set<Branch> branchs) {
-        Set<BranchDto> branchsDto = new HashSet<BranchDto>();
-        branchs.forEach(action -> {
+    private Set<BranchDto> modelToDto(Set<Branch> branches) {
+        Set<BranchDto> branchesDto = new HashSet<BranchDto>();
+        branches.forEach(action -> {
             BranchDto branchDto = new BranchDto();
             BeanUtils.copyProperties(action, branchDto);
-            branchsDto.add(branchDto);
+            branchesDto.add(branchDto);
         });
-        return branchsDto;
+        return branchesDto;
     }
 
     @Override
@@ -315,13 +313,20 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Set<BranchesSelectionDto> covertBranchedToBranchesSelection(Set<Branch> branches) {
-        Set<BranchesSelectionDto> branchesSelectionDtos = new HashSet<>();
+        Set<BranchesSelectionDto> branchesSelectionsDto = new HashSet<>();
         branches.forEach(branch -> {
             BranchesSelectionDto branchesSelectionDto = new BranchesSelectionDto();
             branchesSelectionDto.setValue(branch.getId());
             branchesSelectionDto.setLabel(branch.getName());
-            branchesSelectionDtos.add(branchesSelectionDto);
+            branchesSelectionsDto.add(branchesSelectionDto);
         });
-        return branchesSelectionDtos;
+        return branchesSelectionsDto;
+    }
+
+    @Override
+    public int countMemberOfBranch(BranchDto branchDto) {
+        Branch branch = getBranchById(branchDto.getId());
+        List<Employee> employees = branch.getEmployees();
+        return employees.size();
     }
 }

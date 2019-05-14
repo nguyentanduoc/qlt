@@ -37,4 +37,7 @@ public class BillExport {
     @OneToMany(mappedBy = "billExport", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetailBillExport> detailBillExports = new ArrayList<DetailBillExport>();
 
+    @Column(name="ban_si")
+    private Boolean isShare;
+
 }

@@ -84,37 +84,37 @@ public class UserServiceImpl implements UserService {
     /**
      * The logger.
      */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger( getClass() );
 
     /* (non-Javadoc)
      * @see com.vn.ctu.qlt.service.UserSerivce#searchUser(java.lang.String, org.springframework.data.domain.Pageable)
      */
     @Override
     public PageImpl<User> searchUser(String condition, Pageable page) {
-        String[] conditions = condition.split(" ");
+        String[] conditions = condition.split( " " );
         this.conditions = conditions;
         List<String> param = new ArrayList<>();
 
-        StringBuilder sqlSelect = new StringBuilder("select * ");
-        StringBuilder sqlFrom = new StringBuilder(FROM_TABLE);
-        StringBuilder sqlWhere = new StringBuilder("where ");
+        StringBuilder sqlSelect = new StringBuilder( "select * " );
+        StringBuilder sqlFrom = new StringBuilder( FROM_TABLE );
+        StringBuilder sqlWhere = new StringBuilder( "where " );
 
         for (int i = 0; i < conditions.length; i++) {
-            sqlWhere.append("email like ?").append(" or ");
-            sqlWhere.append("ten_dang_nhap like ?").append(" ");
-            param.add("%" + conditions[i] + "%");
-            param.add("%" + conditions[i] + "%");
+            sqlWhere.append( "email like ?" ).append( " or " );
+            sqlWhere.append( "ten_dang_nhap like ?" ).append( " " );
+            param.add( "%" + conditions[i] + "%" );
+            param.add( "%" + conditions[i] + "%" );
             if (conditions.length - 1 != i)
-                sqlWhere.append("or").append(" ");
+                sqlWhere.append( "or" ).append( " " );
         }
-        int countRecord = count(sqlFrom.append(sqlWhere), param);
-        StringBuilder sql = sqlSelect.append(sqlFrom);
-        sql.append("LIMIT ").append(page.getPageSize()).append(" ");
-        sql.append("OFFSET ").append(page.getOffset());
+        int countRecord = count( sqlFrom.append( sqlWhere ), param );
+        StringBuilder sql = sqlSelect.append( sqlFrom );
+        sql.append( "LIMIT " ).append( page.getPageSize() ).append( " " );
+        sql.append( "OFFSET " ).append( page.getOffset() );
 
-        List<User> resultUser = jdbcTemplate.query(sql.toString(), param.toArray(), userMapper);
+        List<User> resultUser = jdbcTemplate.query( sql.toString(), param.toArray(), userMapper );
 
-        return new PageImpl<User>(resultUser, page, countRecord);
+        return new PageImpl<User>( resultUser, page, countRecord );
     }
 
     /* (non-Javadoc)
@@ -122,12 +122,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int count(StringBuilder sql, List<String> params) throws DataAccessException {
-        StringBuilder sqlCount = new StringBuilder("Select count(*) ");
-        sqlCount.append(sql);
+        StringBuilder sqlCount = new StringBuilder( "Select count(*) " );
+        sqlCount.append( sql );
         try {
-            return jdbcTemplate.queryForObject(sqlCount.toString(), params.toArray(), Integer.class);
+            Integer result = jdbcTemplate.queryForObject( sqlCount.toString(), params.toArray(), Integer.class );
+            return result != null ? result : 0;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error( e.getMessage() );
             throw e;
         }
     }
@@ -155,8 +156,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> findAll() {
-        Stream<User> userStream = StreamSupport.stream(userRepo.findAll().spliterator(), false);
-        return userStream.collect(Collectors.toList());
+        Stream<User> userStream = StreamSupport.stream( userRepo.findAll().spliterator(), false );
+        return userStream.collect( Collectors.toList() );
     }
 
     /* (non-Javadoc)
@@ -164,7 +165,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<User> findById(Long id) {
-        return userRepo.findById(id);
+        return userRepo.findById( id );
     }
 
     /* (non-Javadoc)
@@ -172,7 +173,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void save(User user) {
-        userRepo.save(user);
+        userRepo.save( user );
     }
 
     /* (non-Javadoc)
@@ -180,7 +181,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Page<User> getAllUser(Pageable pageable) {
-        return userRepo.findAll(pageable);
+        return userRepo.findAll( pageable );
     }
 
     /* (non-Javadoc)
@@ -189,7 +190,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
-            userRepo.deleteById(id);
+            userRepo.deleteById( id );
         }
     }
 
@@ -198,18 +199,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createUserDirector(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Optional<Role> role = roleService.getRoleByRoleName(RoleName.ROLE_DIRECTOR);
+        user.setPassword( passwordEncoder.encode( user.getPassword() ) );
+        Optional<Role> role = roleService.getRoleByRoleName( RoleName.ROLE_DIRECTOR );
         Set<Role> roles = new HashSet<>();
-        if (!role.isPresent()) throw new BadRequestException("Không tìm thấy Quyền");
-        roles.add(role.get());
-        user.setRoles(roles);
-        userRepo.save(user);
+        if (!role.isPresent()) throw new BadRequestException( "Không tìm thấy Quyền" );
+        roles.add( role.get() );
+        user.setRoles( roles );
+        userRepo.save( user );
         return user;
     }
 
     @Override
     public Optional<User> findByUserName(String userName) {
-        return userRepo.findByUsername(userName);
+        return userRepo.findByUsername( userName );
     }
 }

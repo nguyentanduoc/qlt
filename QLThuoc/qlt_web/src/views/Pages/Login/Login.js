@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button } from "antd";
+import {Button} from "antd";
 import {
   Card,
   CardBody,
@@ -17,23 +17,25 @@ import {
 import {connect} from 'react-redux';
 import {login, setLoading} from '../../../actions/authenAction';
 import {resetError} from '../../../actions/errorAction';
+import {ROLES} from '../../../constants';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'ntduoc',
-      password:'12345678x@X',
+      usernameOrEmail: '',
+      password: '',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
       isLoading: false
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.keyEnterUp = this.handleKeUpEnter.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', this.handleKeUpEnter.bind(this));
+    window.addEventListener('keyup', this.keyEnterUp);
   }
 
   changeHandler = event => {
@@ -42,36 +44,39 @@ class Login extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.onSetLoading();
     const auth = {
       usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     };
     await this.props.onLogin(auth);
-  }
+  };
 
   handleKeUpEnter = (event) => {
     if (event.key === 'Enter') {
-      this.handleSubmit(event);
+      return this.handleSubmit(event);
     }
-  }
+  };
 
   componentWillUnmount() {
-    this.props.onResetError();
-    document.removeEventListener('keyup', this.handleKeUpEnter.bind(this));
+    window.removeEventListener('keyup', this.keyEnterUp);
   }
 
-  componentDidUpdate() {
-    if (this.props.auth.isLogin) {
-      if (this.props.auth.isChooseBranch) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {isLogin, authorities} = this.props.auth;
+    if (isLogin) {
+      if (authorities.findIndex(authority => authority === ROLES.ROLE_LEADER) !== -1)
+        this.props.history.push('/control-branch/report');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_ADMIN) !== -1)
+        this.props.history.push('/admin/shop');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_DIRECTOR) !== -1)
+        this.props.history.push('/director/shop');
+      else if (this.props.auth.isChooseBranch)
         this.props.history.push('/choose-branch');
-      } else {
-        this.props.history.push('/dashboard');
-      }
+      else this.props.history.push('/dashboard');
     }
   }
 
@@ -123,6 +128,7 @@ class Login extends Component {
                       <Row>
                         <Col xs="6">
                           <Button
+                            loading={this.state.isLoading}
                             htmlType={'submit'}
                             type="primary"
                             onClick={this.handleSubmit}>Đăng nhập
@@ -146,7 +152,7 @@ const mapStateToProps = state => {
     auth: state.auth,
     error: state.error
   }
-}
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: async (auth) => {
@@ -159,5 +165,5 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(setLoading());
     }
   }
-}
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

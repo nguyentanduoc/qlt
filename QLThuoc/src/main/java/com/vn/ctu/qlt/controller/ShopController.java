@@ -35,43 +35,53 @@ public class ShopController {
 
     @PostMapping(path = "/save")
     public ResponseEntity<Map<String, Object>> save(@RequestBody ShopDto shop) {
-        return ResponseEntity.ok().body(shopService.save(shop));
+        return ResponseEntity.ok().body( shopService.save( shop ) );
     }
 
     @GetMapping(path = "/select")
     public ResponseEntity<Page<ShopDto>> select(String condition, Pageable page) {
-        return ResponseEntity.ok().body(shopService.selectDto(condition, page));
+        return ResponseEntity.ok().body( shopService.selectDto( condition, page ) );
+    }
+
+    @PostMapping(path = "/select")
+    public ResponseEntity<Page<ShopDto>> selectPost(@RequestBody String condition) {
+        return ResponseEntity.ok().body( shopService.selectDto( condition, null ));
     }
 
     @PostMapping(path = "/delete")
-    public ResponseEntity<Void> delete(@RequestBody Long[] keys) {
-        shopService.delete(keys);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity delete(@RequestBody Long[] keys) {
+        shopService.delete( keys );
+        return new ResponseEntity( HttpStatus.OK );
     }
 
     @GetMapping(path = "/select-all")
     public ResponseEntity<List<ShopDto>> selectAll() {
-        return ResponseEntity.ok().body(shopService.selectAllDto());
+        return ResponseEntity.ok().body( shopService.selectAllDto() );
     }
 
     @PostMapping(path = "/get-shop-of-director")
     public ResponseEntity<ShopDto> getShopOfDirector() {
         Employee employee = iAuthenticationFacade.getEmployee();
-        Optional<Shop> shop = shopService.findShopByDirector(employee);
-        if (!shop.isPresent()) throw new BadRequestException("Bạn không có Cửa Hàng nào");
+        Optional<Shop> shop = shopService.findShopByDirector( employee );
+        if (!shop.isPresent()) throw new BadRequestException( "Bạn không có Cửa Hàng nào" );
         ShopDto shopDto = new ShopDto();
-        BeanUtils.copyProperties(shop.get(), shopDto);
-        return ResponseEntity.ok().body(shopDto);
+        BeanUtils.copyProperties( shop.get(), shopDto );
+        return ResponseEntity.ok().body( shopDto );
     }
 
     @PostMapping(path = "/save-shop-director")
     public ResponseEntity<ShopDto> saveShopOfDirector(@RequestBody ShopDto shopDto) {
-        Optional<Shop> shopOptional = shopService.findById(shopDto.getId());
-        if (!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+        Optional<Shop> shopOptional = shopService.findById( shopDto.getId() );
+        if (!shopOptional.isPresent()) throw new BadRequestException( "Không tìm thấy cửa hàng" );
         Shop shop = shopOptional.get();
-        shop.setNameShop(shopDto.getNameShop());
-        shop.setEstablishAt(shopDto.getEstablishAt());
-        ShopDto response = shopService.save(shop);
-        return ResponseEntity.ok().body(response);
+        shop.setNameShop( shopDto.getNameShop() );
+        shop.setEstablishAt( shopDto.getEstablishAt() );
+        ShopDto response = shopService.save( shop );
+        return ResponseEntity.ok().body( response );
+    }
+
+    @PostMapping(path = "/get-report-director")
+    public ResponseEntity<Map<String, Object>> getReportShop() {
+        return ResponseEntity.ok().body( shopService.getReport() );
     }
 }

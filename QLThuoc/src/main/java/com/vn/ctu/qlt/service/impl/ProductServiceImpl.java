@@ -159,7 +159,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImage(imgDir + fileName);
         product.setVirtue(productDto.getVirtue());
         product.setSpecUnits(specUnits);
-        product.setProducer(producerService.getByProducerSeletion(productDto.getProducer()));
+        product.setProducer(producerService.getByProducerSelection(productDto.getProducerSeletion()));
         product.setUnit(unitService.getByUnitSeletion(productDto.getUnit()));
         productRepository.save(product);
         return product;
@@ -291,12 +291,12 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Save product of branch.
      *
-     * @param productId the product id
-     * @param branchId  the branch id
-     * @param amount    the amount
-     * @param spectUnit the spect unit
+     * @param productId  the product id
+     * @param branchId   the branch id
+     * @param amount     the amount
+     * @param specUnitId the spec unit id
      */
-    private void saveProductOfBranch(Long productId, Long branchId, Double amount, Long spectUnit) {
+    private void saveProductOfBranch(Long productId, Long branchId, Double amount, Long specUnitId) {
         Product product;
         SpecUnit specUnit;
         try {
@@ -304,7 +304,7 @@ public class ProductServiceImpl implements ProductService {
             Optional<Product> productOptional = productRepository.findById(productId);
             if (!productOptional.isPresent()) throw new ProductException("Sản phẩm không tồn tại");
             product = productOptional.get();
-            specUnit = specUnitService.getById(spectUnit);
+            specUnit = specUnitService.getById(specUnitId);
             if (productOfBranch != null) {
                 updateProductOfBranch(productId, branchId,
                         pushAmount(specUnit, productOfBranch, amount, product));
@@ -583,7 +583,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductSelectionDto> searchProductByKeyWord(String keyWord) {
-        List<Product> products = productRepository.searchKeyWord(keyWord);
+        List<Product> products;
+        if (keyWord == "") {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.searchKeyWord(keyWord);
+        }
         List<ProductSelectionDto> response = new ArrayList<>();
         products.forEach(product -> {
             ProductSelectionDto productSelectionDto = new ProductSelectionDto();
@@ -614,5 +619,85 @@ public class ProductServiceImpl implements ProductService {
         });
         branchesDto.sort(Comparator.comparing(BranchDto::getDistance));
         return branchesDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProductByKeyWordAndProducer(ProductSearchDto productSearchDto) {
+        List<Product> products;
+        if (productSearchDto.getProductName() == "") {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.searchKeyWord(productSearchDto.getProductName());
+        }
+        List<ProductDto> productsDto = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getProducer().getId().equals(productSearchDto.getProducerId())) {
+                ProductDto productDto = modelMapper.map(product, ProductDto.class);
+                productsDto.add(productDto);
+            }
+        }
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProductByProducer(Long producerId) {
+        Producer producer = producerService.getProducerById(producerId);
+        List<ProductDto> productsDto = new ArrayList<>();
+        List<Product> products = productRepository.findAllByProducer(producer);
+        for (Product product : products) {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            productsDto.add(productDto);
+        }
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProductByKeyWordReturnListProductDto(String keyWord) {
+        List<Product> products;
+        if (keyWord == "") {
+            products = productRepository.findAll();
+        } else {
+            products = productRepository.searchKeyWord(keyWord);
+        }
+        return covert(products);
+    }
+
+    @Override
+    public List<ProductDto> covert(List<Product> products) {
+        List<ProductDto> productsDto = new ArrayList<>();
+        for (Product product : products) {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            productsDto.add(productDto);
+        }
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> searchProduct() {
+        List<Product> products = productRepository.findAll();
+        return covert(products);
+    }
+
+    @Override
+    public List<Product> findAllByProductOfBranch_Amount(SearchProductOnStoreDto searchProductOnStoreDto) {
+        try {
+            StringBuilder sql = new StringBuilder();
+            List<Product> productResult = new ArrayList<>();
+            sql.append("select sp.ma, sp.cong_dung, sp.cong_dung, sp.don_vi_chuan, sp.hinh_anh, sp.ma_nha_san_xuat, sp.ten_san_pham ");
+            sql.append("from san_pham sp inner join san_pham_chi_nhanh spccn on sp.ma = spccn.ma_san_pham ");
+            sql.append("where spccn.so_luong <= ? and spccn.ma_chi_nhanh = ?");
+            List<Product> products = jdbcTemplate.query(sql.toString(), new Object[]{searchProductOnStoreDto.getAmount(), searchProductOnStoreDto.getBranch().getId()}, productMapper);
+            for (Product product : products) {
+                productResult.add(productRepository.findById(product.getId()).get());
+            }
+            return productResult;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    @Override
+    public Product save(Product product){
+        productRepository.save(product);
+        return product;
     }
 }
