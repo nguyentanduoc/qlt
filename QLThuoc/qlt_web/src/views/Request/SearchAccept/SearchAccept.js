@@ -4,7 +4,7 @@ import {Card, CardBody, CardHeader} from "reactstrap";
 import {Button, DatePicker, Form, Input, Table} from "antd";
 import Moment from "react-moment";
 import ModalBill from "./ModalBill";
-import {search} from '../../../actions/requestProductAction'
+import {search, getAllWaitingAccept} from '../../../actions/requestProductAction'
 
 
 class SearchAccept extends Component {
@@ -32,10 +32,15 @@ class SearchAccept extends Component {
     });
   };
 
+  componentWillMount() {
+    this.props.onGetAllWaitingAccept();
+  }
+
   render() {
     const {
       getFieldDecorator, getFieldsError
     } = this.props.form;
+    const {billsRequest} = this.props.requestReducer;
     return (
       <div>
         <Card className={'border-info card'}>
@@ -68,7 +73,7 @@ class SearchAccept extends Component {
             </Card>
             <Table
               bordered={true}
-              dataSource={null}
+              dataSource={billsRequest}
               rowKey={'id'}>
               <Table.Column
                 title='#'
@@ -81,16 +86,16 @@ class SearchAccept extends Component {
                 render={(text) => (<Moment format="HH:SS DD/MM/YYYY">{text}</Moment>)}
               />
               <Table.Column
-                title='Nhân Viên'
-                dataIndex='employee'
-                key='employee'
-                render={(employee) => (<div>{employee.nameEmployee}</div>)}
+                title='Đã Chấp Nhận'
+                dataIndex='isAccept'
+                key='isAccept'
+                render={(isAccept) => (<div>{isAccept ? 'Đã Chấp Thuận' : 'Chưa Chấp Thuận'}</div>)}
               />
               <Table.Column
-                title='Loại Hóa Đơn'
-                dataIndex='isShare'
-                key='isShare'
-                render={(isShare) => (<div>{isShare ? 'Bán Sĩ' : 'Bán Lẽ'}</div>)}
+                title='Đã Hủy'
+                dataIndex='isCancel'
+                key='isCancel'
+                render={(isCancel) => (<div>{isCancel ? 'Đã Hủy' : ''}</div>)}
               />
               <Table.Column
                 title='Tùy chọn'
@@ -112,12 +117,14 @@ class SearchAccept extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {requestReducer: state.requestReducer};
 }
-const mapDispatchToProp = (dispatch) =>({
-  onSearch: (condition) => dispatch(search(condition))
+
+const mapDispatchToProp = (dispatch) => ({
+  onSearch: (condition) => dispatch(search(condition)),
+  onGetAllWaitingAccept: () => dispatch(getAllWaitingAccept())
 });
 const FormSearchAccept = Form.create()(SearchAccept);
 export default connect(
-  mapStateToProps,mapDispatchToProp
+  mapStateToProps, mapDispatchToProp
 )(FormSearchAccept);

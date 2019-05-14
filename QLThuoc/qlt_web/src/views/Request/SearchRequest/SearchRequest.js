@@ -4,31 +4,61 @@ import {Card, CardBody, CardHeader} from "reactstrap";
 import {Button, DatePicker, Form, Input, Table} from "antd";
 import Moment from "react-moment";
 import ModalBill from "./ModalBill";
+import {requestProductGetDetail, requestProductSearch} from '../../../actions/requestProductAction';
+
+const {RangePicker} = DatePicker;
 
 class SearchRequest extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isOpenModal: false
+      isOpenModal: false,
+      idBillRequest: 0
     };
   };
+
   hasErrors = (fieldsError) => {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   };
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onSearchRequestProduct(values);
+      }
+    });
+  };
+
+  toggleModal(record) {
+    if (!this.state.isOpenModal && record && record.id) {
+      this.props.onRequestProductGetDetail(record.id);
+      this.setState({
+        idBillRequest: record.id,
+        isOpenModal: true
+      })
+    } else {
+      this.setState({
+        isOpenModal: false
+      })
+    }
+  }
 
   render() {
     const {
       getFieldDecorator, getFieldsError
     } = this.props.form;
+    const {billsRequest} = this.props.requestReducer;
+    const dateFormat = 'DD/MM/YYYY';
+    console.log(billsRequest);
     return (
       <div>
         <Card className={'border-info card'}>
-          <CardHeader><i className={'fa fa-search'}/> Tra cứu Sản Phẩm</CardHeader>
+          <CardHeader><i className={'fa fa-search'}/> Tra cứu Yêu cầu</CardHeader>
           <CardBody>
             <Card>
               <CardBody>
-                <Form layout="inline" onSubmit={this.handleSubmit}>
+                <Form layout="inline" onSubmit={this.handleSubmit.bind(this)}>
                   <Form.Item>
                     {getFieldDecorator('id', {
                       initialValue: 0
@@ -37,8 +67,8 @@ class SearchRequest extends Component {
                     )}
                   </Form.Item>
                   <Form.Item>
-                    {getFieldDecorator('dateCreated')(
-                      <DatePicker/>
+                    {getFieldDecorator('dateCreated', {})(
+                      <RangePicker format={dateFormat}/>
                     )}
                   </Form.Item>
                   <Form.Item>
@@ -53,7 +83,7 @@ class SearchRequest extends Component {
             </Card>
             <Table
               bordered={true}
-              dataSource={null}
+              dataSource={billsRequest}
               rowKey={'id'}>
               <Table.Column
                 title='#'
@@ -66,16 +96,16 @@ class SearchRequest extends Component {
                 render={(text) => (<Moment format="HH:SS DD/MM/YYYY">{text}</Moment>)}
               />
               <Table.Column
-                title='Nhân Viên'
-                dataIndex='employee'
-                key='employee'
-                render={(employee) => (<div>{employee.nameEmployee}</div>)}
+                title='Đã Chấp Nhận'
+                dataIndex='isAccept'
+                key='isAccept'
+                render={(isAccept) => (<div>{isAccept ? 'Đã Chấp Thuận' : 'Chưa Chấp Thuận'}</div>)}
               />
               <Table.Column
-                title='Loại Hóa Đơn'
-                dataIndex='isShare'
-                key='isShare'
-                render={(isShare) => (<div>{isShare ? 'Bán Sĩ' : 'Bán Lẽ'}</div>)}
+                title='Đã Hủy'
+                dataIndex='isCancel'
+                key='isCancel'
+                render={(isCancel) => (<div>{isCancel ? 'Đã Hủy' : ''}</div>)}
               />
               <Table.Column
                 title='Tùy chọn'
@@ -90,16 +120,27 @@ class SearchRequest extends Component {
             </Table>
           </CardBody>
         </Card>
-        <ModalBill isShow={this.state.isOpenModal} toggleOpen={this.closeModal}/>
+        <ModalBill
+          isShow={this.state.isOpenModal}
+          toggleOpen={this.toggleModal.bind(this)}
+          idBill={this.state.idBillRequest}/>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    requestReducer: state.requestReducer
+  };
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  onSearchRequestProduct: (data) => dispatch(requestProductSearch(data)),
+  onRequestProductGetDetail: (id) => dispatch(requestProductGetDetail(id))
+});
+
 const FormSearchRequest = Form.create()(SearchRequest);
 export default connect(
-  mapStateToProps,
+  mapStateToProps, mapDispatchToProps
 )(FormSearchRequest);

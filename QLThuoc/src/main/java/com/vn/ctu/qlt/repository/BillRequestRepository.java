@@ -19,4 +19,6 @@ public interface BillRequestRepository extends JpaRepository<BillRequest, Long> 
                                                                                            boolean isCancel,
                                                                                            Branch branchMain);
     List<BillRequest> findAllByDateRequested(Date dataRequested);
+
+    List<BillRequest> findAllByDateRequestedBetweenAndBranchRequest(Date date1, Date date2, Branch branch);
 }

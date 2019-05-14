@@ -4,10 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.vn.ctu.qlt.dto.BillRequestDto;
-import com.vn.ctu.qlt.dto.BillRequestWithConditionDto;
-import com.vn.ctu.qlt.dto.DetailRequestDto;
-import com.vn.ctu.qlt.dto.ImportProductDto;
+import com.vn.ctu.qlt.dto.*;
 import com.vn.ctu.qlt.model.BillRequest;
 
 import javax.swing.text.html.Option;
@@ -33,4 +30,6 @@ public interface BillRequestService {
     List<BillRequestDto> convertList(List<BillRequest> billRequests);
 
     BillRequestDto convertObject (BillRequest billRequest);
+
+    List<BillRequestSearchDto> searchBetweenDateCreated(SearchRequestProductDto searchRequestProductDto);
 }

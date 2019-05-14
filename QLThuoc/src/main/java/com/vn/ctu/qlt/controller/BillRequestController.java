@@ -2,6 +2,7 @@ package com.vn.ctu.qlt.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.vn.ctu.qlt.dto.*;
 import com.vn.ctu.qlt.model.BillRequest;
@@ -29,7 +30,7 @@ public class BillRequestController {
     }
 
     @PostMapping(path = "/get-bill-request")
-    public ResponseEntity<List<BillRequestDto>> getBillReuqest(@RequestBody BillRequestWithConditionDto dto) {
+    public ResponseEntity<List<BillRequestDto>> getBillRequest(@RequestBody BillRequestWithConditionDto dto) {
         List<BillRequestDto> body = billRequestService.getBillRequest(dto);
         return ResponseEntity.ok().body(body);
     }
@@ -59,9 +60,28 @@ public class BillRequestController {
             billRequests = billRequestService.findAll();
         if (billRequestConditionDto.getId() != 0)
             billRequests.add(billRequestService.findById(billRequestConditionDto.getId()).get());
-        if(billRequestConditionDto.getDateCreated() != null)
+        if (billRequestConditionDto.getDateCreated() != null)
             billRequests = billRequestService.findByDateCreated(billRequestConditionDto.getDateCreated());
 
         return ResponseEntity.ok().body(billRequestService.convertList(billRequests));
+    }
+
+    @PostMapping(path = "/search-request-product")
+    public ResponseEntity searchRequestProduct(@RequestBody SearchRequestProductDto searchRequestProductDto) {
+        List<BillRequestDto> billRequestDtos = new ArrayList<>();
+        if (searchRequestProductDto.getId() > 0) {
+            Optional<BillRequest> optionalBillRequest = billRequestService.findById(searchRequestProductDto.getId());
+            if (optionalBillRequest.isPresent())
+                billRequestDtos.add(billRequestService.convertObject(optionalBillRequest.get()));
+            return ResponseEntity.ok().body(billRequestDtos);
+        }
+        if (searchRequestProductDto.getDateCreated() != null && searchRequestProductDto.getDateCreated().size() == 2)
+            return ResponseEntity.ok().body(billRequestService.searchBetweenDateCreated(searchRequestProductDto));
+        return null;
+    }
+
+    @PostMapping(path = "/search-waiting-request")
+    public ResponseEntity searchWaitingRequest(@RequestBody BranchDto branchDto) {
+        return null;
     }
 }

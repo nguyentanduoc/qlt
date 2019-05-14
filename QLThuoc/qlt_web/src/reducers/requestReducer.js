@@ -1,12 +1,13 @@
-import {ACTION_TYPES} from '../constants';
+import {ACTION_TYPES, API} from '../constants';
 
 const initialState = {
   products: [],
   unit: [],
   amount: 0,
   flgSaveSuccess: false,
-  billsRequest:[]
-}
+  billsRequest: [],
+  details: []
+};
 
 export default (state = initialState, {type, payload}) => {
   switch (type) {
@@ -28,6 +29,9 @@ export default (state = initialState, {type, payload}) => {
 
     case ACTION_TYPES.REQUEST.SEARCH_SUCCESS:
       return {...state, billsRequest: payload};
+
+    case ACTION_TYPES.REQUEST.GET_DETAIL_SUCCESS:
+      return {...state, details: payload};
 
     default:
       return state

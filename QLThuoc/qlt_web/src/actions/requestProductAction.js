@@ -1,10 +1,10 @@
-import {API, ACTION_TYPES} from '../constants';
+import {ACTION_TYPES, API} from '../constants';
 import Axios from 'axios';
-import headerConfig, {header} from '../helpers/headerHelper'
+import {header} from '../helpers/headerHelper'
 import {showAlertFail, showAlertSuccess} from './alertAction.js'
 
 export const getAllProduct = (branch) => {
-  return async (dispatch,getState) => {
+  return async (dispatch, getState) => {
     try {
       const {jwt} = getState().auth;
       const request = await Axios.post(API.PRODUCT.GET_PRODUCT_FOR_REQUEST, branch, {headers: header(jwt)});
@@ -26,7 +26,7 @@ export const getUnit = (productId) => {
   return async (dispatch, getState) => {
     try {
       const {jwt} = getState().auth;
-      const response = await Axios.post(API.PRODUCT.GET_UNIT_OF_PRODUCT, productId, {headers:header(jwt)});
+      const response = await Axios.post(API.PRODUCT.GET_UNIT_OF_PRODUCT, productId, {headers: header(jwt)});
       dispatch(setUnitSelection(response.data));
     } catch (err) {
       dispatch(showAlertFail(err));
@@ -85,18 +85,57 @@ export const resetSaveSuccess = () => {
   }
 }
 
-export const search = (condition)=>(
-  async (dispatch,getState) => {
+export const search = (condition) => (
+  async (dispatch, getState) => {
     try {
       const {jwt} = getState().auth;
-      const response = await Axios.post(API.REQUEST.SEARCH, condition, {headers:header(jwt)});
+      const response = await Axios.post(API.REQUEST.SEARCH, condition, {headers: header(jwt)});
       dispatch(searchSuccess(response.data));
-    }  catch (e) {
+    } catch (e) {
       dispatch(showAlertFail(e));
     }
   }
 )
-const searchSuccess = (data) =>({
-  type:  ACTION_TYPES.REQUEST.SEARCH_SUCCESS,
+const searchSuccess = (data) => ({
+  type: ACTION_TYPES.REQUEST.SEARCH_SUCCESS,
   payload: data
 })
+export const requestProductSearch = (data) => (
+  async (dispatch, getState) => {
+    const {jwt, branch} = getState().auth;
+    try {
+      data.branchDto = branch;
+      const response = await Axios.post(API.REQUEST.SEARCH_REQUEST_PRODUCT, data, {headers: header(jwt)});
+      console.log(response);
+      dispatch(searchSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+export const requestProductGetDetail = (id) => (
+  async (dispatch, getState) => {
+    try {
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.REQUEST.GET_DETAIL, id, {headers: header(jwt)});
+      dispatch(getDetailSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+const getDetailSuccess = (data) => ({
+  type: ACTION_TYPES.REQUEST.GET_DETAIL_SUCCESS,
+  payload: data
+});
+export const getAllWaitingAccept = () => (
+  async (dispatch, getState) => {
+    try {
+      const {jwt, branch} = getState().auth;
+      const response = await Axios.post(API.REQUEST.SEARCH_WAITING_REQUEST, branch, {headers: header(jwt)});
+      dispatch(searchSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+)

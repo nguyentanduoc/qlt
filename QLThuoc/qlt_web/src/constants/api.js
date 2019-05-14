@@ -64,6 +64,8 @@ export default {
     ACCEPT: `${BASE_URI}/api/request/accept`,
     CANCEL: `${BASE_URI}/api/request/cancel`,
     SEARCH: `${BASE_URI}/api/request/search`,
+    SEARCH_REQUEST_PRODUCT: `${BASE_URI}/api/request/search-request-product`,
+    SEARCH_WAITING_REQUEST: `${BASE_URI}/api/request/search-waiting-request`,
   },
   EXPORT: {
     GET_SPEC_UNIT_AND_PRICE_AND_QUANLITY_IN_STORE: `${BASE_URI}/api/export/get-spec-and-unit-and-price-and-quantity-in-store`,

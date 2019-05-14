@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BillRequestWithConditionDto {
 
-	private BranchDto branch;
-	
-	private BillRequestConditionDto condition;
+    private BranchDto branch;
+
+    private BillRequestConditionDto condition;
 }

@@ -198,8 +198,8 @@ public class BillRequestServiceImpl implements BillRequestService {
     @Override
     public List<BillRequestDto> convertList(List<BillRequest> billRequests) {
         List<BillRequestDto> billRequestsDto = new ArrayList<>();
-        for (BillRequest billRequest: billRequests){
-            billRequestsDto.add(modelMapper.map(billRequest,BillRequestDto.class));
+        for (BillRequest billRequest : billRequests) {
+            billRequestsDto.add(modelMapper.map(billRequest, BillRequestDto.class));
         }
         return billRequestsDto;
     }
@@ -207,6 +207,18 @@ public class BillRequestServiceImpl implements BillRequestService {
     @Override
     public BillRequestDto convertObject(BillRequest billRequest) {
         return modelMapper.map(billRequest, BillRequestDto.class);
+    }
+
+    @Override
+    public List<BillRequestSearchDto> searchBetweenDateCreated(SearchRequestProductDto searchRequestProductDto) {
+        List<Date> dates = searchRequestProductDto.getDateCreated();
+        Branch branch = branchService.getBranchById(searchRequestProductDto.getBranchDto().getId());
+        List<BillRequest> billRequests = billRequestRepository.findAllByDateRequestedBetweenAndBranchRequest(dates.get(0), dates.get(1), branch);
+        List<BillRequestSearchDto> billRequestSearchDtos = new ArrayList<>();
+        for (BillRequest billRequest : billRequests) {
+            billRequestSearchDtos.add(modelMapper.map(billRequest, BillRequestSearchDto.class));
+        }
+        return billRequestSearchDtos;
     }
 
 }
