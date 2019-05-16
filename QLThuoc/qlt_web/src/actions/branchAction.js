@@ -18,8 +18,8 @@ export const save = (branch) => {
   }
 };
 
-export const select = (condition) => {
-  return async (dispatch,getState) => {
+export const select = () => {
+  return async (dispatch, getState) => {
     try {
       const {jwt} = getState().auth;
       const res = await axios.post(API.BRANCH.SELECT, null, {headers: header(jwt)});
@@ -44,10 +44,6 @@ export const setBranch = (data) => {
   }
 };
 
-export const resetAll = () => {
-  return {type: ACTION_TYPES.BRANCH.RESET_ALL}
-};
-
 export const resetBranch = () => {
   return {type: ACTION_TYPES.BRANCH.RESET_BRANCH}
 };
@@ -63,17 +59,7 @@ export const deleteBranch = (keys) => {
     }
   }
 };
-// export const selectAllShop = () => {
-//   return async (dispatch) => {
-//     try {
-//       const header = await headerForGet();
-//       const res = await axios.get(API.SHOP.SELECT_ALL, header);
-//       dispatch(getAllShopSuccess(res.data));
-//     } catch (err) {
-//       dispatch(showAlertFail(err));
-//     }
-//   }
-// };
+
 export const getAllShopSuccess = (data) => ({
   type: ACTION_TYPES.BRANCH.GET_ALL_SHOP,
   payload: data
@@ -160,6 +146,18 @@ export const search = (data) => (
     try {
       const {jwt} = getState().auth;
       const response = await axios.post(API.BRANCH.SEARCH, data, {headers: header(jwt)});
+      dispatch(getAllShopSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+
+export const getReportOfBranch = () => (
+  async (dispatch, getState) => {
+    try {
+      const {jwt} = getState().auth;
+      const response = await axios.post(API.BRANCH.REPORT, null, {headers: header(jwt)});
       dispatch(getAllShopSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));

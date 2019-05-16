@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getAddress, getSpecLevelBranch, resetBranch, save} from '../../actions/branchAction';
 import {resetAlert} from '../../actions/alertAction';
-import _ from 'lodash';
 import Select from 'react-select';
 import {
   Alert,
@@ -72,6 +71,7 @@ class FormBranch extends Component {
             isEnabled: !this.state.isEnabled
           });
           break;
+
         case 'isMain':
           this.setState({
             isMain: !this.state.isMain
@@ -83,6 +83,9 @@ class FormBranch extends Component {
             specLevelBranch: value,
             flgError: false
           });
+          break;
+
+        default:
           break;
       }
     } else {
@@ -142,7 +145,7 @@ class FormBranch extends Component {
   }
 
   render() {
-    const {specLevelBranchReducer, branches} = this.props.branchReducer;
+    const {specLevelBranchReducer} = this.props.branchReducer;
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>

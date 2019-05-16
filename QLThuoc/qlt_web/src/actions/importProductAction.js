@@ -1,7 +1,7 @@
 import Axios from "axios"
-import headerConfig, {header} from '../helpers/headerHelper'
-import {API, ACTION_TYPES} from "../constants"
-import {showAlertFail, showAlertAndReset} from "./alertAction";
+import {header} from '../helpers/headerHelper'
+import {ACTION_TYPES, API} from "../constants"
+import {showAlertAndReset, showAlertFail} from "./alertAction";
 
 export const init = () => {
   return async (dispatch, getState) => {

@@ -1,6 +1,6 @@
-import { ACTION_TYPES, API } from '../constants';
+import {ACTION_TYPES, API} from '../constants';
 import axios from 'axios';
-import headerConfig,{ header } from '../helpers/headerHelper';
+import {header} from '../helpers/headerHelper';
 
 export const getAllRole = () => {
   return async (dispatch, getState) => {

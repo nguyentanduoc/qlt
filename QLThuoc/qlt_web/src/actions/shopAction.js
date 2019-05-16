@@ -1,9 +1,9 @@
 import {ACTION_TYPES, API} from '../constants'
 import axios from 'axios'
-import headerConfig, { headerForGet, header } from '../helpers/headerHelper'
-import { showAlertFail, showAlertAndReset } from './alertAction.js'
-import { setPagination } from '../actions/paginationAction'
-import { pageRequestDefault } from '../helpers/pageable'
+import {header, headerForGet} from '../helpers/headerHelper'
+import {showAlertAndReset, showAlertFail} from './alertAction.js'
+import {setPagination} from '../actions/paginationAction'
+import {pageRequestDefault} from '../helpers/pageable'
 
 export const save = (shop) => {
   return async (dispatch, getState) => {

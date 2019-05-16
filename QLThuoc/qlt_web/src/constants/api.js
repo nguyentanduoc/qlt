@@ -22,6 +22,7 @@ export default {
     SELECT_BRANCH_OF_DIRECTOR: `${BASE_URI}/api/branch/select-branch-by-director`,
     COUNT_MEMBER_OF_BRANCH: `${BASE_URI}/api/branch/count-member-of-branch`,
     SEARCH: `${BASE_URI}/api/branch/search`,
+    REPORT: `${BASE_URI}/api/branch/report-chart`
   },
   SHOP: {
     SAVE: `${BASE_URI}/api/shop/save`,

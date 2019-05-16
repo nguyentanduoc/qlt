@@ -4,7 +4,6 @@ import {deleteBranch, search, select, setBranch} from '../../actions/branchActio
 import FormBranch from './FormBranch'
 import {Table} from 'antd'
 import PaginationCommon from '../Common/PaginationCommon'
-import {pageRequestDefault} from '../../helpers/pageable'
 import {Badge, Button, Card, CardBody, CardFooter, CardHeader, Col, Form, Row} from 'reactstrap'
 
 const columns = [

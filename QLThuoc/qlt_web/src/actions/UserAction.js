@@ -1,9 +1,9 @@
 import {ACTION_TYPES, API} from '../constants'
 import axios from 'axios'
-import config, {headerForGet, header} from '../helpers/headerHelper'
-import {showAlertFail, showAlertAndReset} from './alertAction'
-import { setPagination } from '../actions/paginationAction'
-import { pageRequestDefault } from '../helpers/pageable'
+import {header, headerForGet} from '../helpers/headerHelper'
+import {showAlertAndReset, showAlertFail} from './alertAction'
+import {setPagination} from '../actions/paginationAction'
+import {pageRequestDefault} from '../helpers/pageable'
 
 export const getAllUser = () => {
   return async (dispatch, getState) => {

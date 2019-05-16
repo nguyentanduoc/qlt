@@ -1,6 +1,6 @@
 import Axios from "axios";
 import {ACTION_TYPES, API} from "../constants";
-import headerHelper, {header} from "../helpers/headerHelper";
+import {header} from "../helpers/headerHelper";
 import {showAlertAndReset, showAlertFail, showAlertSuccess} from "./alertAction";
 import {setSpecUnitSelectionWithoutProduct} from "./importProductAction";
 import {setSpecUnit, setUnit} from './productAction';

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Col, Row, Card, CardHeader, CardBody} from "reactstrap";
-import Widget04 from "../Widgets/Widget04";
+import {Card, CardBody, CardHeader, Col, Row} from "reactstrap";
 import Widget02 from "../Widgets/Widget02";
 import {getReportShop} from '../../actions/shopOfDirectorAction';
 

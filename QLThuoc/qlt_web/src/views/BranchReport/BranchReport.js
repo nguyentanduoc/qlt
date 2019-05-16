@@ -5,6 +5,7 @@ import {Button, Form, Input, Table} from 'antd';
 import {searchProductOnStore} from '../../actions/productAction';
 import {countMemberOfBranch} from '../../actions/branchAction';
 import Widget02 from "../Widgets/Widget02";
+import BranchReportChart from "./BranchReportChart";
 
 const columns = [
   {
@@ -79,16 +80,18 @@ class BranchReport extends Component {
               <CardBody>
                 <Row>
                   <Col md={6}>
-                    <Widget02 header={memberOfBranch.toString()} mainText="Tổng Nhân Viên" icon="icon-people" color="primary" />
-                    {/*<Widget04 icon="icon-people" color="info" header={memberOfBranch.toString()} value="25" invert>*/}
-                    {/*  Tổng Nhân Viên*/}
-                    {/*</Widget04>*/}
+                    <Widget02
+                      header={memberOfBranch.toString()}
+                      mainText="Tổng Nhân Viên"
+                      icon="icon-people"
+                      color="primary"/>
                   </Col>
                 </Row>
               </CardBody>
             </Card>
           </Col>
         </Row>
+        <BranchReportChart/>
       </div>
     );
   }

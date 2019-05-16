@@ -303,7 +303,7 @@ export class TableBuy extends Component {
                     <InputNumber
                       style={{width: '100%'}}
                       className={'form-control'}
-                      formatter={value => `₫ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      formatter={value => `₫ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}  // eslint-disable-next-line
                       parser={value => value.replace(/\₫\s?|(,*)/g, '')}
                     />
                   )}

@@ -1,7 +1,7 @@
-import {API, ACTION_TYPES} from "../constants";
+import {ACTION_TYPES, API} from "../constants";
 import {showAlertFail} from "./alertAction";
 import Axios from "axios";
-import headerHelper, {header} from "../helpers/headerHelper";
+import {header} from "../helpers/headerHelper";
 
 export const getBillRequest = (branch, condition) => {
   return async (dispatch,getState) => {

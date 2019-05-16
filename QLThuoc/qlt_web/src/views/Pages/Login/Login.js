@@ -11,8 +11,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Row,
-  Alert
+  Row
 } from 'reactstrap';
 import {connect} from 'react-redux';
 import {login, setLoading} from '../../../actions/authenAction';

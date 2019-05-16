@@ -1,9 +1,7 @@
 package com.vn.ctu.qlt.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.YearMonth;
+import java.util.*;
 
 import com.vn.ctu.qlt.exception.BadRequestException;
 import com.vn.ctu.qlt.model.Branch;
@@ -82,7 +80,6 @@ public class BranchController {
     /**
      * Select.
      *
-     * @param query the query
      * @return the response entity
      */
     @PostMapping(path = "/api/branch/select")
@@ -91,10 +88,10 @@ public class BranchController {
         try {
             Employee employee = authenticationFacade.getEmployee();
             Optional<Shop> shopOptional = shopService.findShopByDirector(employee);
-            if(!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
-            Set<Branch> branchs  = shopOptional.get().getBranchs();
+            if (!shopOptional.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+            Set<Branch> branchs = shopOptional.get().getBranchs();
             List<BranchDto> branchDtos = new ArrayList<>();
-            for (Branch branch : branchs){
+            for (Branch branch : branchs) {
                 branchDtos.add(modelMapper.map(branch, BranchDto.class));
             }
             return ResponseEntity.ok().body(branchDtos);
@@ -132,9 +129,24 @@ public class BranchController {
     public ResponseEntity<Integer> countMemberObBranch(@RequestBody BranchDto branchDto) {
         return ResponseEntity.ok().body(branchService.countMemberOfBranch(branchDto));
     }
+
     @PostMapping(path = "/api/branch/search")
-    public ResponseEntity search(@RequestBody String nameBranch){
+    public ResponseEntity search(@RequestBody String nameBranch) {
         PageRequest pageRequest = PageRequest.of(1, 5);
         return ResponseEntity.ok().body(branchService.search(nameBranch, pageRequest));
+    }
+
+    @PostMapping(path = "/api/branch/report-chart")
+    public ResponseEntity reportChart() {
+        GregorianCalendar date = new GregorianCalendar();
+        Calendar calendar = Calendar.getInstance();
+        int month = date.get(Calendar.MONTH) + 1;
+        int numberYear = calendar.get(Calendar.YEAR);
+        YearMonth yearMonthObject = YearMonth.of(numberYear, month);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        for (int i = 1; i < daysInMonth + 1; i++) {
+            
+        }
+        return null;
     }
 }

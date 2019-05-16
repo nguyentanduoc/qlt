@@ -1,4 +1,4 @@
-import {ACTION_TYPES, API} from '../constants';
+import {ACTION_TYPES} from '../constants';
 
 const initialState = {
   products: [],
