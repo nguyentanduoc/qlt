@@ -6,6 +6,7 @@ import {deleteExport, save, setIsPrint} from '../../../actions/exportAction';
 import NumberFormat from 'react-number-format';
 import mathRound from '../../../helpers/decimalAdjustment';
 import PropTypes from 'prop-types'
+import ExportBillToPdf from "./ExportBillToPDF";
 
 class DetailBillExport extends Component {
   static propTypes = {
@@ -112,6 +113,9 @@ class DetailBillExport extends Component {
               )}/>
           </Table>
         </CardBody>
+        <div style={{display: 'none'}}>
+          <ExportBillToPdf/>
+        </div>
       </Card>
     );
   }

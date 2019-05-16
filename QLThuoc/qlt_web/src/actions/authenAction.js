@@ -1,7 +1,7 @@
 import { ACTION_TYPES, API, LOCAL_STORAGE } from '../constants';
-import {showAlertFail} from './alertAction.js'
 import axios from 'axios';
 import headerHelper from "../helpers/headerHelper";
+import {clearAll, showAlertFail} from './alertAction';
 
 export const login = (auth) => {
   return async (dispatch) => {
@@ -11,15 +11,14 @@ export const login = (auth) => {
     }
     catch (err) {
       if (err && err.response && err.response.data && err.response.data.message) {
-        dispatch(loginFail(err.response.data.message));
+        dispatch(showAlertFail(err.response.data.message));
       } else {
-        dispatch(loginFail(err.toString()));
+        dispatch(showAlertFail(err.toString()));
       }
     }
   }
 };
 export const loginSuccess = (data) => {
-  sessionStorage.setItem(LOCAL_STORAGE.IS_LOGIN, true);
   sessionStorage.setItem(LOCAL_STORAGE.ACCESS_KEY, data.jwtAuthenticationResponse.accessToken);
   return {
     type: ACTION_TYPES.AUTH.LOGIN_SUCCESS,
@@ -36,9 +35,8 @@ export const logout = () => {
   return async (dispatch) => {
     try  {
       await axios.post(API.LOGOUT, null, headerHelper);
-      await sessionStorage.removeItem(LOCAL_STORAGE.IS_LOGIN);
       await sessionStorage.removeItem(LOCAL_STORAGE.ACCESS_KEY);
-
+      await dispatch(clearAll());
       return dispatch(logoutSuccess());
     } catch (err) {
       return dispatch(showAlertFail("Thoát thất bại"));

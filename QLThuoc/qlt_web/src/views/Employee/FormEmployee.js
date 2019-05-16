@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import AlertCommon from '../Common/AlertCommon'
 import Select from 'react-select'
 import {init, save} from '../../actions/employeeAction'
 import {resetAlert} from '../../actions/alertAction'
@@ -85,7 +84,6 @@ export class FormEmployee extends Component {
         <Card>
           <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản</strong></CardHeader>
           <CardBody>
-            <AlertCommon/>
             <Input type="hidden" name="id" value={this.state.id} onChange={this.changeHandler.bind(this)}/>
             <FormGroup row>
               <Label md={5}>Họ Và Tên</Label>

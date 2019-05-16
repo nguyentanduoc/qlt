@@ -83,8 +83,8 @@ public class ProductController {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     @PostMapping(path = "/save")
-    public ResponseEntity<Void> save(@RequestParam("model") String model,
-                                     @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+    public ResponseEntity save(@RequestParam("model") String model,
+                               @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 
         try {
             if (file.isEmpty()) {

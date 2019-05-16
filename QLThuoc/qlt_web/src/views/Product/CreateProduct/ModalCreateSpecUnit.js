@@ -4,7 +4,6 @@ import {Button, Form, InputNumber, Select} from "antd";
 import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from 'prop-types';
 import {saveUnitCreateProduct} from '../../../actions/specUnit';
-import AlertCommon from "../../Common/AlertCommon";
 
 class ModalCreateSpec extends Component {
   static propTypes = {
@@ -39,7 +38,6 @@ class ModalCreateSpec extends Component {
               Tạo Quy định
             </ModalHeader>
             <ModalBody>
-              <AlertCommon/>
               <Form.Item
                 label="Đơn vị đầu">
                 {getFieldDecorator('unitIn', {

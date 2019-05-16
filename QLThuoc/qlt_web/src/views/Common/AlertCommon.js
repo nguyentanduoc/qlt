@@ -4,13 +4,6 @@ import {Alert} from 'reactstrap';
 import {resetAlert} from '../../actions/alertAction';
 
 class AlertCommon extends Component {
-  componentDidMount() {
-    this.props.onResetAlert();
-  }
-
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
 
   render() {
     const {color, isShow, message} = this.props.alertReducer;

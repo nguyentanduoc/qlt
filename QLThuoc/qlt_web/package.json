@@ -45,7 +45,6 @@
     "popper.js": "1.14.6",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
-    "react-alert": "^5.1.0",
     "react-app-polyfill": "^0.2.0",
     "react-chartjs-2": "^2.7.4",
     "react-csv-reader": "^1.2.2",

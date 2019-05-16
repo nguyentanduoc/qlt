@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {Form, Input} from "antd";
-import AlertCommon from "../../Common/AlertCommon";
 import {createUnit} from '../../../actions/specUnit';
 
 class ModalCreateUnit extends Component {
@@ -27,7 +26,6 @@ class ModalCreateUnit extends Component {
         <Form onSubmit={this.handleSubmit}>
           <ModalHeader toggle={this.props.toggleModal}>Thêm Đơn Vị</ModalHeader>
           <ModalBody>
-            <AlertCommon/>
             <Form.Item
               label="Tên Đơn Vị">
               {getFieldDecorator('unitName', {

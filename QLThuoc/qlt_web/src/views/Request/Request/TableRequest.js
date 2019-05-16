@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import DatePicker from 'react-datepicker'
-import AlertCommon from '../../Common/AlertCommon'
 import {Table} from 'antd'
 import Select from 'react-select'
 import {getAllProduct, getUnit, getAmountProduct, save, resetSaveSuccess} from '../../../actions/requestProductAction'
@@ -192,7 +191,6 @@ export class TableRequest extends Component {
                 <strong>Thông tin Yêu Cầu</strong>
               </CardHeader>
               <CardBody>
-                <AlertCommon/>
                 <FormGroup>
                   <Label htmlFor='dateCreated' className='pr-1'>Ngày Yêu Cầu</Label>
                   <br/>

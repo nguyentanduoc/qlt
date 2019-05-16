@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {Form, Input} from 'antd';
 import {save} from '../../../actions/producerAction'
-import AlertCommon from "../../Common/AlertCommon";
-
 
 class ModalProducer extends Component {
   static propTypes = {
@@ -28,7 +26,6 @@ class ModalProducer extends Component {
         <Form onSubmit={this.handleSubmit}>
           <ModalHeader toggle={this.props.toggleModal}>Thêm Nhà Sản Xuất</ModalHeader>
           <ModalBody>
-            <AlertCommon/>
             <Form.Item
               label="Tên Nhà Sản Xuất">
               {getFieldDecorator('producerName', {

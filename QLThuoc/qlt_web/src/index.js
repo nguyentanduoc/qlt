@@ -12,8 +12,8 @@ import 'antd/dist/antd.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
     document.getElementById('root'));
 serviceWorker.unregister();

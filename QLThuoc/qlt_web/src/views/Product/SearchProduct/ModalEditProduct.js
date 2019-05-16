@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Modal, Form, Input, Select, Button} from "antd";
 import PropTypes from "prop-types";
 import {saveEdit} from '../../../actions/productAction';
-import AlertCommon from "../../Common/AlertCommon";
 
 const {Option} = Select;
 
@@ -46,7 +45,6 @@ class ModalEditProduct extends Component {
                   Lưu
                 </Button>,
               ]}>
-              <AlertCommon/>
               <Form.Item style={{width: 0, padding: 0, margin: 0}}>
                 {getFieldDecorator('id', {
                   initialValue: product.id

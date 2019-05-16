@@ -7,7 +7,6 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-import AlertCommon from '../../Common/AlertCommon'
 import {resetAlert} from '../../../actions/alertAction'
 import Select from 'react-select'
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap'
@@ -15,6 +14,8 @@ import ModalProducer from "./ModalProducer";
 import ModalCreateSpecUnit from "./ModalCreateSpecUnit";
 import ModalCreateUnit from "./ModalCreateUnit";
 import ImportProduct from "./ImportProduct";
+import {notification} from "antd";
+
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -53,12 +54,35 @@ class CreateProduct extends Component {
       producerSeletion: this.state.producerSeletion
     };
     const data = new FormData();
-    data.append('file', this.state.files[0]);
-    data.append('model', JSON.stringify(model));
-    this.props.onSave(data);
+    if (this.state.files && this.state.files[0]) {
+      data.append('file', this.state.files[0]);
+      data.append('model', JSON.stringify(model));
+      this.props.onSave(data);
+    } else {
+      notification.error({
+        message: 'Thống báo lỗi',
+        description: "Hãy chèn ảnh vào",
+        placement: 'bottomRight',
+        onClick: () => {
+        },
+      });
+    }
   };
   onReset = (e) => {
     e.preventDefault();
+    this.setState({
+      productName: '',
+      virtue: '',
+      image: '',
+      active: false,
+      imageSrc: '',
+      specUnits: [],
+      unit: {},
+      producerSeletion: {},
+      flgOpenModal: false,
+      flgOpenModalSpec: false,
+      flgOpenModalUnit: false
+    })
   };
 
   componentWillMount() {
@@ -75,18 +99,17 @@ class CreateProduct extends Component {
       case "unit":
         this.setState({
           unit: e
-        })
+        });
         break;
       case "producerSeletion":
         this.setState({
           producerSeletion: e
-        })
+        });
         break;
       default:
         break;
     }
-
-  }
+  };
 
   componentWillUnmount() {
     this.props.onResetAlert();
@@ -119,7 +142,6 @@ class CreateProduct extends Component {
           <CardBody>
             <Row>
               <Col md='5'>
-                <AlertCommon/>
                 <Card>
                   <CardBody>
                     <Form onSubmit={this.onSubmit.bind(this)} onReset={this.onReset.bind(this)}>
@@ -238,6 +260,7 @@ class CreateProduct extends Component {
 
 const mapStateToProps = (state) => ({
   productReducer: state.productReducer,
+  alertReducer: state.alertReducer
 });
 
 const mapDispatchToProps = (dispath) => ({

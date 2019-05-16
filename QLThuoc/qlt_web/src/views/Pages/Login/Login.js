@@ -92,9 +92,6 @@ class Login extends Component {
                     <Form>
                       <h1>Đăng nhập</h1>
                       <p className="text-muted">Điền thông tin tài khoản của bạn</p>
-                      <Alert color="danger" isOpen={this.props.error.isShowAlert}>
-                        {this.props.error.errorMessage}
-                      </Alert>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>

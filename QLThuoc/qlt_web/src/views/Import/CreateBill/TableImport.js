@@ -4,7 +4,6 @@ import {Form, InputNumber, Table} from 'antd';
 import Select from 'react-select';
 import {getSpecUnit, resetSaveSuccess, save} from '../../../actions/importProductAction';
 import DatePicker from 'react-datepicker';
-import AlertCommon from '../../Common/AlertCommon';
 import {resetAlert} from '../../../actions/alertAction';
 import NumberFormat from 'react-number-format';
 import _ from 'lodash';
@@ -192,7 +191,6 @@ export class TableBuy extends Component {
           </Col>
         </Row>
         <div className={'text-center'}>
-          <AlertCommon/>
         </div>
         <Table
           dataSource={this.state.dataView}

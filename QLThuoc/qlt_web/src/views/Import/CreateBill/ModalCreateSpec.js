@@ -5,7 +5,6 @@ import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import PropTypes from 'prop-types';
 import {init, save} from '../../../actions/specUnit';
 import CreateNewSpec from "./CreateNewSpec";
-import AlertCommon from "../../Common/AlertCommon";
 
 class ModalCreateSpec extends Component {
   static propTypes = {
@@ -39,7 +38,6 @@ class ModalCreateSpec extends Component {
               Tạo Quy định
             </ModalHeader>
             <ModalBody>
-              <AlertCommon/>
               <Form.Item
                 label="Chọn Quy Định Đơn vị">
                 {getFieldDecorator('specUnits', {

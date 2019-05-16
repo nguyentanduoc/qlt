@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Modal, Button} from 'antd';
 import {toggleModal, setBranchesForEmployeeInfo, setRolesForEmployeeInfo} from '../../actions/employeeAction';
 import {Col, Form, FormGroup, Input, Label} from "reactstrap";
-import AlertCommon from '../Common/AlertCommon';
 import Select from 'react-select';
 import _ from 'lodash';
 import {save} from '../../actions/employeeAction'
@@ -48,7 +47,6 @@ class ModalEmployee extends Component {
           ]}
         >
           <Form>
-            <AlertCommon/>
             <Input type="hidden" name="id" value={employeeInfo.id}/>
             <FormGroup row>
               <Label md={5}>Họ Và Tên</Label>
