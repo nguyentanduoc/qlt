@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="01" author="ntduoc">
+        <addColumn catalogName="cat" schemaName="public" tableName="hoa_don_nhap">
+            <column name="ma_chi_nhanh" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="02" author="ntduoc">
+        <addForeignKeyConstraint
+                baseColumnNames="ma_chi_nhanh"
+                baseTableName="hoa_don_nhap"
+                constraintName="fk_ma_chi_nhanh_hoa_don_nhap"
+                deferrable="true"
+                initiallyDeferred="true"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedColumnNames="ma"
+                referencedTableName="chi_nhanh"/>
+    </changeSet>
+</databaseChangeLog>

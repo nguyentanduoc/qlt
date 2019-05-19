@@ -221,4 +221,10 @@ public class BillRequestServiceImpl implements BillRequestService {
         return billRequestSearchDtos;
     }
 
+    @Override
+    public List<BillRequest> searchBetweenDateCreatedAndAccept(List<Date> dates, BranchDto branchDto) {
+        Branch branch = branchService.getBranchById(branchDto.getId());
+        return billRequestRepository.findAllByDateRequestedBetweenAndBranchRequestAndIsAccept(dates.get(0), dates.get(1), branch, true);
+    }
+
 }

@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Card, CardBody, CardHeader} from "reactstrap";
-import {Table} from 'antd';
-import {getAll} from '../../actions/specLevelBranchAction';
-import {resetAlert} from '../../actions/alertAction'
+import {Button, Table} from 'antd';
+import {getAll, deleteSpecLevelBranch} from '../../actions/specLevelBranchAction';
 
 class TableSpecLevelBranch extends Component {
   componentWillMount() {
     this.props.onGetAll();
   }
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
+
+  onDelete = (event, value) => {
+    this.props.onDeleteSpecLevelBranch(value.id);
+  };
 
   render() {
     const {specLevelBranches} = this.props.specLevelBranchReducer;
@@ -45,6 +45,14 @@ class TableSpecLevelBranch extends Component {
               dataIndex={'percentProfitChange'}
               title={'Chuyển'}
             />
+            <Table.Column
+              key={'expand'}
+              dataIndex={'expand'}
+              title={'Xóa'}
+              render={(record, value) => (
+                <Button icon={'delete'} onClick={this.onDelete.bind(this, record, value)} type={"danger"}/>)
+              }
+            />
           </Table>
         </CardBody>
       </Card>
@@ -57,7 +65,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   onGetAll: () => (dispatch(getAll())),
-  onResetAlert: () => (dispatch(resetAlert()))
+  onDeleteSpecLevelBranch: (id) => dispatch(deleteSpecLevelBranch(id))
 });
 
 export default connect(

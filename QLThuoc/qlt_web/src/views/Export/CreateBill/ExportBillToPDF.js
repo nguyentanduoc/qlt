@@ -21,9 +21,9 @@ class ExportBillToPdf extends Component {
     const {printDataView} = this.props.exportReducer;
     if (branch.shop.nameShop && branch.name && branch.address && printDataView) {
       let total = 0;
-      if(Array.isArray(printDataView) && printDataView.length > 0) {
+      if (Array.isArray(printDataView) && printDataView.length > 0) {
         printDataView.forEach((data) => {
-          total +=  data.price * data.amount;
+          total += data.price * data.amount;
         })
       }
       return (
@@ -59,7 +59,13 @@ class ExportBillToPdf extends Component {
                       <td>{object.productName}</td>
                       <td>{object.amount}</td>
                       <td>{object.specUnit}</td>
-                      <td>{object.price}</td>
+                      <td>
+                        <NumberFormat
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          value={object.price}
+                          disabled={true}/>
+                      </td>
                     </tr>
                   ))}
                   </tbody>

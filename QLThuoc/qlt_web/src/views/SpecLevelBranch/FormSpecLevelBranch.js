@@ -5,7 +5,6 @@ import {
   Form, Input, Button,
 } from 'antd';
 import {save} from '../../actions/specLevelBranchAction';
-import {resetAlert} from '../../actions/alertAction';
 import CardFooter from "reactstrap/es/CardFooter";
 
 class FormSpecLevelBranch extends Component {
@@ -17,10 +16,6 @@ class FormSpecLevelBranch extends Component {
       }
     });
   };
-
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -56,7 +51,8 @@ class FormSpecLevelBranch extends Component {
             </Form.Item>
           </CardBody>
           <CardFooter className={'text-right'}>
-            <Button htmlType={'submit'} type="primary"><i className="fa fa-dot-circle-o"/>{' '}Lưu</Button>
+            <Button htmlType={'submit'} type="primary" size={"small"}>
+              <i className="fa fa-dot-circle-o"/>{' '}Lưu</Button>
           </CardFooter>
         </Card>
       </Form>
@@ -68,8 +64,7 @@ const mapStateToProps = (state) => {
   return {};
 };
 const mapDispatchToProps = (dispatch) => ({
-  onSave: (data) => (dispatch(save(data))),
-  onResetAlert: () => (() => dispatch(resetAlert()))
+  onSave: (data) => (dispatch(save(data)))
 });
 
 const FormSpecLevelBranchCreate = Form.create()(FormSpecLevelBranch);

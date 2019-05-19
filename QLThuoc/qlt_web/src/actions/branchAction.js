@@ -156,11 +156,15 @@ export const search = (data) => (
 export const getReportOfBranch = () => (
   async (dispatch, getState) => {
     try {
-      const {jwt} = getState().auth;
-      const response = await axios.post(API.BRANCH.REPORT, null, {headers: header(jwt)});
-      dispatch(getAllShopSuccess(response.data));
+      const {jwt, branch} = getState().auth;
+      const response = await axios.post(API.BRANCH.REPORT, branch, {headers: header(jwt)});
+      dispatch(getReportSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));
     }
   }
 );
+const getReportSuccess = (data) => ({
+  type: ACTION_TYPES.BRANCH.GET_REPORT_SUCCESS,
+  payload: data
+});

@@ -7,7 +7,6 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-import {resetAlert} from '../../../actions/alertAction'
 import Select from 'react-select'
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap'
 import ModalProducer from "./ModalProducer";
@@ -110,10 +109,6 @@ class CreateProduct extends Component {
         break;
     }
   };
-
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
 
   toggleModal = (e) => {
     e.preventDefault();
@@ -270,9 +265,6 @@ const mapDispatchToProps = (dispath) => ({
   onInit: () => {
     return dispath(init());
   },
-  onResetAlert: () => {
-    return dispath(resetAlert());
-  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct)

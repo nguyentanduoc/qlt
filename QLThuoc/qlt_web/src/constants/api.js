@@ -79,6 +79,7 @@ export default {
     SAVE: `${BASE_URI}/api/spec-level-branch/save`,
     GET_ALL: `${BASE_URI}/api/spec-level-branch/get-all`,
     GET_ALL_FOR_SELECTION: `${BASE_URI}/api/spec-level-branch/get-all-for-selection`,
+    DELETE_SPEC_LEVEL_BRANCH: `${BASE_URI}/api/spec-level-branch/delete-spec-level-branch`,
   },
   SHOP_OF_DIRECTOR: {
     GET_SHOP_OF_DIRECTOR: `${BASE_URI}/api/shop/get-shop-of-director`,

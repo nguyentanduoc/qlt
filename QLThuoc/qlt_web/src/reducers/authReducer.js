@@ -55,6 +55,9 @@ export default (state = initState, action) => {
     case ACTION_TYPES.AUTH.SET_LOADING:
       return {...state, isLoading: !state.isLoading};
 
+    case ACTION_TYPES.AUTH.CLEAR_ALL:
+      return initState;
+
     default:
       return state;
   }

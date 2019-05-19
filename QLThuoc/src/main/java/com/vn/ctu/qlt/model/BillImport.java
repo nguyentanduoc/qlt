@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,50 +51,31 @@ public class BillImport implements Serializable {
 	@OneToMany(mappedBy = "billImport", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DetailBillImport> detailBillImports = new ArrayList<DetailBillImport>();
 
-	public BillImport(Employee employee) {
+	public BillImport(Employee employee, Branch branch) {
 		this.employee = employee;
+		this.branch = branch;
 		this.importDate = new Date();
 	}
 
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ma_chi_nhanh", referencedColumnName = "ma")
+	private Branch branch;
+
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BillImport other = (BillImport) obj;
-		if (detailBillImports == null) {
-			if (other.detailBillImports != null)
-				return false;
-		} else if (!detailBillImports.equals(other.detailBillImports))
-			return false;
-		if (employee == null) {
-			if (other.employee != null)
-				return false;
-		} else if (!employee.equals(other.employee))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (importDate == null) {
-			if (other.importDate != null)
-				return false;
-		} else if (!importDate.equals(other.importDate))
-			return false;
-		return true;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof BillImport)) return false;
+		BillImport that = (BillImport) o;
+		return Objects.equals(getId(), that.getId()) &&
+				Objects.equals(getImportDate(), that.getImportDate()) &&
+				Objects.equals(getEmployee(), that.getEmployee()) &&
+				Objects.equals(getDetailBillImports(), that.getDetailBillImports()) &&
+				Objects.equals(getBranch(), that.getBranch());
 	}
 
 	@Override
 	public int hashCode() {
-		HashCodeBuilder hcb = new HashCodeBuilder();
-		hcb.append(detailBillImports);
-		hcb.append(employee);
-		hcb.append(id);
-		hcb.append(importDate);
-		return hcb.toHashCode();
+		return Objects.hash(getId(), getImportDate(), getEmployee(), getDetailBillImports(), getBranch());
 	}
 }

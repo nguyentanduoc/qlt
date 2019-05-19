@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Alert} from 'reactstrap';
-import {resetAlert} from '../../actions/alertAction';
 
 class AlertCommon extends Component {
 
@@ -22,7 +21,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onResetAlert: () => dispatch(resetAlert())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlertCommon)

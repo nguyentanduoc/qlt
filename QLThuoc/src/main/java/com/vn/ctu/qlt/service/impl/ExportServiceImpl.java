@@ -1,6 +1,7 @@
 package com.vn.ctu.qlt.service.impl;
 
 import com.vn.ctu.qlt.dto.BillExportDto;
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.BranchSaveExport;
 import com.vn.ctu.qlt.dto.SaveExportDto;
 import com.vn.ctu.qlt.exception.BadRequestException;
@@ -105,6 +106,12 @@ public class ExportServiceImpl implements ExportService {
     @Override
     public List<BillExport> findAllByDate(Date date) {
         return billExportRepository.findAllByDateCreated(date);
+    }
+
+    @Override
+    public List<BillExport> findBillExportDateCreatedBetween(List<Date> dates, BranchDto branchDto) {
+        Branch branch = branchService.getBranchById(branchDto.getId());
+        return billExportRepository.findAllByDateCreatedBetweenAndBranch(dates.get(0), dates.get(1), branch);
     }
 
 }

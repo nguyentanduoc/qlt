@@ -21,4 +21,6 @@ public interface BillRequestRepository extends JpaRepository<BillRequest, Long> 
     List<BillRequest> findAllByDateRequested(Date dataRequested);
 
     List<BillRequest> findAllByDateRequestedBetweenAndBranchRequest(Date date1, Date date2, Branch branch);
+
+    List<BillRequest> findAllByDateRequestedBetweenAndBranchRequestAndIsAccept(Date date1, Date date2, Branch branch, Boolean isAccept);
 }

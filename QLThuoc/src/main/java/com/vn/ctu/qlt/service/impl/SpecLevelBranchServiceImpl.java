@@ -57,7 +57,7 @@ public class SpecLevelBranchServiceImpl implements SpecLevelBranchService {
     public List<SpecLevelBranchDto> getAll() {
         Employee employee = iAuthenticationFacade.getEmployee();
         Optional<Shop> shop = shopService.findShopByDirector(employee);
-        if(!shop.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
+        if (!shop.isPresent()) throw new BadRequestException("Không tìm thấy cửa hàng");
         Iterable<SpecLevelBranch> specLevelBranches = specLevelBranchRepository.findAllByShop(shop.get());
         return convertToDto(IterableUtils.toList(specLevelBranches));
     }
@@ -85,5 +85,10 @@ public class SpecLevelBranchServiceImpl implements SpecLevelBranchService {
     @Override
     public Optional<SpecLevelBranch> getById(Long id) {
         return specLevelBranchRepository.findById(id);
+    }
+
+    @Override
+    public void deleteSpecLevelBranch(Long id) {
+        specLevelBranchRepository.deleteById(id);
     }
 }

@@ -4,7 +4,6 @@ import DatePicker from 'react-datepicker'
 import {Table} from 'antd'
 import Select from 'react-select'
 import {getAllProduct, getUnit, getAmountProduct, save, resetSaveSuccess} from '../../../actions/requestProductAction'
-import {resetAlert} from '../../../actions/alertAction';
 import {
   Button,
   Row,
@@ -149,9 +148,6 @@ export class TableRequest extends Component {
     this.props.onGetAllProduct(this.props.authenReducer.branch);
   }
 
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
 
   checkEmpty = (str) => {
     return (!str || 0 === str.length);
@@ -283,9 +279,6 @@ const mapDispatchToProps = (dispatch) => ({
   onGetAmountProduct: (id, branchId) => {
     return dispatch(getAmountProduct(id, branchId))
   },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableRequest)

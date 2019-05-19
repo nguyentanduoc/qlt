@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import _ from 'lodash'
-import {showAlertFail, resetAlert} from '../../actions/alertAction'
+import {showAlertFail} from '../../actions/alertAction'
 import {createAccount, resetUserFordetail} from '../../actions/UserAction'
 import {
   Col,
@@ -97,7 +97,6 @@ export class FormAccount extends Component {
 
   componentWillUnmount() {
     this.props.onResetUserForDetail();
-    this.props.onResetAlert();
   }
 
   componentDidUpdate() {
@@ -198,9 +197,6 @@ const mapDispatchToProps = (dispatch) => ({
   onResetUserForDetail: async () => {
     return await dispatch(resetUserFordetail());
   },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormAccount)

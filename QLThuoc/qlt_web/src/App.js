@@ -5,7 +5,6 @@ import './App.scss';
 import {connect} from 'react-redux';
 import PrivateRouter from './router/PrivateRouter';
 import {notification} from 'antd';
-import {clearAll} from './actions/alertAction';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -48,7 +47,7 @@ class App extends Component {
     if (isShow === true && prevProps.alertReducer.isShow === false) {
       if (color === 'danger') {
         notification.error({
-          message: 'Thống báo lỗi',
+          message: 'Thông báo lỗi',
           description: message,
           placement: 'topRight',
           style:{
@@ -58,8 +57,8 @@ class App extends Component {
           },
         });
       } else {
-        notification.info({
-          message: 'Thống báo',
+        notification.success({
+          message: 'Thông báo',
           description: message,
           placement: 'topRight',
           style:{
@@ -70,8 +69,6 @@ class App extends Component {
         })
       }
     }
-    this.props.onClearAll();
-    // setTimeout(this.props.onClearAll(), 300);
   }
 
   render() {
@@ -91,7 +88,6 @@ class App extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onClearAll: () => dispatch(clearAll())
 });
 const mapStateToProps = state => {
   return {

@@ -32,4 +32,6 @@ public interface BillRequestService {
     BillRequestDto convertObject (BillRequest billRequest);
 
     List<BillRequestSearchDto> searchBetweenDateCreated(SearchRequestProductDto searchRequestProductDto);
+
+    List<BillRequest> searchBetweenDateCreatedAndAccept(List<Date> dates, BranchDto branchDto);
 }

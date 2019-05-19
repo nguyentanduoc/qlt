@@ -9,6 +9,9 @@ export const resetAlert = () => {
 export const showAlertAndReset = () => {
   return dispatch => {
     dispatch(showAlertSuccess());
+    setTimeout(() => {
+      dispatch(resetAlert());
+    }, 1)
   }
 };
 
@@ -52,6 +55,9 @@ export const showAlertFail = (err) => {
       }
     }
     dispatch(showError(message));
+    setTimeout(() => {
+      dispatch(clearAll());
+    }, 1);
   }
 };
 export const showError = (message) => ({

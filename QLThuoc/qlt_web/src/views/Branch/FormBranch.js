@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getAddress, getSpecLevelBranch, resetBranch, save} from '../../actions/branchAction';
-import {resetAlert} from '../../actions/alertAction';
 import Select from 'react-select';
 import {
   Alert,
@@ -38,7 +37,6 @@ class FormBranch extends Component {
   }
 
   componentWillMount() {
-    this.props.onResetAlert();
     this.props.onGetSpecLevelBranch();
   }
 
@@ -97,8 +95,7 @@ class FormBranch extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     if (this.state.specLevelBranch.value) {
-      console.log(this.state);
-      // this.props.onSave(this.state);
+      this.props.onSave(this.state);
     } else {
       this.setState({
         flgError: true
@@ -263,15 +260,9 @@ const mapDispatchToProps = (dispatch) => ({
   onSave: (branch) => {
     return dispatch(save(branch));
   },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  },
   onResetBranch: () => {
     return dispatch(resetBranch());
   },
-  // onSelectAllShop: () => {
-  //   return dispatch(selectAllShop());
-  // },
   onGetSpecLevelBranch: () => {
     return dispatch(getSpecLevelBranch());
   },

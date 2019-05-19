@@ -4,10 +4,8 @@ import java.time.YearMonth;
 import java.util.*;
 
 import com.vn.ctu.qlt.exception.BadRequestException;
-import com.vn.ctu.qlt.model.Branch;
-import com.vn.ctu.qlt.model.Employee;
-import com.vn.ctu.qlt.model.Shop;
-import com.vn.ctu.qlt.service.ShopService;
+import com.vn.ctu.qlt.model.*;
+import com.vn.ctu.qlt.service.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +23,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.QueryBranchDto;
 import com.vn.ctu.qlt.security.AuthenticationFacade;
-import com.vn.ctu.qlt.service.BranchService;
+
+import javax.xml.crypto.Data;
 
 /**
  * The Class BranchController.
@@ -56,6 +55,15 @@ public class BranchController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ImportProductService importProductService;
+
+    @Autowired
+    private BillRequestService billRequestService;
+
+    @Autowired
+    private ExportService exportService;
 
     /**
      * Save.
@@ -137,16 +145,75 @@ public class BranchController {
     }
 
     @PostMapping(path = "/api/branch/report-chart")
-    public ResponseEntity reportChart() {
+    public ResponseEntity reportChart(@RequestBody BranchDto branchDto) {
         GregorianCalendar date = new GregorianCalendar();
         Calendar calendar = Calendar.getInstance();
-        int month = date.get(Calendar.MONTH) + 1;
+        int month = date.get(Calendar.MONTH);
         int numberYear = calendar.get(Calendar.YEAR);
-        YearMonth yearMonthObject = YearMonth.of(numberYear, month);
-        int daysInMonth = yearMonthObject.lengthOfMonth();
-        for (int i = 1; i < daysInMonth + 1; i++) {
-            
+        List<String> strings = new ArrayList<>();
+        List<Double> datasImport = new ArrayList<>();
+        List<Double> datasExport = new ArrayList<>();
+        List<Double> datasRequest = new ArrayList<>();
+
+        for (int i = 0; i <= month; i++) {
+            strings.add("Tháng " + (i + 1));
+            YearMonth yearMonthObject = YearMonth.of(numberYear, month);
+            int daysInMonth = yearMonthObject.lengthOfMonth();
+            Date dateStart = new GregorianCalendar(numberYear, i, 1).getTime();
+            Date dateEnd = new GregorianCalendar(numberYear, i, daysInMonth).getTime();
+            List<Date> dates = new ArrayList<>();
+            dates.add(dateStart);
+            dates.add(dateEnd);
+            if (branchDto.getIsMain()) {
+                Double data = 0d;
+                List<BillImport> billImports = importProductService.findBillImportBetween(dates, branchDto);
+                if (billImports.size() > 0) {
+                    for (BillImport billImport : billImports) {
+                        List<DetailBillImport> detailBillImports = billImport.getDetailBillImports();
+                        if (detailBillImports.size() > 0) {
+                            for (DetailBillImport detailBillImport : detailBillImports) {
+                                data += detailBillImport.getAmount();
+                            }
+                        }
+                    }
+                }
+                datasImport.add(data);
+            } else {
+                Double data = 0d;
+                List<BillRequest> billRequests = billRequestService.searchBetweenDateCreatedAndAccept(dates, branchDto);
+                if (billRequests.size() > 0) {
+                    for (BillRequest billRequest : billRequests) {
+                        List<DetailBillRequest> detailBillRequests = billRequest.getDetailBillRequests();
+                        if (detailBillRequests.size() > 0) {
+                            for (DetailBillRequest detailBillRequest : detailBillRequests) {
+                                data += detailBillRequest.getAmount();
+                            }
+                        }
+                    }
+                }
+                datasRequest.add(data);
+            }
+            List<BillExport> billExports = exportService.findBillExportDateCreatedBetween(dates, branchDto);
+            Double data = 0d;
+            if (billExports.size() > 0) {
+                for (BillExport billExport : billExports) {
+                    List<DetailBillExport> detailBillExports = billExport.getDetailBillExports();
+                    if (detailBillExports.size() > 0) {
+                        for (DetailBillExport detailBillExport : detailBillExports) {
+                            data += detailBillExport.getAmount();
+                        }
+                    }
+                }
+            }
+            datasExport.add(data);
         }
-        return null;
+        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+        data.put("datasExport", datasExport);
+        data.put("datasImport", datasImport);
+        data.put("datasRequest", datasRequest);
+        response.put("labels", strings);
+        response.put("dataSet", data);
+        return ResponseEntity.ok().body(response);
     }
 }

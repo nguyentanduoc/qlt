@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import {init, save} from '../../actions/employeeAction'
-import {resetAlert} from '../../actions/alertAction'
 import khongdau from 'khong-dau';
 import NumberFormat from 'react-number-format';
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label} from 'reactstrap';
@@ -72,10 +71,6 @@ export class FormEmployee extends Component {
         break;
     }
   };
-
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
 
   render() {
     const {branchesSelection, rolesSelection} = this.props.employeeReducer;
@@ -164,7 +159,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onInit: (idDirector) => dispatch(init(idDirector)),
   onSave: (employee) => dispatch(save(employee)),
-  onResetAlert: () => dispatch(resetAlert())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormEmployee)

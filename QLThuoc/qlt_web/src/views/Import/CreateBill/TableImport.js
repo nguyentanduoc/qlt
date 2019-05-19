@@ -4,7 +4,6 @@ import {Form, InputNumber, Table} from 'antd';
 import Select from 'react-select';
 import {getSpecUnit, resetSaveSuccess, save} from '../../../actions/importProductAction';
 import DatePicker from 'react-datepicker';
-import {resetAlert} from '../../../actions/alertAction';
 import NumberFormat from 'react-number-format';
 import _ from 'lodash';
 import {Alert, Button, Col, FormGroup, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
@@ -106,10 +105,6 @@ export class TableBuy extends Component {
       this.setState({data: [], dataView: []});
       this.props.onResetSaveSuccess();
     }
-  };
-
-  componentWillUnmount() {
-    this.props.onResetAlert();
   };
 
   unitPrice = (specUnitChoose, price) => {
@@ -341,9 +336,6 @@ const mapDispatchToProps = (dispatch) => ({
   onResetSaveSuccess: () => {
     return dispatch(resetSaveSuccess());
   },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  }
 });
 const TableImportForm = Form.create()(TableBuy);
 export default connect(mapStateToProps, mapDispatchToProps)(TableImportForm)

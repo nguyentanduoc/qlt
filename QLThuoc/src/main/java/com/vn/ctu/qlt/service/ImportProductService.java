@@ -1,6 +1,7 @@
 package com.vn.ctu.qlt.service;
 
 import com.vn.ctu.qlt.dto.BillImportDto;
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.ImportConditionDto;
 import com.vn.ctu.qlt.dto.ImportProductDto;
 import com.vn.ctu.qlt.model.BillImport;
@@ -18,4 +19,5 @@ public interface ImportProductService {
 	List<BillImport> findAll();
 	BillImportDto convertObject(BillImport billImport);
 	List<BillImportDto> convertList(List<BillImport> billImports);
+	List<BillImport> findBillImportBetween(List<Date> datesCreated, BranchDto branchDto);
 }

@@ -20,7 +20,7 @@ let data1 = [];
 let data2 = [];
 let data3 = [];
 
-for (let i = 0; i <= elements -1; i++) {
+for (let i = 0; i <= elements - 1; i++) {
   data1.push(random(50, 200));
   data2.push(random(80, 100));
   // data3.push(65);
@@ -32,28 +32,6 @@ for (let i = 0; i <= elements - 1; i++) {
   data3.push(65);
 }
 
-
-const mainChart = {
-  labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
-  datasets: [
-    {
-      label: 'Bán hàng',
-      backgroundColor: hexToRgba(brandInfo, 10),
-      borderColor: brandInfo,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data1,
-    },
-    {
-      label: 'Nhập Hàng',
-      backgroundColor: 'transparent',
-      borderColor: brandSuccess,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data2,
-    }
-  ],
-};
 
 const mainChartOpts = {
   tooltips: {
@@ -84,8 +62,8 @@ const mainChartOpts = {
         ticks: {
           beginAtZero: true,
           maxTicksLimit: 5,
-          stepSize: Math.ceil(250 / 5),
-          max: 250,
+          // stepSize: Math.ceil(250 / 5),
+          // max: 250,
         },
       }],
   },
@@ -133,36 +111,76 @@ class BranchReportChart extends Component {
     this.props.onGetReportOfBranch();
   }
 
-
   render() {
-    return (
-      <Row>
-        <Col>
-          <Card>
-            <CardBody>
-              <Row>
-                <Col sm="5">
-                  <CardTitle className="mb-0">Thông kê</CardTitle>
-                  <div className="small text-muted">Nhập xuất hàng</div>
-                </Col>
-              </Row>
-              <div className="chart-wrapper" style={{height: 300 + 'px', marginTop: 40 + 'px'}}>
-                <Line data={mainChart} options={mainChartOpts} height={300}/>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    );
+    const {report} = this.props.branchReducer;
+    const {branch} = this.props.authReducer;
+    if (report.labels && report.dataSet) {
+      const mainChart = {
+        labels: report.labels,
+        datasets: [
+          {
+            label: 'Bán hàng',
+            backgroundColor: hexToRgba(brandInfo, 10),
+            borderColor: brandInfo,
+            pointHoverBackgroundColor: '#fff',
+            borderWidth: 2,
+            data: report.dataSet.datasExport,
+          }
+        ],
+      };
+      if (branch.isMain) {
+        mainChart.datasets.push({
+          label: 'Nhập hàng',
+          backgroundColor: hexToRgba(brandInfo, 10),
+          borderColor: brandSuccess,
+          pointHoverBackgroundColor: '#fff',
+          borderWidth: 2,
+          data: report.dataSet.datasImport,
+        })
+      } else {
+        mainChart.datasets.push({
+          label: 'Yêu Cầu',
+          backgroundColor: 'transparent',
+          borderColor: brandDanger,
+          pointHoverBackgroundColor: '#fff',
+          borderWidth: 2,
+          data: report.dataSet.datasRequest,
+        })
+      }
+      console.log(mainChart);
+      return (
+        <Row>
+          <Col>
+            <Card>
+              <CardBody>
+                <Row>
+                  <Col sm="5">
+                    <CardTitle className="mb-0">Thông kê</CardTitle>
+                    <div className="small text-muted">Nhập xuất hàng</div>
+                  </Col>
+                </Row>
+                <div className="chart-wrapper" style={{height: 300 + 'px', marginTop: 40 + 'px'}}>
+                  <Line data={mainChart} options={mainChartOpts}/>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      );
+    } else return null;
   }
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    branchReducer: state.branchReducer,
+    authReducer: state.auth
+  };
 }
-const mapDispatchToProps =  (dispath) => ({
+
+const mapDispatchToProps = (dispath) => ({
   onGetReportOfBranch: () => dispath(getReportOfBranch())
 });
 export default connect(
-  mapStateToProps,mapDispatchToProps
+  mapStateToProps, mapDispatchToProps
 )(BranchReportChart);

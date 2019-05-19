@@ -15,7 +15,6 @@ import {
 } from 'reactstrap';
 import {connect} from 'react-redux';
 import {login, setLoading} from '../../../actions/authenAction';
-import {resetError} from '../../../actions/errorAction';
 import {ROLES} from '../../../constants';
 
 class Login extends Component {
@@ -65,8 +64,8 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {isLogin, authorities} = this.props.auth;
-    if (isLogin) {
+    const {isLogin, authorities, jwt} = this.props.auth;
+    if (isLogin && jwt !== prevProps.auth.jwt) {
       if (authorities.findIndex(authority => authority === ROLES.ROLE_LEADER) !== -1)
         this.props.history.push('/control-branch/report');
       else if (authorities.findIndex(authority => authority === ROLES.ROLE_ADMIN) !== -1)
@@ -153,9 +152,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: async (auth) => {
       return dispatch(login(auth));
-    },
-    onResetError: () => {
-      return dispatch(resetError());
     },
     onSetLoading: () => {
       return dispatch(setLoading());
