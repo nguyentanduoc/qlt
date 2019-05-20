@@ -77,7 +77,7 @@ export class FormEmployee extends Component {
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
-          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản</strong></CardHeader>
+          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản Nhân Viên</strong></CardHeader>
           <CardBody>
             <Input type="hidden" name="id" value={this.state.id} onChange={this.changeHandler.bind(this)}/>
             <FormGroup row>

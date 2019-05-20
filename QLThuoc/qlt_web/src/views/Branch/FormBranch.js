@@ -142,7 +142,7 @@ class FormBranch extends Component {
   }
 
   render() {
-    const {specLevelBranchReducer} = this.props.branchReducer;
+    const {specLevelBranchReducer, address} = this.props.branchReducer;
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
@@ -193,7 +193,7 @@ class FormBranch extends Component {
                     placeholder="Địa chỉ"
                     required
                     onChange={this.changeHandler.bind(this)}
-                    value={this.state.address ? this.state.address : ''}/>
+                    value={this.state.address ? this.state.address : address ? address : ''}/>
                 </FormGroup>
               </Col>
             </Row>

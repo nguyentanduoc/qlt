@@ -122,11 +122,9 @@ class index extends Component {
                   rowSelection={rowSelection}
                   onRow={onRow}
                   bordered={true}
+                  size={"small"}
                 />
               </CardBody>
-              <CardFooter className='float-right'>
-                <PaginationCommon className='pt-2'/>
-              </CardFooter>
             </Card>
           </Col>
           <Col>
