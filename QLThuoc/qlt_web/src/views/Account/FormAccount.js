@@ -128,7 +128,7 @@ export class FormAccount extends Component {
                 onChange={this.changeHandler.bind(this)}
                 required
                 value={this.state.username|| ''}
-                disabled={this.state.username !== ''}/>
+                disabled={this.state.id !== ''}/>
 
             </FormGroup>
             <FormGroup>
@@ -140,7 +140,7 @@ export class FormAccount extends Component {
                 onChange={this.changeHandler.bind(this)}
                 required
                 value={this.state.email || ''}
-                disabled={this.state.email !== ''}/>
+                disabled={this.state.id !== ''}/>
             </FormGroup>
             <FormGroup row>
               <Col md="4"><Label>Quyền:</Label></Col>

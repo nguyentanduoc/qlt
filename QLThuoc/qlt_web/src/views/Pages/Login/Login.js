@@ -72,9 +72,13 @@ class Login extends Component {
         this.props.history.push('/admin/shop');
       else if (authorities.findIndex(authority => authority === ROLES.ROLE_DIRECTOR) !== -1)
         this.props.history.push('/director/shop');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_EMPLOYEE_IMPORT) !== -1)
+        this.props.history.push('/import/create-bill');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_EMPLOYEE_EXPORT) !== -1)
+        this.props.history.push('/export/create-bill');
       else if (this.props.auth.isChooseBranch)
         this.props.history.push('/choose-branch');
-      else this.props.history.push('/dashboard');
+      else this.props.history.push('/404');
     }
   }
 
