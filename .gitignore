@@ -60,3 +60,5 @@ yarn-error.log*
 QLThuoc/qlt_web/node_modules/
 
 QLThuoc/qlt_web/\.vscode/
+
+*.lock
