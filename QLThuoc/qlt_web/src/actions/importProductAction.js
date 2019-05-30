@@ -1,12 +1,13 @@
 import Axios from "axios"
-import headerConfig from '../helpers/headerHelper'
-import {API, ACTION_TYPES} from "../constants"
-import {showAlertFail, showAlertAndReset} from "./alertAction";
+import {header} from '../helpers/headerHelper'
+import {ACTION_TYPES, API} from "../constants"
+import {showAlertAndReset, showAlertFail} from "./alertAction";
 
 export const init = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.IMPORT.INIT, null, headerConfig);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.IMPORT.INIT, null, {headers: header(jwt)});
       dispatch(initSuccess(response.data));
     } catch (err) {
       dispatch(showAlertFail(err));
@@ -21,9 +22,10 @@ export const initSuccess = (data) => {
 };
 
 export const getSpecUnit = (productId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.PRODUCT.GET_SPEC_UNIT, productId, headerConfig);
+      const  {jwt} = getState().auth;
+      const response = await Axios.post(API.PRODUCT.GET_SPEC_UNIT, productId, {headers:header(jwt)});
       dispatch(setSpecUnitSelection(response.data));
     } catch (err) {
       dispatch(showAlertFail(err));
@@ -36,10 +38,17 @@ export const setSpecUnitSelection = (data) => {
     payload: data
   }
 };
+export const setSpecUnitSelectionWithoutProduct = (data) => {
+  return {
+    type: ACTION_TYPES.IMPORT.SET_SPEC_SELECTION_WITHOUT_PRODUCT,
+    payload: data
+  }
+};
 export const save = (data, branch) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.IMPORT.SAVE, {data, branch}, headerConfig);
+      const {jwt} =  getState().auth;
+      const response = await Axios.post(API.IMPORT.SAVE, {data, branch}, {headers: header(jwt)});
       if (response.status === 200) {
         dispatch(saveSuccess());
         dispatch(showAlertAndReset());
@@ -62,9 +71,10 @@ export const resetSaveSuccess = () => {
   }
 };
 export const search = (condition) => (
-  async dispatch => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.IMPORT.SEARCH, condition, headerConfig);
+      const {jwt} = getState().auth;
+      const response = await Axios.post(API.IMPORT.SEARCH, condition, {headers: header(jwt)});
       dispatch(searchSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));
@@ -76,9 +86,10 @@ const searchSuccess = (data) => ({
   payload: data
 });
 export const getDetail = (id) => (
-  async dispatch => {
+  async (dispatch, getState) => {
     try {
-      const response = await Axios.post(API.IMPORT.GET_DETAIL, id, headerConfig);
+      const {jwt}= getState().auth;
+      const response = await Axios.post(API.IMPORT.GET_DETAIL, id, {headers: header(jwt)});
       dispatch(getDetailSuccess(response.data));
     } catch (e) {
       dispatch(showAlertFail(e));

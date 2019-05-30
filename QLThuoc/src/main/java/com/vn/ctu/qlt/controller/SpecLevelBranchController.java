@@ -61,4 +61,10 @@ public class SpecLevelBranchController {
         });
         return ResponseEntity.ok().body(body);
     }
+
+    @PostMapping(path = "delete-spec-level-branch")
+    public ResponseEntity deleteSpecLevelBranch(@RequestBody Long id) {
+        specLevelBranchService.deleteSpecLevelBranch(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

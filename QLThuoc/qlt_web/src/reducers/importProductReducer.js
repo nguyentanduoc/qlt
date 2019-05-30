@@ -30,6 +30,9 @@ export default (state = initialState, {type, payload}) => {
     case ACTION_TYPES.IMPORT.GET_DETAIL_SUCCESS:
       return {...state, detail: payload};
 
+    case ACTION_TYPES.IMPORT.SET_SPEC_SELECTION_WITHOUT_PRODUCT:
+      return {...state, specUnitSelection: payload};
+
     default:
       return state
   }

@@ -1,13 +1,14 @@
-import {API, ACTION_TYPES} from '../constants'
+import {ACTION_TYPES, API} from '../constants'
 import axios from 'axios'
-import headerConfig, {headerForGet} from '../helpers/headerHelper'
-import {showAlertFail, showAlertAndReset} from './alertAction.js'
+import headerConfig, {header} from '../helpers/headerHelper'
+import {showAlertAndReset, showAlertFail} from './alertAction.js'
 import {setPagination} from '../actions/paginationAction'
 
 export const save = (branch) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.BRANCH.SAVE, branch, headerConfig);
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.BRANCH.SAVE, branch, {headers: header(jwt)});
       await dispatch(setPagination(res.data));
       await dispatch(selectSuccess(res.data.content));
       await dispatch(showAlertAndReset());
@@ -17,12 +18,12 @@ export const save = (branch) => {
   }
 };
 
-export const select = (condition) => {
-  return async (dispatch) => {
+export const select = () => {
+  return async (dispatch, getState) => {
     try {
-      const res = await axios.post(API.BRANCH.SELECT, condition, headerConfig);
-      dispatch(setPagination(res.data));
-      dispatch(selectSuccess(res.data.content));
+      const {jwt} = getState().auth;
+      const res = await axios.post(API.BRANCH.SELECT, null, {headers: header(jwt)});
+      dispatch(selectSuccess(res.data));
     } catch (err) {
       dispatch(showAlertFail(err));
     }
@@ -43,35 +44,22 @@ export const setBranch = (data) => {
   }
 };
 
-export const resetAll = () => {
-  return {type: ACTION_TYPES.BRANCH.RESET_ALL}
-};
-
 export const resetBranch = () => {
   return {type: ACTION_TYPES.BRANCH.RESET_BRANCH}
 };
 
 export const deleteBranch = (keys) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      await axios.post(API.BRANCH.DELETE, keys, headerConfig);
+      const {jwt} = getState().auth;
+      await axios.post(API.BRANCH.DELETE, keys, {headers: header(jwt)});
       dispatch(showAlertAndReset());
     } catch (err) {
       dispatch(showAlertFail(err));
     }
   }
 };
-export const selectAllShop = () => {
-  return async (dispatch) => {
-    try {
-      const header = await headerForGet();
-      const res = await axios.get(API.SHOP.SELECT_ALL, header);
-      dispatch(getAllShopSuccess(res.data));
-    } catch (err) {
-      dispatch(showAlertFail(err));
-    }
-  }
-};
+
 export const getAllShopSuccess = (data) => ({
   type: ACTION_TYPES.BRANCH.GET_ALL_SHOP,
   payload: data
@@ -97,9 +85,10 @@ export const branchForSelection = (data) => {
   }
 };
 export const getSpecLevelBranch = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const response = await axios.post(API.SPEC_LEVEL_BRANCH.GET_ALL_FOR_SELECTION, null, headerConfig);
+      const {jwt} = getState().auth;
+      const response = await axios.post(API.SPEC_LEVEL_BRANCH.GET_ALL_FOR_SELECTION, null, {headers: header(jwt)});
       return dispatch(getSpecLevelBranchSuccess(response.data));
     } catch (e) {
       return dispatch(showAlertFail(e));
@@ -141,8 +130,8 @@ const getAddressSuccess = (data) => ({
 export const countMemberOfBranch = () => (
   async (dispatch, getState) => {
     try {
-      const {branch} = getState().auth;
-      const response = await axios.post(API.BRANCH.COUNT_MEMBER_OF_BRANCH, branch, headerConfig);
+      const {branch, jwt} = getState().auth;
+      const response = await axios.post(API.BRANCH.COUNT_MEMBER_OF_BRANCH, branch, {headers: header(jwt)});
       dispatch({
         type: ACTION_TYPES.BRANCH.COUNT_MEMBER_SUCCESS,
         payload: response.data
@@ -151,4 +140,31 @@ export const countMemberOfBranch = () => (
       dispatch(showAlertFail(e));
     }
   }
-)
+);
+export const search = (data) => (
+  async (dispatch, getState) => {
+    try {
+      const {jwt} = getState().auth;
+      const response = await axios.post(API.BRANCH.SEARCH, data, {headers: header(jwt)});
+      dispatch(getAllShopSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+
+export const getReportOfBranch = () => (
+  async (dispatch, getState) => {
+    try {
+      const {jwt, branch} = getState().auth;
+      const response = await axios.post(API.BRANCH.REPORT, branch, {headers: header(jwt)});
+      dispatch(getReportSuccess(response.data));
+    } catch (e) {
+      dispatch(showAlertFail(e));
+    }
+  }
+);
+const getReportSuccess = (data) => ({
+  type: ACTION_TYPES.BRANCH.GET_REPORT_SUCCESS,
+  payload: data
+});

@@ -7,11 +7,14 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-import AlertCommon from '../../Common/AlertCommon'
-import {resetAlert} from '../../../actions/alertAction'
 import Select from 'react-select'
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap'
 import ModalProducer from "./ModalProducer";
+import ModalCreateSpecUnit from "./ModalCreateSpecUnit";
+import ModalCreateUnit from "./ModalCreateUnit";
+import ImportProduct from "./ImportProduct";
+import {notification} from "antd";
+
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -27,7 +30,9 @@ class CreateProduct extends Component {
       specUnits: [],
       unit: {},
       producerSeletion: {},
-      flgOpenModal: false
+      flgOpenModal: false,
+      flgOpenModalSpec: false,
+      flgOpenModalUnit: false
     }
   }
 
@@ -37,7 +42,7 @@ class CreateProduct extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
   onSubmit = (e) => {
     e.preventDefault();
     const model = {
@@ -46,21 +51,38 @@ class CreateProduct extends Component {
       specUnits: this.state.specUnits,
       unit: this.state.unit,
       producerSeletion: this.state.producerSeletion
-    }
+    };
     const data = new FormData();
-    data.append('file', this.state.files[0]);
-    data.append('model', JSON.stringify(model));
-    this.props.onSave(data);
-  }
+    if (this.state.files && this.state.files[0]) {
+      data.append('file', this.state.files[0]);
+      data.append('model', JSON.stringify(model));
+      this.props.onSave(data);
+    } else {
+      notification.error({
+        message: 'Thống báo lỗi',
+        description: "Hãy chèn ảnh vào",
+        placement: 'bottomRight',
+        onClick: () => {
+        },
+      });
+    }
+  };
   onReset = (e) => {
     e.preventDefault();
-  }
-
-  onDrop(picture) {
     this.setState({
-      pictures: this.state.pictures.concat(picture),
-    });
-  }
+      productName: '',
+      virtue: '',
+      image: '',
+      active: false,
+      imageSrc: '',
+      specUnits: [],
+      unit: {},
+      producerSeletion: {},
+      flgOpenModal: false,
+      flgOpenModalSpec: false,
+      flgOpenModalUnit: false
+    })
+  };
 
   componentWillMount() {
     this.props.onInit();
@@ -71,45 +93,50 @@ class CreateProduct extends Component {
       case "specUnits":
         this.setState({
           specUnits: e
-        })
+        });
         break;
       case "unit":
         this.setState({
           unit: e
-        })
+        });
         break;
       case "producerSeletion":
         this.setState({
           producerSeletion: e
-        })
+        });
         break;
       default:
         break;
     }
+  };
 
-  }
-
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
   toggleModal = (e) => {
     e.preventDefault();
     this.setState({
       flgOpenModal: !this.state.flgOpenModal
     })
-  }
+  };
+  toggleModalCreateSpec = () => {
+    this.setState({
+      flgOpenModalSpec: !this.state.flgOpenModalSpec
+    })
+  };
+  toggleModalUnit = () => {
+    this.setState({
+      flgOpenModalUnit: !this.state.flgOpenModalUnit
+    })
+  };
+
   render() {
-    console.log("render");
     return (
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            <i className="fas fa-plus"></i> Tạo <strong>Sản Phẩm</strong>
+            <i className="fas fa-plus"/> Tạo <strong>Sản Phẩm</strong>
           </CardHeader>
           <CardBody>
             <Row>
-              <Col md='6'>
-                <AlertCommon/>
+              <Col md='5'>
                 <Card>
                   <CardBody>
                     <Form onSubmit={this.onSubmit.bind(this)} onReset={this.onReset.bind(this)}>
@@ -142,7 +169,7 @@ class CreateProduct extends Component {
                       </FormGroup>
                       <FormGroup row>
                         <Col md={3}><Label htmlFor="unit">Đơn vị chuẩn</Label></Col>
-                        <Col md={9}>
+                        <Col md={7}>
                           <Select
                             options={this.props.productReducer.units}
                             onChange={this.handleSeletion.bind(this)}
@@ -150,16 +177,25 @@ class CreateProduct extends Component {
                             name="unit"
                           />
                         </Col>
+                        <Col md={2}>
+                          <Button onClick={this.toggleModalUnit} color={'success'}>
+                            <i className="fas fa-plus-circle"/>
+                          </Button>
+                        </Col>
                       </FormGroup>
                       <FormGroup row>
                         <Col md={3}><Label htmlFor="specUnits">QĐ Đơn Vị</Label></Col>
-                        <Col md={9}>
+                        <Col md={7}>
                           <Select
                             options={this.props.productReducer.specUnits}
                             onChange={this.handleSeletion.bind(this)}
                             isMulti={true}
-                            name="specUnits"
-                          />
+                            name="specUnits"/>
+                        </Col>
+                        <Col md={2}>
+                          <Button onClick={this.toggleModalCreateSpec} color={'success'}>
+                            <i className="fas fa-plus-circle"/>
+                          </Button>
                         </Col>
                       </FormGroup>
                       <FormGroup row>
@@ -190,23 +226,28 @@ class CreateProduct extends Component {
                                 files: fileItems.map(fileItem => fileItem.file)
                               });
                             }}
-                            labelIdle={'Kéo thả hoặc nhấp chọn <span class="filepond--label-action"> Mở </span>'}
+                            labelIdle={'Kéo thả hoặc nhấp chọn <span class="filepond--label-action">Mở</span>'}
                           />
                         </Col>
                       </FormGroup>
                       <CardFooter className={'text-right'}>
                         <Button type="submit" size="sm" color="primary">
-                          <i className="fa fa-dot-circle-o"></i> Lưu</Button> {' '}
-                        <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Làm Rỗng</Button>
+                          <i className="fa fa-dot-circle-o"/> Lưu</Button> {' '}
+                        <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"/> Làm Rỗng</Button>
                       </CardFooter>
                     </Form>
                   </CardBody>
                 </Card>
               </Col>
+              <Col md={7}>
+                <ImportProduct/>
+              </Col>
             </Row>
           </CardBody>
         </Card>
         <ModalProducer flgOpenModal={this.state.flgOpenModal} toggleModal={this.toggleModal}/>
+        <ModalCreateSpecUnit isOpen={this.state.flgOpenModalSpec} toggle={this.toggleModalCreateSpec}/>
+        <ModalCreateUnit flgOpenModal={this.state.flgOpenModalUnit} toggleModal={this.toggleModalUnit}/>>
       </div>
     )
   }
@@ -214,7 +255,8 @@ class CreateProduct extends Component {
 
 const mapStateToProps = (state) => ({
   productReducer: state.productReducer,
-})
+  alertReducer: state.alertReducer
+});
 
 const mapDispatchToProps = (dispath) => ({
   onSave: (form) => {
@@ -223,9 +265,6 @@ const mapDispatchToProps = (dispath) => ({
   onInit: () => {
     return dispath(init());
   },
-  onResetAlert: () => {
-    return dispath(resetAlert());
-  }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct)

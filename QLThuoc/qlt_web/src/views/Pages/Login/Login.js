@@ -11,20 +11,18 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Row,
-  Alert
+  Row
 } from 'reactstrap';
 import {connect} from 'react-redux';
 import {login, setLoading} from '../../../actions/authenAction';
-import {resetError} from '../../../actions/errorAction';
 import {ROLES} from '../../../constants';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernameOrEmail: 'tva',
-      password: '12345678x@X',
+      usernameOrEmail: '',
+      password: '',
       // usernameOrEmail: 'trungsonadmin',
       // password: 'aZEnDdzczP'
       isLoading: false
@@ -66,15 +64,21 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {isLogin, authorities} = this.props.auth;
-    if (isLogin) {
+    const {isLogin, authorities, jwt} = this.props.auth;
+    if (isLogin && jwt !== prevProps.auth.jwt) {
       if (authorities.findIndex(authority => authority === ROLES.ROLE_LEADER) !== -1)
         this.props.history.push('/control-branch/report');
       else if (authorities.findIndex(authority => authority === ROLES.ROLE_ADMIN) !== -1)
         this.props.history.push('/admin/shop');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_DIRECTOR) !== -1)
+        this.props.history.push('/director/shop');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_EMPLOYEE_IMPORT) !== -1)
+        this.props.history.push('/import/create-bill');
+      else if (authorities.findIndex(authority => authority === ROLES.ROLE_EMPLOYEE_EXPORT) !== -1)
+        this.props.history.push('/export/create-bill');
       else if (this.props.auth.isChooseBranch)
         this.props.history.push('/choose-branch');
-      else this.props.history.push('/dashboard');
+      else this.props.history.push('/404');
     }
   }
 
@@ -90,9 +94,6 @@ class Login extends Component {
                     <Form>
                       <h1>Đăng nhập</h1>
                       <p className="text-muted">Điền thông tin tài khoản của bạn</p>
-                      <Alert color="danger" isOpen={this.props.error.isShowAlert}>
-                        {this.props.error.errorMessage}
-                      </Alert>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -155,9 +156,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: async (auth) => {
       return dispatch(login(auth));
-    },
-    onResetError: () => {
-      return dispatch(resetError());
     },
     onSetLoading: () => {
       return dispatch(setLoading());

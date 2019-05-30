@@ -3,6 +3,7 @@ package com.vn.ctu.qlt.service;
 import java.util.List;
 import java.util.Set;
 
+import com.vn.ctu.qlt.dto.SpecUnitDto;
 import com.vn.ctu.qlt.dto.SpecUnitSelectionDto;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.SpecUnit;
@@ -50,5 +51,9 @@ public interface SpecUnitService {
     SpecUnit getBySelection(SpecUnitSelectionDto selection);
 
     SpecUnit save(SpecUnit specUnit);
+
+    List<SpecUnit> getAllByListId(List<Long> ids);
+
+    List<SpecUnitDto> getAllSpecUnitDto();
 
 }

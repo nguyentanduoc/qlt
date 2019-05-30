@@ -7,7 +7,6 @@ import {getAllProduct, getSpecUnit, setListDetail, getInventory, clearDetail} fr
 import Select from 'react-select';
 import _ from 'lodash';
 import {showAlertErrorAndReset} from '../../../actions/alertAction';
-import AlertCommon from '../../Common/AlertCommon'
 import ExportBillToPdf from './ExportBillToPDF';
 import NumberFormat from "react-number-format";
 
@@ -83,7 +82,7 @@ class CreateBill extends Component {
     if (dataViews.length > 0 || dataSubmits.length > 0)
       this.props.onClearDetail();
     this.setState({isShare: !this.state.isShare});
-  }
+  };
 
   render() {
     const {productSelection, specUnits, price, inventory, priceShare} = this.props.exportReducer;
@@ -108,7 +107,6 @@ class CreateBill extends Component {
             <Col md={4}>
               <Card>
                 <CardBody>
-                  <AlertCommon/>
                   <Row>
                     <Col md={6}>
                       <Form.Item label={"Số lượng tồn"}>

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import FormShop from './FormShop'
-import { select, setDetail, deleteShop } from '../../actions/shopAction'
-import { Table } from 'antd'
+import {select, setDetail, deleteShop} from '../../actions/shopAction'
+import {Table} from 'antd'
 import 'moment-timezone'
 import {
   Row,
@@ -12,12 +12,13 @@ import {
   CardBody,
   Badge,
   Button
-  } from 'reactstrap'
+} from 'reactstrap'
+
 class index extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
       columns: [
         {
           key: 'id',
@@ -29,19 +30,22 @@ class index extends Component {
           title: 'Tên Cửa Hàng',
           dataIndex: 'nameShop',
         },
-         {
+        {
           key: 'isEnabled',
           title: 'Hoạt động',
           dataIndex: 'isEnabled',
-          render: value => (<Badge color={value? 'success': 'danger'}>{value? 'Hoạt động': 'Dừng hoạt động'}</Badge>)
-         }
+          render: value => (
+            <Badge color={value ? 'success' : 'danger'}>{value ? 'Hoạt động' : 'Dừng hoạt động'}</Badge>)
+        }
       ],
       selectedKeys: []
     }
   }
-  componentWillMount(){
+
+  componentWillMount() {
     this.props.onSelect();
   }
+
   onSelectedRowKeysChange = (selectedKeys) => {
     this.setState({
       selectedKeys: selectedKeys
@@ -50,10 +54,11 @@ class index extends Component {
   handleDeletedRow = async (e) => {
     e.preventDefault();
     await this.props.onDeleteShop(this.state.selectedKeys);
-    this.setState({selectedKeys:[]});
+    this.setState({selectedKeys: []});
   };
+
   render() {
-    const { selectedKeys } = this.state;
+    const {selectedKeys} = this.state;
     const rowSelection = {
       selectedKeys,
       onChange: this.onSelectedRowKeysChange
@@ -84,18 +89,18 @@ class index extends Component {
                     className="btn-square"
                     disabled={this.state.selectedKeys.length <= 0}
                     onClick={this.handleDeletedRow.bind(this)}>
-                      <i className="far fa-trash-alt"/>
+                    <i className="far fa-trash-alt"/>
                   </Button>
                 </div>
                 <Table
-                    rowKey='id'
-                    columns={this.state.columns}
-                    dataSource={this.props.shopReducer.shops}
-                    pagination = {false}
-                    rowSelection={rowSelection}
-                    onRow={onRow}
-                    bordered={true}
-                    />
+                  size={"small"}
+                  rowKey='id'
+                  columns={this.state.columns}
+                  dataSource={this.props.shopReducer.shops}
+                  rowSelection={rowSelection}
+                  onRow={onRow}
+                  bordered={true}
+                />
               </CardBody>
             </Card>
           </Col>

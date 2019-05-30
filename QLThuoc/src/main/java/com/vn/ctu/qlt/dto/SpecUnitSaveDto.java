@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SpecUnitSaveDto {
 
-    private Long unitIn;
-    private Long unitOut;
     private Long productId;
-    private Integer amount;
+
+    private List<Long> specUnits;
 }

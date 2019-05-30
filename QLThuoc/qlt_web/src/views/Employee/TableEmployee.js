@@ -14,12 +14,13 @@ class TableEmployee extends Component {
   handleOnClickRow = (record) => {
     this.props.onShowInfo(record);
   };
+
   render() {
     const {employees} = this.props.employeeReducer;
     return (
       <Card>
         <CardHeader>
-          Danh sách Nhân Viên
+          Danh sách Tài Khoản Nhân Viên
         </CardHeader>
         <CardBody>
           <Table
@@ -41,7 +42,8 @@ class TableEmployee extends Component {
                 employees.length >= 1
                   ? (
                     <ButtonGroup>
-                      <Button color={'primary'} size="sm" onClick={this.handleOnClickRow.bind(this, record)}><i className="far fa-eye"/></Button>
+                      <Button color={'primary'} size="sm" onClick={this.handleOnClickRow.bind(this, record)}><i
+                        className="far fa-eye"/></Button>
                       <Popconfirm title="Chắc chắn sẽ xóa?" onConfirm={() => this.handleDelete(record.id)}>
                         <Button color="danger" size="sm"><i className="fas fa-minus"/></Button>
                       </Popconfirm>

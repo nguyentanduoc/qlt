@@ -1,23 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {save, resetBranch, selectAllShop, getSpecLevelBranch, getAddress} from '../../actions/branchAction';
-import AlertCommon from '../Common/AlertCommon';
-import {resetAlert} from '../../actions/alertAction';
-import _ from 'lodash';
+import {getAddress, getSpecLevelBranch, resetBranch, save} from '../../actions/branchAction';
 import Select from 'react-select';
 import {
+  Alert,
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Col,
+  CustomInput,
+  Form,
   FormGroup,
   Input,
-  CustomInput,
   Label,
   Row,
-  Form,
 } from 'reactstrap'
 
 class FormBranch extends Component {
@@ -33,17 +31,19 @@ class FormBranch extends Component {
       isEnabled: true,
       idDirector: this.props.authReducer.user.id,
       isMain: false,
-      specLevelBranch:{}
+      specLevelBranch: {},
+      flgError: false
     }
   }
+
   componentWillMount() {
-    this.props.onResetAlert();
-    this.props.onSelectAllShop();
     this.props.onGetSpecLevelBranch();
   }
+
   componentDidMount() {
     this.getLocation();
   }
+
   getLocation() {
     const location = window.navigator && window.navigator.geolocation;
     if (location) {
@@ -52,25 +52,39 @@ class FormBranch extends Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-        this.props.onGetAddress([position.coords.longitude,position.coords.latitude])
+        this.props.onGetAddress([position.coords.longitude, position.coords.latitude])
       }, () => {
         this.setState({latitude: 'err-latitude', longitude: 'err-longitude'})
       })
     }
   }
+
   changeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     if (e.target.type === 'checkbox') {
-      if (name === 'isEnabled') {
-        this.setState({
-          isEnabled: !this.state.isEnabled
-        });
-      }
-      if (name === 'isMain') {
-        this.setState({
-          isMain: !this.state.isMain
-        });
+      switch (name) {
+        case 'isEnabled':
+          this.setState({
+            isEnabled: !this.state.isEnabled
+          });
+          break;
+
+        case 'isMain':
+          this.setState({
+            isMain: !this.state.isMain
+          });
+          break;
+
+        case 'specLevelBranch':
+          this.setState({
+            specLevelBranch: value,
+            flgError: false
+          });
+          break;
+
+        default:
+          break;
       }
     } else {
       this.setState({
@@ -80,7 +94,13 @@ class FormBranch extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
-    this.props.onSave(this.state);
+    if (this.state.specLevelBranch.value) {
+      this.props.onSave(this.state);
+    } else {
+      this.setState({
+        flgError: true
+      });
+    }
   };
   handleReset = (e) => {
     e.preventDefault();
@@ -95,40 +115,34 @@ class FormBranch extends Component {
     });
     this.getLocation();
   };
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
+    const {address, branch} = this.props.branchReducer;
+    let {id, latitude, longitude, name, isEnabled} = branch;
     if (this.props.branchReducer.flgSet) {
-      let branch = this.props.branchReducer.branch;
       this.setState({
-        id: branch.id,
-        latitude: branch.latitude,
-        longitude: branch.longitude,
-        name: branch.name,
-        address: branch.address,
-        isEnabled: branch.isEnabled
+        id: id,
+        latitude: latitude,
+        longitude: longitude,
+        name: name,
+        address: address,
+        isEnabled: isEnabled
       });
       this.props.onResetBranch();
     }
+    if (prevProps.branchReducer.address !== '' && this.state.address === '') {
+      this.setState({address: address})
+    }
   }
-  checkEmpty = (str) => {
-    return (!str || 0 === str.length);
-  };
+
   handleSelections(option) {
     this.setState({
       specLevelBranch: option
     });
   }
-  render() {
-    const {specLevelBranchReducer, branches, address} = this.props.branchReducer;
-    const enabledSwitchMainBranch = () => {
-      const result = _.find(branches, function (o) {
-        return o.isMain === true
-      });
-      return result ? true :  false;
-    };
 
+  render() {
+    const {specLevelBranchReducer, address} = this.props.branchReducer;
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
@@ -136,7 +150,9 @@ class FormBranch extends Component {
             <strong>Chi Nhánh</strong>
           </CardHeader>
           <CardBody>
-            <AlertCommon/>
+            <Alert color='danger' className="text-center" isOpen={this.state.flgError}>
+              Hãy chọn Cấp độ chi nhánh
+            </Alert>
             <Row>
               <Col xs="12">
                 <Input type={'hidden'} name='id' id='id' value={this.state.id}/>
@@ -161,7 +177,7 @@ class FormBranch extends Component {
                     options={specLevelBranchReducer}
                     onChange={this.handleSelections.bind(this)}
                     isMulti={false}
-                    name="product"
+                    name="specLevelBranch"
                   />
                 </FormGroup>
               </Col>
@@ -169,7 +185,7 @@ class FormBranch extends Component {
             <Row>
               <Col xs="12">
                 <FormGroup>
-                  <Label htmlFor="address ">Địa chỉ</Label>
+                  <Label htmlFor="address">Địa chỉ</Label>
                   <Input
                     type="textarea"
                     id="address"
@@ -177,7 +193,7 @@ class FormBranch extends Component {
                     placeholder="Địa chỉ"
                     required
                     onChange={this.changeHandler.bind(this)}
-                    value={this.checkEmpty(this.state.address) === true ? address : this.state.address}/>
+                    value={this.state.address ? this.state.address : address ? address : ''}/>
                 </FormGroup>
               </Col>
             </Row>
@@ -201,7 +217,6 @@ class FormBranch extends Component {
               <Col md="6"><Label>Chi Nhánh Chính</Label></Col>
               <Col md="6" xs="12">
                 <CustomInput
-                  disabled={enabledSwitchMainBranch()}
                   type="switch"
                   id='isMain'
                   label='Hoạt động'
@@ -245,19 +260,13 @@ const mapDispatchToProps = (dispatch) => ({
   onSave: (branch) => {
     return dispatch(save(branch));
   },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  },
   onResetBranch: () => {
     return dispatch(resetBranch());
-  },
-  onSelectAllShop: () => {
-    return dispatch(selectAllShop());
   },
   onGetSpecLevelBranch: () => {
     return dispatch(getSpecLevelBranch());
   },
-  onGetAddress: (coordinate) =>{
+  onGetAddress: (coordinate) => {
     return dispatch(getAddress(coordinate))
   }
 });

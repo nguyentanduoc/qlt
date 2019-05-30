@@ -3,6 +3,7 @@ package com.vn.ctu.qlt.service.impl;
 import javax.transaction.Transactional;
 
 import com.vn.ctu.qlt.dto.BillImportDto;
+import com.vn.ctu.qlt.dto.BranchDto;
 import com.vn.ctu.qlt.dto.ImportConditionDto;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -58,12 +59,9 @@ public class ImportProductServiceImpl implements ImportProductService {
     public void save(ImportProductDto importProductDto) {
         try {
             Employee employee = authenticationFacade.getEmployee();
-            BillImport billImport = new BillImport(employee);
-
             Branch mainBranch = branchService.getBranchById(importProductDto.getBranch().getId());
-
+            BillImport billImport = new BillImport(employee, mainBranch);
             importProductDto.getData().forEach(p -> {
-
                 Product product = productService.getProductBySelection(p.getProduct());
                 SpecUnit specUnit = specUnitService.getBySelection(p.getSpecUnit());
                 DetailBillImport detail = new DetailBillImport(billImport, product, specUnit, p.getAmount(),
@@ -95,23 +93,28 @@ public class ImportProductServiceImpl implements ImportProductService {
     }
 
     @Override
-    public List<BillImport> findAll(){
+    public List<BillImport> findAll() {
         Sort sort = new Sort(Sort.Direction.DESC, "importDate");
         return billImportRepository.findAll(sort);
     }
 
     @Override
-    public BillImportDto convertObject(BillImport billImport){
+    public BillImportDto convertObject(BillImport billImport) {
         return modelMapper.map(billImport, BillImportDto.class);
     }
 
     @Override
-    public List<BillImportDto> convertList(List<BillImport> billImports){
+    public List<BillImportDto> convertList(List<BillImport> billImports) {
         List<BillImportDto> billImportsDto = new ArrayList<>();
-        for(BillImport billImport : billImports){
+        for (BillImport billImport : billImports) {
             billImportsDto.add(convertObject(billImport));
         }
         return billImportsDto;
     }
 
+    @Override
+    public List<BillImport> findBillImportBetween(List<Date> dates, BranchDto branchDto) {
+        Branch branch = branchService.getBranchById(branchDto.getId());
+        return billImportRepository.findAllByImportDateBetweenAndBranch(dates.get(0), dates.get(1), branch);
+    }
 }

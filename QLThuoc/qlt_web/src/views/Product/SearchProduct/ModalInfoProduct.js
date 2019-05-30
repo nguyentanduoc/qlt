@@ -10,19 +10,17 @@ class ModalInfoProduct extends Component {
   static propTypes = {
     isShow: PropTypes.bool,
     toggleOpen: PropTypes.func
-  }
-  state = { visible: false }
-  handleOk = () => {
+  };
+  state = {visible: false};
 
-  }
   render() {
     return (
       <div>
         <Modal
           title="Lịch sử giá Sản Phẩm"
           visible={this.props.isShow}
-          onOk={this.handleOk}
           onCancel={this.props.toggleOpen}
+          footer={null}
         >
           <Table
             bordered={true}
@@ -37,15 +35,18 @@ class ModalInfoProduct extends Component {
               dataIndex='price'
               key='price'
               render={(price) => (
-                <NumberFormat displayType={'text'} thousandSeparator={true} value={price}
-                              className={'form-control text-right'}/>
+                <NumberFormat
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  value={price}
+                  className={'text-right'}/>
               )}
             />
             <Table.Column
               title='Ngày thay đổi'
               dataIndex='date'
               key='date'
-              render={(text) => (<Moment format="HH:SS DD/MM/YYYY">{text}</Moment>)}
+              render={(text) => (<Moment format="HH:mm DD/MM/YYYY">{text}</Moment>)}
             />
           </Table>
         </Modal>

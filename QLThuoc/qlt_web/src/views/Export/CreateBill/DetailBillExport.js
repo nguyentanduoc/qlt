@@ -6,11 +6,12 @@ import {deleteExport, save, setIsPrint} from '../../../actions/exportAction';
 import NumberFormat from 'react-number-format';
 import mathRound from '../../../helpers/decimalAdjustment';
 import PropTypes from 'prop-types'
+import ExportBillToPdf from "./ExportBillToPDF";
 
 class DetailBillExport extends Component {
   static propTypes = {
     isShare: PropTypes.bool
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -63,10 +64,11 @@ class DetailBillExport extends Component {
                 <div className={'col-md-5'}>Thành tiền</div>
                 <Col md={7}>
                   <NumberFormat
+                    suffix={"  ₫"}
                     displayType={'text'}
                     thousandSeparator={true}
                     value={mathRound(total, -3)}
-                    className={'text-right'}/>
+                    className={'text-right h5'}/>
                 </Col>
               </FormGroup>
             </Col>
@@ -111,6 +113,9 @@ class DetailBillExport extends Component {
               )}/>
           </Table>
         </CardBody>
+        <div style={{display: 'none'}}>
+          <ExportBillToPdf/>
+        </div>
       </Card>
     );
   }

@@ -23,15 +23,15 @@ class Accept extends Component {
     }
   }
 
-  async componentWillMount() {
-    const condition = await {
+  componentWillMount() {
+    const condition = {
       isSeen: this.state.isSeen,
       isReceive: this.state.isReceive,
       isAccept: this.state.isAccept,
       isDone: this.state.isDone,
       isCancel: this.state.isCancel
     };
-    await this.props.onGetBillRequest(this.props.authenticationReducer.branch, condition);
+    this.props.onGetBillRequest(this.props.authenticationReducer.branch, condition);
   }
 
   showDetail = async (text, record) => {

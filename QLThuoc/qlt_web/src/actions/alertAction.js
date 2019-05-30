@@ -11,7 +11,7 @@ export const showAlertAndReset = () => {
     dispatch(showAlertSuccess());
     setTimeout(() => {
       dispatch(resetAlert());
-    }, 5000)
+    }, 1)
   }
 };
 
@@ -32,7 +32,7 @@ export const showAlertSuccess = () => {
 };
 
 export const showAlertFail = (err) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     let message;
     if (typeof (err) === 'object' && typeof (err.response) === 'object') {
       switch (err.response.data.status) {
@@ -55,10 +55,16 @@ export const showAlertFail = (err) => {
       }
     }
     dispatch(showError(message));
+    setTimeout(() => {
+      dispatch(clearAll());
+    }, 1);
   }
 };
 export const showError = (message) => ({
   type: ALERT_ACTIONS.IS_ERRORED,
   payload: message
+});
+export const clearAll = () => ({
+  type: ALERT_ACTIONS.CLEAR_ALL
 });
 

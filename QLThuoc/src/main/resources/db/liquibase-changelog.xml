@@ -37,5 +37,6 @@
 	<include file="changelog/1553972077_edited_table_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1554006384_add_nav_spec_level_branch.xml" relativeToChangelogFile="true"/>
 	<include file="changelog/1554625587_insert_data_nav_employee_of_branch.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/1558149892_change_table_import.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

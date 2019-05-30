@@ -16,8 +16,6 @@ import {
 } from 'reactstrap';
 import {getAllNav, getAllSubNav, setRoleForNav, setNav, updateNav} from '../../actions/NavAction';
 import {getAllRole} from '../../actions/roleAction';
-import {resetAlert} from '../../actions/alertAction';
-import AlertCommon from '../Common/AlertCommon';
 
 export class SettingNav extends Component {
   constructor(props) {
@@ -68,13 +66,6 @@ export class SettingNav extends Component {
     let nav = this.props.navReducer.nav;
     nav.roles = this.props.navReducer.roleNav;
     await this.props.onUpdateNav(nav);
-    setTimeout(
-      function () {
-        this.props.onResetAlert();
-      }
-        .bind(this),
-      1500
-    );
   }
 
   render() {
@@ -141,7 +132,6 @@ export class SettingNav extends Component {
                   <i className="fas fa-users-cog"/>Chi tiết <strong>Quyền</strong>
                 </CardHeader>
                 <CardBody>
-                  <AlertCommon/>
                   <FormGroup row>
                     <Col md="3">
                       <Label>Tên:</Label>
@@ -200,9 +190,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateNav: async (nav) => {
       return await dispatch(updateNav(nav));
-    },
-    onResetAlert: () => {
-      return dispatch(resetAlert());
     }
   }
 };

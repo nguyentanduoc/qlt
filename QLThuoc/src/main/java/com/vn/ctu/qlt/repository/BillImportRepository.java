@@ -1,5 +1,6 @@
 package com.vn.ctu.qlt.repository;
 
+import com.vn.ctu.qlt.model.Branch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,6 @@ public interface BillImportRepository extends JpaRepository<BillImport, Long> {
 
     List<BillImport> findAllByImportDate(Date importDate);
     List<BillImport> findAllByIdAndImportDate(Long id, Date importDate);
+    List<BillImport> findAllByImportDateBetweenAndBranch(Date start, Date end, Branch branch);
 
 }

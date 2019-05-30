@@ -20,7 +20,9 @@ export default {
     DELETE: `${BASE_URI}/api/branch/delete`,
     SELECT: `${BASE_URI}/api/branch/select`,
     SELECT_BRANCH_OF_DIRECTOR: `${BASE_URI}/api/branch/select-branch-by-director`,
-    COUNT_MEMBER_OF_BRANCH: `${BASE_URI}/api/branch/count-member-of-branch`
+    COUNT_MEMBER_OF_BRANCH: `${BASE_URI}/api/branch/count-member-of-branch`,
+    SEARCH: `${BASE_URI}/api/branch/search`,
+    REPORT: `${BASE_URI}/api/branch/report-chart`
   },
   SHOP: {
     SAVE: `${BASE_URI}/api/shop/save`,
@@ -45,7 +47,10 @@ export default {
     GET_ALL_PRODUCT_BY_BRANCH: `${BASE_URI}/api/product/get-all-product-by-branch`,
     SEARCH: `${BASE_URI}/api/product/search`,
     SEARCH_PRICE: `${BASE_URI}/api/product/search-price`,
-    SEARCH_PRODUCT_ON_STORE:`${BASE_URI}/api/product/search-product-on-store`,
+    SEARCH_PRODUCT_ON_STORE: `${BASE_URI}/api/product/search-product-on-store`,
+    GET_PRODUCT_BY_ID: `${BASE_URI}/api/product/get-product-by-id`,
+    SAVE_EDIT: `${BASE_URI}/api/product/save-edit`,
+    SAVE_LIST_PRODUCT: `${BASE_URI}/api/product/save-list-product`,
   },
   IMPORT: {
     INIT: `${BASE_URI}/api/import-product/init`,
@@ -60,6 +65,8 @@ export default {
     ACCEPT: `${BASE_URI}/api/request/accept`,
     CANCEL: `${BASE_URI}/api/request/cancel`,
     SEARCH: `${BASE_URI}/api/request/search`,
+    SEARCH_REQUEST_PRODUCT: `${BASE_URI}/api/request/search-request-product`,
+    SEARCH_WAITING_REQUEST: `${BASE_URI}/api/request/search-waiting-request`,
   },
   EXPORT: {
     GET_SPEC_UNIT_AND_PRICE_AND_QUANLITY_IN_STORE: `${BASE_URI}/api/export/get-spec-and-unit-and-price-and-quantity-in-store`,
@@ -72,6 +79,7 @@ export default {
     SAVE: `${BASE_URI}/api/spec-level-branch/save`,
     GET_ALL: `${BASE_URI}/api/spec-level-branch/get-all`,
     GET_ALL_FOR_SELECTION: `${BASE_URI}/api/spec-level-branch/get-all-for-selection`,
+    DELETE_SPEC_LEVEL_BRANCH: `${BASE_URI}/api/spec-level-branch/delete-spec-level-branch`,
   },
   SHOP_OF_DIRECTOR: {
     GET_SHOP_OF_DIRECTOR: `${BASE_URI}/api/shop/get-shop-of-director`,
@@ -90,5 +98,8 @@ export default {
   SPEC_UNIT_PRODUCT: {
     SAVE: `${BASE_URI}/api/spec-unit/save`,
     INIT: `${BASE_URI}/api/spec-unit/init`,
+    GET_ALL_UNIT: `${BASE_URI}/api/spec-unit/get-all-unit`,
+    SAVE_UNIT: `${BASE_URI}/api/spec-unit/save-unit`,
+    SAVE_MODEL_UNIT: `${BASE_URI}/api/spec-unit/save-model-unit`,
   }
 }

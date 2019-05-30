@@ -1,14 +1,15 @@
 import {ACTION_TYPES, API} from '../constants'
 import axios from 'axios'
-import headerConfig, { headerForGet } from '../helpers/headerHelper'
-import { showAlertFail, showAlertAndReset } from './alertAction.js'
-import { setPagination } from '../actions/paginationAction'
-import { pageRequestDefault } from '../helpers/pageable'
+import {header, headerForGet} from '../helpers/headerHelper'
+import {showAlertAndReset, showAlertFail} from './alertAction.js'
+import {setPagination} from '../actions/paginationAction'
+import {pageRequestDefault} from '../helpers/pageable'
 
 export const save = (shop) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      let response = await axios.post(API.SHOP.SAVE, shop ,headerConfig);
+      const {jwt} = getState().auth;
+      let response = await axios.post(API.SHOP.SAVE, shop ,{headers: header(jwt)});
       dispatch(saveSuccess(response.data));
       dispatch(showAlertAndReset());
     } catch(err) {
@@ -18,11 +19,12 @@ export const save = (shop) => {
 }
 
 export const select = (condition) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
+      const {jwt} = getState().auth;
       let params = {...pageRequestDefault()};
       params.condition = condition;
-      const res = await axios.get(API.SHOP.SELECT, headerForGet(params));
+      const res = await axios.get(API.SHOP.SELECT, headerForGet(params, jwt));
       dispatch(setPagination(res.data));
       dispatch(selectSuccess(res.data.content));
     }
@@ -46,9 +48,10 @@ export const resetFlgDetail = () => ({
   type: ACTION_TYPES.SHOP.RESET_FLG_DETAIL
 })
 export const deleteShop = (keys) => {
-  return async (dispatch) =>  {
+  return async (dispatch, getState) =>  {
     try {
-      await axios.post(API.SHOP.DELETE, keys ,headerConfig);
+      const {jwt} = getState().auth;
+      await axios.post(API.SHOP.DELETE, keys ,{headers: header(jwt)});
       dispatch(showAlertAndReset());
       dispatch(deleteSuccess(keys));
     } catch(err) {

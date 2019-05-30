@@ -1,10 +1,10 @@
 package com.vn.ctu.qlt.controller;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.google.gson.JsonSyntaxException;
 import com.vn.ctu.qlt.dto.*;
 import com.vn.ctu.qlt.exception.BadRequestException;
+import com.vn.ctu.qlt.exception.FileEmpty;
+import com.vn.ctu.qlt.exception.FileStorageException;
 import com.vn.ctu.qlt.model.*;
 import com.vn.ctu.qlt.service.*;
 import org.modelmapper.ModelMapper;
@@ -12,16 +12,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonSyntaxException;
-import com.vn.ctu.qlt.exception.FileEmpty;
-import com.vn.ctu.qlt.exception.FileStorageException;
+import java.io.IOException;
+import java.util.*;
 
 // TODO: Auto-generated Javadoc
 
@@ -88,8 +83,8 @@ public class ProductController {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     @PostMapping(path = "/save")
-    public ResponseEntity<Void> save(@RequestParam("model") String model,
-                                     @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+    public ResponseEntity save(@RequestParam("model") String model,
+                               @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 
         try {
             if (file.isEmpty()) {
@@ -204,5 +199,60 @@ public class ProductController {
         List<Product> products = productService.findAllByProductOfBranch_Amount(searchProductOnStoreDto);
         List<ProductDto> productsDto = productService.covert(products);
         return ResponseEntity.ok().body(productsDto);
+    }
+
+    @PostMapping(path = "/get-product-by-id")
+    public ResponseEntity getProductById(@RequestBody Long id) {
+        Map<String, Object> response = new HashMap<>();
+        ProductEditDto productDto = modelMapper.map(productService.getProductById(id), ProductEditDto.class);
+        response.put("product", productDto);
+        response.put("units", unitService.getUnitDtoAll());
+        response.put("specUnits", specUnitService.getAllSpecUnitDto());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(path = "/save-edit")
+    public ResponseEntity saveEdit(@RequestBody ProductEditRequestDto productEditRequestDto) {
+        try {
+            Product product = productService.getProductById(productEditRequestDto.getId());
+            product.setProductName(productEditRequestDto.getProductName());
+            product.setVirtue(productEditRequestDto.getVirtue());
+            product.setUnit(unitService.getUnitById(productEditRequestDto.getUnit()));
+            product.setSpecUnits(specUnitService.getAllByListId(productEditRequestDto.getSpecUnits()));
+            productService.save(product);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            throw new BadRequestException("Có lỗi lưu");
+        }
+    }
+
+    @PostMapping(path = "/save-list-product")
+    public ResponseEntity saveListProduct(@RequestBody List<ProductDtoList> productDtoLists) {
+        productDtoLists.forEach((productDto) -> {
+            Product product = new Product();
+            product.setProductName(productDto.getProductName());
+            product.setVirtue(productDto.getVirtue());
+            List<Producer> producers = producerService.getByName(productDto.getProductName());
+            if (producers.size() > 0) {
+                product.setProducer(producers.get(0));
+            } else {
+                Producer producer = new Producer();
+                producer.setProducerName(productDto.getProductName());
+                producerService.save(producer);
+                product.setProducer(producer);
+            }
+            List<Unit> units = unitService.getByName(productDto.getUnit());
+            if (units.size() > 0) {
+                product.setUnit(units.get(0));
+            } else {
+                Unit unit = new Unit();
+                unit.setUnitName(productDto.getUnit());
+                unitService.save(unit);
+                product.setUnit(unit);
+            }
+            productService.save(product);
+        });
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -62,4 +62,14 @@ public class ProducerServiceImpl implements ProducerService {
         producerRepository.save(producer);
     }
 
+    @Override
+    public List<Producer> getByName(String name) {
+        return producerRepository.findAllByProducerName(name);
+    }
+
+    @Override
+    public Producer save(Producer producer){
+        producerRepository.save(producer);
+        return producer;
+    }
 }

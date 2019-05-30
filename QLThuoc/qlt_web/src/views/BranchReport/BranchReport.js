@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Col, Row, Card, CardHeader, CardBody} from "reactstrap";
-import Widget04 from "../Widgets/Widget04";
-import {Form, Input, Button, Table} from 'antd';
+import {Card, CardBody, CardHeader, Col, Row} from "reactstrap";
+import {Button, Form, Input, Table} from 'antd';
 import {searchProductOnStore} from '../../actions/productAction';
 import {countMemberOfBranch} from '../../actions/branchAction';
 import Widget02 from "../Widgets/Widget02";
+import BranchReportChart from "./BranchReportChart";
 
 const columns = [
   {
@@ -80,16 +80,18 @@ class BranchReport extends Component {
               <CardBody>
                 <Row>
                   <Col md={6}>
-                    <Widget02 header={memberOfBranch.toString()} mainText="Tổng Nhân Viên" icon="icon-people" color="primary" />
-                    {/*<Widget04 icon="icon-people" color="info" header={memberOfBranch.toString()} value="25" invert>*/}
-                    {/*  Tổng Nhân Viên*/}
-                    {/*</Widget04>*/}
+                    <Widget02
+                      header={memberOfBranch.toString()}
+                      mainText="Tổng Nhân Viên"
+                      icon="icon-people"
+                      color="primary"/>
                   </Col>
                 </Row>
               </CardBody>
             </Card>
           </Col>
         </Row>
+        <BranchReportChart/>
       </div>
     );
   }

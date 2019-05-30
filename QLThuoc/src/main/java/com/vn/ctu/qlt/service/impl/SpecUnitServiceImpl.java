@@ -1,14 +1,13 @@
 package com.vn.ctu.qlt.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.vn.ctu.qlt.dto.SpecUnitDto;
 import com.vn.ctu.qlt.model.Product;
 import com.vn.ctu.qlt.model.Unit;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +31,9 @@ public class SpecUnitServiceImpl implements SpecUnitService {
      */
     @Autowired
     private SpecUnitRepository specUnitRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /* (non-Javadoc)
      * @see com.vn.ctu.qlt.service.SpecUnitService#getAllForSelection()
@@ -79,6 +81,27 @@ public class SpecUnitServiceImpl implements SpecUnitService {
     public SpecUnit save(SpecUnit specUnit) {
         specUnitRepository.save(specUnit);
         return specUnit;
+    }
+
+    @Override
+    public List<SpecUnit> getAllByListId(List<Long> ids) {
+        List<SpecUnit> specUnits = new ArrayList<>();
+        for (Long id : ids) {
+            Optional<SpecUnit> optionalSpecUnit = specUnitRepository.findById(id);
+            if (optionalSpecUnit.isPresent())
+                specUnits.add(optionalSpecUnit.get());
+        }
+        return specUnits;
+    }
+
+    @Override
+    public List<SpecUnitDto> getAllSpecUnitDto() {
+        List<SpecUnitDto> specUnitsDto = new ArrayList<>();
+        Iterable<SpecUnit> specUnitsResult = specUnitRepository.findAll();
+        for (SpecUnit specUnit : specUnitsResult) {
+            specUnitsDto.add(modelMapper.map(specUnit, SpecUnitDto.class));
+        }
+        return specUnitsDto;
     }
 
 }

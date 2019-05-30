@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import _ from 'lodash'
-import AlertCommon from '../Common/AlertCommon'
-import {showAlertFail, resetAlert} from '../../actions/alertAction'
+import {showAlertFail} from '../../actions/alertAction'
 import {createAccount, resetUserFordetail} from '../../actions/UserAction'
 import {
   Col,
@@ -98,7 +97,6 @@ export class FormAccount extends Component {
 
   componentWillUnmount() {
     this.props.onResetUserForDetail();
-    this.props.onResetAlert();
   }
 
   componentDidUpdate() {
@@ -120,7 +118,6 @@ export class FormAccount extends Component {
         <Card>
           <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản</strong></CardHeader>
           <CardBody>
-            <AlertCommon/>
             <Input type="hidden" name="id" value={this.state.id || ''} onChange={this.changeHandler.bind(this)}/>
             <FormGroup>
               <Label>Tên đăng nhập</Label>
@@ -131,7 +128,7 @@ export class FormAccount extends Component {
                 onChange={this.changeHandler.bind(this)}
                 required
                 value={this.state.username|| ''}
-                disabled={this.state.username !== ''}/>
+                disabled={this.state.id !== ''}/>
 
             </FormGroup>
             <FormGroup>
@@ -143,7 +140,7 @@ export class FormAccount extends Component {
                 onChange={this.changeHandler.bind(this)}
                 required
                 value={this.state.email || ''}
-                disabled={this.state.email !== ''}/>
+                disabled={this.state.id !== ''}/>
             </FormGroup>
             <FormGroup row>
               <Col md="4"><Label>Quyền:</Label></Col>
@@ -200,9 +197,6 @@ const mapDispatchToProps = (dispatch) => ({
   onResetUserForDetail: async () => {
     return await dispatch(resetUserFordetail());
   },
-  onResetAlert: () => {
-    return dispatch(resetAlert());
-  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormAccount)

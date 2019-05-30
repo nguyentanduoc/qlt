@@ -73,7 +73,7 @@ export default (state = initState, {type, payload}) => {
       return {...state, isPrint: !state.isPrint};
 
     case ACTION_TYPES.EXPORT.CLEAR_DETAIL:
-      return {...state, printDataView: state.dataViews, dataViews: [], dataSubmits: []};
+      return {...state, printDataView: state.dataViews, dataViews: [], dataSubmits: [], total: 0};
 
     case ACTION_TYPES.EXPORT.SEARCH_SUCCESS:
       return {...state, billsExport: payload};
@@ -91,13 +91,17 @@ const unitPrice = (productDto, specUnitsDto, specUnitChoose, price) => {
   const specUnit = _.find(specUnits, function (o) {
     return o.id === specUnitChoose.value;
   });
-  if (specUnit.unitIn.id === productDto.unit.id) {
-    return price;
-  } else {
-    if (productDto.unit.id === specUnit.unitOut.id) {
-      return price * specUnit.amount;
+  if (specUnit && specUnit.unitIn && productDto && productDto.unit && specUnit.unitOut) {
+    if (specUnit.unitIn.id === productDto.unit.id) {
+      return price;
     } else {
-      return price / specUnit.amount;
+      if (productDto.unit.id === specUnit.unitOut.id) {
+        return price * specUnit.amount;
+      } else {
+        return price / specUnit.amount;
+      }
     }
+  } else {
+    console.log(specUnit);
   }
 };

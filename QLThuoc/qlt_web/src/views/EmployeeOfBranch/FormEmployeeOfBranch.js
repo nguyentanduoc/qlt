@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Form} from 'antd';
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, FormGroup, Input, Label} from 'reactstrap';
-import AlertCommon from "../Common/AlertCommon";
 import NumberFormat from "react-number-format";
 import Select from "react-select";
 import {getRolesByLeader, saveEmployee} from '../../actions/employeeOfBranchAction'
@@ -66,9 +65,8 @@ class FormEmployeeOfBranch extends Component {
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
-          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản</strong></CardHeader>
+          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản Nhân Viên</strong></CardHeader>
           <CardBody>
-            <AlertCommon/>
             <Input type="hidden" name="id" value={this.state.id} onChange={this.changeHandler.bind(this)}/>
             <FormGroup row>
               <Label md={5}>Họ Và Tên</Label>

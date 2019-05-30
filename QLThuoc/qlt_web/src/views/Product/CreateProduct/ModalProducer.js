@@ -5,12 +5,11 @@ import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {Form, Input} from 'antd';
 import {save} from '../../../actions/producerAction'
 
-
 class ModalProducer extends Component {
   static propTypes = {
     flgOpenModal: PropTypes.bool,
     toggleModal: PropTypes.any
-  }
+  };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -18,7 +17,7 @@ class ModalProducer extends Component {
         this.props.onSave(values.producerName);
       }
     });
-  }
+  };
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -56,7 +55,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => ({
   onSave: (data) => dispatch(save(data))
-})
+});
 
 const FormModalProducer = Form.create()(ModalProducer);
 export default connect(

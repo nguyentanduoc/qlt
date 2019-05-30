@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import AlertCommon from '../Common/AlertCommon'
 import Select from 'react-select'
 import {init, save} from '../../actions/employeeAction'
-import {resetAlert} from '../../actions/alertAction'
 import khongdau from 'khong-dau';
 import NumberFormat from 'react-number-format';
 import {Button, Card, CardBody, CardFooter, CardHeader, Col, Form, FormGroup, Input, Label} from 'reactstrap';
@@ -74,18 +72,13 @@ export class FormEmployee extends Component {
     }
   };
 
-  componentWillUnmount() {
-    this.props.onResetAlert();
-  }
-
   render() {
     const {branchesSelection, rolesSelection} = this.props.employeeReducer;
     return (
       <Form onSubmit={this.handleSubmit.bind(this)} onReset={this.handleReset.bind(this)}>
         <Card>
-          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản</strong></CardHeader>
+          <CardHeader><i className="fas fa-user-plus"/> Tạo <strong>Tài Khoản Nhân Viên</strong></CardHeader>
           <CardBody>
-            <AlertCommon/>
             <Input type="hidden" name="id" value={this.state.id} onChange={this.changeHandler.bind(this)}/>
             <FormGroup row>
               <Label md={5}>Họ Và Tên</Label>
@@ -166,7 +159,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onInit: (idDirector) => dispatch(init(idDirector)),
   onSave: (employee) => dispatch(save(employee)),
-  onResetAlert: () => dispatch(resetAlert())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormEmployee)

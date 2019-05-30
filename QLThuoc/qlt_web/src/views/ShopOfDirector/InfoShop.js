@@ -5,7 +5,6 @@ import {getShopOfDirector, updateShop} from "../../actions/shopOfDirectorAction"
 import 'moment-timezone';
 import moment from 'moment';
 import {DatePicker, Form, Input, Button} from 'antd';
-import AlertCommon from "../Common/AlertCommon";
 
 class InfoShop extends Component {
   constructor(props) {
@@ -56,7 +55,6 @@ class InfoShop extends Component {
     return (
       <Card className={'card-accent-primary card'}>
         <Form onSubmit={this.handleSubmit}>
-          <AlertCommon/>
           <CardHeader>
             <Row>
               <Col md={9}>
